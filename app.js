@@ -20,6 +20,22 @@ var db = mongoose.connection;
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+
+//TODO : hadle user authenticaiton
+
+//var User = require('./models/User');
+//
+//var newUser = new User({
+//  firstName : "fatih",
+//  lastName : "Senturk",
+//  username : "4fath",
+//  email : "fatqfat.com",
+//  password : "12345"
+//});
+//
+//newUser.email;
+
+
 var app = express();
 
 
