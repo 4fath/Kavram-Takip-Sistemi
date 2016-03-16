@@ -100,7 +100,11 @@ var UserSchema = new Schema({
         }
     },
 
-    photoUrl : String           // for storing local or aws etc..
+    photoUrl : {
+		type : String,
+		trim : true,
+		required : false
+	}            // for storing local or aws etc..
 
 
     //Bunun uzerinde dusunmek lazým, kiþi veya admin kiþiyi silerse
