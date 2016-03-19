@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Kavram Takip</title>
-<link rel="stylesheet" type="text/css" href="stylesheets/reset.css">
-<link rel="stylesheet" type="text/css" href="stylesheets/style.css">
+<link rel="stylesheet" type="text/css" href="_css/reset.css">
+<link rel="stylesheet" type="text/css" href="_css/style.css">
 
 </head>
 
@@ -86,22 +86,24 @@
               </div>
         </div>
     <div class="ortaAlan">
-    	<div class="login">
-           <form action="index.html" method="post">
-          
-            <h1>Kayıt</h1>
-            
-            <fieldset>
-            	<input type="text" id="firstName" name="name"  value="" placeholder="Adınız">
-            	<input type="text" id="lastName" name="Surname"  value="" placeholder="Soyadınız">
-              	<input type="text" id="username" name="user_name"  value="" placeholder="Kullanıcı Adı">
-              	<input type="text" id="email" name="user_email" value="" placeholder="E-Mailiniz">
-              	<input type="password" id="password" name="user_password" value="" placeholder="Şifreniz">
-              	<input type="password" id="passwordConfirm" name="user_password" value="" placeholder="Tekrar Şifreniz">
-            </fieldset>
-            <button type="submit">Kaydol</button>
-          </form>
-       </div>
+      <div class="login">
+      <h1>Giriş</h1>
+      <form method="post" action="URL GELECEK">
+        <p><input type="text" name="login" value="" placeholder="Kullanıcı Adı"></p>
+        <p><input type="password" name="password" value="" placeholder="Şifre"></p>
+        <p class="remember_me">
+          <label>
+            <input type="checkbox" name="remember_me" id="remember_me">
+            Beni Hatırla
+          </label>
+        </p>
+        <p class="submit"><input type="submit" name="commit" value="Giriş"></p>
+      </form>
+    </div>
+
+    <div class="login-help">
+      <p> <a href="URL GELECEK">Şifremi Unuttum</a>.</p>
+    </div>
     </div>
     <div class="sagSlideBarUst"><h1>Takip Listesi</h1>
     	<div class="takipListesi">
