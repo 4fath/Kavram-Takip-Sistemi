@@ -1,57 +1,21 @@
 <!DOCTYPE html>
-
-
-
-
-
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="js/scripts.js"></script>
+    <title>Kavram Takip</title>
 
-    <title>Bootstrap 3, from LayoutIt!</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
-
+	
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-	<link rel="stylesheet" href="/vendor/bootstrap-combobox/css/bootstrap-combobox.css">
-
-	<script src="/vendor/bootstrap-combobox/js/bootstrap-combobox.js"></script>
-	<script type="text/javascript">
-        var a = Math.ceil(Math.random() * 10);
-        var b = Math.ceil(Math.random() * 10);       
-        var c = a + b
-        function DrawBotBoot()
-        {
-            document.write(a + " + " + b + " = ");
-            document.write("<input id='BotBootInput' type='text' maxlength='2' size='2'/>");
-        }    
-        function ValidBotBoot(){
-            var d = document.getElementById('BotBootInput').value;
-            if (d == c) return true;        
-            return false;
-            
-        }
-        </script>
-	<style type="text/css">
-		/* Adjust feedback icon position */
-		#productForm .selectContainer .form-control-feedback,
-		#productForm .inputGroupContainer .form-control-feedback {
-    	right: -15px;
-	}
-</style>
 
   </head>
   <body>
-	<script>
-		var app = angular.module('myApp', []);
-		app.controller('myCtrl', function($scope) {
-			$scope.names = ["Bilgisayar", "Kimya", "Elektrik","İnşaat"];
-		});
-	</script>
+
     <div class="container-fluid">
 	<div class="row">
 		<div class="col-md-12">
@@ -99,10 +63,10 @@
 			<div class="row">
 				<div class="col-md-2">
                     <div class="list-group">
-                        <span id="sppp" href="#" class="list-group-item">
-                            Kavramlar
-                            <span class="pull-right" id="slide-submenu">
-                                <i class="fa fa-times"></i>
+                        <span href="#" class="list-group-item active">
+                        	Kavramlar
+                        	<span class="pull-right" id="slide-submenu">
+                            	<i class="fa fa-times"></i>
                             </span>
                         </span>
                         <a href="#" class="list-group-item">
@@ -141,92 +105,77 @@
                         <a href="#" class="list-group-item">
                             <i class="fa"></i> Lorem ipsum <span class="badge">14</span>
                         </a>
+
                     </div>
+                    
 				</div>
 				<div class="col-md-8">
-                    <form class="form-horizontal" id="productForm" role="form">
-                        <div class="row" >
-                            <div class="col-md-2">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="form-group">
-                                    <label for="firstName" class="col-sm-3 control-label">İsim</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="firstName" placeholder="Adınızı Giriniz" class="form-control" autofocus>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="lastName" class="col-sm-3 control-label">Soyisim</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="lastName" placeholder="Soyadınızı Giriniz" class="form-control" autofocus>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="userName" class="col-sm-3 control-label">Kullanıcı Adı</label>
-                                    <div class="col-sm-9">
-                                        <input type="text" id="userName" placeholder="Kullanıcı Adı Giriniz" class="form-control" autofocus>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="email" class="col-sm-3 control-label">E-mail</label>
-                                    <div class="col-sm-9">
-                                        <input type="email" id="email" placeholder="E-mail Giriniz" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="password" class="col-sm-3 control-label">Şifre</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" id="password" placeholder="Şifre Giriniz" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="passwordRepeat" class="col-sm-3 control-label">Şifre Tekrar</label>
-                                    <div class="col-sm-9">
-                                        <input type="password" id="passwordRepeat" placeholder="Şifreyi Tekrar Giriniz" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label for="birthDate" class="col-sm-3 control-label">Doğum Tarihi</label>
-                                    <div class="col-sm-9">
-                                    	<input type='text' id="birthDate" class="datepicker-here form-control" data-language='tr' placeholder="Doğum Tarihinizi Seçiniz" />
-                                    </div> 
-                                </div>
-                                <div class="form-group" >
-                                    <label class="col-sm-3 control-label">Alanınız</label>
-                                    <div class="col-sm-9" ng-app="myApp" ng-controller="myCtrl">
-                                       <select class="form-control" name="size" >
-                                            <option value="">Seçiniz</option>
-                                            <option value="" ng-repeat="x in names">{{ x }}</option>
-                                        </select>
-                                    </div> 
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3 control-label">Sonuç nedir?</label>
-                                    <div class="col-sm-9">
-                                    	<script type="text/javascript">DrawBotBoot()</script>
-										<input id="Button1" type="button" value="Check" onclick="alert(ValidBotBoot());"/>
-                                    </div>
-                                </div>
-                                  
-                                <div class="form-group">
-                                    <div class="col-sm-9 col-sm-offset-3">
-                                        <div class="checkbox">
-                                            <label>
-                                                <input type="checkbox"><a href="#">Lisans sözleşmesini </a>okudum ve kabul ediyorum 
-                                            </label>
+                    <div class="row">
+                    	<div class="col-md-1">
+                        </div>
+                        <div class="col-md-10">
+                            <ul class="list-group">
+                                <li class="list-group-item modal-header"><h3><a id="baslik" href="#" >Big Data</a></h3></li>
+                                
+                                <li class="list-group-item deneme">
+                                        Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <a href="#">kullanıcı</a>
+                                        </div>
+                                        <div class="col-md-8">
+                                        </div>
+                                        <div class="col-md-2">
+                                            <span>19.02.1994</span>
                                         </div>
                                     </div>
-                                </div> <!-- /.form-group -->
-                                <div class="form-group">
-                                    <div class="col-sm-9 col-sm-offset-3">
-                                        <button type="submit" class="btn btn-success btn-block">Kaydol</button>
+                                         
+                                </li>
+                                
+                                <li class="list-group-item">
+                                Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                    <div class="row">
+                                    	<div class="col-md-2">
+                                        	<a href="#">kullanıcı3</a>
+                                        </div>
+                                        <div class="col-md-8">
+                                        </div>
+                                        <div class="col-md-2">
+                                        	<span>19.02.1994</span>
+                                        </div>
                                     </div>
-                                </div>
-                        	</div>
-                            <div class="col-md-2">
-                            </div>
+                                </li>
+                                <li class="list-group-item">
+                                Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                    <div class="row">
+                                    	<div class="col-md-2">
+                                        	<a href="#">kullanıcı2</a>
+                                        </div>
+                                        <div class="col-md-8">
+                                        </div>
+                                        <div class="col-md-2">
+                                        	<span>19.02.1994</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="list-group-item">
+                                Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                    <div class="row">
+                                    	<div class="col-md-2">
+                                        	<a href="#">kullanıcı4</a>
+                                        </div>
+                                        <div class="col-md-8">
+                                        </div>
+                                        <div class="col-md-2">
+                                        	<span>19.02.1994</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                         </div>
+                         <div class="col-md-1">
                         </div>
-                    </form> <!-- /form -->
+                    </div>
 				</div>
 				<div class="col-md-2">
                     <div class="list-group">
@@ -287,6 +236,7 @@
 	</div>
 </div>
 
+
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -336,43 +286,7 @@
 </div><!-- /.modal -->
 
     <script src="js/jquery.min.js"></script>
-     <script src="js/datepicker.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/scripts.js"></script>
-    
-    <script>
-		$(document).ready(function() {
-			$('#productForm')
-				.formValidation({
-					framework: 'bootstrap',
-					icon: {
-						valid: 'glyphicon glyphicon-ok',
-						invalid: 'glyphicon glyphicon-remove',
-						validating: 'glyphicon glyphicon-refresh'
-					},
-					excluded: ':disabled',
-					fields: {
-						size: {
-							validators: {
-								notEmpty: {
-									message: 'The size is required'
-								}
-							}
-						},
-						color: {
-							validators: {
-								notEmpty: {
-									message: 'The color is required'
-								}
-							}
-						}
-					}
-				})
-				// Using Bootbox for color and size select elements
-				.find('[name="color"], [name="size"]')
-					.combobox()
-					.end()
-		});
-		</script>
   </body>
 </html>
