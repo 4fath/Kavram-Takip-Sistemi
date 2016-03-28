@@ -29,7 +29,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                   </button>
-                  <a class="navbar-brand" href="index.html">KavramTakip</a>
+                  <a class="navbar-brand" href="kavramTakip.html">KavramTakip</a>
                 </div>
             
                 <!-- Collect the nav links, forms, and other content for toggling -->
@@ -110,67 +110,136 @@
                     
 				</div>
 				<div class="col-md-8">
-                    <div class="well">
-                        <ul class="nav nav-tabs">
-                          <li class="active"><a href="#home" data-toggle="tab">Profile</a></li>
-                          <li><a href="#profile" data-toggle="tab">Password</a></li>
-                        </ul>
-                        <div id="myTabContent" class="tab-content">
-      						<div class="tab-pane active in" id="home">
-                                <form class="form-horizontal" role="form">
-                                	<div class="row" >
-                                    	<div class="col-md-2">
-                                    	</div>
-                                    	<div class="col-md-8">
-                                        	<div class="form-group">
-                                            	<label for="firstName" class="col-sm-4 control-label">İsim Soyisim</label>
-                                            	<div class="col-sm-8">
-                                                	<input type="text" id="firstName" placeholder="İsim Soyisim" class="form-control" autofocus>
-                                            	</div>
-                                       		 </div>
-                                            <div class="form-group">
-                                                <label for="email" class="col-sm-4 control-label">E-mail</label>
-                                                <div class="col-sm-8">
-                                                    <input type="email" id="email" placeholder="E-mail" class="form-control">
+                	<div class="row">
+                    	<div class="col-md-2">
+                        </div>
+                        <div class="col-md-8" >
+                        	<div class="well">
+                                <ul class="nav nav-tabs">
+                                  <li class="active"><a href="#home" data-toggle="tab">Profil</a></li>
+                                  <li><a href="#userName" data-toggle="tab">Kullanıcı Adı Değiştir</a></li>
+                                  <li><a href="#profile" data-toggle="tab">Şifre Değiştirme</a></li>
+                                </ul>
+                                <div id="myTabContent" class="tab-content">
+                                    <div class="tab-pane active in" id="home">
+                                        <form class="form-horizontal" role="form">
+                                        	<div class="row">
+                                            	<div class="form-group">
+                                                </div>
+                                                <div class="form-group">
                                                 </div>
                                             </div>
-                                     	</div>
-                                        <div class="col-md-2">
-                            			</div>
-                                  	</div>
-                                </form>
-                             </div>
-                             <div class="tab-pane fade" id="profile">
-                                <form id="tab2" class="form-horizontal" role="form">
-                                    <div class="row" >
-                                        <div class="col-md-2">
-                                        </div>
-                                        <div class="col-md-8">
-                                            <div class="form-group">
-                                                <label for="password" class="col-sm-4 control-label">Eski Şifre</label>
-                                                <div class="col-sm-8">
-                                                    <input type="password" id="password" placeholder="Eski Şifreyi Giriniz" class="form-control">
+                                            <div class="row" >
+                                                <div class="col-md-2">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="firstName" class="col-sm-4 control-label">İsim Soyisim</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="firstName" placeholder="İsim Soyisim" class="form-control" autofocus>
+                                                        </div>
+                                                     </div>
+                                                    <div class="form-group">
+                                                        <label for="email" class="col-sm-4 control-label">E-mail</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="email" id="email" placeholder="E-mail" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    	<div class="col-md-9">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                    	<button class="btn btn-success" id="btnDegistir">Değiştir</button></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="password" class="col-sm-4 control-label">Yeni Şifre</label>
-                                                <div class="col-sm-8">
-                                                    <input type="password" id="passwordRepeat" placeholder="Yeni Şifreyi Giriniz" class="form-control">
-                                                </div>
-                                            </div>
-                                             <div class="form-group">
-                                                <label for="password" class="col-sm-4 control-label">Yeni Şifre Tekrar </label>
-                                                <div class="col-sm-8">
-                                                    <input type="password" id="passwordRepeat" placeholder="Yeni Şifreyi Tekrar Giriniz" class="form-control">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                        </div>
+                                        </form>
                                      </div>
-                                </form>
-                              </div>
-                          </div>
+                                    <div class="tab-pane fade" id="profile">
+                                        <form id="tab2" class="form-horizontal" role="form">
+                                        	<div class="row">
+                                            	<div class="form-group">
+                                                </div>
+                                                <div class="form-group">
+                                                </div>
+                                            </div>
+                                            <div class="row" >
+                                                <div class="col-md-2">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="password" class="col-sm-4 control-label">Eski Şifre</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="password" id="password" placeholder="Eski Şifreyi Giriniz" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="password" class="col-sm-4 control-label">Yeni Şifre</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="password" id="password1" placeholder="Yeni Şifreyi Giriniz" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="password" class="col-sm-4 control-label">Yeni Şifre Tekrar </label>
+                                                        <div class="col-sm-8">
+                                                            <input type="password" id="password2" placeholder="Yeni Şifreyi Tekrar Giriniz" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    	<div class="col-md-9">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                    	<button class="btn btn-success" id="btnDegistir">Değiştir</button></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                </div>
+                                             </div>
+                                        </form>
+                                      </div>
+                                    <div class="tab-pane fade" id="userName">
+                                    	<form id="tab3" class="form-horizontal" role="form">
+                                        	<div class="row">
+                                            	<div class="form-group">
+                                                </div>
+                                                <div class="form-group">
+                                                </div>
+                                            </div>
+                                            <div class="row" >
+                                                <div class="col-md-2">
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <div class="form-group">
+                                                        <label for="password" class="col-sm-4 control-label">Kullanıcı Adı</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="kullaniciAdi" placeholder="Eski Kullanıcı Adını Giriniz" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="text" class="col-sm-4 control-label">Yeni Kullanıcı Adı</label>
+                                                        <div class="col-sm-8">
+                                                            <input type="text" id="newKullaniciAdi" placeholder="Yeni Kullanıcı Adını Giriniz" class="form-control">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                    	<div class="col-md-9">
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                    	<button class="btn btn-success" id="btnDegistir">Değiştir</button></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                </div>
+                                             </div>
+                                         </form>
+                                   </div>
+                            	</div>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                        </div>
                     </div>
 				</div>
 				<div class="col-md-2">

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="js/scripts.js"></script>
+    <title>Admin Ayarlar</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+	<script src="js/adminOptionsjs.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+	<script src="js/jquery-2.2.2.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js"></script>
+    <link rel="stylesheet" href="https://cdn.rawgit.com/esvit/ng-table/v1.0.0/dist/ng-table.min.css">
+	<script src="https://cdn.rawgit.com/esvit/ng-table/v1.0.0/dist/ng-table.js"></script>
+  </head>
+  <body>
+	<script type="text/javascript">
+         var mainApp = angular.module("mainApp", []);
+         
+         mainApp.controller('userController', function($scope) {
+            $scope.users = {
+               alanlar:[
+                  {userName:'caca',firstName:'çağrı', lastName:'alkan', mailName:'caca@hotmail.com', alan:'bilgisayar'},
+                  {userName:'gundy',firstName:'yunus', lastName:'yıldırım', mailName:'gundy@hotmail.com', alan:'kimya'},
+				  {userName:'bugra10ur',firstName:'buğra', lastName:'şen', mailName:'bugra10ur@hotmail.com', alan:'matematik'},
+				  {userName:'fahrenheit',firstName:'maho', lastName:'aksakal', mailName:'fahrenheit@hotmail.com', alan:'fizik'},
+				  {userName:'sipahi',firstName:'ozan', lastName:'özdil', mailName:'sipahi@hotmail.com', alan:'insaat'},
+				  {userName:'muki',firstName:'erhan', lastName:'gülas', mailName:'muki@hotmail.com', alan:'makine'}
+               ],
+			   fields:[
+			   		{alanIsmi:'Kulanıcı Adı'},
+					{alanIsmi:'Adı'},
+					{alanIsmi:'Soyadı'},
+					{alanIsmi:'Email'},
+					{alanIsmi:'Alanı'}
+					],
+			   kavramList:[
+			   		{topics:'java', commentCount:'10'},
+					{topics:'veri madenciliği', commentCount:'100'},
+					{topics:'sql server', commentCount:'12'},
+					{topics:'visual studio', commentCount:'6'},
+					{topics:'c++', commentCount:'34'},
+					{topics:'javascript', commentCount:'76'},
+					{topics:'swift', commentCount:'1'},
+					{topics:'android', commentCount:'6'}
+					],
+            };
+			
+			
+		   $scope.filteredTodos = []
+		  ,$scope.currentPage = 1
+		  ,$scope.numPerPage = 2
+		  ,$scope.maxSize = 5;
+		  $scope.numPages = function () {
+			return Math.ceil($scope.users.alanlar.length / $scope.numPerPage);
+		  };
+		
+		  $scope.$watch("currentPage + numPerPage", function() {
+			var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+			, end = begin + $scope.numPerPage;
+		
+			$scope.filteredTodos = $scope.todos.slice(begin, end);
+		  });
+			
+			$scope.delete=function (a){
+				$scope.users.alanlar.splice(a,1);
+			}
+				
+				
+         });
+		 
+		 
+      </script>
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav class="navbar navbar-inverse">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="kavramTakip.html">KavramTakip</a>
+                </div>
+            
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  	<div class="col-md-3">
+                    </div>
+                      <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="Kavram adı giriniz">
+                          <button type="submit" class="btn btn-default">Ara</button>
+                        </div>
+                      </form>
+                  <ul class="nav navbar-nav navbar-right">
+                                        
+                    <div class="navbar-form form-group">
+                    
+                     <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        Giriş
+                     </button>
+                     <button  type="submit" onclick="location.href='kaydol.html';" class="btn btn-warning"  >
+                     	Kaydol 
+                     </button>
+                     </div>
+
+                    
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+			<div class="row" ng-app = "mainApp" ng-controller = "userController">
+				<div class="col-md-2">
+                    <div class="list-group">
+                        <span href="#" class="list-group-item active">
+                        	Kavramlar
+                        	<span class="pull-right" id="slide-submenu">
+                            	<i class="fa fa-times"></i>
+                            </span>
+                        </span>
+                        <a href="#" class="list-group-item" ng-repeat="veri in users.kavramList">
+                            <i class="fa"></i> {{ veri.topics }} <span class="badge">{{ veri.commentCount }}</span>
+                        </a>
+                    </div>
+                    
+				</div>
+				<div class="col-md-8">
+                <div class="row">
+                	  <div class="col-md-3">
+                      </div>
+                      <div class="col-md-6">
+                      		<div class="form-group">
+                              <input type="text" class="search form-control" placeholder="Filtrelemek İstediğiniz Alanı Giriniz" ng-model="tableSearch">
+                            </div>
+                      </div>
+                      <div class="col-md-3">
+                      </div>
+                      </div>
+                      <table class="table table-hover table-striped table-bordered">
+                      		<thead>
+                            	<tr>
+                                	<th>Kullanıcı</th>
+                                    <th>Adı</th>
+                                    <th>Soyadı</th>
+                    				<th>Email</th>
+                                    <th>Alanı</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            	<tr ng-repeat="veri in users.alanlar | filter:tableSearch">
+                                	<td>{{ veri.userName}}</td>
+                                    <td>{{ veri.firstName}}</td>
+                                    <td>{{ veri.lastName}}</td>
+                                    <td>{{ veri.mailName}}</td>
+                                    <td>{{ veri.alan}}</td>
+                                    <td><button ng-click="delete($index)" class="btn-danger">Sil</button></td>
+                                </tr>
+                            </tbody>
+                           
+                        </table>
+  <pagination 
+  ng-model="currentPage"
+  total-items="todos.length"
+  max-size="maxSize"  
+  boundary-links="true">
+</pagination>
+				</div>
+				<div class="col-md-2">
+                    <div class="list-group">
+                      <span href="#" class="list-group-item active">
+                            Takip Listesi
+                            <span class="pull-right" id="slide-submenu">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </span>
+                        <a href="#" class="list-group-item" ng-repeat="veri in users.kavramList">
+                            <i class="fa"></i> {{ veri.topics }} <span class="badge">{{ veri.commentCount }}</span>
+                        </a>
+                    </div>
+                    <div class="list-group">
+                      <span href="#" class="list-group-item active">
+                            Tavsiyeler
+                            <span class="pull-right" id="slide-submenu">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </span>
+                        <a href="#" class="list-group-item" ng-repeat="veri in users.kavramList">
+                            <i class="fa"></i> {{ veri.topics }} <span class="badge">{{ veri.commentCount }}</span>
+                        </a>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				<h4 class="modal-title" id="myModalLabel">Giriş</h4>
+			</div> <!-- /.modal-header -->
+
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text" class="form-control" id="uLogin" placeholder="Kullanıcı Adı">
+							<label for="uLogin" class="input-group-addon glyphicon glyphicon-user"></label>
+						</div>
+					</div> <!-- /.form-group -->
+
+					<div class="form-group">
+						<div class="input-group">
+							<input type="password" class="form-control" id="uPassword" placeholder="Şifre">
+							<label for="uPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
+						</div> <!-- /.input-group -->
+					</div> <!-- /.form-group -->
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Beni Hatırla
+						</label>
+					</div> <!-- /.checkbox -->
+				</form>
+
+			</div> <!-- /.modal-body -->
+
+			<div class="modal-footer">
+				<button class="form-control btn btn-success">Tamam</button>
+
+				<div class="progress">
+					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100" style="width: 0%;">
+						<span class="sr-only">progress</span>
+					</div>
+				</div>
+			</div> <!-- /.modal-footer -->
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
