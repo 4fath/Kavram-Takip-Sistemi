@@ -7,22 +7,23 @@
   },
   "dependencies": {
     "body-parser": "~1.13.2",
+    "connect-flash": "*",
     "cookie-parser": "~1.3.5",
     "debug": "~2.2.0",
+    "dotenv": "^2.0.0",
     "express": "~4.13.1",
-    "express-generator":"*",
+    "express-generator": "*",
+    "express-messages": "*",
+    "express-session": "*",
+    "express-validator": "*",
     "jade": "~1.11.0",
-    "morgan": "~1.6.1",
-    "serve-favicon": "~2.3.0",
+    "mongodb": "*",
     "mongoose": "*",
+    "morgan": "~1.6.1",
+    "multer": "*",
     "passport": "*",
+    "passport-http": "*",
     "passport-local": "*",
-    "passport-http" :"*",
-    "mongodb":"*",
-    "connect-flash" : "*",
-    "express-validator":"*",
-    "express-session" : "*",
-    "express-messages" : "*",
-    "multer" : "*"
+    "serve-favicon": "~2.3.0"
   }
 }

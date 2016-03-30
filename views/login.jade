@@ -3,7 +3,7 @@ extends layout
 block content
     h1 Login
     p Please register with below form
-    form (method = 'post', action = '/users/login', enctype = 'multipart/form-data')
+    form(method = 'POST', action = '/users/login', enctype = 'multipart/form-data')
         .form-group
             label Username
             input.form-control(name='username', type = 'text', placeholder = 'Enter Username')

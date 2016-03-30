@@ -1,7 +1,49 @@
 /**
  * Created by TOSHIBA on 7.3.2016.
  */
+// require('dotenv').load();
 var mongoose = require('mongoose');
+
+var mongoUrl = 'mongodb://cagri:123456@ds013848.mlab.com:13848/notion_follow';
+var mongoLocal = 'mongodb://localhost/nodeauth';
+
+// both url working fine Local and Remote
+mongoose.connect(mongoLocal, function(err){
+    if(err){
+        console.log('hata var hata :' + err);
+    }else {
+        console.log('bu kez oldu')
+    }
+});
+
+var db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'connection error'));
+
+db.once('open', function callback () {
+
+});
+
+// /*
+// * MONGOLAB_URI=mongodb://example:example@ds053312.mongolab.com:53312/todolist
+// * 'mongodb://example:example@ds053312.mongolab.com:53312/todolist'
+// */
+// // mongoose.connect('mongodb://example:example@ds053312.mongolab.com:53312/todolist', function (error) {
+// //     if (error) console.error(error);
+// //     else console.log('mongo connected');
+// // });
+//
+//
+//
+// //
+// //var connectionUrlMongoLab = 'mongodb://4fath:notion_follow@ds013848.mlab.com:13848/notion_follow';
+// ////var connectionUrlLocale = 'mongodb://localhost:27017/nodeauth';
+// //var db = mongoose.createConnection(connectionUrlMongoLab);
+//
+// //db.on('open', function(){
+// //   console.log('conneciton opened')
+// //});
+
 var Schema = mongoose.Schema;
 //var roles = 'user editor chiefEditor admin'.split(' ');
 
@@ -35,6 +77,7 @@ var UserSchema = new Schema({
 
     username: {
         type: String,
+        index: true,
         required: true,
         trim: true
     },
@@ -107,7 +150,7 @@ var UserSchema = new Schema({
 	}            // for storing local or aws etc..
 
 
-    //Bunun uzerinde dusunmek lazým, kiþi veya admin kiþiyi silerse
+    //Bunun uzerinde dusunmek lazï¿½m, kiï¿½i veya admin kiï¿½iyi silerse
     //leave : {
     //    date : {
     //        type : Date,
@@ -139,3 +182,7 @@ var User = mongoose.model('User',UserSchema);
 
 module.exports = User;
 
+module.exports.createUser = function(newUser, callback){
+    newUser.save(callback);
+    console.log(newUser)
+};

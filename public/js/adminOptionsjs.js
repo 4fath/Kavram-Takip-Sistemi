@@ -6,7 +6,7 @@ var generateData = function(){
     arr.push({"id":id+i,"name":"name "+i,"description":"Description of item #"+i,"field3":id,"field4":"Some stuff about rec: "+i,"field5":"field"+i});
   }
   return arr;
-}
+};
 
 var sortingOrder = 'name'; //default sort
 
