@@ -219,12 +219,12 @@ html(lang='en')
                         form(role='form' action='/users/login' method='post')
                             .form-group
                                 .input-group
-                                    input#uLogin.form-control(type='text', placeholder='Kullanıcı Adı')
+                                    input#uLogin.form-control(type='text', name ='username', placeholder='Kullanıcı Adı')
                                     label.input-group-addon.glyphicon.glyphicon-user(for='uLogin')
                             // /.form-group
                             .form-group
                                 .input-group
-                                    input#uPassword.form-control(type='password', placeholder='Şifre')
+                                    input#uPassword.form-control(type='password', name = 'password' placeholder='Şifre')
                                     label.input-group-addon.glyphicon.glyphicon-lock(for='uPassword')
                                 // /.input-group
                             // /.form-group
