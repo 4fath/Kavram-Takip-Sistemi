@@ -5,6 +5,8 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 
+
+// TODO : for remote
 var mongoUrl = 'mongodb://cagri:123456@ds013848.mlab.com:13848/notion_follow';
 var mongoLocal = 'mongodb://localhost/nodeauth';
 

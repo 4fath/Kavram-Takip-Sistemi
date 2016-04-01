@@ -22,6 +22,8 @@ router.get('/login', function(req, res, next) {
     });
 });
 
+
+ // TODO: think strong on bcrypt stractegy
 router.post('/login', passport.authenticate('local', {failureRedirect:'/', failureFlash : 'Incalid biseyler var'}),
     function(req,res){
         console.log('auth success');
@@ -29,10 +31,7 @@ router.post('/login', passport.authenticate('local', {failureRedirect:'/', failu
 
         res.location('/');
         res.redirect('/');
-
 });
-
-
 
 passport.serializeUser(function(user, done) {
     done(null, user.id);
