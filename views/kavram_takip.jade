@@ -1,0 +1,248 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        script(src='js/scripts.js')
+        script.
+            function myFunction() {
+                // Simple GET request example:
+                $http({
+                    method: 'GET',
+                    url: '/users/register'
+                }).then(function successCallback(response) {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                }, function errorCallback(response) {
+                    // called asynchronously if an error occurs
+                    // or server returns response with an error status.
+                });
+            }
+        title Kavram Takip
+        meta(name='description', content='Source code generated using layoutit.com')
+        meta(name='author', content='LayoutIt!')
+        link(href='css/bootstrap.min.css', rel='stylesheet')
+        link(href='css/style.css', rel='stylesheet')
+    body
+        .container-fluid
+            .row
+                .col-md-12
+                    nav.navbar.navbar-inverse
+                        .container-fluid
+                            // Brand and toggle get grouped for better mobile display
+                            .navbar-header
+                                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                                    span.sr-only Toggle navigation
+                                    span.icon-bar
+                                    span.icon-bar
+                                    span.icon-bar
+                                a.navbar-brand(href='kavramTakip.html') KavramTakip
+                            // Collect the nav links, forms, and other content for toggling
+                            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                .col-md-3
+                                form.navbar-form.navbar-left(role='search')
+                                    .form-group
+                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                        button.btn.btn-default(type='submit') Ara
+                                ul.nav.navbar-nav.navbar-right
+                                    .navbar-form.form-group
+                                        button.btn.btn-success(data-toggle='modal', data-target='#myModal')
+                                            | Giriş
+                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='kaydol.html';")
+                                            | Kaydol
+                            // /.navbar-collapse
+                        // /.container-fluid
+                    .row
+                        .col-md-2
+                            .list-group
+                                span.list-group-item.active(href='#')
+                                    | Kavramlar
+                                    span#slide-submenu.pull-right
+                                        i.fa.fa-times
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+                        .col-md-8
+                            .row
+                                .col-md-1
+                                .col-md-10
+                                    ul.list-group
+                                        li.list-group-item.modal-header
+                                            h3
+                                                a#baslik(href='#') Big Data
+                                        li.list-group-item.deneme
+                                            | Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                            .row
+                                                .col-md-2
+                                                    a(href='#') kullanıcı
+                                                .col-md-8
+                                                .col-md-2
+                                                    span 19.02.1994
+                                        li.list-group-item
+                                            | Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                            .row
+                                                .col-md-2
+                                                    a(href='#') kullanıcı3
+                                                .col-md-8
+                                                .col-md-2
+                                                    span 19.02.1994
+                                        li.list-group-item
+                                            | Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                            .row
+                                                .col-md-2
+                                                    a(href='#') kullanıcı2
+                                                .col-md-8
+                                                .col-md-2
+                                                    span 19.02.1994
+                                        li.list-group-item
+                                            | Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir. Lorem Ipsum, adı bilinmeyen bir matbaacının bir hurufat numune kitabı oluşturmak üzere bir yazı galerisini alarak karıştırdığı 1500'lerden beri endüstri standardı sahte metinler olarak kullanılmıştır. Beşyüz yıl boyunca varlığını sürdürmekle kalmamış, aynı zamanda pek değişmeden elektronik dizgiye de sıçramıştır. 1960'larda Lorem Ipsum pasajları da içeren Letraset yapraklarının yayınlanması ile ve yakın zamanda Aldus PageMaker gibi Lorem Ipsum sürümleri içeren masaüstü yayıncılık yazılımları ile popüler olmuştur.
+                                            .row
+                                                .col-md-2
+                                                    a(href='#') kullanıcı4
+                                                .col-md-8
+                                                .col-md-2
+                                                    span 19.02.1994
+                                .col-md-1
+                        .col-md-2
+                            .list-group
+                                span.list-group-item.active(href='#')
+                                    | Takip Listesi
+                                    span#slide-submenu.pull-right
+                                        i.fa.fa-times
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+                            .list-group
+                                span.list-group-item.active(href='#')
+                                    | Tavsiyeler
+                                    span#slide-submenu.pull-right
+                                        i.fa.fa-times
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Giriş
+                    // /.modal-header
+                    .modal-body
+                        form(role='form' action='/users/login' method='post')
+                            .form-group
+                                .input-group
+                                    input#uLogin.form-control(type='text', placeholder='Kullanıcı Adı')
+                                    label.input-group-addon.glyphicon.glyphicon-user(for='uLogin')
+                            // /.form-group
+                            .form-group
+                                .input-group
+                                    input#uPassword.form-control(type='password', placeholder='Şifre')
+                                    label.input-group-addon.glyphicon.glyphicon-lock(for='uPassword')
+                                // /.input-group
+                            // /.form-group
+                            .checkbox
+                                label
+                                    input(type='checkbox')
+                                    |  Beni Hatırla
+                            // /.checkbox
+                    // /.modal-body
+                    .modal-footer
+                        button.form-control.btn.btn-success Tamam
+                        .progress
+                            .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='1', aria-valuemin='1', aria-valuemax='100', style='width: 0%;')
+                                span.sr-only progress
+                    // /.modal-footer
+                // /.modal-content
+            // /.modal-dialog
+        // /.modal
+        script(src='js/jquery.min.js')
+        script(src='js/bootstrap.min.js')
+        script(src='js/scripts.js')

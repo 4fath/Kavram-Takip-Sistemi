@@ -3,6 +3,7 @@
  */
 // require('dotenv').load();
 var mongoose = require('mongoose');
+var bcrypt = require('bcrypt');
 
 var mongoUrl = 'mongodb://cagri:123456@ds013848.mlab.com:13848/notion_follow';
 var mongoLocal = 'mongodb://localhost/nodeauth';
@@ -93,6 +94,7 @@ var UserSchema = new Schema({
         type : String,
         required : true,
         trim : true,
+        bcrypt : true,
         min : 8,            // it can be check on front-end
         max : 20            // it can be check on front-end
     },
@@ -183,6 +185,13 @@ var User = mongoose.model('User',UserSchema);
 module.exports = User;
 
 module.exports.createUser = function(newUser, callback){
-    newUser.save(callback);
+
+    bcrypt.hash(newUser.password, 10, function(err, hash){
+        if (err) throw err;
+
+        newUser.password = hash;
+        newUser.save(callback);
+
+    } );
     console.log(newUser)
 };

@@ -1,0 +1,305 @@
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        title Bootstrap 3, from LayoutIt!
+        script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js')
+        meta(name='description', content='Source code generated using layoutit.com')
+        meta(name='author', content='LayoutIt!')
+        link(href='css/bootstrap.min.css', rel='stylesheet')
+        link(href='css/style.css', rel='stylesheet')
+        link(rel='stylesheet', href='/vendor/bootstrap-combobox/css/bootstrap-combobox.css')
+        script(src='/vendor/bootstrap-combobox/js/bootstrap-combobox.js')
+        script(type='text/javascript').
+            var a = Math.ceil(Math.random() * 10);
+            var b = Math.ceil(Math.random() * 10);
+            var c = a + b
+            function DrawBotBoot()
+            {
+                document.write(a + " + " + b + " = ");
+                document.write("<input id='BotBootInput' type='text' maxlength='2' size='2'/>");
+            }
+            function ValidBotBoot(){
+                var d = document.getElementById('BotBootInput').value;
+                if (d == c) return true;
+                return false;
+            }
+        style(type='text/css').
+            /* Adjust feedback icon position */
+            #productForm .selectContainer .form-control-feedback,
+            #productForm .inputGroupContainer .form-control-feedback {
+                right: -15px;
+            }
+    body
+        script.
+            var app = angular.module('myApp', []);
+            app.controller('myCtrl', function($scope) {
+                $scope.names = ["Bilgisayar", "Kimya", "Elektrik","İnşaat"];
+            });
+        .container-fluid
+            .row
+                .col-md-12
+                    nav.navbar.navbar-inverse
+                        .container-fluid
+                            // Brand and toggle get grouped for better mobile display
+                            .navbar-header
+                                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                                    span.sr-only Toggle navigation
+                                    span.icon-bar
+                                    span.icon-bar
+                                    span.icon-bar
+                                a.navbar-brand(href='kavramTakip.html') KavramTakip
+                            // Collect the nav links, forms, and other content for toggling
+                            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                .col-md-3
+                                form.navbar-form.navbar-left(role='search')
+                                    .form-group
+                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                        button.btn.btn-default(type='submit') Ara
+                                ul.nav.navbar-nav.navbar-right
+                                    .navbar-form.form-group
+                                        button.btn.btn-success(data-toggle='modal', data-target='#myModal')
+                                            | Giriş
+                                        button.btn.btn-warning(type='submit', onclick="location.href='kaydol.html';")
+                                            | Kaydol
+                            // /.navbar-collapse
+                        // /.container-fluid
+                    .row
+                        .col-md-2
+                            .list-group
+                                span#sppp.list-group-item(href='#')
+                                    | Kavramlar
+                                    span#slide-submenu.pull-right
+                                        i.fa.fa-times
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+                        .col-md-8
+                            form#productForm.form-horizontal(role='form', action='/users/register', method='post')
+                                .row
+                                    .col-md-2
+                                    .col-md-8
+                                        .form-group
+                                            label İsim
+                                            input.form-control(type='text', name='firstName', placeholder='Adınızı Giriniz', autofocus='')
+                                        .form-group
+                                            label Soyisim
+                                            input.form-control(type='text', name='lastName', placeholder='Soyadınızı Giriniz', autofocus='')
+                                        .form-group
+                                            label Kullanıcı Adı
+                                            input#userName.form-control(type='text', name='username' placeholder='Kullanıcı Adı Giriniz', autofocus='')
+                                        .form-group
+                                            label E-mail
+                                            input.form-control(type='email', name='email' placeholder='E-mail Giriniz')
+                                        .form-group
+                                            label Şifre
+                                            input#password.form-control(type='password', name = 'password', placeholder='Şifre Giriniz')
+                                        .form-group
+                                            label Şifre Tekrar
+                                            input#passwordRepeat.form-control(type='password', name = 'passwordConfirm', placeholder='Şifreyi Tekrar Giriniz')
+                                        .form-group
+                                            label Doğum Tarihi
+                                            input#birthDate.datepicker-here.form-control(type='text', data-language='tr', placeholder='Doğum Tarihinizi Seçiniz')
+                                        //.form-group
+                                        //    label.col-sm-3.control-label Alanınız
+                                        //    .col-sm-9(ng-app='myApp', ng-controller='myCtrl')
+                                        //        select.form-control(name='size')
+                                        //            option(value='') Seçiniz
+                                        //            option(value='', ng-repeat='x in names') {{ x }}
+                                        //.form-group
+                                        //    label.col-sm-3.control-label Sonuç nedir?
+                                        //    .col-sm-9
+                                        //        script(type='text/javascript').
+                                        //            DrawBotBoot()
+                                        //        input#Button1(type='button', value='Check', onclick='alert(ValidBotBoot());')
+                                        //.form-group
+                                        //    .col-sm-9.col-sm-offset-3
+                                        //        .checkbox
+                                        //            label
+                                        //                input(type='checkbox')
+                                        //                a(href='#') Lisans sözleşmesini
+                                        //                | okudum ve kabul ediyorum
+                                        // /.form-group
+                                        //.form-group
+                                        //    .col-sm-9.col-sm-offset-3
+                                        input.btn.btn-default(name = 'Submit', type = 'submit', value = 'Register')
+                                    .col-md-2
+                            // /form
+                        .col-md-2
+                            .list-group
+                                span.list-group-item.active(href='#')
+                                    | Takip Listesi
+                                    span#slide-submenu.pull-right
+                                        i.fa.fa-times
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+                            .list-group
+                                span.list-group-item.active(href='#')
+                                    | Tavsiyeler
+                                    span#slide-submenu.pull-right
+                                        i.fa.fa-times
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  java
+                                    span.badge 124
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  veri madenciliği
+                                    span.badge 3
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  sql server
+                                    span.badge 14
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  visual studio
+                                    span.badge 43
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  c++
+                                    span.badge 54
+                                a.list-group-item(href='#')
+                                    i.fa
+                                    |  Lorem ipsum
+                                    span.badge 14
+        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Giriş
+                    // /.modal-header
+                    .modal-body
+                        form(role='form')
+                            .form-group
+                                .input-group
+                                    input#uLogin.form-control(type='text', placeholder='Kullanıcı Adı')
+                                    label.input-group-addon.glyphicon.glyphicon-user(for='uLogin')
+                            // /.form-group
+                            .form-group
+                                .input-group
+                                    input#uPassword.form-control(type='password', placeholder='Şifre')
+                                    label.input-group-addon.glyphicon.glyphicon-lock(for='uPassword')
+                                // /.input-group
+                            // /.form-group
+                            .checkbox
+                                label
+                                    input(type='checkbox')
+                                    |  Beni Hatırla
+                            // /.checkbox
+                    // /.modal-body
+                    .modal-footer
+                        button.form-control.btn.btn-success Tamam
+                        .progress
+                            .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='1', aria-valuemin='1', aria-valuemax='100', style='width: 0%;')
+                                span.sr-only progress
+                    // /.modal-footer
+                // /.modal-content
+            // /.modal-dialog
+        // /.modal
+        script(src='js/jquery.min.js')
+        script(src='js/datepicker.js')
+        script(src='js/bootstrap.min.js')
+        script(src='js/scripts.js')
+        script.
+            $(document).ready(function() {
+                $('#productForm')
+                        .formValidation({
+                            framework: 'bootstrap',
+                            icon: {
+                                valid: 'glyphicon glyphicon-ok',
+                                invalid: 'glyphicon glyphicon-remove',
+                                validating: 'glyphicon glyphicon-refresh'
+                            },
+                            excluded: ':disabled',
+                            fields: {
+                                size: {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'The size is required'
+                                        }
+                                    }
+                                },
+                                color: {
+                                    validators: {
+                                        notEmpty: {
+                                            message: 'The color is required'
+                                        }
+                                    }
+                                }
+                            }
+                        })
+                        // Using Bootbox for color and size select elements
+                        .find('[name="color"], [name="size"]')
+                        .combobox()
+                        .end()
+            });

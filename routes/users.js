@@ -12,11 +12,16 @@ router.get('/register', function(req, res, next) {
     res.render('register',{
         'title': 'Register'
     });
+    console.log("handled get from angular");
 });
 router.get('/login', function(req, res, next) {
     res.render('login',{
         'title': 'Login'
     });
+});
+
+router.post('/login', function(req,res,next){
+   res.send('login ile post atildi, kullaici adi :'+req.body.uLogin + 'sifre :'+ req.body.uPassword); 
 });
 
 router.post('/register', function(req,res,next){
@@ -35,8 +40,7 @@ router.post('/register', function(req,res,next){
     req.checkBody('username','kullanici adi bos olamaz').notEmpty();
     req.checkBody('password','bu alan da gerekli').notEmpty();
     req.checkBody('passwordConfirm','iki passpord da uyusmali').equals(req.body.password);
-
-
+    
     // check errors
     var errors = req.validationErrors();
     if(errors){
@@ -70,5 +74,7 @@ router.post('/register', function(req,res,next){
     }
 
 });
+
+
 
 module.exports = router;
