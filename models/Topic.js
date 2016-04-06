@@ -36,7 +36,7 @@ var TopicSchema = new Schema({
     chiefEditor : {
         type : Schema.Types.ObjectId,
         ref : 'ChiefEditor',
-        required : true
+        required : false
     },
 
     // just like chiefEditor, so useless
@@ -99,15 +99,21 @@ var TopicSchema = new Schema({
 
 });
 
-var Topic = mongoose.model('User',TopicSchema);
+var Topic = mongoose.model('Topic',TopicSchema);
 
-Topic.pre('save', function(next){
-    var now = new Date();
-    this.updated_at = now;
-    if (!this.created_at) {
-        this.created_at = now;
-    }
-    next();
-});
+// Topic.pre('save', function(next){
+//     var now = new Date();
+//     this.updated_at = now;
+//     if (!this.created_at) {
+//         this.created_at = now;
+//     }
+//     next();
+// });
 
 module.exports = Topic;
+
+
+module.exports.createTopic = function(newTopic, callback){
+    newTopic.save(callback);
+    console.log(newTopic)
+};

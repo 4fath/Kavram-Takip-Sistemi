@@ -13,11 +13,14 @@ var flash = require('connect-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
+
+// routes
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var topic = require('./routes/topic');
+var comment = require('./routes/comment');
 
-
-//TODO : hadle user authenticaiton
+//TODO : handle user authentication
 
 var app = express();
 
@@ -29,7 +32,7 @@ app.use(multer({dest:'./uploads'}).single('photo'));
 
 
 // uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -76,6 +79,8 @@ app.use(function(req, res, next){
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/topic', topic);
+app.use('/comment', comment);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

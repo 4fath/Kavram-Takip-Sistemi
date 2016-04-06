@@ -4,6 +4,7 @@
 // require('dotenv').load();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
+var uniqueValidator = require('mongoose-unique-validator');
 
 
 // TODO : for remote
@@ -11,7 +12,7 @@ var mongoUrl = 'mongodb://cagri:123456@ds013848.mlab.com:13848/notion_follow';
 var mongoLocal = 'mongodb://localhost/nodeauth';
 
 // both url working fine Local and Remote
-mongoose.connect(mongoLocal, function(err){
+mongoose.connect(mongoUrl, function(err){
     if(err){
         console.log('hata var hata :' + err);
     }else {
@@ -82,13 +83,14 @@ var UserSchema = new Schema({
         type: String,
         index: true,
         required: true,
-        trim: true
+        trim: true,
+        unique : true
     },
 
     email: {
         type: String,
         required: true,
-        trim: true
+        trim: true 
     },
 
     // TODO: Encrypt
@@ -97,7 +99,7 @@ var UserSchema = new Schema({
         required : true,
         trim : true,
         bcrypt : true,
-        min : 8,            // it can be check on front-end
+                            // it can be check on front-end
         max : 20            // it can be check on front-end
     },
 
@@ -181,6 +183,8 @@ var UserSchema = new Schema({
     //},
 
 });
+
+UserSchema.plugin(uniqueValidator);
 
 var User = mongoose.model('User',UserSchema);
 

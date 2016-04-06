@@ -24,10 +24,14 @@ router.get('/login', function(req, res, next) {
 
 
  // TODO: think strong on bcrypt stractegy
-router.post('/login', passport.authenticate('local', {failureRedirect:'/', failureFlash : 'Incalid biseyler var'}),
+router.post('/login', passport.authenticate('local',
+    {
+        failureRedirect:'/',
+        failureFlash : 'There is something wrong on auth  '
+    }),
     function(req,res){
         console.log('auth success');
-        req.flash('success', 'basarili');
+        req.flash('success', 'Başarılı bir şekilde kayıt işlemi gerçekleşti ');
 
         res.location('/');
         res.redirect('/');
