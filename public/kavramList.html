@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en"><!-- InstanceBegin template="/Templates/Sablon.dwt" codeOutsideHTMLIsLocked="false" -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<script src="js/scripts.js"></script>
+    
+	<!-- InstanceBeginEditable name="doctitle" -->
+	<title>Yeni Kavram</title>
+	<!-- InstanceEndEditable -->
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+  <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+	
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="js/jquery-2.2.2.js"></script>
+    <link href="css/dataTable.css" rel="stylesheet"> 
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
+    <script src="js/dirPagination.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			$('#myTable').DataTable();
+		});
+	</script>
+    <!-- InstanceBeginEditable name="head" -->
+    <!-- InstanceEndEditable -->
+</head>
+  <body>
+<script type="text/javascript">
+				 var mainApp = angular.module("mainApp", ['angularUtils.directives.dirPagination']);
+				 
+				 mainApp.controller('userController', function($scope) {
+					$scope.bigCurrentPage = 1;
+					$scope.kavramPageSize = 10;
+					$scope.pageSize = 10;
+					$scope.users = {
+					   kavramList:[
+							{topics:'java', commentCount:'10'},
+							{topics:'veri madenciliği', commentCount:'100'},
+							{topics:'sql server', commentCount:'12'},
+							{topics:'visual studio', commentCount:'6'},
+							{topics:'c++', commentCount:'34'},
+							{topics:'javascript', commentCount:'76'},
+							{topics:'swift', commentCount:'1'},
+							{topics:'android', commentCount:'6'},
+							{topics:'veri madenciliği', commentCount:'100'},
+							{topics:'sql server', commentCount:'12'},
+							{topics:'visual studio', commentCount:'6'},
+							{topics:'c++', commentCount:'34'},
+							{topics:'javascript', commentCount:'76'},
+							{topics:'swift', commentCount:'1'}
+							],
+							fields:[
+								  {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Kuantum Bilgisayarları'},
+								  {temelAlan:'Sosyal, Beşeri ve İdari Bilimler',bilimAlani:'Felsefe', anahtarKelime:'Mantık'},
+								  {temelAlan:'Spor Bilimleri',bilimAlani:'Spor Bilimleri', anahtarKelime:'Spor Biyomekaniği'},
+								  {temelAlan:'Ziraat, Orman ve Su Ürünleri',bilimAlani:'Orman Mühendisliği', anahtarKelime:'Orman Botaniği'},
+								  {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Robotik'},
+								  {temelAlan:'Sosyal, Beşeri ve İdari Bilimler',bilimAlani:'Yeniçağ Tarihi', anahtarKelime:'Denizcilik Tarihi'},
+								  {temelAlan:'Sosyal, Beşeri ve İdari Bilimler',bilimAlani:'Felsefe', anahtarKelime:'Ontoloji'},
+								  {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Ses İşleme'},
+								  {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Veri Madenciliği'}
+							   ],
+					};
+					
+					$scope.deleteField=function (a){
+						$scope.users.fields.splice(a,1);
+					};
+					
+					$scope.sort = function(keyname){
+						$scope.sortKey = keyname;   //set the sortKey to the param passed
+						$scope.reverse = !$scope.reverse; //if true make it false and vice versa
+					};
+					
+					
+				
+				 });
+				 
+				 
+			  </script>
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<nav class="navbar navbar-inverse">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
+                  <a class="navbar-brand" href="kavramTakip.html">KavramTakip</a>
+                </div>
+            
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  	<div class="col-md-3">
+                    </div>
+                      <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                          <input type="text" class="form-control" placeholder="Kavram adı giriniz">
+                          <button type="submit" class="btn btn-default">Ara</button>
+                        </div>
+                        
+                      </form>
+                  <ul class="nav navbar-nav navbar-right">
+                                        
+                    <div class="navbar-form form-group">
+                    
+                     <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                        Giriş
+                     </button>
+                     <button  type="submit" onclick="location.href='kaydol.html';" class="btn btn-warning"  >
+                     	Kaydol 
+                     </button>
+                     </div>
+
+                    
+                  </ul>
+                </div><!-- /.navbar-collapse -->
+              </div><!-- /.container-fluid -->
+            </nav>
+		  	<div class="row" ng-app = "mainApp" ng-controller = "userController">
+				<div class="col-md-2">
+                    <div class="list-group">
+                        <span href="#" class="list-group-item active">
+                        	Kavramlar
+                        	<span class="pull-right" id="slide-submenu">
+                            	<i class="fa fa-times"></i>
+                            </span>
+                        </span>
+                        <a href="#" class="list-group-item" dir-paginate="veri in users.kavramList | itemsPerPage: kavramPageSize" pagination-id="kavramlar">
+                            <i class="fa"></i> {{ veri.topics }} <span class="badge">{{ veri.commentCount }}</span>
+                            
+                        </a>
+                        <dir-pagination-controls
+                        	ng-model="bigCurrentPage"  class="pagination-sm" direction-links="false" boundary-link-numbers="false" rotate="true" pagination-id="kavramlar" force-ellipses="false"
+                           max-size="6">
+                        </dir-pagination-controls>
+                        
+                    </div>
+                    
+				</div>
+				<div class="col-md-8">
+                <!-- InstanceBeginEditable name="icerik" -->
+                <div class="row">
+                	<div class="col-md-1">
+                    </div>
+                    <div class="col-md-10">
+                    	<div class="col-md-3">
+                            <form class="form-inline">
+                                <div class="form-group">
+                                    <label>Ara</label>
+                                    <input type="text" ng-model="search" class="form-control">
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                        <div class="col-md-3">
+                        	<label for="search">Sayfa Başına Kayıt:</label>
+              				<input type="number" min="1" max="100" class="form-control" ng-model="pageSize">
+                        </div>
+                    	<table id="myTable" class="table table-hover table-striped display">
+                      		<thead>
+                            	<tr >
+                                	<th ng-click="sort('topics')">Kavramlar<span class="glyphicon sort-icon" ng-show="sortKey=='topics'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                                    <th ng-click="sort('commentCount')">Yorum Sayısı<span class="glyphicon sort-icon" ng-show="sortKey=='commentCount'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            	<tr dir-paginate="veri in users.kavramList | orderBy:sortKey:reverse | filter:search | itemsPerPage: pageSize" pagination-id="topicsList">
+                                	<td>{{ veri.topics}}</td>
+                                    <td>{{ veri.commentCount}}</td>
+                                    <td><button ng-click="delete($index)" class="btn-danger">Sil</button></td>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                        <dir-pagination-controls ng-model="bigCurrentPage" max-size="7" class="pagination-sm" boundary-link-numbers="true" rotate="false"
+                           pagination-id="topicsList"
+                           boundary-links="true" on-page-change="pageChangeHandler(newPageNumber)" template-url="dirPagination.tpl.html" >
+                        </dir-pagination-controls>
+                        <div class="col-md-9"></div>
+                        <div class="col-md-3">
+                        	<button type="submit" onclick="location.href='yeniKavramGiris.html';" class="btn btn-success btn-block">Kavram Ekle</button>
+                        </div>
+                    </div>
+                    <div class="col-md-1">
+                    </div>
+                </div><script src="js/paginate.js"></script>
+                <!-- InstanceEndEditable -->
+				</div>
+				<div class="col-md-2">
+                    <div class="list-group">
+                      <span href="#" class="list-group-item active">
+                            Takip Listesi
+                            <span class="pull-right" id="slide-submenu">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </span>
+                        <a href="#" class="list-group-item" dir-paginate="veri in users.kavramList | itemsPerPage: kavramPageSize" pagination-id="takipList">
+                            <i class="fa"></i> {{ veri.topics }} <span class="badge">{{ veri.commentCount }}</span>
+                        </a>
+                        <dir-pagination-controls
+                           pagination-id="takipList"
+                           max-size="15"
+                           direction-links="true"
+                           boundary-links="true" >
+                        </dir-pagination-controls>
+                    </div>
+                    <div class="list-group">
+                      <span href="#" class="list-group-item active">
+                            Tavsiyeler
+                            <span class="pull-right" id="slide-submenu">
+                                <i class="fa fa-times"></i>
+                            </span>
+                        </span>
+                        <a href="#" class="list-group-item" dir-paginate="veri in users.kavramList | itemsPerPage: kavramPageSize" pagination-id="adviseList">
+                            <i class="fa"></i> {{ veri.topics }} <span class="badge">{{ veri.commentCount }}</span>
+                        </a>
+                        <dir-pagination-controls
+                           pagination-id="adviseList"
+                           max-size="15"
+                           direction-links="true"
+                           boundary-links="true" >
+                        </dir-pagination-controls>
+                    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<div class="modal-header">
+			  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+				
+				<h4 class="modal-title" id="myModalLabel">Giriş</h4>
+			</div> <!-- /.modal-header -->
+
+			<div class="modal-body">
+				<form role="form">
+					<div class="form-group">
+						<div class="input-group">
+							<input type="text" class="form-control" id="uLogin" placeholder="Kullanıcı Adı">
+							<label for="uLogin" class="input-group-addon glyphicon glyphicon-user"></label>
+						</div>
+					</div> <!-- /.form-group -->
+
+					<div class="form-group">
+						<div class="input-group">
+							<input type="password" class="form-control" id="uPassword" placeholder="Şifre">
+							<label for="uPassword" class="input-group-addon glyphicon glyphicon-lock"></label>
+						</div> <!-- /.input-group -->
+					</div> <!-- /.form-group -->
+
+					<div class="checkbox">
+						<label>
+							<input type="checkbox"> Beni Hatırla
+						</label>
+					</div> <!-- /.checkbox -->
+				</form>
+
+			</div> <!-- /.modal-body -->
+
+			<div class="modal-footer">
+				<button class="form-control btn btn-success">Tamam</button>
+
+				<div class="progress">
+					<div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="100" style="width: 0%;">
+						<span class="sr-only">progress</span>
+					</div>
+				</div>
+			</div> <!-- /.modal-footer -->
+
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+<!-- InstanceEnd --></html>

@@ -6,13 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="js/scripts.js"></script>
     <title>Kavram Takip</title>
-
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
 	
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
+	<script>
+		var loginapp = angular.module("loginapp", []);
+		loginapp.controller('loginController', function($scope) {
+			$scope.isUser=true;
+		});
+	</script>
   </head>
   <body>
 
@@ -33,7 +38,7 @@
                 </div>
             
                 <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <div ng-app="loginapp" ng-controller="loginController" class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                   	<div class="col-md-3">
                     </div>
                       <form class="navbar-form navbar-left" role="search">
@@ -46,11 +51,13 @@
                   <ul class="nav navbar-nav navbar-right">
                                         
                     <div class="navbar-form form-group">
-                    
-                     <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
+                     <button ng-show="isUser==true" class="btn btn-success" onclick="location.href='options.html';">
+                        Profil
+                     </button>
+                     <button ng-show="isUser==false" class="btn btn-success" data-toggle="modal" data-target="#myModal">
                         Giriş
                      </button>
-                     <button  type="submit" onclick="location.href='kaydol.html';" class="btn btn-warning"  >
+                     <button ng-show="isUser==false" type="submit" onclick="location.href='kaydol.html';" class="btn btn-warning"  >
                      	Kaydol 
                      </button>
                      </div>
