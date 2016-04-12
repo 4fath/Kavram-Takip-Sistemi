@@ -17,7 +17,6 @@ var Schema = mongoose.Schema;
 // viewCount            : 'Number'
 // likeCount            : 'Number'
 
-
 var TopicSchema = new Schema({
 
     name : {

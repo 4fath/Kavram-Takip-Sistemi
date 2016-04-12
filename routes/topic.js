@@ -5,12 +5,12 @@ var User = require('../models/User');
 
 router.get('/list', function (req, res, next) {
 
-
     var emptyMessage = 'Hiç bir kayıt bulunamadı';
     Topic.find({}, function (err, topics) {
 
         var i = 0;
         var topicMap = {};
+
         // topics.forEach(function (topic) {
         //     topicMap[topic._id] = topic;
         //     i++;
