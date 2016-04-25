@@ -2,9 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cf53c38-8960-473a-9ef1-d5d8fb46db2f" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/add_new_topic.jade" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/views/kavram_list.jade" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/public/yeniKavramGiris.html" afterPath="$PROJECT_DIR$/public/yeniKavramGirisii.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/Topic.js" afterPath="$PROJECT_DIR$/models/Topic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/models/User.js" afterPath="$PROJECT_DIR$/models/User.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/Templates/Sablon.dwt" afterPath="$PROJECT_DIR$/public/Templates/Sablon.dwt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/public/kavramList.html" afterPath="$PROJECT_DIR$/public/kavramList.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/index.js" afterPath="$PROJECT_DIR$/routes/index.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/topic.js" afterPath="$PROJECT_DIR$/routes/topic.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes/users.js" afterPath="$PROJECT_DIR$/routes/users.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/views/layout.jade" afterPath="$PROJECT_DIR$/views/layout.jade" />
     </list>
     <ignored path="Kavram_Takip_Sistemi.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -29,38 +38,38 @@
       <file leaf-file-name="topic.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/topic.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="680">
-              <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+            <state relative-caret-position="340">
+              <caret line="20" column="51" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="51" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/login.jade">
+      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/index.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="204">
-              <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+            <state relative-caret-position="85">
+              <caret line="5" column="58" selection-start-line="5" selection-start-column="58" selection-end-line="5" selection-end-column="58" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Topic.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/models/Topic.js">
+      <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/users.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-731">
-              <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+            <state relative-caret-position="1649">
+              <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app.js">
+      <file leaf-file-name="ChiefEditor.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/ChiefEditor.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1173">
-              <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+            <state relative-caret-position="731">
+              <caret line="43" column="53" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="53" />
               <folding />
             </state>
           </provider>
@@ -76,6 +85,16 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Topic.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/models/Topic.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="510">
+              <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SubTopic.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/SubTopic.js">
           <provider selected="true" editor-type-id="text-editor">
@@ -86,34 +105,35 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Editor.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/models/Editor.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="697">
-              <caret line="41" column="53" selection-start-line="41" selection-start-column="53" selection-end-line="41" selection-end-column="53" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="users.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/routes/users.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2142">
-              <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="User.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/models/User.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="357">
-              <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+            <state relative-caret-position="2448">
+              <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
               <folding>
-                <marker date="1459809047677" expanded="true" signature="4951:4953" placeholder="{...}" />
+                <element signature="e#697#702#0" expanded="false" />
+                <marker date="1461510377860" expanded="true" signature="5099:5101" placeholder="{...}" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1853">
+              <caret line="109" column="6" selection-start-line="109" selection-start-column="6" selection-end-line="109" selection-end-column="6" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="389">
+              <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -124,6 +144,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="JavaScript File" />
+        <option value="Jade File" />
       </list>
     </option>
   </component>
@@ -154,21 +175,25 @@
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
         <option value="$PROJECT_DIR$/public/index.html" />
         <option value="$PROJECT_DIR$/public/js/adminOptionsjs.js" />
-        <option value="$PROJECT_DIR$/views/layout.jade" />
-        <option value="$PROJECT_DIR$/views/login.jade" />
         <option value="$PROJECT_DIR$/views/register.jade" />
-        <option value="$PROJECT_DIR$/routes/index.js" />
         <option value="$PROJECT_DIR$/views/kaydol.jade" />
         <option value="$PROJECT_DIR$/public/kaydol.html" />
         <option value="$PROJECT_DIR$/views/kavram_takip.jade" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/app.js" />
         <option value="$PROJECT_DIR$/routes/comment.js" />
-        <option value="$PROJECT_DIR$/routes/users.js" />
-        <option value="$PROJECT_DIR$/models/User.js" />
         <option value="$PROJECT_DIR$/views/addPost.jade" />
-        <option value="$PROJECT_DIR$/routes/topic.js" />
         <option value="$PROJECT_DIR$/models/Topic.js" />
+        <option value="$PROJECT_DIR$/public/Templates/Sablon.dwt" />
+        <option value="$PROJECT_DIR$/views/layout.jade" />
+        <option value="$PROJECT_DIR$/views/login.jade" />
+        <option value="$PROJECT_DIR$/views/add_new_topic.jade" />
+        <option value="$PROJECT_DIR$/views/index.jade" />
+        <option value="$PROJECT_DIR$/routes/topic.js" />
+        <option value="$PROJECT_DIR$/views/kavram_list.jade" />
+        <option value="$PROJECT_DIR$/routes/index.js" />
+        <option value="$PROJECT_DIR$/models/User.js" />
+        <option value="$PROJECT_DIR$/routes/users.js" />
       </list>
     </option>
   </component>
@@ -208,8 +233,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -238,7 +261,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="models" />
+              <option name="myItemId" value="routes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -252,12 +275,14 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="bin" />
+              <option name="myItemId" value="models" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -278,545 +303,32 @@
       <recent name="C:\Users\TOSHIBA\Desktop\Nodejs\Kavram_Takip_Sistemi\public\css" />
     </key>
   </component>
-  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
-    <UpdatedFiles>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Updated from server" />
-        <option name="myStatusName" value="Changed on server" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="CHANGED_ON_SERVER" />
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Updated" />
-          <option name="myStatusName" value="Changed" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="UPDATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/README.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/adminOptions.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/css/dataTable.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/css/style.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/adminOptionsjs.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/kavramTakip.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/kaydol.html</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Created" />
-          <option name="myStatusName" value="Created" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="CREATED" />
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/AlanDüzenle.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/Templates/Sablon.dwt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/CHANGES.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/LICENSE.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/README.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/adapters/jquery.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/build-config.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/ckeditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/config.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/contents.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/af.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/bg.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/bn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/bs.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ca.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/cs.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/cy.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/da.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/de-ch.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/de.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/el.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/en-au.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/en-ca.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/en-gb.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/en.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/eo.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/es.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/et.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/eu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/fa.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/fi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/fo.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/fr-ca.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/fr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/gl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/gu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/he.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/hi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/hr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/hu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/id.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/is.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/it.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ja.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ka.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/km.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ko.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ku.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/lt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/lv.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/mk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/mn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ms.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/nb.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/nl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/no.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/pl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/pt-br.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/pt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ro.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ru.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/si.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/sk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/sl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/sq.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/sr-latn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/sr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/sv.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/th.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/tr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/tt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/ug.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/uk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/vi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/zh-cn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/lang/zh.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/a11yhelp.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/_translationstatus.txt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/af.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/bg.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ca.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/cs.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/cy.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/da.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/de-ch.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/de.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/el.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/en-gb.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/en.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/eo.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/es.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/et.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/eu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/fa.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/fi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/fo.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/fr-ca.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/fr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/gl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/gu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/he.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/hi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/hr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/hu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/id.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/it.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ja.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/km.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ko.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ku.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/lt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/lv.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/mk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/mn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/nb.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/nl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/no.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/pl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/pt-br.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/pt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ro.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ru.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/si.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/sk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/sl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/sq.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/sr-latn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/sr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/sv.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/th.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/tr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/tt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/ug.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/uk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/vi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/zh-cn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/a11yhelp/dialogs/lang/zh.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/about/dialogs/about.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/about/dialogs/hidpi/logo_ckeditor.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/about/dialogs/logo_ckeditor.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/clipboard/dialogs/paste.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/colordialog/dialogs/colordialog.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/dialog/dialogDefinition.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/div/dialogs/div.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/_notes/dwsync.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/dialogs/_notes/dwsync.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/dialogs/eqneditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/dialogs/lang/_notes/dwsync.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/dialogs/lang/en.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/icons/_notes/dwsync.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/icons/eqneditor.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/lang/_notes/dwsync.xml</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/lang/en.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/eqneditor/plugin.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/find/dialogs/find.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/flash/dialogs/flash.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/flash/images/placeholder.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/button.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/checkbox.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/form.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/hiddenfield.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/radio.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/select.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/textarea.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/dialogs/textfield.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/forms/images/hiddenfield.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/icons.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/icons_hidpi.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/iframe/dialogs/iframe.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/iframe/images/placeholder.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/image/dialogs/image.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/image/images/noimage.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/link/dialogs/anchor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/link/dialogs/link.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/link/images/anchor.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/link/images/hidpi/anchor.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/liststyle/dialogs/liststyle.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/magicline/images/hidpi/icon-rtl.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/magicline/images/hidpi/icon.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/magicline/images/icon-rtl.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/magicline/images/icon.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/pagebreak/images/pagebreak.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/pastefromword/filter/default.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/preview/preview.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/scayt/CHANGELOG.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/scayt/LICENSE.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/scayt/README.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/scayt/dialogs/options.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/scayt/dialogs/toolbar.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_address.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_blockquote.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_div.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_h1.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_h2.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_h3.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_h4.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_h5.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_h6.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_p.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/showblocks/images/block_pre.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/dialogs/smiley.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/angel_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/angel_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/angry_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/angry_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/broken_heart.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/broken_heart.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/confused_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/confused_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/cry_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/cry_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/devil_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/devil_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/embaressed_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/embarrassed_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/embarrassed_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/envelope.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/envelope.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/heart.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/heart.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/kiss.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/kiss.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/lightbulb.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/lightbulb.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/omg_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/omg_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/regular_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/regular_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/sad_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/sad_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/shades_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/shades_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/teeth_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/teeth_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/thumbs_down.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/thumbs_down.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/thumbs_up.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/thumbs_up.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/tongue_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/tongue_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/tounge_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/whatchutalkingabout_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/whatchutalkingabout_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/wink_smile.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/smiley/images/wink_smile.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/_translationstatus.txt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/af.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/ar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/bg.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/ca.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/cs.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/cy.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/da.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/de-ch.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/de.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/el.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/en-gb.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/en.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/eo.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/es.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/et.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/eu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/fa.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/fi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/fr-ca.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/fr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/gl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/he.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/hr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/hu.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/id.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/it.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/ja.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/km.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/ko.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/ku.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/lt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/lv.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/nb.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/nl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/no.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/pl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/pt-br.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/pt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/ru.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/si.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/sk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/sl.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/sq.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/sv.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/th.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/tr.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/tt.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/ug.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/uk.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/vi.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/zh-cn.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/lang/zh.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/specialchar/dialogs/specialchar.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/table/dialogs/table.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/tabletools/dialogs/tableCell.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/templates/dialogs/templates.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/templates/dialogs/templates.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/templates/templates/default.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/templates/templates/images/template1.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/templates/templates/images/template2.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/templates/templates/images/template3.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/wsc/LICENSE.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/wsc/README.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/wsc/dialogs/ciframe.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/wsc/dialogs/tmpFrameset.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/wsc/dialogs/wsc.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/wsc/dialogs/wsc.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/plugins/wsc/dialogs/wsc_ie.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/css/samples.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/img/github-top.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/img/header-bg.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/img/header-separator.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/img/logo.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/img/navigation-tip.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/index.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/js/sample.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/js/sf.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/ajax.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/api.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/appendto.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/assets/inlineall/logo.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/assets/outputxhtml/outputxhtml.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/assets/posteddata.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/assets/sample.jpg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/assets/uilanguages/languages.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/datafiltering.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/dialog/assets/my_dialog.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/dialog/dialog.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/divreplace.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/enterkey/enterkey.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/htmlwriter/assets/outputforflash/outputforflash.fla</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/htmlwriter/assets/outputforflash/outputforflash.swf</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/htmlwriter/assets/outputforflash/swfobject.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/htmlwriter/outputforflash.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/htmlwriter/outputhtml.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/index.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/inlineall.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/inlinebycode.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/inlinetextarea.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/jquery.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/magicline/magicline.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/readonly.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/replacebyclass.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/replacebycode.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/sample.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/sample.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/sample_posteddata.php</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/tabindex.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/toolbar/toolbar.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/uicolor.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/uilanguages.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/wysiwygarea/fullpage.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/old/xhtmlstyle.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/css/fontello.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/font/LICENSE.txt</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/font/config.json</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/font/fontello.eot</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/font/fontello.svg</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/font/fontello.ttf</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/font/fontello.woff</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/index.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/js/abstracttoolbarmodifier.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/js/fulltoolbareditor.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/js/toolbarmodifier.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/js/toolbartextmodifier.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/lib/codemirror/LICENSE</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/lib/codemirror/codemirror.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/lib/codemirror/javascript.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/lib/codemirror/neo.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/lib/codemirror/show-hint.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/samples/toolbarconfigurator/lib/codemirror/show-hint.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/dialog.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/dialog_ie.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/dialog_ie7.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/dialog_ie8.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/dialog_iequirks.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/editor.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/editor_gecko.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/editor_ie.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/editor_ie7.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/editor_ie8.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/editor_iequirks.css</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/icons.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/icons_hidpi.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/arrow.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/close.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/hidpi/close.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/hidpi/lock-open.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/hidpi/lock.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/hidpi/refresh.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/lock-open.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/lock.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/refresh.png</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/images/spinner.gif</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/skins/moono/readme.md</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/ckeditor/styles.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/dirPagination.tpl.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/dat.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/jque.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/jquery-2.2.3.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/js/paginate.js</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/kavramList.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/tables/data1.json</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/tables/data2.json</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/userOptions.html</PATH>
-          <PATH vcs="Git" revision="">$PROJECT_DIR$/public/yeniKavramGiris.html</PATH>
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Deleted" />
-          <option name="myStatusName" value="Deleted" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="true" />
-          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
-        </FILE-GROUP>
-        <FILE-GROUP>
-          <option name="myUpdateName" value="Restored" />
-          <option name="myStatusName" value="Will be restored" />
-          <option name="mySupportsDeletion" value="false" />
-          <option name="myCanBeAbsent" value="false" />
-          <option name="myId" value="RESTORED" />
-        </FILE-GROUP>
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Modified" />
-        <option name="myStatusName" value="Modified" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MODIFIED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Skipped" />
-        <option name="myStatusName" value="Skipped" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SKIPPED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with conflicts" />
-        <option name="myStatusName" value="Will be merged with conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_CONFLICTS" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with tree conflicts" />
-        <option name="myStatusName" value="Merged with tree conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged with property conflicts" />
-        <option name="myStatusName" value="Will be merged with property conflicts" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Merged" />
-        <option name="myStatusName" value="Will be merged" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="MERGED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Not in repository" />
-        <option name="myStatusName" value="Not in repository" />
-        <option name="mySupportsDeletion" value="true" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="UNKNOWN" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally added" />
-        <option name="myStatusName" value="Locally added" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_ADDED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Locally removed" />
-        <option name="myStatusName" value="Locally removed" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="LOCALLY_REMOVED" />
-      </FILE-GROUP>
-      <FILE-GROUP>
-        <option name="myUpdateName" value="Switched" />
-        <option name="myStatusName" value="Switched" />
-        <option name="mySupportsDeletion" value="false" />
-        <option name="myCanBeAbsent" value="false" />
-        <option name="myId" value="SWITCHED" />
-      </FILE-GROUP>
-    </UpdatedFiles>
-  </component>
   <component name="RunManager" selected="Node.js.www">
     <configuration default="false" name="www" type="NodeJSConfigurationType" factoryName="Node.js" temporary="true" path-to-node="C:/Program Files/nodejs/node" path-to-js-file="www" working-dir="$PROJECT_DIR$/bin">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application">
+      <method />
+    </configuration>
+    <configuration default="true" type="DartTestRunConfigurationType" factoryName="Dart Test">
+      <method />
+    </configuration>
+    <configuration default="true" type="JavaScriptTestRunnerKarma" factoryName="Karma">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
       <method />
     </configuration>
     <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
       <method />
     </configuration>
     <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="cucumber.js" factoryName="Cucumber.js">
+      <option name="cucumberJsArguments" value="" />
+      <option name="executablePath" />
+      <option name="filePath" />
       <method />
     </configuration>
     <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
@@ -826,6 +338,13 @@
       <tasks />
       <arguments />
       <pass-parent-envs>true</pass-parent-envs>
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run-script" />
+      <scripts />
+      <node-interpreter value="project" />
       <envs />
       <method />
     </configuration>
@@ -896,7 +415,10 @@
       <workItem from="1459933250212" duration="1460000" />
       <workItem from="1459955471002" duration="1109000" />
       <workItem from="1460413751965" duration="341000" />
-      <workItem from="1460480292884" duration="209000" />
+      <workItem from="1460480292884" duration="2091000" />
+      <workItem from="1461259875174" duration="10308000" />
+      <workItem from="1461488146534" duration="8678000" />
+      <workItem from="1461615417437" duration="174000" />
     </task>
     <task id="LOCAL-00001" summary="initialize&#10;">
       <created>1456958564209</created>
@@ -968,11 +490,18 @@
       <option name="project" value="LOCAL" />
       <updated>1459933714477</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="worked on topic">
+      <created>1460480536145</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1460480536145</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="107543000" />
+    <option name="totallyTimeSpent" value="128585000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -987,12 +516,12 @@
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17931548" sideWeight="0.49328858" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.1904762" sideWeight="0.49328858" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32885906" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6117647" sideWeight="0.50595236" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3512605" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48739496" sideWeight="0.5029762" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29411766" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48825502" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48657718" sideWeight="0.49702382" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22314675" sideWeight="0.5067114" order="4" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -1010,7 +539,7 @@
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45042017" sideWeight="0.4940476" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2420168" sideWeight="0.49107143" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -1036,7 +565,8 @@
     <MESSAGE value="prepared first heroku deploy&#10;" />
     <MESSAGE value="added TODO's" />
     <MESSAGE value="added some routes for topic and some features" />
-    <option name="LAST_COMMIT_MESSAGE" value="added some routes for topic and some features" />
+    <MESSAGE value="worked on topic" />
+    <option name="LAST_COMMIT_MESSAGE" value="worked on topic" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1048,37 +578,37 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/users.js</url>
-          <line>104</line>
+          <line>144</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/users.js</url>
-          <line>84</line>
+          <line>124</line>
           <option name="timeStamp" value="15" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/users.js</url>
-          <line>86</line>
+          <line>126</line>
           <option name="timeStamp" value="16" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/users.js</url>
-          <line>110</line>
+          <line>150</line>
           <option name="timeStamp" value="17" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/users.js</url>
-          <line>108</line>
+          <line>148</line>
           <option name="timeStamp" value="18" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/users.js</url>
-          <line>82</line>
+          <line>122</line>
           <option name="timeStamp" value="22" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/routes/users.js</url>
-          <line>101</line>
+          <line>141</line>
           <option name="timeStamp" value="25" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
@@ -1097,83 +627,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/models/Post.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/SubTopic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="7" column="26" selection-start-line="7" selection-start-column="26" selection-end-line="7" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/Editor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="41" column="53" selection-start-line="41" selection-start-column="53" selection-end-line="41" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/users.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="75" column="0" selection-start-line="75" selection-start-column="0" selection-end-line="75" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/models/User.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="11" column="46" selection-start-line="11" selection-start-column="46" selection-end-line="11" selection-end-column="46" />
-          <folding>
-            <marker date="1459809047677" expanded="true" signature="4951:4953" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/express/lib/application.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="208" column="10" selection-start-line="208" selection-start-column="10" selection-end-line="208" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/multer/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="12" column="34" selection-start-line="12" selection-start-column="34" selection-end-line="12" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/passport/lib/strategies/session.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/node_modules/passport-local/lib/strategy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript5.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/node_modules/passport-local/lib/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1199,13 +652,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/error.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
@@ -1239,13 +685,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/bootstrap.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -1301,20 +740,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/register.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="28" column="84" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="84" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/kaydol.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1326,13 +751,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="10" column="40" selection-start-line="10" selection-start-column="40" selection-end-line="10" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/views/layout.jade">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="29" column="21" selection-start-line="29" selection-start-column="21" selection-end-line="29" selection-end-column="21" />
         </state>
       </provider>
     </entry>
@@ -1357,13 +775,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/bin/www">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1385,67 +796,138 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/ChiefEditor.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="43" column="53" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/models/Editor.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="697">
           <caret line="41" column="53" selection-start-line="41" selection-start-column="53" selection-end-line="41" selection-end-column="53" />
-          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Post.js">
+    <entry file="file://$PROJECT_DIR$/public/tables/data1.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1819">
-          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app.js">
+    <entry file="file://$PROJECT_DIR$/public/tables/data2.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1173">
-          <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/Templates/Sablon.dwt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="4" selection-start-line="12" selection-start-column="4" selection-end-line="12" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/yeniKavramGirisii.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="37" selection-start-line="0" selection-start-column="0" selection-end-line="305" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/kavram_takip.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3425">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/add_new_topic.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="111" column="70" selection-start-line="111" selection-start-column="70" selection-end-line="111" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/kaydol.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/kavramList.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="29" selection-start-line="0" selection-start-column="0" selection-end-line="292" selection-end-column="27" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/login.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="204">
-          <caret line="12" column="31" selection-start-line="12" selection-start-column="31" selection-end-line="12" selection-end-column="31" />
+        <state relative-caret-position="136">
+          <caret line="8" column="11" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/layout.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="32" column="12" selection-start-line="32" selection-start-column="12" selection-end-line="32" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/register.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="28" column="84" selection-start-line="28" selection-start-column="9" selection-end-line="28" selection-end-column="84" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/kavram_list.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="32" column="19" selection-start-line="32" selection-start-column="16" selection-end-line="32" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/error.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/add_post.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="58" selection-start-line="5" selection-start-column="58" selection-end-line="5" selection-end-column="58" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/users.js">
+    <entry file="file://$PROJECT_DIR$/models/ChiefEditor.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2142">
-          <caret line="126" column="0" selection-start-line="126" selection-start-column="0" selection-end-line="126" selection-end-column="0" />
+        <state relative-caret-position="731">
+          <caret line="43" column="53" selection-start-line="43" selection-start-column="4" selection-end-line="43" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/User.js">
+    <entry file="file://$PROJECT_DIR$/models/Topic.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="357">
-          <caret line="21" column="0" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-          <folding>
-            <marker date="1459809047677" expanded="true" signature="4951:4953" placeholder="{...}" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/topic.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="680">
-          <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
+        <state relative-caret-position="510">
+          <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -1458,10 +940,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/models/Topic.js">
+    <entry file="file://$PROJECT_DIR$/models/Post.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-731">
-          <caret line="30" column="20" selection-start-line="30" selection-start-column="20" selection-end-line="30" selection-end-column="20" />
+        <state relative-caret-position="1819">
+          <caret line="107" column="0" selection-start-line="107" selection-start-column="0" selection-end-line="107" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/topic.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" column="51" selection-start-line="20" selection-start-column="45" selection-end-line="20" selection-end-column="51" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/models/User.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2448">
+          <caret line="162" column="5" selection-start-line="162" selection-start-column="5" selection-end-line="162" selection-end-column="5" />
+          <folding>
+            <element signature="e#697#702#0" expanded="false" />
+            <marker date="1461510377860" expanded="true" signature="5099:5101" placeholder="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/routes/users.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1649">
+          <caret line="97" column="0" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1853">
+          <caret line="109" column="6" selection-start-line="109" selection-start-column="6" selection-end-line="109" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="389">
+          <caret line="30" column="3" selection-start-line="30" selection-start-column="3" selection-end-line="30" selection-end-column="3" />
           <folding />
         </state>
       </provider>

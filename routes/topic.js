@@ -17,26 +17,24 @@ router.get('/list', function (req, res, next) {
         // });
 
         if (topicMap) {
-            res.type('application/json');
-            res.send(topics);
+            // res.send(topics);
+            res.render('kavram_list', {data: topics});
+            console.log(topics);
         } else {
             res.type('application/json');
             res.send(JSON.stringify(emptyMessage));
         }
-
-
     });
-
-
 });
 
 router.get('/add', function (req, res, next) {
-   res.render('add_post', {'title':' '});
+   res.render('add_new_topic' );
 });
 
 router.post('/add', function (req, res, next) {
-    var topicName = req.body.topicName;
-    var topicDefinition = req.body.topicDefinition;
+    var topicName = req.body.kavram_adi;
+    var topicDefinition = req.body.kavram_tanimi;
+
 
     var newTopic = new Topic({
         name: topicName,

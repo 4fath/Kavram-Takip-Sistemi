@@ -12,7 +12,7 @@ var mongoUrl = 'mongodb://cagri:123456@ds013848.mlab.com:13848/notion_follow';
 var mongoLocal = 'mongodb://localhost/nodeauth';
 
 // both url working fine Local and Remote
-mongoose.connect(mongoUrl, function(err){
+mongoose.connect(mongoLocal, function(err){
     if(err){
         console.log('hata var hata :' + err);
     }else {
@@ -48,8 +48,9 @@ db.once('open', function callback () {
 // //   console.log('conneciton opened')
 // //});
 
+var roles1 = ['author', 'editor', 'chiefEditor'];
 var Schema = mongoose.Schema;
-//var roles = 'user editor chiefEditor admin'.split(' ');
+var roles = 'author editor chiefEditor admin'.split(' ');
 
 // FIELDS               :  TYPES //
 // firstName            : 'String'
@@ -153,7 +154,13 @@ var UserSchema = new Schema({
 		type : String,
 		trim : true,
 		required : false
-	}            // for storing local or aws etc..
+	},            // for storing local or aws etc..
+
+    roles : {
+        type : String,
+        require : true,
+        default : 'author'
+    }
 
 
     //Bunun uzerinde dusunmek laz�m, ki�i veya admin ki�iyi silerse

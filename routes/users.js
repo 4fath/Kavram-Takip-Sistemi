@@ -37,6 +37,16 @@ router.post('/login', passport.authenticate('local',
         res.redirect('/');
 });
 
+
+router.get('/getUsers', function (req, res, next) {
+   User.find({}, function (err, users) {
+       if (err) throw err;
+       res.send(users);
+   })
+
+});
+
+
 passport.serializeUser(function(user, done) {
     done(null, user.id);
 });
@@ -48,6 +58,7 @@ passport.deserializeUser(function(id, done) {
 });
 
 passport.use(new LocalStrategy(
+    
     function (username, password, done) {
         User.getUserByUsername(username, function (err, user) {
             if (err) throw err;
@@ -69,6 +80,35 @@ passport.use(new LocalStrategy(
     }
     
 ));
+
+router.get('/testRouter/:id', function (req, res, next) {
+   var userId = req.params.id;
+    User.findById(userId, function (err, user) {
+        if (err) throw  err;
+        if (user.roles == 'author'){
+
+            req.user = user;
+            req.userRole = user.roles;
+            //
+            // console.log(req.user);
+            //
+            // console.log(req.userRole);
+
+            req.session.user = user;
+
+            res.send('bu bir author');
+
+        }else {
+            res.send('bu author degil')
+        }
+    })
+});
+
+router.get('/testRouter1', function (req, res, next) {
+    var user = req.session.user;
+    console.log(user);
+    res.send(user);
+});
 
 router.post('/register', function(req,res,next){
     var firstName = req.body.firstName;
@@ -118,6 +158,17 @@ router.post('/register', function(req,res,next){
         res.location('/');
         res.redirect('/');
     }
+
+});
+
+
+router.get('/:id', function (req, res, next) {
+    var id = req.params.id;
+    User.findById(id, function (err, user) {
+       if (err) throw err;
+        console.log(user);
+        res.send(user);
+    });
 
 });
 
