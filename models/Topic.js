@@ -38,13 +38,6 @@ var TopicSchema = new Schema({
         required : false
     },
 
-    // just like chiefEditor, so useless
-    //createdBy : {
-    //    type : Schema.Types.ObjectId,
-    //    required : true,
-    //    ref : 'ChiefEditor'
-    //},
-
     createdAt : {
         type : Date,
         required: true,
@@ -61,9 +54,9 @@ var TopicSchema = new Schema({
         ref : 'SubTopic'
     }],
 
-    relevantPosts : [{
+    relevantComments : [{
         type : Schema.Types.ObjectId,
-        ref : 'Post'
+        ref : 'Comment'
     }],
 
     followers : [{
@@ -83,9 +76,10 @@ var TopicSchema = new Schema({
     },
     
     comments : [{
-        content : {
-            type : String,
-            trim : true,
+        require: false,
+        comment : {
+            type : Schema.Types.ObjectId,
+            ref : 'Comment',
             require : true
         },
         author : {

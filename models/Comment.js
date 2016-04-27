@@ -18,18 +18,23 @@ var Schema = mongoose.Schema;
 // relevantSubTopics    : ['SubTopics']
 
 var postSchema = Schema({
-
-        //-- Hangi kavram altina yazilmis --//
-        SubTopic: {
-            type: Schema.Types.ObjectId,
-            ref: 'SubTopic',
-            required: true
-        },
-
-        MainTopic: {
+    
+        // mainTopic: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'Topic',
+        //     required: true
+        // },
+        //
+        // subTopic: {
+        //     type: Schema.Types.ObjectId,
+        //     ref: 'SubTopic',
+        //     required: true
+        // },
+    
+        topic: {
             type: Schema.Types.ObjectId,
             ref: 'Topic',
-            required: true
+            require: true
         },
 
         content: {
@@ -58,12 +63,28 @@ var postSchema = Schema({
             type: Boolean,
             require: true,
             default: true,
-            changesDates: [{
-                type: Date,
-                default: Date.now(),
-                required: false
-            }]
+            lastUpdate : {
+                type : Date,
+                require : true,
+                default : Date.now()
+            }
         },
+
+        relevantMainTopics: [{
+            type: Schema.Types.ObjectId,
+            ref: 'MainTopic'
+        }],
+
+        relevantSubTopics: [{
+            type: Schema.Types.ObjectId,
+            ref: 'SubTopic'
+        }],
+
+        relevantTopics: [{
+            type: Schema.Types.ObjectId,
+            ref: 'Topic'
+        }],
+
 
         created_at: {
             type: Date,
@@ -77,15 +98,6 @@ var postSchema = Schema({
             default: Date.now()
         },
 
-        relevantMainTopics: [{
-            type: Schema.Types.ObjectId,
-            ref: 'Topic'
-        }],
-
-        relevantSubTopics: [{
-            type: Schema.Types.ObjectId,
-            ref: 'SubTopic'
-        }],
 
         viewCount: {
             type: Number,

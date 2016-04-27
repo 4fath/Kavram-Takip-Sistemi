@@ -6,11 +6,14 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/User');
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
+var Comment = require('../models/Comment');
 
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
 });
+
+// === REGİSTER ==== //
 
 router.get('/register', function (req, res, next) {
     if (req.session.user) {
@@ -23,12 +26,63 @@ router.get('/register', function (req, res, next) {
     }
 });
 
+router.post('/register', function (req, res, next) {
+    var firstName = req.body.firstName;
+    var lastName = req.body.lastName;
+    var email = req.body.email;
+    var username = req.body.username;
+    var password = req.body.password;
+    var passwordConfirm = req.body.passwordConfirm;
+
+    // form validation
+    req.checkBody('firstName', 'isim bos olamaz').notEmpty();
+    req.checkBody('lastName', 'isim bos olamaz').notEmpty();
+    req.checkBody('email', '').isEmail();
+    req.checkBody('email', '').notEmpty();
+    req.checkBody('username', 'kullanici adi bos olamaz').notEmpty();
+    req.checkBody('password', 'bu alan da gerekli').notEmpty();
+    req.checkBody('passwordConfirm', 'iki passpord da uyusmali').equals(req.body.password);
+
+    // check errors
+    var errors = req.validationErrors();
+    if (errors) {
+        res.render('signup', {
+            errors: errors,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            username: username,
+            password: password,
+            passwordConfirm: passwordConfirm
+        });
+    } else {
+        var newUser = new User({
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            username: username,
+            password: password
+        });
+
+        User.createUser(newUser, function (err, user) {
+            if (err) throw err;
+            console.log(user);
+        });
+
+        req.flash('success', "Oldu lan");
+        res.location('/');
+        res.redirect('/');
+    }
+
+});
+
+// === LOGİN ==== //
 router.get('/login', function (req, res, next) {
-    if(req.session.user){
+    if (req.session.user) {
         console.log("zaten giris yapmissin ! ");
         res.location('/');
         res.redirect('/');
-    }else {
+    } else {
         res.render('signin');
         console.log("logine girdi");
     }
@@ -41,35 +95,31 @@ router.get('/logout', function (req, res, next) {
     res.redirect('/');
 });
 
-
-// TODO: think strong on bcrypt stractegy
-router.post('/login', passport.authenticate('local', 
-    {
+router.post('/login', passport.authenticate('local', {
         failureRedirect: '/',
         failureFlash: 'There is something wrong on auth  '
     }),
     function (req, res) {
         console.log('auth success');
         console.log(req.user);
-        
+
         // User.find({username : req.body.username}, function (err, user) {
         //    if (err) throw err;
         //     req.session.user = user;
         // });
-        
+
         req.flash('success', 'Başarılı bir şekilde kayıt işlemi gerçekleşti ');
         res.location('/');
         res.redirect('/');
     });
 
 
-router.get('/getUsers', function (req, res, next) {
-    User.find({}, function (err, users) {
-        if (err) throw err;
-        res.send(users);
-    })
-
-});
+// router.get('/getUsers', function (req, res, next) {
+//     User.find({}, function (err, users) {
+//         if (err) throw err;
+//         res.send(users);
+//     })
+// });
 
 
 passport.serializeUser(function (user, done) {
@@ -134,58 +184,6 @@ router.get('/testRouter1', function (req, res, next) {
 });
 
 
-// === REGİSTER ==== //
-router.post('/register', function (req, res, next) {
-    var firstName = req.body.firstName;
-    var lastName = req.body.lastName;
-    var email = req.body.email;
-    var username = req.body.username;
-    var password = req.body.password;
-    var passwordConfirm = req.body.passwordConfirm;
-
-    // form validation
-    req.checkBody('firstName', 'isim bos olamaz').notEmpty();
-    req.checkBody('lastName', 'isim bos olamaz').notEmpty();
-    req.checkBody('email', '').isEmail();
-    req.checkBody('email', '').notEmpty();
-    req.checkBody('username', 'kullanici adi bos olamaz').notEmpty();
-    req.checkBody('password', 'bu alan da gerekli').notEmpty();
-    req.checkBody('passwordConfirm', 'iki passpord da uyusmali').equals(req.body.password);
-
-    // check errors
-    var errors = req.validationErrors();
-    if (errors) {
-        res.render('signup', {
-            errors: errors,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            username: username,
-            password: password,
-            passwordConfirm: passwordConfirm
-        });
-    } else {
-        var newUser = new User({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            username: username,
-            password: password
-        });
-
-        User.createUser(newUser, function (err, user) {
-            if (err) throw err;
-            console.log(user);
-        });
-
-        req.flash('success', "Oldu lan");
-        res.location('/');
-        res.redirect('/');
-    }
-
-});
-
-
 router.get('/:id', function (req, res, next) {
     var id = req.params.id;
     var usedId = req.user._id;
@@ -198,7 +196,7 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.get('/addChiefEditor', function (req, res, next) {
-   res.render('addChiefEditor');
+    res.render('addChiefEditor');
 });
 
 router.post('/addChiefEditor/:userID/:mainTopicID', function (req, res, next) {
@@ -207,22 +205,22 @@ router.post('/addChiefEditor/:userID/:mainTopicID', function (req, res, next) {
     var mainTopicId = req.params.mainTopicID;
 
     User.findById(userId, function (err, user) {
-        if (err){
+        if (err) {
             throw err;
-        }else {
+        } else {
             MainTopic.findById(mainTopicId, function (err, mainTopic) {
-                if (err){
+                if (err) {
                     throw err;
-                }else {
+                } else {
                     user.roles = 'chiefEditor';
                     user.isChiefEditor = true;
                     user.mainTopic = mainTopic;
                     mainTopic.chiefEditor = user;
 
                     mainTopic.save(function (err) {
-                        if (err){
+                        if (err) {
                             throw err;
-                        }else {
+                        } else {
                             user.save(function (err) {
                                 if (err) throw err;
                                 res.send("ok");
@@ -249,10 +247,10 @@ router.post('/addMainTopic', function (req, res, next) {
 
     var errors = req.validationErrors();
 
-    if (!errors){
+    if (!errors) {
         var newMainTopic = new MainTopic({
-            name : name,
-            definition : definition
+            name: name,
+            definition: definition
         });
 
         newMainTopic.save(function (err) {
@@ -261,11 +259,11 @@ router.post('/addMainTopic', function (req, res, next) {
             res.send("ok");
         })
 
-    }else {
+    } else {
         res.render('addMainTopic', {
-            errors : errors,
-            name : name,
-            definition : definition
+            errors: errors,
+            name: name,
+            definition: definition
         })
     }
 
@@ -281,23 +279,23 @@ router.post('/addSubTopic/:mainTopicId', function (req, res, next) {
     var definition = req.body.subTopicDefinition;
     var mainTopicId = req.params.mainTopicId;
 
-    req.checkBody('subTopicName',"Bu kısım bos olamaz").notEmpty();
-    req.checkBody('subTopicDefinition',"Bu kısım bos olamaz").notEmpty();
+    req.checkBody('subTopicName', "Bu kısım bos olamaz").notEmpty();
+    req.checkBody('subTopicDefinition', "Bu kısım bos olamaz").notEmpty();
 
     var errors = req.validationErrors();
-    if (!errors){
+    if (!errors) {
         MainTopic.findById(mainTopicId, function (err, mainTopic) {
-            if (err){
+            if (err) {
                 throw err;
-            }else {
+            } else {
                 var newSubTopic = new SubTopic({
-                    name : name,
-                    definition : definition,
-                    mainTopics : mainTopic
+                    name: name,
+                    definition: definition,
+                    mainTopics: mainTopic
                 });
 
                 newSubTopic.save(function (err) {
-                    if(err) throw err;
+                    if (err) throw err;
                     console.log("Sub topic kaydedildi");
                     res.send("ok");
                 });
@@ -306,14 +304,34 @@ router.post('/addSubTopic/:mainTopicId', function (req, res, next) {
     }
 });
 
-router.post('/addEditor/:userID/:subTopicID', function(req, res, next){
-    
+router.post('/addEditor/:userID/:subTopicID', function (req, res, next) {
+
 });
 
 router.get('/addEditor', function (req, res, next) {
     res.render('addEditor');
 });
 
-router.post('add');
+router.post('addComment', function (req, res, next) {
+    var myTopic = req.session.topic;
+    var myAuthor = req.user;
+    var myContent = req.body.commentContent;
+    
+    req.checkBody('commentContent','Boş olarak kayıt edilemez').isEmpty();
+    var errors = req.validationErrors();
+    if (!errors){
+        var newComment = new Comment({
+            topic : myTopic,
+            author : myAuthor,
+            content : myContent,
+            isDraft : false
+        });
+        
+        newComment.save(function (err) {
+            if (err) throw err;
+            console.log("yeni yorum eklendi");
+        });
+    }
+});
 
 module.exports = router;
