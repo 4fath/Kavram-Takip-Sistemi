@@ -29,7 +29,7 @@ router.post('/addComment', function (req, res, next) {
         if(err){
             throw err;
         }else {
-            User.findByIdAndUpdate()
+            User.findByIdAndUpdate({_id: req.query.id})
         }
 
         console.log(user.name + "," + topic.name + " e yeni bir yorum ekledi ! " );
