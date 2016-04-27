@@ -243,7 +243,7 @@ module.exports.createUser = function(newUser, callback){
         if (err) throw err;
         newUser.password = hash;
         newUser.save(callback);
-    } );
+    });
     console.log(newUser)
     
 };

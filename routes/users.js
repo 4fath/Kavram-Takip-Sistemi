@@ -7,7 +7,6 @@ var User = require('../models/User');
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
 
-
 /* GET users listing. */
 router.get('/', function (req, res, next) {
     res.send('respond with a resource');
@@ -24,10 +23,9 @@ router.get('/register', function (req, res, next) {
     }
 });
 
-
 router.get('/login', function (req, res, next) {
     if(req.session.user){
-        console.log("zaten giris yapmissin");
+        console.log("zaten giris yapmissin ! ");
         res.location('/');
         res.redirect('/');
     }else {
@@ -45,7 +43,7 @@ router.get('/logout', function (req, res, next) {
 
 
 // TODO: think strong on bcrypt stractegy
-router.post('/login', passport.authenticate('local',
+router.post('/login', passport.authenticate('local', 
     {
         failureRedirect: '/',
         failureFlash: 'There is something wrong on auth  '
@@ -53,10 +51,12 @@ router.post('/login', passport.authenticate('local',
     function (req, res) {
         console.log('auth success');
         console.log(req.user);
+        
         // User.find({username : req.body.username}, function (err, user) {
         //    if (err) throw err;
         //     req.session.user = user;
         // });
+        
         req.flash('success', 'Başarılı bir şekilde kayıt işlemi gerçekleşti ');
         res.location('/');
         res.redirect('/');
@@ -133,6 +133,8 @@ router.get('/testRouter1', function (req, res, next) {
     res.send(user);
 });
 
+
+// === REGİSTER ==== //
 router.post('/register', function (req, res, next) {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -161,7 +163,7 @@ router.post('/register', function (req, res, next) {
             username: username,
             password: password,
             passwordConfirm: passwordConfirm
-        })
+        });
     } else {
         var newUser = new User({
             firstName: firstName,
@@ -238,6 +240,7 @@ router.get('/addMainTopic', function (req, res, next) {
 });
 
 router.post('/addMainTopic', function (req, res, next) {
+
     var name = req.body.mainTopicName;
     var definition = req.body.definition;
 
@@ -267,7 +270,6 @@ router.post('/addMainTopic', function (req, res, next) {
     }
 
 
-
 });
 
 router.get('/addSubTopic', function (req, res, next) {
@@ -278,7 +280,7 @@ router.post('/addSubTopic/:mainTopicId', function (req, res, next) {
     var name = req.body.subTopicName;
     var definition = req.body.subTopicDefinition;
     var mainTopicId = req.params.mainTopicId;
-    
+
     req.checkBody('subTopicName',"Bu kısım bos olamaz").notEmpty();
     req.checkBody('subTopicDefinition',"Bu kısım bos olamaz").notEmpty();
 
@@ -288,11 +290,20 @@ router.post('/addSubTopic/:mainTopicId', function (req, res, next) {
             if (err){
                 throw err;
             }else {
-                
+                var newSubTopic = new SubTopic({
+                    name : name,
+                    definition : definition,
+                    mainTopics : mainTopic
+                });
+
+                newSubTopic.save(function (err) {
+                    if(err) throw err;
+                    console.log("Sub topic kaydedildi");
+                    res.send("ok");
+                });
             }
         })
     }
-
 });
 
 router.post('/addEditor/:userID/:subTopicID', function(req, res, next){

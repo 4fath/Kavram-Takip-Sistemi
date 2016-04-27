@@ -51,10 +51,10 @@ var SubTopicSchema = new Schema({
         default : Date.now()
     },
 
-    mainTopics : [{
+    mainTopics : {
         type : Schema.Types.ObjectId,
         ref : 'Topic'
-    }],
+    },
 
     relevantPosts : [{
         type : Schema.Types.ObjectId,
@@ -79,9 +79,9 @@ var SubTopicSchema = new Schema({
 
 });
 
-var SubTopic = mongoose.model('User',SubTopicSchema);
+var SubTopic = mongoose.model('SubTopic',SubTopicSchema);
 
-SubTopic.pre('save', function(next){
+SubTopicSchema.pre('save', function(next){
     var now = new Date();
     this.updated_at = now;
     if (!this.created_at) {

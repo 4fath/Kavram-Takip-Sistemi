@@ -1,5 +1,6 @@
 doctype html
 html(lang='en')
+
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -11,6 +12,7 @@ html(lang='en')
         link(href='../css/bootstrap.min.css', rel='stylesheet')
         link(href='../css/style.css', rel='stylesheet')
     body
+        p #{title}
         .container-fluid
             .row
                 .col-md-12
@@ -37,7 +39,7 @@ html(lang='en')
                                             button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/users/login';")
                                                 | Giriş
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/register';")
-                                                | Kaydol
+                                                | Kaydol ! #{mainTopics[0]}
 
                                 if user
                                     if user.roles == 'admin'
@@ -56,7 +58,7 @@ html(lang='en')
                                                         |  Editor Ekle #{user.firstName}!
                                                 .navbar-form.form-group
                                                     button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                        |  Editor Ekle #{user.firstName}!
+                                                        |  SubTopic Ekle #{user.firstName}!
                                         else
                                             if user.roles == 'editor'
                                                 ul.nav.navbar-nav.navbar-right

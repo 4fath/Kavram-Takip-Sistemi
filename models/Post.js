@@ -54,6 +54,17 @@ var postSchema = Schema({
             }
         },
 
+        isDraft: {
+            type: Boolean,
+            require: true,
+            default: true,
+            changesDates: [{
+                type: Date,
+                default: Date.now(),
+                required: false
+            }]
+        },
+
         created_at: {
             type: Date,
             default: Date.now(),
@@ -86,16 +97,13 @@ var postSchema = Schema({
             type: Number,
             default: 0
         }
-
     },
     {
         timestamps: true
     }
 );
 
-var Post = mongoose.model('Post', postSchema);
-
-Post.pre('save', function (next) {
+postSchema.pre('save', function (next) {
     var now = new Date();
     this.updated_at = now;
     if (!this.created_at) {
@@ -103,5 +111,7 @@ Post.pre('save', function (next) {
     }
     next();
 });
+
+var Post = mongoose.model('Post', postSchema);
 
 module.exports = Post;
