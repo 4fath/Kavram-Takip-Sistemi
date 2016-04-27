@@ -160,8 +160,35 @@ var UserSchema = new Schema({
         type : String,
         require : true,
         default : 'author'
-    }
+    },
 
+    isAdmin : {
+        type : Boolean,
+        require : true,
+        default : false
+    },
+
+    isChiefEditor : {
+        type : Boolean,
+        require : true,
+        default : false
+    },
+
+    mainTopic : {
+        type: Schema.Types.ObjectId,
+        ref : 'MainTopic'
+    },
+
+    isEditor : {
+        type : Boolean,
+        require : true,
+        default : false
+    },
+
+    subTopic : {
+        type: Schema.Types.ObjectId,
+        ref : 'SubTopic'
+    }
 
     //Bunun uzerinde dusunmek laz�m, ki�i veya admin ki�iyi silerse
     //leave : {
@@ -175,13 +202,11 @@ var UserSchema = new Schema({
     //        required : false
     //    }
     //},
-
     // can use for statistics
     //age : {
     //    type : Number,
     //    min : 10
     //},
-
     //role: {
     //    type:String,
     //    enum: roles,

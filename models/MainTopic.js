@@ -1,5 +1,5 @@
 /**
- * Created by TOSHIBA on 8.3.2016.
+ * Created by TOSHIBA on 26.4.2016.
  */
 
 var mongoose = require('mongoose');
@@ -19,7 +19,7 @@ var Schema = mongoose.Schema;
 // followers            : 'User'
 // relevantPosts        : ['Post']
 
-var SubTopicSchema = new Schema({
+var MainTopicSchema = new Schema({
 
     name : {
         type : String,
@@ -34,9 +34,9 @@ var SubTopicSchema = new Schema({
         min : 120           // it can be check on front-end
     },
 
-    editor : {
+    chiefEditor : {
         type : Schema.Types.ObjectId,
-        ref : 'Editor',
+        ref : 'user',
         required : false
     },
 
@@ -51,14 +51,9 @@ var SubTopicSchema = new Schema({
         default : Date.now()
     },
 
-    mainTopics : [{
+    relevantSubTopics : [{
         type : Schema.Types.ObjectId,
-        ref : 'Topic'
-    }],
-
-    relevantPosts : [{
-        type : Schema.Types.ObjectId,
-        ref : 'Post'
+        ref : 'SubTopic'
     }],
 
     followers : [{
@@ -79,9 +74,7 @@ var SubTopicSchema = new Schema({
 
 });
 
-var SubTopic = mongoose.model('User',SubTopicSchema);
-
-SubTopic.pre('save', function(next){
+MainTopicSchema.pre('save', function(next){
     var now = new Date();
     this.updated_at = now;
     if (!this.created_at) {
@@ -90,4 +83,9 @@ SubTopic.pre('save', function(next){
     next();
 });
 
-module.exports = SubTopic;
+
+var MainTopic = mongoose.model('MainTopic',MainTopicSchema);
+
+
+
+module.exports = MainTopic;

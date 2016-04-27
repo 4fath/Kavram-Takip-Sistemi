@@ -30,25 +30,9 @@ html(lang='en')
         script(type='text/javascript').
             var mainApp = angular.module("mainApp", ['angularUtils.directives.dirPagination']);
             mainApp.controller('userController', function($scope,$http) {
-                var json_code = JSON.parse(#{data});
-                $http({
-                    method: 'GET',
-                    url: '/topic/list'
-                }).then(function successCallback(response) {
-                    // this callback will be called asynchronously
-                    // when the response is available
-                    $scope.veriler = response.data;
-                    alert(deriler[0].name);
-
-                }, function errorCallback(response) {
-                    // called asynchronously if an error occurs
-                    // or server returns response with an error status.
-                    alert('hata var ahataa');
-                });
                 $scope.bigCurrentPage = 1;
                 $scope.kavramPageSize = 10;
                 $scope.pageSize = 10;
-                //$scope.testVerisi = json_code;
                 $scope.users = {
                     kavramList:[
                         {topics:'java', commentCount:'10'},
@@ -98,7 +82,7 @@ html(lang='en')
                                     span.icon-bar
                                     span.icon-bar
                                     span.icon-bar
-                                a.navbar-brand(href='kavramTakip.html') KavramTakip
+                                a.navbar-brand(href='/') KavramTakip
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
@@ -118,7 +102,7 @@ html(lang='en')
                         .col-md-2
                             .list-group
                                 span.list-group-item.active(href='#')
-                                    | Kavramlar #{json_code}
+                                    | Kavramlar
                                     span#slide-submenu.pull-right
                                         i.fa.fa-times
                                 a.list-group-item(href='#', dir-paginate='veri in veriler | itemsPerPage: kavramPageSize', pagination-id='kavramlar')

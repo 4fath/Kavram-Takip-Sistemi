@@ -4,7 +4,6 @@ var Topic = require('../models/Topic');
 var User = require('../models/User');
 
 router.get('/list', function (req, res, next) {
-
     var emptyMessage = 'Hiç bir kayıt bulunamadı';
     Topic.find({}, function (err, topics) {
 
@@ -28,17 +27,24 @@ router.get('/list', function (req, res, next) {
 });
 
 router.get('/add', function (req, res, next) {
-   res.render('add_new_topic' );
+   res.render('add_new_topic');
 });
 
 router.post('/add', function (req, res, next) {
     var topicName = req.body.kavram_adi;
     var topicDefinition = req.body.kavram_tanimi;
+    var user = req.user;
+    if (user){
+        console.log("user gelmis"+user);
+    }else {
+        console.log("user gelmemis");
+    }
 
 
     var newTopic = new Topic({
         name: topicName,
-        definition: topicDefinition
+        definition: topicDefinition,
+        chiefEditor : user
     });
 
     Topic.createTopic(newTopic, function (err, newTopic) {

@@ -80,7 +80,26 @@ var TopicSchema = new Schema({
     likeCount: {
         type: Number,
         default: 0
-    }
+    },
+    
+    comments : [{
+        content : {
+            type : String,
+            trim : true,
+            require : true
+        },
+        author : {
+            type : Schema.Types.ObjectId,
+            ref : 'User',
+            require : true
+        },
+        createdAt : {
+            type : Date,
+            required: true,
+            default : Date.now()
+        }
+        
+    }]
 
     // it can be calculate via relevantSubTopics size or length
     //subTopicCount : {

@@ -8,14 +8,14 @@ html(lang='en')
         script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js')
         meta(name='description', content='Source code generated using layoutit.com')
         meta(name='author', content='LayoutIt!')
-        link(href='css/bootstrap.min.css', rel='stylesheet')
-        link(href='css/style.css', rel='stylesheet')
-        link(rel='stylesheet', href='/vendor/bootstrap-combobox/css/bootstrap-combobox.css')
-        script(src='/vendor/bootstrap-combobox/js/bootstrap-combobox.js')
+        link(href='../css/bootstrap.min.css', rel='stylesheet')
+        link(href='../css/style.css', rel='stylesheet')
+        link(rel='stylesheet', href='../css/vendor/bootstrap-combobox/css/bootstrap-combobox.css')
+        script(src='../css/vendor/bootstrap-combobox/js/bootstrap-combobox.js')
         script(type='text/javascript').
             var a = Math.ceil(Math.random() * 10);
             var b = Math.ceil(Math.random() * 10);
-            var c = a + b
+            var c = a + b ;
             function DrawBotBoot()
             {
                 document.write(a + " + " + b + " = ");
@@ -122,54 +122,17 @@ html(lang='en')
                                     |  Lorem ipsum
                                     span.badge 14
                         .col-md-8
-                            form#productForm.form-horizontal(role='form', action='/users/register', method='post')
+                            form#productForm.form-horizontal(role='form', action='/users/login', method='post')
                                 .row
                                     .col-md-2
                                     .col-md-8
                                         .form-group
-                                            label İsim
-                                            input.form-control(type='text', name='firstName', placeholder='Adınızı Giriniz', autofocus='')
-                                        .form-group
-                                            label Soyisim
-                                            input.form-control(type='text', name='lastName', placeholder='Soyadınızı Giriniz', autofocus='')
-                                        .form-group
                                             label Kullanıcı Adı
                                             input#userName.form-control(type='text', name='username' placeholder='Kullanıcı Adı Giriniz', autofocus='')
                                         .form-group
-                                            label E-mail
-                                            input.form-control(type='email', name='email' placeholder='E-mail Giriniz')
-                                        .form-group
                                             label Şifre
                                             input#password.form-control(type='password', name = 'password', placeholder='Şifre Giriniz')
-                                        .form-group
-                                            label Şifre Tekrar
-                                            input#passwordRepeat.form-control(type='password', name = 'passwordConfirm', placeholder='Şifreyi Tekrar Giriniz')
-                                        .form-group
-                                            label Doğum Tarihi
-                                            input#birthDate.datepicker-here.form-control(type='text', data-language='tr', placeholder='Doğum Tarihinizi Seçiniz')
-                                        //.form-group
-                                        //    label.col-sm-3.control-label Alanınız
-                                        //    .col-sm-9(ng-app='myApp', ng-controller='myCtrl')
-                                        //        select.form-control(name='size')
-                                        //            option(value='') Seçiniz
-                                        //            option(value='', ng-repeat='x in names') {{ x }}
-                                        //.form-group
-                                        //    label.col-sm-3.control-label Sonuç nedir?
-                                        //    .col-sm-9
-                                        //        script(type='text/javascript').
-                                        //            DrawBotBoot()
-                                        //        input#Button1(type='button', value='Check', onclick='alert(ValidBotBoot());')
-                                        //.form-group
-                                        //    .col-sm-9.col-sm-offset-3
-                                        //        .checkbox
-                                        //            label
-                                        //                input(type='checkbox')
-                                        //                a(href='#') Lisans sözleşmesini
-                                        //                | okudum ve kabul ediyorum
-                                        // /.form-group
-                                        //.form-group
-                                        //    .col-sm-9.col-sm-offset-3
-                                        input.btn.btn-default(name = 'Submit', type = 'submit', value = 'Register')
+                                        input.btn.btn-default(name = 'Submit', type = 'submit', value = 'Log In')
                                     .col-md-2
                             // /form
                         .col-md-2
@@ -266,10 +229,10 @@ html(lang='en')
                 // /.modal-content
             // /.modal-dialog
         // /.modal
-        script(src='js/jquery.min.js')
-        script(src='js/datepicker.js')
-        script(src='js/bootstrap.min.js')
-        script(src='js/scripts.js')
+        script(src='../js/jquery.min.js')
+        script(src='../js/datepicker.js')
+        script(src='../js/bootstrap.min.js')
+        script(src='../js/scripts.js')
         script.
             $(document).ready(function() {
                 $('#productForm')
@@ -303,3 +266,4 @@ html(lang='en')
                         .combobox()
                         .end()
             });
+
