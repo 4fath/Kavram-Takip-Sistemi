@@ -7,14 +7,14 @@ var Topic = require('../models/Topic');
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
-    var myTopic = {test : "test name"} ;
-    req.session.topic = myTopic;
+    // var myTopic = {test : "test name"} ;
+    // req.session.topic = myTopic;
     
-    // Topic.findOne({}, function (err, topic) {
-    //    if (err) throw err;
-    //     myTopic = topic;
-    //     req.session.topic = topic;
-    // });
+    Topic.findOne({}, function (err, topic) {
+       if (err) throw err;
+        myTopic = topic;
+        req.session.topic = topic;
+    });
     
     var sendingTopics = [];
     var requetUser = req.user;

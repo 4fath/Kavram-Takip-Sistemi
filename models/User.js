@@ -94,28 +94,17 @@ var UserSchema = new Schema({
         trim: true 
     },
 
-    // TODO: Encrypt
     password: {
         type : String,
         required : true,
         trim : true,
         bcrypt : true,
-                            // it can be check on front-end
-        max : 20            // it can be check on front-end
     },
 
-    posts : {
-        own: [{
+    posts : [{
             type : Schema.Types.ObjectId,
-            ref : 'Post'
-        }],
-
-        likes: [{
-            type : Schema.Types.ObjectId,
-            ref : 'Post'
-        }]
-
-    },
+            ref : 'Comments'
+    }],
 
     followingTopics : [{
         type : Schema.Types.ObjectId,

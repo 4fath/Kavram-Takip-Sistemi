@@ -312,26 +312,36 @@ router.get('/addEditor', function (req, res, next) {
     res.render('addEditor');
 });
 
-router.post('addComment', function (req, res, next) {
-    var myTopic = req.session.topic;
-    var myAuthor = req.user;
-    var myContent = req.body.commentContent;
-    
-    req.checkBody('commentContent','Boş olarak kayıt edilemez').isEmpty();
-    var errors = req.validationErrors();
-    if (!errors){
-        var newComment = new Comment({
-            topic : myTopic,
-            author : myAuthor,
-            content : myContent,
-            isDraft : false
-        });
-        
-        newComment.save(function (err) {
-            if (err) throw err;
-            console.log("yeni yorum eklendi");
-        });
-    }
-});
+// router.post('/addComment', function (req, res, next) {
+//     var myTopic = req.session.topic;
+//     var myAuthor = req.user;
+//     var myContent = req.body.commentBody;
+//     console.log("burdayiz");
+//
+//     req.checkBody('commentContent','Boş olarak kayıt edilemez').isEmpty();
+//     var errors = req.validationErrors();
+//     if (!errors){
+//         var newComment = new Comment({
+//             topic : myTopic,
+//             author : myAuthor,
+//             content : myContent,
+//             isDraft : false
+//         });
+//
+//         newComment.save(function (err) {
+//             if (err) {
+//                 console.log(err);
+//                 throw err;
+//             }else {
+//                 console.log("yeni yorum eklendi");
+//                 console.log(newComment);
+//                 res.send(newComment);
+//             }
+//
+//         });
+//     }else {
+//         res.send(errors);
+//     }
+// });
 
 module.exports = router;

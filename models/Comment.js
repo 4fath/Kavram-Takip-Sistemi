@@ -17,20 +17,8 @@ var Schema = mongoose.Schema;
 // likeCount            : 'Number'
 // relevantSubTopics    : ['SubTopics']
 
-var postSchema = Schema({
-    
-        // mainTopic: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: 'Topic',
-        //     required: true
-        // },
-        //
-        // subTopic: {
-        //     type: Schema.Types.ObjectId,
-        //     ref: 'SubTopic',
-        //     required: true
-        // },
-    
+var commentSchema = Schema({
+
         topic: {
             type: Schema.Types.ObjectId,
             ref: 'Topic',
@@ -115,7 +103,7 @@ var postSchema = Schema({
     }
 );
 
-postSchema.pre('save', function (next) {
+commentSchema.pre('save', function (next) {
     var now = new Date();
     this.updated_at = now;
     if (!this.created_at) {
@@ -124,6 +112,6 @@ postSchema.pre('save', function (next) {
     next();
 });
 
-var Post = mongoose.model('Post', postSchema);
+var Comment = mongoose.model('Comment', commentSchema);
 
-module.exports = Post;
+module.exports = Comment;

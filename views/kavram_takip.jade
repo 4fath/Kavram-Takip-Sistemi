@@ -9,8 +9,15 @@ html(lang='en')
         title Kavram Takip
         meta(name='description', content='Source code generated using layoutit.com')
         meta(name='author', content='LayoutIt!')
+        script(src='../ckeditor/ckeditor.js')
+        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
         link(href='../css/bootstrap.min.css', rel='stylesheet')
         link(href='../css/style.css', rel='stylesheet')
+        script(src='../js/jquery-2.2.2.js')
+        link(href='../css/dataTable.css', rel='stylesheet')
+        script(type='text/javascript', src='//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js')
+        script(src='../js/dirPagination.js')
+        script(type='text/javascript').
     body
         p #{title}
         .container-fluid
@@ -174,6 +181,21 @@ html(lang='en')
                                                 .col-md-8
                                                 .col-md-2
                                                     span 19.02.1994
+                                        if user
+                                            li.list-group-item
+                                                form(method='post', action='/users/addComment', role='form')
+                                                    textarea#textarea(name='commentBody')
+                                                    script.
+                                                        CKEDITOR.replace('textarea');
+                                                    br
+                                                    .row
+                                                        .col-md-4
+                                                        .col-md-4
+                                                            button.btn.btn-default.btn-block(type='submit')
+                                                                | Taslak Olarak Kaydet    
+                                                                span.glyphicon.glyphicon-pencil(class='aria-hidden=')
+                                                        .col-md-4
+                                                            button.btn.btn-success.btn-block(formaction='/comment/addComment', type='submit') Gönder
                                 .col-md-1
                         .col-md-2
                             .list-group
