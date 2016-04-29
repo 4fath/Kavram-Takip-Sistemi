@@ -28,27 +28,15 @@ var TopicSchema = new Schema({
     definition : {
         type : String,
         required : true,
-        trim : true,
-        min : 120           // it can be check on front-end
+        trim : true
     },
 
-    chiefEditor : {
+    author : {
         type : Schema.Types.ObjectId,
-        ref : 'ChiefEditor',
+        ref : 'User',
         required : false
     },
-
-    createdAt : {
-        type : Date,
-        required: true,
-        default : Date.now()
-    },
-
-    updatedAt : {
-        type : Date,
-        default : Date.now()
-    },
-
+    
     relevantSubTopics : [{
         type : Schema.Types.ObjectId,
         ref : 'SubTopic'
@@ -61,7 +49,8 @@ var TopicSchema = new Schema({
 
     followers : [{
         type : Schema.Types.ObjectId,
-        ref : 'User'
+        ref : 'User',
+        require : false
     }],
 
     viewCount: {
@@ -76,54 +65,37 @@ var TopicSchema = new Schema({
     },
     
     comments : [{
-        require: false,
-        comment : {
-            type : Schema.Types.ObjectId,
-            ref : 'Comment',
-            require : true
-        },
-        author : {
-            type : Schema.Types.ObjectId,
-            ref : 'User',
-            require : true
-        },
-        createdAt : {
-            type : Date,
-            required: true,
-            default : Date.now()
-        }
-        
-    }]
+        type : Schema.Types.ObjectId,
+        ref : 'Comment',
+        required : false
+    }],
+    
+    createdAt : {
+        type : Date,
+        required: true,
+        default : Date.now()
+    },
 
-    // it can be calculate via relevantSubTopics size or length
-    //subTopicCount : {
-    //    type: Number,
-    //    default : 0,
-    //    required : true
-    //}
+    updatedAt : {
+        type : Date,
+        default : Date.now()
+    }
 
-    // it can be calculate via relevantPosts size or length
-    //relevantPostCount : {
-    //    type : Number,
-    //    default : 0,
-    //    required : true
-    //}
+});
 
+
+TopicSchema.pre('save', function(next){
+    var now = new Date();
+    this.updated_at = now;
+    if (!this.created_at) {
+        this.created_at = now;
+    }
+    next();
 });
 
 var Topic = mongoose.model('Topic',TopicSchema);
 
-// Topic.pre('save', function(next){
-//     var now = new Date();
-//     this.updated_at = now;
-//     if (!this.created_at) {
-//         this.created_at = now;
-//     }
-//     next();
-// });
-
 module.exports = Topic;
-
 
 module.exports.createTopic = function(newTopic, callback){
     newTopic.save(callback);

@@ -5,8 +5,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-// TODO : add definition to convention
-
 // FIELDS               :  TYPES //
 // name                 : 'String'
 // definition           : 'String'
@@ -30,13 +28,12 @@ var MainTopicSchema = new Schema({
     definition : {
         type : String,
         required : true,
-        trim : true,
-        min : 120           // it can be check on front-end
+        trim : true
     },
 
     chiefEditor : {
         type : Schema.Types.ObjectId,
-        ref : 'user',
+        ref : 'User',
         required : false
     },
 
@@ -56,20 +53,20 @@ var MainTopicSchema = new Schema({
         ref : 'SubTopic'
     }],
 
-    followers : [{
-        type : Schema.Types.ObjectId,
-        ref : 'User'
-    }],
-
     viewCount: {
         type: Number,
         required: false,
         default: 1
     },
+    
+    followers : [{
+        type : Schema.Types.ObjectId,
+        ref : 'User'
+    }],
 
-    likeCount: {
-        type: Number,
-        default: 0
+    countOfFollowers : {
+        type : Boolean,
+        default : 0
     }
 
 });

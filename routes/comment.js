@@ -37,13 +37,16 @@ router.post('/addComment', function (req, res, next) {
                     console.log(err);
                     throw err;
                 } else {
-                    user.posts.push(newComment);
+                    user.comments.push(newComment);
                     user.save(function (err) {
                         if (err) {
                             console.log(err);
                             throw err;
                         } else {
                             console.log("Success");
+                            req.flash('success', 'Başarılı bir şekilde yorum eklendi');
+                            res.location('/topic/'+topic._id);
+                            res.redirect('/topic/'+topic._id);
                         }
                     })
                 }
@@ -51,8 +54,6 @@ router.post('/addComment', function (req, res, next) {
             })
         }
 
-        console.log(user.firstName + "," + topic.definition + " e yeni bir yorum ekledi ! ");
-        res.send("ok");
     });
 
 });

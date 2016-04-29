@@ -2,19 +2,13 @@ var express = require('express');
 var router = express.Router();
 var Topic = require('../models/Topic');
 var User = require('../models/User');
+var Comment = require('../models/Comment');
 
 router.get('/list', function (req, res, next) {
     var emptyMessage = 'Hiç bir kayıt bulunamadı';
     Topic.find({}, function (err, topics) {
-
         var i = 0;
         var topicMap = {};
-
-        // topics.forEach(function (topic) {
-        //     topicMap[topic._id] = topic;
-        //     i++;
-        // });
-
         if (topicMap) {
             // res.send(topics);
             res.render('kavram_list', {data: topics});
@@ -40,7 +34,6 @@ router.post('/add', function (req, res, next) {
         console.log("user gelmemis");
     }
 
-
     var newTopic = new Topic({
         name: topicName,
         definition: topicDefinition,
@@ -55,6 +48,34 @@ router.post('/add', function (req, res, next) {
     res.type('application/json');
     res.send(newTopic);
 
+});
+
+
+
+router.get('/:id', function (req, res, next) {
+    var topicID = req.params.id;
+    Topic.findById(topicID, function (err, topic) {
+        if (err) throw err;
+        myTopic = topic;
+        req.session.topic = topic;
+        var myCommentArray = [];
+        Comment.find({ topic : topic._id}, function (err, comments) {
+            if (err) throw err;
+            console.log(comments);
+            myCommentArray = comments;
+            Topic.find({}, function (err, topics) {
+                if (err) throw err;
+                res.render('kavram_takip', {
+                    title: 'Kavram Takip Sistemi Test',
+                    mainTopic : topic,
+                    comments : myCommentArray,
+                    topics : topics
+                });
+            });
+            
+
+        });
+    });
 });
 
 

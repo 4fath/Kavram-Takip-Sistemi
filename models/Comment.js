@@ -28,8 +28,7 @@ var commentSchema = Schema({
         content: {
             type: String,
             required: true,
-            trim: true,
-            min: 120
+            trim: true
         },
 
         author: {
@@ -43,7 +42,7 @@ var commentSchema = Schema({
             default: false,
             allowedBy: {
                 type: Schema.Types.ObjectId,
-                ref: 'Editor'
+                ref: 'User'
             }
         },
 
@@ -72,8 +71,7 @@ var commentSchema = Schema({
             type: Schema.Types.ObjectId,
             ref: 'Topic'
         }],
-
-
+    
         created_at: {
             type: Date,
             default: Date.now(),
@@ -86,7 +84,6 @@ var commentSchema = Schema({
             default: Date.now()
         },
 
-
         viewCount: {
             type: Number,
             required: false,
@@ -95,7 +92,8 @@ var commentSchema = Schema({
 
         likeCount: {
             type: Number,
-            default: 0
+            default: 0,
+            required : false
         }
     },
     {

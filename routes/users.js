@@ -6,6 +6,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/User');
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
+var Topic = require('../models/Topic');
 var Comment = require('../models/Comment');
 
 /* GET users listing. */
@@ -113,15 +114,6 @@ router.post('/login', passport.authenticate('local', {
         res.redirect('/');
     });
 
-
-// router.get('/getUsers', function (req, res, next) {
-//     User.find({}, function (err, users) {
-//         if (err) throw err;
-//         res.send(users);
-//     })
-// });
-
-
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
@@ -196,7 +188,17 @@ router.get('/:id', function (req, res, next) {
 });
 
 router.get('/addChiefEditor', function (req, res, next) {
-    res.render('addChiefEditor');
+
+    User.find({}, function (err, users) {
+        if (err) throw err;
+        MainTopic.find({}, function (err, mainTopics) {
+            res.render('addChiefEditor', {
+                users: users,
+                mainTopics: mainTopics
+            });
+        });
+    });
+
 });
 
 router.post('/addChiefEditor/:userID/:mainTopicID', function (req, res, next) {
@@ -312,36 +314,5 @@ router.get('/addEditor', function (req, res, next) {
     res.render('addEditor');
 });
 
-// router.post('/addComment', function (req, res, next) {
-//     var myTopic = req.session.topic;
-//     var myAuthor = req.user;
-//     var myContent = req.body.commentBody;
-//     console.log("burdayiz");
-//
-//     req.checkBody('commentContent','Boş olarak kayıt edilemez').isEmpty();
-//     var errors = req.validationErrors();
-//     if (!errors){
-//         var newComment = new Comment({
-//             topic : myTopic,
-//             author : myAuthor,
-//             content : myContent,
-//             isDraft : false
-//         });
-//
-//         newComment.save(function (err) {
-//             if (err) {
-//                 console.log(err);
-//                 throw err;
-//             }else {
-//                 console.log("yeni yorum eklendi");
-//                 console.log(newComment);
-//                 res.send(newComment);
-//             }
-//
-//         });
-//     }else {
-//         res.send(errors);
-//     }
-// });
 
 module.exports = router;

@@ -1,7 +1,6 @@
 ### Node template
 # Logs
 logs
-*.log
 npm-debug.log*
 
 # Runtime data
@@ -15,6 +14,7 @@ lib-cov
 # Coverage directory used by tools like istanbul
 coverage
 
+/bin/.env
 # Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
