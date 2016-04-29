@@ -1,3 +1,185 @@
 //
    Created by TOSHIBA on 29.4.2016.
 
+doctype html
+html(lang='en')
+    head
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        script(src='../js/scripts.js')
+        title Temel Alan İşlemleri
+        script(src='http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js')
+        script(src='../js/lumino.glyphs.js')
+        meta(name='description', content='Source code generated using layoutit.com')
+        meta(name='author', content='LayoutIt!')
+        script(src='../js/adminOptionsjs.js')
+        link(href='../css/bootstrap.min.css', rel='stylesheet')
+        link(href='../css/style.css', rel='stylesheet')
+        script(src='../js/jquery-2.2.2.js')
+        script(src='//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.2/angular.js')
+        link(rel='stylesheet', href='https://cdn.rawgit.com/esvit/ng-table/v1.0.0/dist/ng-table.min.css')
+        script(src='https://cdn.rawgit.com/esvit/ng-table/v1.0.0/dist/ng-table.js')
+    body
+        if messages
+            each message in messages
+                |
+        .container-fluid
+            .row
+                .col-md-12
+                    nav.navbar.navbar-inverse
+                        .container-fluid
+                            // Brand and toggle get grouped for better mobile display
+                            .navbar-header
+                                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                                    span.sr-only Toggle navigation
+                                    span.icon-bar
+                                    span.icon-bar
+                                    span.icon-bar
+                                a.navbar-brand(href='kavramTakip.html') KavramTakip
+                            // Collect the nav links, forms, and other content for toggling
+                            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                .col-md-3
+                                form.navbar-form.navbar-left(role='search')
+                                    .form-group
+                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                        button.btn.btn-default(type='submit') Ara
+                                ul.nav.navbar-nav.navbar-right
+                                    .navbar-form.form-group
+                                        button.btn.btn-success(data-toggle='modal', data-target='#myModal')
+                                            | Giriş
+                                        button.btn.btn-warning(type='submit', onclick="location.href='kaydol.html';")
+                                            | Kaydol
+                            // /.navbar-collapse
+                        // /.container-fluid
+                    script(type='text/javascript').
+                        var mainApp = angular.module("mainApp", []);
+                        mainApp.controller('userController', function($scope) {
+                            $scope.users = {
+                                alanlar:[
+                                    {userName:'caca',firstName:'çağrı', lastName:'alkan', mailName:'caca@hotmail.com', alan:'bilgisayar'},
+                                    {userName:'gundy',firstName:'yunus', lastName:'yıldırım', mailName:'gundy@hotmail.com', alan:'kimya'},
+                                    {userName:'bugra10ur',firstName:'buğra', lastName:'şen', mailName:'bugra10ur@hotmail.com', alan:'matematik'},
+                                    {userName:'fahrenheit',firstName:'maho', lastName:'aksakal', mailName:'fahrenheit@hotmail.com', alan:'fizik'},
+                                    {userName:'sipahi',firstName:'ozan', lastName:'özdil', mailName:'sipahi@hotmail.com', alan:'insaat'},
+                                    {userName:'muki',firstName:'erhan', lastName:'gülas', mailName:'muki@hotmail.com', alan:'makine'}
+                                ],
+                                fields:[
+                                    {alanIsmi:'Kulanıcı Adı'},
+                                    {alanIsmi:'Adı'},
+                                    {alanIsmi:'Soyadı'},
+                                    {alanIsmi:'Email'},
+                                    {alanIsmi:'Alanı'}
+                                ],
+                                kavramList:[
+                                    {topics:'java', commentCount:'10'},
+                                    {topics:'veri madenciliği', commentCount:'100'},
+                                    {topics:'sql server', commentCount:'12'},
+                                    {topics:'visual studio', commentCount:'6'},
+                                    {topics:'c++', commentCount:'34'},
+                                    {topics:'javascript', commentCount:'76'},
+                                    {topics:'swift', commentCount:'1'},
+                                    {topics:'android', commentCount:'6'}
+                                ],
+                            };
+                            $scope.filteredTodos = []
+                                    ,$scope.currentPage = 1
+                                    ,$scope.numPerPage = 2
+                                    ,$scope.maxSize = 5;
+                            $scope.numPages = function () {
+                                return Math.ceil($scope.users.alanlar.length / $scope.numPerPage);
+                            };
+                            $scope.$watch("currentPage + numPerPage", function() {
+                                var begin = (($scope.currentPage - 1) * $scope.numPerPage)
+                                        , end = begin + $scope.numPerPage;
+                                $scope.filteredTodos = $scope.todos.slice(begin, end);
+                            });
+                            $scope.delete=function (a){
+                                $scope.users.alanlar.splice(a,1);
+                            }
+                        });
+                    .row(ng-app='mainApp', ng-controller='userController')
+                        #sidebar-collapse.col-md-2.sidebar
+                            ul.nav.nav-pills.nav-stacked
+                                li
+                                    a(href='adminOptions.html')
+                                        use(xlink:href='#stroked-dashboard-dial')
+                                        |  İstatislikler
+                                li
+                                    a(href='adminInbox.html')
+                                        use(xlink:href='#stroked-calendar')
+                                        | Gelen Kutusu
+                                li
+                                    a(href='adminSubAdmin.html')
+                                        use(xlink:href='#stroked-line-graph')
+                                        | Baş Editör İşlemleri
+                                li.active
+                                    a(href='adminMainTopic.html')
+                                        use(xlink:href='#stroked-table')
+                                        |  Temel Alan İşlemleri
+                                li
+                                    a(href='forms.html')
+                                        use(xlink:href='#stroked-pencil')
+                                        | Forms
+                                li
+                                    a(href='panels.html')
+                                        use(xlink:href='#stroked-app-window')
+                                        |  Alerts & Panels
+                                li
+                                    a(href='icons.html')
+                                        use(xlink:href='#stroked-star')
+                                        |  Icons
+                        // /.sidebar
+                        .col-md-9
+                            .form-group
+                                .col-md-1
+                                .col-md-11
+                                    form(method='post', action='/users/addMainTopic', role='form')
+                                        .panel.panel-success.col-md-5
+                                            .panel-heading Temel Alan Adı
+                                            .panel-body
+                                                input.form-control(type='text', name='mainTopicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                                        .panel.panel-success.col-md-8
+                                            .panel-heading Temel Alan Açıklaması
+                                            .panel-body
+                                                input.form-control(type='text', name='mainTopicDefinition', placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                                        .col-md-5
+                                            button.btn.btn-success.btn-block(type='submit') Kaydet
+        #myModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='myModalLabel', aria-hidden='true')
+            .modal-dialog
+                .modal-content
+                    .modal-header
+                        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                        h4#myModalLabel.modal-title Giriş
+                    // /.modal-header
+                    .modal-body
+                        form(role='form')
+                            .form-group
+                                .input-group
+                                    input#uLogin.form-control(type='text', placeholder='Kullanıcı Adı')
+                                    label.input-group-addon.glyphicon.glyphicon-user(for='uLogin')
+                            // /.form-group
+                            .form-group
+                                .input-group
+                                    input#uPassword.form-control(type='password', placeholder='Şifre')
+                                    label.input-group-addon.glyphicon.glyphicon-lock(for='uPassword')
+                                // /.input-group
+                            // /.form-group
+                            .checkbox
+                                label
+                                    input(type='checkbox')
+                                    |  Beni Hatırla
+                            // /.checkbox
+                    // /.modal-body
+                    .modal-footer
+                        button.form-control.btn.btn-success Tamam
+                        .progress
+                            .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='1', aria-valuemin='1', aria-valuemax='100', style='width: 0%;')
+                                span.sr-only progress
+                    // /.modal-footer
+                // /.modal-content
+            // /.modal-dialog
+        // /.modal
+        script(src='../js/jquery.min.js')
+        script(src='../js/bootstrap.min.js')
+        script(src='../js/scripts.js')

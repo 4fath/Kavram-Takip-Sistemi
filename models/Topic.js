@@ -42,6 +42,11 @@ var TopicSchema = new Schema({
         ref : 'SubTopic'
     }],
 
+    relevantMainTopics : [{
+        type : Schema.Types.ObjectId,
+        ref : 'MainTopic'
+    }],
+
     relevantComments : [{
         type : Schema.Types.ObjectId,
         ref : 'Comment'

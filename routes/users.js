@@ -103,12 +103,6 @@ router.post('/login', passport.authenticate('local', {
     function (req, res) {
         console.log('auth success');
         console.log(req.user);
-
-        // User.find({username : req.body.username}, function (err, user) {
-        //    if (err) throw err;
-        //     req.session.user = user;
-        // });
-
         req.flash('success', 'Başarılı bir şekilde kayıt işlemi gerçekleşti ');
         res.location('/');
         res.redirect('/');
@@ -176,16 +170,16 @@ router.get('/testRouter1', function (req, res, next) {
 });
 
 
-router.get('/:id', function (req, res, next) {
-    var id = req.params.id;
-    var usedId = req.user._id;
-    User.findById(usedId, function (err, user) {
-        if (err) throw err;
-        console.log(user);
-        res.send(user);
-    });
-
-});
+// router.get('/:id', function (req, res, next) {
+//     var id = req.params.id;
+//     var usedId = req.user._id;
+//     User.findById(usedId, function (err, user) {
+//         if (err) throw err;
+//         console.log(user);
+//         res.send(user);
+//     });
+//
+// });
 
 router.get('/addChiefEditor', function (req, res, next) {
 
@@ -235,32 +229,99 @@ router.post('/addChiefEditor/:userID/:mainTopicID', function (req, res, next) {
     });
 });
 
+
+router.get('/addTopic', function (req, res, next) {
+    // var topicName = req.body.topicName;
+    // var topicDefinition = req.body.topicDefinition;
+    // var currentUser = req.user;
+    
+    MainTopic.find({}, function (err, mainTopics) {
+        if (err) throw err;
+        SubTopic.find({}, function (err, subTopics) {
+            if (err) throw err;
+            res.render('addTopic', {
+                mainTopics :  mainTopics,
+                subTopics : subTopics
+            })
+        })
+    })
+});
+
+
+router.post('/addTopic', function (req, res, next) {
+    var selectedMainTopic = req.body.myMainTopic;
+    var selectedSubTopic = req.body.mySubTopic;
+    
+    var topicName = req.body.topicName;
+    var topicDefinition = req.body.topicDefinition;
+    var currentUser = req.user;
+
+    req.checkBody('topicName', 'isim bos olamaz').notEmpty();
+    req.checkBody('topicDefinition', 'isim bos olamaz').notEmpty();
+
+
+    var errors = req.validationErrors();
+    
+    if (!errors){
+
+        MainTopic.findById(selectedMainTopic, function (err, mainTopic) {
+            if (err) throw err;
+            SubTopic.findById(selectedSubTopic, function (err, subTopic) {
+                if (err) throw err;
+                var newTopic = new Topic({
+                    name : topicName,
+                    definition : topicDefinition,
+                    author : currentUser,
+                    relevantMainTopics : [mainTopic],
+                    relevantSubTopics : [subTopic]
+                });
+
+                newTopic.save(function (err) {
+                    if (err) {
+                        console.log(err);
+                        throw err;
+                    }
+                    console.log('topic eklenmis oldu');
+                    res.redirect('/addTopic');
+                });
+
+            })
+        });
+
+        
+
+    }else {
+        res.render('addTopic');
+    }
+    
+});
+
+
+// DONE
 router.get('/addMainTopic', function (req, res, next) {
     res.render('addMainTopic');
 });
 
+// DONE
 router.post('/addMainTopic', function (req, res, next) {
-
     var name = req.body.mainTopicName;
-    var definition = req.body.definition;
-
+    var definition = req.body.mainTopicDefinition;
+    
     req.checkBody('mainTopicName', 'isim bos olamaz').notEmpty();
-    req.checkBody('definition', 'isim bos olamaz').notEmpty();
+    req.checkBody('mainTopicDefinition', 'isim bos olamaz').notEmpty();
 
     var errors = req.validationErrors();
-
     if (!errors) {
         var newMainTopic = new MainTopic({
             name: name,
             definition: definition
         });
-
         newMainTopic.save(function (err) {
             if (err) throw err;
             console.log("kayit bsarili");
-            res.send("ok");
+            res.redirect('/users/addMainTopic');
+            res.location('/users/addMainTopic');
         })
-
     } else {
         res.render('addMainTopic', {
             errors: errors,
@@ -268,18 +329,23 @@ router.post('/addMainTopic', function (req, res, next) {
             definition: definition
         })
     }
-
-
 });
 
+// DONE
 router.get('/addSubTopic', function (req, res, next) {
-    res.render('addSubTopic');
+    MainTopic.find({}, function (err, mainTopics) {
+        res.render('addSubTopic', {
+            mainTopics : mainTopics
+        });
+    });
 });
 
-router.post('/addSubTopic/:mainTopicId', function (req, res, next) {
+// DONE
+router.post('/addSubTopic', function (req, res, next) {
     var name = req.body.subTopicName;
     var definition = req.body.subTopicDefinition;
-    var mainTopicId = req.params.mainTopicId;
+    var mainTopicId = req.body.mainTopicId;
+    var currentUser = req.user || {name : 'jane doe', age : 22};
 
     req.checkBody('subTopicName', "Bu kısım bos olamaz").notEmpty();
     req.checkBody('subTopicDefinition', "Bu kısım bos olamaz").notEmpty();
@@ -293,18 +359,24 @@ router.post('/addSubTopic/:mainTopicId', function (req, res, next) {
                 var newSubTopic = new SubTopic({
                     name: name,
                     definition: definition,
-                    mainTopics: mainTopic
+                    mainTopics: mainTopic,
+                    editor : currentUser
                 });
 
                 newSubTopic.save(function (err) {
                     if (err) throw err;
                     console.log("Sub topic kaydedildi");
-                    res.send("ok");
+
+                    res.redirect('/users/addSubTopic');
                 });
             }
         })
+    }else {
+        res.render('addSubTopic');
     }
 });
+
+
 
 router.post('/addEditor/:userID/:subTopicID', function (req, res, next) {
 

@@ -44,10 +44,6 @@ body{
 	display:inline-block;
 }
 
-
-
-
-
 .datepicker--cells{
 	display:-webkit-flex;
 	display:-ms-flexbox;
