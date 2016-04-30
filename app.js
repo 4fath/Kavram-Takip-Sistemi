@@ -7,7 +7,6 @@ var expressValidator = require('express-validator');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
 var bodyParser = require('body-parser');
 var multer = require('multer');
 var flash = require('connect-flash');
@@ -19,6 +18,8 @@ var mongoose = require('mongoose');
 var index = require('./routes/index');
 var user = require('./routes/users');
 var topic = require('./routes/topic');
+var mainTopic = require('./routes/mainTopic');
+var subTopic = require('./routes/subTopic');
 var comment = require('./routes/comment');
 var admin = require('./routes/admin');
 
@@ -81,6 +82,8 @@ app.get('*', function (req, res, next) {
 app.use('/', index);
 app.use('/user', user);
 app.use('/topic', topic);
+app.use('/mainTopic',mainTopic);
+app.use('/subTopic',subTopic);
 app.use('/comment', comment);
 app.use('/admin', admin);
 

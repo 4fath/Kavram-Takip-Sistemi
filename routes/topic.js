@@ -1,82 +1,111 @@
 var express = require('express');
-var router = express.Router();
+var async = require('async');
+
+var MainTopic = require('../models/MainTopic');
+var SubTopic = require('../models/SubTopic');
 var Topic = require('../models/Topic');
+
 var User = require('../models/User');
 var Comment = require('../models/Comment');
 
-router.get('/list', function (req, res, next) {
-    var emptyMessage = 'Hiç bir kayıt bulunamadı';
-    Topic.find({}, function (err, topics) {
-        var i = 0;
-        var topicMap = {};
-        if (topicMap) {
-            // res.send(topics);
-            res.render('kavram_list', {data: topics});
-            console.log(topics);
-        } else {
-            res.type('application/json');
-            res.send(JSON.stringify(emptyMessage));
-        }
-    });
-});
+var router = express.Router();
 
 router.get('/add', function (req, res, next) {
    res.render('add_new_topic');
 });
 
-router.post('/add', function (req, res, next) {
-    var topicName = req.body.kavram_adi;
-    var topicDefinition = req.body.kavram_tanimi;
-    var user = req.user;
-    if (user){
-        console.log("user gelmis"+user);
-    }else {
-        console.log("user gelmemis");
-    }
+ // Add Topic
+router.post('/addTopic', function (req, res, next) {
 
-    var newTopic = new Topic({
-        name: topicName,
-        definition: topicDefinition,
-        chiefEditor : user
-    });
+    var selectedMainTopicId = req.body.mainTopicID;
+    var selectedSubTopicId = req.body.subTopicID;
 
-    Topic.createTopic(newTopic, function (err, newTopic) {
-        if (err) throw err;
-        console.log(newTopic);
-    });
+    var topicName = req.body.topicName;
+    var topicAbstract = req.body.topicAbstract;
+    var topicDefinition = req.body.topicDefinition;
+    var currentUser = req.user;
+    
+    req.checkBody('topicName', 'Keyword alanı boş olamaz.').notEmpty();
+    req.checkBody('topicAbstract', 'Özet alanı boş olamaz.').notEmpty();
+    req.checkBody('topicDefinition', 'Tanım alanı boş olamaz').notEmpty();
 
-    res.type('application/json');
-    res.send(newTopic);
+    var errors = req.validationErrors();
 
-});
-
-
-
-router.get('/:id', function (req, res, next) {
-    var topicID = req.params.id;
-    Topic.findById(topicID, function (err, topic) {
-        if (err) throw err;
-        myTopic = topic;
-        req.session.topic = topic;
-        var myCommentArray = [];
-        Comment.find({ topic : topic._id}, function (err, comments) {
-            if (err) throw err;
-            console.log(comments);
-            myCommentArray = comments;
-            Topic.find({}, function (err, topics) {
-                if (err) throw err;
-                res.render('kavram_takip', {
-                    title: 'Kavram Takip Sistemi Test',
-                    mainTopic : topic,
-                    comments : myCommentArray,
-                    topics : topics
-                });
-            });
-            
-
+    if (!errors){
+        var newTopic = new Topic({
+            name : topicName,
+            abstract : topicAbstract,
+            definition : topicDefinition,
+            author : currentUser._id,
+            relevantMainTopic : [selectedMainTopicId],
+            relevantSubTopic : [selectedSubTopicId],
+            allowStatus : false,
+            isDraft : false
         });
-    });
+        
+        newTopic.save(function (err) {
+            if (err) throw err;
+            res.render('add_new_topic',{
+                messages : 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
+                ' onaylandıktan sonra sistemde görünmeye başlayacaktır '
+            });
+        });
+
+    } else {
+        res.render('add_new_topic', {
+            errors :errors,
+            name : topicName,
+            abstract : topicAbstract,
+            definition : topicDefinition
+        });
+    }
 });
 
+ // Add Topic as Draft
+router.post('/addTopicAsDraft', function (req, res, next) {
+
+    var selectedMainTopicId = req.body.mainTopicID;
+    var selectedSubTopicId = req.body.subTopicID;
+
+    var topicName = req.body.topicName;
+    var topicAbstract = req.body.topicAbstract;
+    var topicDefinition = req.body.topicDefinition;
+    var currentUser = req.user;
+
+    req.checkBody('topicName', 'Keyword alanı boş olamaz.').notEmpty();
+    req.checkBody('topicAbstract', 'Özet alanı boş olamaz.').notEmpty();
+    req.checkBody('topicDefinition', 'Tanım alanı boş olamaz').notEmpty();
+
+    var errors = req.validationErrors();
+
+    if (!errors){
+        var newTopic = new Topic({
+            name : topicName,
+            abstract : topicAbstract,
+            definition : topicDefinition,
+            author : currentUser._id,
+            relevantMainTopic : [selectedMainTopicId],
+            relevantSubTopic : [selectedSubTopicId],
+            allowStatus : false,
+            isDraft : true
+        });
+
+        newTopic.save(function (err) {
+            if (err) throw err;
+            res.render('add_new_topic',{
+                messages : 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
+                'istediğiniz zaman tekrar değişiklik yapabilirsiniz. '
+            });
+        });
+
+    }else {
+        res.render('add_new_topic', {
+            errors :errors,
+            name : topicName,
+            abstract : topicAbstract,
+            definition : topicDefinition
+        });
+    }
+});
 
 module.exports = router;

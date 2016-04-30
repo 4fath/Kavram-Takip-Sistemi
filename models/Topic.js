@@ -42,15 +42,35 @@ var TopicSchema = new Schema({
         ref : 'User',
         required : false
     },
-    
-    relevantSubTopics : [{
-        type : Schema.Types.ObjectId,
-        ref : 'SubTopic'
-    }],
+
+    allowStatus: {
+        type: Boolean,
+        default: false,
+        allowedBy: {
+            type: Schema.Types.ObjectId,
+            ref: 'User'
+        }
+    },
+
+    isDraft: {
+        type: Boolean,
+        require: true,
+        default: true,
+        lastUpdate : {
+            type : Date,
+            require : true,
+            default : Date.now()
+        }
+    },
 
     relevantMainTopics : [{
         type : Schema.Types.ObjectId,
         ref : 'MainTopic'
+    }],
+
+    relevantSubTopics : [{
+        type : Schema.Types.ObjectId,
+        ref : 'SubTopic'
     }],
 
     relevantComments : [{

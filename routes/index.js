@@ -54,7 +54,7 @@ router.get('/', function (req, res, next) {
         // get a random Main, Sub etc.. topic for display on screen
         var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength-1)];
         var randomSubTopic = myMainTopics[getRandomInt(0, subTopicLength-1)];
-        var randomTopic = myMainTopics[getRandomInt(0, topicLength-1)];
+        var randomTopic = myTopics[getRandomInt(0, topicLength-1)];
 
         res.render('kavram_takip', {
             title : 'Kavram Takip Sistemi',
@@ -67,32 +67,6 @@ router.get('/', function (req, res, next) {
         });
 
     });
-
-    
-    // Topic.find({}, function (err, topics) {
-    //    if (err) throw err;
-    //     var length = topics.length;  // 0 to 13
-    //     var randomTopic = getRandomInt(0,length-1);
-    //     var topic = topics[randomTopic];
-    //
-    //     req.session.topic = topic;
-    //     var myCommentArray = [];
-    //     Comment.find({ topic : topic._id}, function (err, comments) {
-    //         if (err) throw err;
-    //         console.log(comments);
-    //         myCommentArray = comments;
-    //         Topic.find({}, function (err, topics) {
-    //             if (err) throw err;
-    //             res.render('kavram_takip', {
-    //                 title: 'Kavram Takip Sistemi Test',
-    //                 mainTopic : topic,
-    //                 comments : myCommentArray,
-    //                 topics : topics
-    //             });
-    //         });
-    //
-    //     });
-    // });
 
 });
 

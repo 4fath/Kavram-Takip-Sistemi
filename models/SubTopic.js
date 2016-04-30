@@ -49,7 +49,7 @@ var SubTopicSchema = new Schema({
         default : Date.now()
     },
 
-    mainTopics : {
+    mainTopic : {
         type : Schema.Types.ObjectId,
         ref : 'MainTopic'
     },
