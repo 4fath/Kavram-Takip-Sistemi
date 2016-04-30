@@ -1,13 +1,11 @@
 /**
  * Created by TOSHIBA on 7.3.2016.
  */
+
 require('dotenv').config();
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
 var uniqueValidator = require('mongoose-unique-validator');
-
-// ||'mongodb://localhost/nodeauth'
-// || 'mongodb://cagri:123456@ds013848.mlab.com:13848/notion_follow'
 
 var mongoLabURL = process.env.MONGODB_REMOTE_URL ;
 var mongoDBLocalURL = process.env.MONGODB_LOCAL_URL ;
@@ -153,8 +151,8 @@ var UserSchema = new Schema({
         trim: true,
         required: false
     },
-
-    roles: {
+    
+    role: {
         type: String,
         require: true,
         default: 'author'
@@ -178,6 +176,7 @@ var UserSchema = new Schema({
         default: false
     },
 
+    
     mainTopic: {
         type: Schema.Types.ObjectId,
         ref: 'MainTopic'

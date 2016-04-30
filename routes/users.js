@@ -169,26 +169,26 @@ router.get('/testRouter1', function (req, res, next) {
     res.send(user);
 });
 
-
-// router.get('/:id', function (req, res, next) {
-//     var id = req.params.id;
-//     var usedId = req.user._id;
-//     User.findById(usedId, function (err, user) {
-//         if (err) throw err;
-//         console.log(user);
-//         res.send(user);
-//     });
-//
-// });
-
 router.get('/addChiefEditor', function (req, res, next) {
 
     User.find({}, function (err, users) {
         if (err) throw err;
+        var userArray = [];
+        users.forEach(function (user) {
+            // TODO : add a condition which will be selected
+            userArray.push(user);
+        });
         MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw err;
+            var topicArray = [];
+            mainTopics.forEach(function (mainTopic) {
+                if (!mainTopic.hasChief){
+                    topicArray.push(mainTopic);
+                }
+            });
             res.render('addChiefEditor', {
-                users: users,
-                mainTopics: mainTopics
+                users: userArray,
+                mainTopics: topicArray
             });
         });
     });
@@ -288,14 +288,11 @@ router.post('/addTopic', function (req, res, next) {
             })
         });
 
-        
-
     }else {
         res.render('addTopic');
     }
     
 });
-
 
 // DONE
 router.get('/addMainTopic', function (req, res, next) {
@@ -320,7 +317,6 @@ router.post('/addMainTopic', function (req, res, next) {
             if (err) throw err;
             console.log("kayit bsarili");
             res.redirect('/users/addMainTopic');
-            res.location('/users/addMainTopic');
         })
     } else {
         res.render('addMainTopic', {
@@ -377,13 +373,41 @@ router.post('/addSubTopic', function (req, res, next) {
 });
 
 
-
 router.post('/addEditor/:userID/:subTopicID', function (req, res, next) {
 
 });
 
 router.get('/addEditor', function (req, res, next) {
     res.render('addEditor');
+});
+
+
+router.post('/follow/:topicId', function (req, res, next) {
+    var currentUser = req.user;
+    var clickedId = req.params.topicId;
+
+    var errors = req.validationErrors();
+    if (!errors){
+       User.findById(currentUser._id, function (err, user) {
+           if (err) throw err;
+           user.followingTopics.push(clickedId);
+           user.save(function (err) {
+               if (err) throw err;
+               Topic.findById(clickedId, function (err, topic) {
+                   if (err) throw err;
+                   topic.followers.push(currentUser._id);
+                   topic.save(function (err) {
+                       if (err) throw err;
+                       console.log("takip islemi başarılı");
+                   })
+               })
+           })
+       });
+
+    }else {
+
+    }
+
 });
 
 

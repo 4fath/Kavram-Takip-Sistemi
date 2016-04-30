@@ -1,3 +1,4 @@
+require('dotenv').config();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -15,12 +16,11 @@ var mongoose = require('mongoose');
 
 
 // routes
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var index = require('./routes/index');
+var user = require('./routes/users');
 var topic = require('./routes/topic');
 var comment = require('./routes/comment');
-
-//TODO : handle user authentication
+var admin = require('./routes/admin');
 
 var app = express();
 
@@ -30,8 +30,6 @@ app.set('view engine', 'jade');
 
 app.use(multer({dest:'./uploads'}).single('photo'));
 
-
-// uncomment after placing your favicon in /public
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
@@ -39,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 //handle express session
 app.use(session({
-  secret : 'secret',
+  secret : process.env.MY_SECRET_SESSION,
   saveUninitialized: true,
   resave : true
 }));
@@ -80,10 +78,11 @@ app.get('*', function (req, res, next) {
   next();
 });
 
-app.use('/', routes);
-app.use('/users', users);
+app.use('/', index);
+app.use('/user', user);
 app.use('/topic', topic);
 app.use('/comment', comment);
+app.use('/admin', admin);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

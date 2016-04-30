@@ -49,10 +49,11 @@ html(lang='en')
                                                 | Kaydol !
 
                                 if user
+                                    | #{user.roles}
                                     if user.roles == 'admin'
                                         ul.nav.navbar-nav.navbar-right
                                             .navbar-form.form-group
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addChief';")
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addChiefEditor';")
                                                     | Chief Editor Ekle #{user.firstName} !
                                             .navbar-form.form-group
                                                 button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addMainTopic';")
@@ -64,7 +65,7 @@ html(lang='en')
                                                     button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
                                                         |  Editor Ekle #{user.firstName}!
                                                 .navbar-form.form-group
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addSubTopic';")
                                                         |  SubTopic Ekle #{user.firstName}!
                                         else
                                             if user.roles == 'editor'
@@ -72,6 +73,10 @@ html(lang='en')
                                                     .navbar-form.form-group
                                                         button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
                                                             |  Editor girmis #{user.firstName}!
+                                                    .navbar-form.form-group
+                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addTopic';")
+                                                            |  SubTopic Ekle #{user.firstName}!
+
                                             else
                                                 if user.roles == 'author'
                                                     ul.nav.navbar-nav.navbar-right
@@ -94,10 +99,10 @@ html(lang='en')
                                     | Kavramlar
                                     span#slide-submenu.pull-right
                                         i.fa.fa-times
-                                each topic in topics
-                                    a.list-group-item(href='/topic/#{topic._id}')
+                                each mainTopic in mainTopics
+                                    a.list-group-item(href='/topic/#{mainTopic._id}')
                                         i.fa
-                                        |  #{topic.name}
+                                        |  #{mainTopic.name}
                                         span.badge 124
 
                         .col-md-8
@@ -107,17 +112,17 @@ html(lang='en')
                                     ul.list-group
                                         li.list-group-item.modal-header
                                             h3
-                                                a#baslik(href='#') #{mainTopic.name}
+                                                a#baslik(href='#') #{randomMainTopic.name}
 
-                                        each val in comments
+                                        each val in subTopics
                                             li.list-group-item
-                                                | !{val.content}
+                                                | !{val.name}
                                                 .row
                                                     .col-md-2
                                                         a(href='#') kullanıcı
                                                     .col-md-8
                                                     .col-md-2
-                                                        span #{val.created_at}
+                                                        span test
 
 
                                         if user

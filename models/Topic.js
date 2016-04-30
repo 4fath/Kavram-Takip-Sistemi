@@ -24,7 +24,13 @@ var TopicSchema = new Schema({
         required : true,
         trim : true
     },
-
+    
+    abstract : {
+        type : String,
+        required : true,
+        trim : true
+    },
+    
     definition : {
         type : String,
         required : true,
@@ -104,5 +110,4 @@ module.exports = Topic;
 
 module.exports.createTopic = function(newTopic, callback){
     newTopic.save(callback);
-    console.log(newTopic)
 };

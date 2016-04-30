@@ -19,38 +19,44 @@ var Schema = mongoose.Schema;
 
 var MainTopicSchema = new Schema({
 
-    name : {
-        type : String,
-        required : true,
-        trim : true
-    },
-
-    definition : {
-        type : String,
-        required : true,
-        trim : true
-    },
-
-    chiefEditor : {
-        type : Schema.Types.ObjectId,
-        ref : 'User',
-        required : false
-    },
-
-    createdAt : {
-        type : Date,
+    name: {
+        type: String,
         required: true,
-        default : Date.now()
+        trim: true
     },
 
-    updatedAt : {
-        type : Date,
-        default : Date.now()
+    definition: {
+        type: String,
+        required: true,
+        trim: true
     },
 
-    relevantSubTopics : [{
-        type : Schema.Types.ObjectId,
-        ref : 'SubTopic'
+    hasChiefEditor: {
+        type: Boolean,
+        default: false,
+        required: true
+    },
+    
+    chiefEditor: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
+    },
+
+    createdAt: {
+        type: Date,
+        required: true,
+        default: Date.now()
+    },
+
+    updatedAt: {
+        type: Date,
+        default: Date.now()
+    },
+
+    relevantSubTopics: [{
+        type: Schema.Types.ObjectId,
+        ref: 'SubTopic'
     }],
 
     viewCount: {
@@ -58,20 +64,20 @@ var MainTopicSchema = new Schema({
         required: false,
         default: 1
     },
-    
-    followers : [{
-        type : Schema.Types.ObjectId,
-        ref : 'User'
+
+    followers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }],
 
-    countOfFollowers : {
-        type : Boolean,
-        default : 0
+    countOfFollowers: {
+        type: Boolean,
+        default: 0
     }
 
 });
 
-MainTopicSchema.pre('save', function(next){
+MainTopicSchema.pre('save', function (next) {
     var now = new Date();
     this.updated_at = now;
     if (!this.created_at) {
@@ -81,8 +87,7 @@ MainTopicSchema.pre('save', function(next){
 });
 
 
-var MainTopic = mongoose.model('MainTopic',MainTopicSchema);
-
+var MainTopic = mongoose.model('MainTopic', MainTopicSchema);
 
 
 module.exports = MainTopic;
