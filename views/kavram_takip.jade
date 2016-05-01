@@ -2,19 +2,20 @@ doctype html
 html(lang='en')
 
     head
+        title Kavram Takip Sistemi
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
         meta(name='viewport', content='width=device-width, initial-scale=1')
-        script(src='../js/scripts.js')
-        title Kavram Takip
-        meta(name='description', content='Source code generated using layoutit.com')
-        meta(name='author', content='LayoutIt!')
-        script(src='../ckeditor/ckeditor.js')
-        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
+        link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+        link(type='text/css', rel='stylesheet', href='../css/materialize.css', media='screen,projection')
         link(href='../css/bootstrap.min.css', rel='stylesheet')
         link(href='../css/style.css', rel='stylesheet')
-        script(src='../js/jquery-2.2.2.js')
         link(href='../css/dataTable.css', rel='stylesheet')
+        script(src='../ckeditor/ckeditor.js')
+        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
+        script(src='../js/scripts.js')
+        script(src='../js/jquery-2.2.2.js')
         script(type='text/javascript', src='//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js')
         script(src='../js/dirPagination.js')
         script(type='text/javascript').
@@ -69,7 +70,7 @@ html(lang='en')
                                                     button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addSubTopic';")
                                                         |  SubTopic Ekle #{user.firstName}!
                                         else
-                                            if user.roles == 'editor'
+                                            if user.role == 'editor'
                                                 ul.nav.navbar-nav.navbar-right
                                                     .navbar-form.form-group
                                                         button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
@@ -79,7 +80,7 @@ html(lang='en')
                                                             |  SubTopic Ekle #{user.firstName}!
 
                                             else
-                                                if user.roles == 'author'
+                                                if user.role == 'author'
                                                     ul.nav.navbar-nav.navbar-right
                                                         .navbar-form.form-group
                                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
@@ -87,14 +88,21 @@ html(lang='en')
 
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
-                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                            if user.role == 'editor'
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
+                                                    | Editor Profili !
+                                            else
+                                                if user.role == 'admin'
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                        | Admin profili !
+                                                else
+                                                    if user.role == 'author'
+                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                            | Profil author!
+                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                 | Çıkış !
-
-                            // /.navbar-collapse
-                        // /.container-fluid
                     .row
                         .col-md-2
-
                             .list-group
                                 span.list-group-item.active(href='#')
                                     | Kavramlar
@@ -104,7 +112,7 @@ html(lang='en')
                                     a.list-group-item(href='/topic/#{mainTopic._id}')
                                         i.fa
                                         |  #{mainTopic.name}
-                                        span.badge 124
+                                        span.badge #{mainTopic.relevantSubTopics.length}
 
                         .col-md-8
                             .row
@@ -134,76 +142,55 @@ html(lang='en')
                                                         CKEDITOR.replace('textarea');
                                                     br
                                                     .row
-                                                        .col-md-4
-                                                        .col-md-4
+                                                        .col-md-6
                                                             button.btn.btn-default.btn-block(type='submit')
                                                                 | Taslak Olarak Kaydet    
                                                                 span.glyphicon.glyphicon-pencil(class='aria-hidden=')
-                                                        .col-md-4
-                                                            button.btn.btn-success.btn-block(formaction='/comment/addComment', type='submit') Gönder
+                                                        .col-md-6
+                                                            button.btn.btn-success.btn-block(formaction='/comment/addComment', type='submit')
+                                                                | Gönder
                                 .col-md-1
                         .col-md-2
                             if user
                                 .list-group
                                     span.list-group-item.active(href='#')
-                                        | Takip Listesi
+                                        | Takip Edilen Kavramlar
                                         span#slide-submenu.pull-right
                                             i.fa.fa-times
                                     a.list-group-item(href='#')
                                         i.fa
                                         |  java
                                         span.badge 124
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  veri madenciliği
-                                        span.badge 3
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  sql server
-                                        span.badge 14
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  visual studio
-                                        span.badge 43
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  c++
-                                        span.badge 54
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  Lorem ipsum
-                                        span.badge 14
+
 
                                 .list-group
                                     span.list-group-item.active(href='#')
-                                        | Tavsiyeler
+                                        | Tavsiye Edilen Kavramlar
                                         span#slide-submenu.pull-right
                                             i.fa.fa-times
                                     a.list-group-item(href='#')
                                         i.fa
                                         |  java
                                         span.badge 124
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  veri madenciliği
-                                        span.badge 3
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  sql server
-                                        span.badge 14
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  visual studio
-                                        span.badge 43
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  c++
-                                        span.badge 54
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  Lorem ipsum
-                                        span.badge 14
+            .fixed-action-btn.horizontal(style='bottom: 45px; right: 24px;')
+                a.btn-floating.btn-large.red
+                    i.large.material-icons mode_edit
+                ul
+                    li
+                        a.btn-floating.red
+                            i.material-icons insert_chart
+                    li
+                        a.btn-floating.yellow.darken-1
+                            i.material-icons format_quote
+                    li
+                        a.btn-floating.green
+                            i.material-icons publish
+                    li
+                        a.btn-floating.blue
+                            i.material-icons attach_file
 
         script(src='../js/jquery.min.js')
         script(src='../js/bootstrap.min.js')
         script(src='../js/scripts.js')
+        script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
+        script(type='text/javascript', src='../js/materialize.js')
