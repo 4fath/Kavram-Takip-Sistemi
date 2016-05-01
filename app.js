@@ -22,6 +22,7 @@ var mainTopic = require('./routes/mainTopic');
 var subTopic = require('./routes/subTopic');
 var comment = require('./routes/comment');
 var admin = require('./routes/admin');
+var notFound = require('./routes/notFound');
 
 var app = express();
 
@@ -86,6 +87,7 @@ app.use('/mainTopic',mainTopic);
 app.use('/subTopic',subTopic);
 app.use('/comment', comment);
 app.use('/admin', admin);
+app.use('/*', notFound);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

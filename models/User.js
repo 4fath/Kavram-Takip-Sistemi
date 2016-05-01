@@ -175,7 +175,6 @@ var UserSchema = new Schema({
         required: true,
         default: false
     },
-
     
     mainTopic: {
         type: Schema.Types.ObjectId,

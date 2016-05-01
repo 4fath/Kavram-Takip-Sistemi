@@ -14,7 +14,6 @@ var Comment = require('../models/Comment');
 
 var router = express.Router();
 
-
 router.get('/', function (req, res, next) {
     if (req.user.role == 'admin') {
         var myMainTopics, mySubTopics, myTopics, myComments;
@@ -83,6 +82,43 @@ router.get('/', function (req, res, next) {
 
     } else {
         res.render('/not-found');
+    }
+});
+
+router.get('/addMainTopic', function (req, res) {
+    MainTopic.find({}, function (err, mainTopics) {
+        if (err) throw err;
+        res.render('add_main_topic', {
+           mainTopics : mainTopics 
+        });
+    });
+});
+
+router.post('/addMainTopic', function (req, res) {
+    
+    var name = req.body.mainTopicName;
+    var definition = req.body.mainTopicDefinition;
+    
+    req.checkBody('mainTopicName', 'isim bos olamaz').notEmpty();
+    req.checkBody('mainTopicDefinition', 'isim bos olamaz').notEmpty();
+
+    var errors = req.validationErrors();
+    if (!errors) {
+        var newMainTopic = new MainTopic({
+            name: name,
+            definition: definition,
+            hasChiefEditor : false
+        });
+        newMainTopic.save(function (err) {
+            if (err) throw err;
+            res.redirect('/admin/addMainTopic');
+        })
+    } else {
+        res.render('addMainTopic', {
+            errors: errors,
+            name: name,
+            definition: definition
+        });
     }
 });
 
@@ -170,7 +206,6 @@ router.post('/addChiefEditor', function (req, res, next) {
     }
 
 });
-
 
 module.exports = router;
 

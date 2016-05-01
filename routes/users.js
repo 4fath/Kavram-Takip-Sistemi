@@ -1,4 +1,5 @@
 var express = require('express');
+var async = require('async');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -10,13 +11,48 @@ var Topic = require('../models/Topic');
 var Comment = require('../models/Comment');
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-    res.send('respond with a resource');
+router.get('/', function (req, res) {
+    res.redirect('/user/addTopic');
 });
 
 // === REGİSTER ==== //
 
-router.get('/register', function (req, res, next) {
+router.get('/register', function (req, res) {
+
+    var myMainTopics = [];
+    var mySubTopics = [];
+
+    async.parallel([
+        function (callback) {
+            MainTopic.find({}, function (err, mainTopics) {
+                if (err) return callback(err);
+                mainTopics.forEach(function (mainTopic) {
+                    myMainTopics.push(mainTopic);
+                });
+                callback();
+            });
+        },
+        function (callback) {
+            SubTopic.find({}, function (err, subTopics) {
+                if (err) return callback(err);
+                subTopics.forEach(function (subTopic) {
+                    mySubTopics.push(subTopic);
+                });
+                callback();
+            });
+        }
+    ], function (err) {
+
+        if (err) return (err);
+        res.render('signup', {
+
+        });
+
+    });
+
+
+
+
     if (req.session.user) {
         console.log("zaten kayit olundu");
         res.location('/');
@@ -27,7 +63,7 @@ router.get('/register', function (req, res, next) {
     }
 });
 
-router.post('/register', function (req, res, next) {
+router.post('/register', function (req, res) {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
     var email = req.body.email;
@@ -70,7 +106,7 @@ router.post('/register', function (req, res, next) {
             console.log(user);
         });
 
-        req.flash('success', "Oldu lan");
+        req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
         res.location('/');
         res.redirect('/');
     }
@@ -78,7 +114,7 @@ router.post('/register', function (req, res, next) {
 });
 
 // === LOGİN ==== //
-router.get('/login', function (req, res, next) {
+router.get('/login', function (req, res) {
     if (req.session.user) {
         console.log("zaten giris yapmissin ! ");
         res.location('/');
@@ -90,28 +126,32 @@ router.get('/login', function (req, res, next) {
 
 });
 
-router.get('/logout', function (req, res, next) {
+router.get('/logout', function (req, res) {
     req.logout();
-    req.flash("success", "Succesfull logout");
+    req.flash("success", "Yine Bekleriz .. ");
     res.redirect('/');
 });
 
+//noinspection JSUnresolvedFunction
 router.post('/login', passport.authenticate('local', {
-        failureRedirect: '/',
-        failureFlash: 'There is something wrong on auth  '
+        failureRedirect: '/user/login',
+        failureFlash: 'Kullanıcı adı ve şifrenizi kotrol edip tekrar deneyiniz'
     }),
     function (req, res) {
         console.log('auth success');
         console.log(req.user);
-        req.flash('success', 'Başarılı bir şekilde kayıt işlemi gerçekleşti ');
+        req.flash('success', 'Hoşgeldin '+req.user.firstName);
         res.location('/');
         res.redirect('/');
     });
 
+//noinspection JSUnresolvedFunction
 passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 
+
+//noinspection JSUnresolvedFunction
 passport.deserializeUser(function (id, done) {
     User.getUserById(id, function (err, user) {
         done(err, user);
@@ -139,50 +179,21 @@ passport.use(new LocalStrategy(
     }
 ));
 
-router.get('/testRouter/:id', function (req, res, next) {
-    var userId = req.params.id;
-    User.findById(userId, function (err, user) {
-        if (err) throw  err;
+router.get('/addChiefEditor', function (req, res) {
 
-        if (user.roles == 'author') {
-
-            req.user = user;
-            req.userRole = user.roles;
-            //
-            // console.log(req.user);
-            //
-            // console.log(req.userRole);
-
-            req.session.user = user;
-
-            res.send('bu bir author');
-
-        } else {
-            res.send('bu author degil')
-        }
-    })
-});
-
-router.get('/testRouter1', function (req, res, next) {
-    var user = req.session.user;
-    console.log(user);
-    res.send(user);
-});
-
-router.get('/addChiefEditor', function (req, res, next) {
-
+    //noinspection JSUnresolvedFunction
     User.find({}, function (err, users) {
         if (err) throw err;
         var userArray = [];
         users.forEach(function (user) {
-            // TODO : add a condition which will be selected
             userArray.push(user);
         });
+        //noinspection JSUnresolvedFunction
         MainTopic.find({}, function (err, mainTopics) {
             if (err) throw err;
             var topicArray = [];
             mainTopics.forEach(function (mainTopic) {
-                if (!mainTopic.hasChief){
+                if (!mainTopic.hasChief) {
                     topicArray.push(mainTopic);
                 }
             });
@@ -195,85 +206,136 @@ router.get('/addChiefEditor', function (req, res, next) {
 
 });
 
-router.post('/addChiefEditor/:userID/:mainTopicID', function (req, res, next) {
 
-    var userId = req.params.userID;
-    var mainTopicId = req.params.mainTopicID;
+router.get('/editorProfile', function (req, res, next) {
+    var userId = req.user._id;
+    var currentEditorUser = {};
+    var mySubTopics = [];
+    var myTopics = [];
+    var myTopicAsDraft = [];
+    var myWholeSystemTopic = [];
+    var myWaitingAllowTopics = [];
 
-    User.findById(userId, function (err, user) {
-        if (err) {
-            throw err;
-        } else {
-            MainTopic.findById(mainTopicId, function (err, mainTopic) {
-                if (err) {
-                    throw err;
-                } else {
-                    user.roles = 'chiefEditor';
-                    user.isChiefEditor = true;
-                    user.mainTopic = mainTopic;
-                    mainTopic.chiefEditor = user;
-
-                    mainTopic.save(function (err) {
-                        if (err) {
-                            throw err;
-                        } else {
-                            user.save(function (err) {
-                                if (err) throw err;
-                                res.send("ok");
-                            });
-                        }
-                    })
-                }
+    async.parallel([
+        function (callback) {
+            User.findById(userId, function (err, user) {
+                if (err) return callback(err);
+                currentEditorUser = user;
             });
+            callback();
+        },
+        function (callback) {
+            var query = {editor: userId};
+            SubTopic.find(query, function (err, subTopics) {
+                if (err) return callback(err);
+                subTopics.forEach(function (subTopic) {
+                    mySubTopics.push(subTopic);
+                });
+                callback();
+            })
+        },
+        function (callback) {
+            var query = {author: userId};
+            Topic.find(query, function (err, topics) {
+                if (err) return callback(err);
+                topics.forEach(function (topic) {
+                    if (topic.idDraft) {
+                        myTopicAsDraft.push(topic);
+                    } else {
+                        myTopics.push(topic);
+                    }
+                });
+                callback();
+            })
+        },
+        function (callback) {
+            if (err) return callback(err);
+            Topic.find({}, function (err, topics) {
+                if (err) return callback(err);
+                topics.forEach(function (topic) {
+                    myWholeSystemTopic.push(topic);
+                });
+                callback();
+            })
         }
+    ], function (err) {
+        if (err) return (err);
+        myWholeSystemTopic.forEach(function (topic) {
+            if (!topic.allowStatus ) {
+                mySubTopics.forEach(function (subTopic) {
+                    if (topic.relevantSubTopics[0] == subTopic._id) {
+                        myWaitingAllowTopics.push(topic);
+                    }
+                });
+            }
+        });
+
+        res.render('editorProfile', {
+            currentUser: currentUser,
+            myTopics: myTopics,
+            myTopicsAsDraft: myTopicAsDraft,
+            mySubTopics: mySubTopics,
+            myWaitingAllowRequests: myWaitingAllowTopics
+        });
+
     });
+
 });
 
-
-router.get('/addTopic', function (req, res, next) {
+router.get('/addTopic',ensureAuthentication, function (req, res) {
     // var topicName = req.body.topicName;
     // var topicDefinition = req.body.topicDefinition;
     // var currentUser = req.user;
-    
+
+
+//noinspection JSUnresolvedFunction
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
+
+//noinspection JSUnresolvedFunction
         SubTopic.find({}, function (err, subTopics) {
             if (err) throw err;
             res.render('addTopic', {
-                mainTopics :  mainTopics,
-                subTopics : subTopics
+                mainTopics: mainTopics,
+                subTopics: subTopics
             })
         })
     })
 });
 
 
-router.post('/addTopic', function (req, res, next) {
+router.post('/addTopic',ensureAuthentication, function (req, res) {
     var selectedMainTopic = req.body.myMainTopic;
     var selectedSubTopic = req.body.mySubTopic;
-    
+
     var topicName = req.body.topicName;
     var topicDefinition = req.body.topicDefinition;
     var currentUser = req.user;
 
+//noinspection JSUnresolvedFunction
     req.checkBody('topicName', 'isim bos olamaz').notEmpty();
+
+//noinspection JSUnresolvedFunction
     req.checkBody('topicDefinition', 'isim bos olamaz').notEmpty();
 
 
     var errors = req.validationErrors();
-    
-    if (!errors){
 
+    if (!errors) {
+
+//noinspection JSUnresolvedFunction
         MainTopic.findById(selectedMainTopic, function (err, mainTopic) {
             if (err) throw err;
+
+//noinspection JSUnresolvedFunction
             SubTopic.findById(selectedSubTopic, function (err, subTopic) {
                 if (err) throw err;
                 var newTopic = new Topic({
-                    name : topicName,
-                    definition : topicDefinition,
-                    author : currentUser,
-                    relevantMainTopics : [mainTopic],
-                    relevantSubTopics : [subTopic]
+                    name: topicName,
+                    definition: topicDefinition,
+                    author: currentUser,
+                    relevantMainTopics: [mainTopic],
+                    relevantSubTopics: [subTopic]
                 });
 
                 newTopic.save(function (err) {
@@ -288,66 +350,41 @@ router.post('/addTopic', function (req, res, next) {
             })
         });
 
-    }else {
+    } else {
         res.render('addTopic');
     }
-    
+
 });
 
-// DONE
-router.get('/addMainTopic', function (req, res, next) {
-    res.render('addMainTopic');
-});
 
 // DONE
-router.post('/addMainTopic', function (req, res, next) {
-    var name = req.body.mainTopicName;
-    var definition = req.body.mainTopicDefinition;
-    
-    req.checkBody('mainTopicName', 'isim bos olamaz').notEmpty();
-    req.checkBody('mainTopicDefinition', 'isim bos olamaz').notEmpty();
+router.get('/addSubTopic',ensureAuthentication, function (req, res) {
 
-    var errors = req.validationErrors();
-    if (!errors) {
-        var newMainTopic = new MainTopic({
-            name: name,
-            definition: definition
-        });
-        newMainTopic.save(function (err) {
-            if (err) throw err;
-            console.log("kayit bsarili");
-            res.redirect('/users/addMainTopic');
-        })
-    } else {
-        res.render('addMainTopic', {
-            errors: errors,
-            name: name,
-            definition: definition
-        })
-    }
-});
-
-// DONE
-router.get('/addSubTopic', function (req, res, next) {
+//noinspection JSUnresolvedFunction
     MainTopic.find({}, function (err, mainTopics) {
         res.render('addSubTopic', {
-            mainTopics : mainTopics
+            mainTopics: mainTopics
         });
     });
 });
 
 // DONE
-router.post('/addSubTopic', function (req, res, next) {
+router.post('/addSubTopic',ensureAuthentication, function (req, res) {
     var name = req.body.subTopicName;
     var definition = req.body.subTopicDefinition;
     var mainTopicId = req.body.mainTopicId;
-    var currentUser = req.user || {name : 'jane doe', age : 22};
+    var currentUser = req.user || {name: 'jane doe', age: 22};
 
+//noinspection JSUnresolvedFunction
     req.checkBody('subTopicName', "Bu kısım bos olamaz").notEmpty();
+
+//noinspection JSUnresolvedFunction
     req.checkBody('subTopicDefinition', "Bu kısım bos olamaz").notEmpty();
 
     var errors = req.validationErrors();
     if (!errors) {
+
+//noinspection JSUnresolvedFunction
         MainTopic.findById(mainTopicId, function (err, mainTopic) {
             if (err) {
                 throw err;
@@ -356,7 +393,7 @@ router.post('/addSubTopic', function (req, res, next) {
                     name: name,
                     definition: definition,
                     mainTopics: mainTopic,
-                    editor : currentUser
+                    editor: currentUser
                 });
 
                 newSubTopic.save(function (err) {
@@ -367,7 +404,7 @@ router.post('/addSubTopic', function (req, res, next) {
                 });
             }
         })
-    }else {
+    } else {
         res.render('addSubTopic');
     }
 });
@@ -377,38 +414,50 @@ router.post('/addEditor/:userID/:subTopicID', function (req, res, next) {
 
 });
 
-router.get('/addEditor', function (req, res, next) {
+router.get('/addEditor',ensureAuthentication, function (req, res) {
     res.render('addEditor');
 });
 
 
-router.post('/follow/:topicId', function (req, res, next) {
+router.post('/follow/:topicId', function (req, res) {
     var currentUser = req.user;
     var clickedId = req.params.topicId;
 
     var errors = req.validationErrors();
-    if (!errors){
-       User.findById(currentUser._id, function (err, user) {
-           if (err) throw err;
-           user.followingTopics.push(clickedId);
-           user.save(function (err) {
-               if (err) throw err;
-               Topic.findById(clickedId, function (err, topic) {
-                   if (err) throw err;
-                   topic.followers.push(currentUser._id);
-                   topic.save(function (err) {
-                       if (err) throw err;
-                       console.log("takip islemi başarılı");
-                   })
-               })
-           })
-       });
+    if (!errors) {
 
-    }else {
+//noinspection JSUnresolvedFunction
+        User.findById(currentUser._id, function (err, user) {
+            if (err) throw err;
+            user.followingTopics.push(clickedId);
+            user.save(function (err) {
+                if (err) throw err;
+
+//noinspection JSUnresolvedFunction
+                Topic.findById(clickedId, function (err, topic) {
+                    if (err) throw err;
+                    topic.followers.push(currentUser._id);
+                    topic.save(function (err) {
+                        if (err) throw err;
+                        console.log("takip islemi başarılı");
+                    })
+                })
+            })
+        });
+
+    } else {
 
     }
 
 });
 
+
+
+function ensureAuthentication(req, res, next) {
+    if(req.isAuthenticated()){
+        return next();
+    }
+    res.redirect('/');
+}
 
 module.exports = router;

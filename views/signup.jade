@@ -122,7 +122,11 @@ html(lang='en')
                                     |  Lorem ipsum
                                     span.badge 14
                         .col-md-8
-                            form#productForm.form-horizontal(role='form', action='/users/register', method='post')
+                            ul.errors
+                                if errors
+                                    each error, i in errors
+                                        li.alert.alert-danger #{error.msg}
+                            form#productForm.form-horizontal(role='form', action='/user/register', method='post')
                                 .row
                                     .col-md-2
                                     .col-md-8

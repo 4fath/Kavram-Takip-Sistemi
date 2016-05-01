@@ -1,5 +1,5 @@
 /**
- * Created by TOSHIBA on 30.4.2016.
+ * Created by TOSHIBA on 1.5.2016.
  */
 var express = require('express');
 
@@ -17,7 +17,7 @@ router.get('/addSubTopic', function (req, res) {
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
         mainTopics.forEach(function (mainTopic) {
-           myMainTopics.push(mainTopic) 
+            myMainTopics.push(mainTopic)
         });
         res.render('add_sub_topic', {
             mainTopics : myMainTopics
@@ -26,13 +26,9 @@ router.get('/addSubTopic', function (req, res) {
 });
 
 router.post('/addSubTopic', function (req, res, next) {
-
     var mainTopicId = req.body.mainTopicID;
-    var currentUser = req.user || { name : guest, accessTime : Date.now()};
-
     var subTopicName = req.body.subTopicName;
     var subTopicDefinition = req.body.subTopicDefinition;
-
     req.checkBody('subTopicName', "Bu kısım boş olmamlı.").notEmpty();
     req.checkBody('subTopicDefinition', "Bu kısım bos olmamalı").notEmpty();
 
@@ -41,12 +37,11 @@ router.post('/addSubTopic', function (req, res, next) {
         var newSubTopic = new SubTopic({
             name : subTopicName,
             definition : subTopicDefinition,
-            author : currentUser._id,
             mainTopic : mainTopicId
         });
 
         newSubTopic.save(function (err) {
-           if (err) throw err;
+            if (err) throw err;
             console.log("Başarılı bir şekilde alt başlık kaydedildi ");
             res.redirect('/');
         });
@@ -58,7 +53,44 @@ router.post('/addSubTopic', function (req, res, next) {
             subTopicDefinition : subTopicDefinition
         });
     }
+});
+
+router.get('/addEditor', function (req, res, next) {
+    var queryForUser = {isEditor : false};
+    var queryForSubTopic = {hasEditor : false};
+    var myUsers = [];
+    var mySubTopics = [];
+
+    async.parallel([
+        function (callback) {
+            User.find(queryForUser, function (err, users) {
+                if (err) return callback(err);
+                users.forEach(function (user) {
+                    myUsers.push(user);
+                });
+            });
+            callback();
+        },
+        function (callback) {
+            SubTopic.find(queryForSubTopic, function (err, subTopics) {
+                if (err) return callback(err);
+                subTopics.forEach(function (subTopic) {
+                    mySubTopics.push(subTopic)
+                });
+            });
+            callback();
+        }
+
+    ], function (err) {
+        if (err) return (err);
+        res.render('add_editor',{
+            
+        });
+    })
+
 
 });
+
+
 
 module.exports = router;

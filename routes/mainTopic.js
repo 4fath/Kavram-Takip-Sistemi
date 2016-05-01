@@ -11,3 +11,6 @@ var User = require('../models/User');
 var Comment = require('../models/Comment');
 
 var router = express.Router();
+
+
+module.exports = router;

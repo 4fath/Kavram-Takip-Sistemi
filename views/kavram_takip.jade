@@ -19,6 +19,7 @@ html(lang='en')
         script(src='../js/dirPagination.js')
         script(type='text/javascript').
     body
+        != messages()
         .container-fluid
             .row
                 .col-md-12
@@ -43,9 +44,9 @@ html(lang='en')
                                 if !user
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
-                                            button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/users/login';")
+                                            button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
                                                 | Giriş
-                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/register';")
+                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
                                                 | Kaydol !
 
                                 if user
