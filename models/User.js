@@ -4,7 +4,7 @@
 
 require('dotenv').config();
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 var uniqueValidator = require('mongoose-unique-validator');
 
 var mongoLabURL = process.env.MONGODB_REMOTE_URL ;
