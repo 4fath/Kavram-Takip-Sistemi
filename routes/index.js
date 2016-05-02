@@ -28,6 +28,7 @@ router.get('/', function (req, res, next) {
                     mainTopics.forEach(function (mainTopic) {
                         myMainTopics.push(mainTopic);
                     });
+
                     callback();
                 });
             },
@@ -87,6 +88,16 @@ router.get('/', function (req, res, next) {
             var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength - 1)];
             var randomSubTopic = myMainTopics[getRandomInt(0, subTopicLength - 1)];
             var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+
+            
+            // instanceof istediğim gibi çalışıyor
+            // if (myMainTopics[0] instanceof SubTopic){
+            //     console.log("SubTopic sanan mainTopic")
+            // }else if (myMainTopics[0] instanceof MainTopic){
+            //     console.log("mainTopic gibi mainTopic")
+            // }else {
+            //     console.log("Ne olduğunu anlamdık");
+            // }
 
             res.render('kavram_takip', {
                 title: 'Kavram Takip Sistemi',

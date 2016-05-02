@@ -2,6 +2,7 @@
  * Created by TOSHIBA on 1.5.2016.
  */
 var express = require('express');
+var async = require('async');
 
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
@@ -12,6 +13,7 @@ var Comment = require('../models/Comment');
 
 var router = express.Router();
 
+// TODO : NOT tested 
 router.get('/addSubTopic', function (req, res) {
     var myMainTopics = [];
     MainTopic.find({}, function (err, mainTopics) {
@@ -25,7 +27,9 @@ router.get('/addSubTopic', function (req, res) {
     });
 });
 
+// TODO : NOT tested
 router.post('/addSubTopic', function (req, res, next) {
+    var currentUserId = req.user._id;
     var mainTopicId = req.body.mainTopicID;
     var subTopicName = req.body.subTopicName;
     var subTopicDefinition = req.body.subTopicDefinition;
@@ -37,15 +41,26 @@ router.post('/addSubTopic', function (req, res, next) {
         var newSubTopic = new SubTopic({
             name : subTopicName,
             definition : subTopicDefinition,
-            mainTopic : mainTopicId
+            mainTopic : mainTopicId,
+            editor : currentUserId
         });
 
         newSubTopic.save(function (err) {
             if (err) throw err;
-            console.log("Başarılı bir şekilde alt başlık kaydedildi ");
-            res.redirect('/');
+            var query = {_id : mainTopicId};
+            MainTopic.findOneAndUpdate(query,
+                {$push : {relevantSubTopics : newSubTopic._id}},
+                {safe: true, upsert: true},
+                function (err, doc) {
+                    if (err) throw err;
+                    console.log("SubTopic başarılı bir şekilde kaydedildi : "+newSubTopic );
+                    console.log("MainTopic update edildi : " + doc);
+                    res.render('/', {
+                        message : 'SubTopic başarılı bir şekilde eklendi.'
+                    });
+                }
+            );
         });
-
     }else {
         res.render('add_sub_topic', {
             errors : errors,
@@ -55,6 +70,8 @@ router.post('/addSubTopic', function (req, res, next) {
     }
 });
 
+// FOOL 
+// TODO : NOT completed 
 router.get('/addEditor', function (req, res, next) {
     var queryForUser = {isEditor : false};
     var queryForSubTopic = {hasEditor : false};
@@ -87,10 +104,13 @@ router.get('/addEditor', function (req, res, next) {
             
         });
     })
-
-
 });
 
+// FOOL 
+// TODO : NOT completed
+router.post('/addEditor', function (req, res, next) {
+    
+});
 
 
 module.exports = router;
