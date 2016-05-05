@@ -17,6 +17,9 @@ html(lang='en')
         meta(name='description', content='Source code generated using layoutit.com')
         meta(name='author', content='LayoutIt!')
         script(src='../js/adminOptionsjs.js')
+        link(href='../css/dataTable.css', rel='stylesheet')
+        script(src='../ckeditor/ckeditor.js')
+        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
         link(href='../css/bootstrap.min.css', rel='stylesheet')
         link(href='../css/style.css', rel='stylesheet')
         script(src='../js/jquery-2.2.2.js')
@@ -52,86 +55,12 @@ html(lang='en')
                                             | Kaydol
                             // /.navbar-collapse
                         // /.container-fluid
-                    script(type='text/javascript').
-                        var mainApp = angular.module("mainApp", []);
-                        mainApp.controller('userController', function($scope) {
-                            $scope.users = {
-                                alanlar:[
-                                    {userName:'caca',firstName:'çağrı', lastName:'alkan', mailName:'caca@hotmail.com', alan:'bilgisayar'},
-                                    {userName:'gundy',firstName:'yunus', lastName:'yıldırım', mailName:'gundy@hotmail.com', alan:'kimya'},
-                                    {userName:'bugra10ur',firstName:'buğra', lastName:'şen', mailName:'bugra10ur@hotmail.com', alan:'matematik'},
-                                    {userName:'fahrenheit',firstName:'maho', lastName:'aksakal', mailName:'fahrenheit@hotmail.com', alan:'fizik'},
-                                    {userName:'sipahi',firstName:'ozan', lastName:'özdil', mailName:'sipahi@hotmail.com', alan:'insaat'},
-                                    {userName:'muki',firstName:'erhan', lastName:'gülas', mailName:'muki@hotmail.com', alan:'makine'}
-                                ],
-                                fields:[
-                                    {alanIsmi:'Kulanıcı Adı'},
-                                    {alanIsmi:'Adı'},
-                                    {alanIsmi:'Soyadı'},
-                                    {alanIsmi:'Email'},
-                                    {alanIsmi:'Alanı'}
-                                ],
-                                kavramList:[
-                                    {topics:'java', commentCount:'10'},
-                                    {topics:'veri madenciliği', commentCount:'100'},
-                                    {topics:'sql server', commentCount:'12'},
-                                    {topics:'visual studio', commentCount:'6'},
-                                    {topics:'c++', commentCount:'34'},
-                                    {topics:'javascript', commentCount:'76'},
-                                    {topics:'swift', commentCount:'1'},
-                                    {topics:'android', commentCount:'6'}
-                                ],
-                            };
-                            $scope.filteredTodos = []
-                                    ,$scope.currentPage = 1
-                                    ,$scope.numPerPage = 2
-                                    ,$scope.maxSize = 5;
-                            $scope.numPages = function () {
-                                return Math.ceil($scope.users.alanlar.length / $scope.numPerPage);
-                            };
-                            $scope.$watch("currentPage + numPerPage", function() {
-                                var begin = (($scope.currentPage - 1) * $scope.numPerPage)
-                                        , end = begin + $scope.numPerPage;
-                                $scope.filteredTodos = $scope.todos.slice(begin, end);
-                            });
-                            $scope.delete=function (a){
-                                $scope.users.alanlar.splice(a,1);
-                            }
-                        });
                     .row(ng-app='mainApp', ng-controller='userController')
                         #sidebar-collapse.col-md-2.sidebar
-                            ul.nav.nav-pills.nav-stacked
-                                li
-                                    a(href='adminOptions.html')
-                                        use(xlink:href='#stroked-dashboard-dial')
-                                        |  İstatislikler
-                                li
-                                    a(href='chiefInbox.html')
-                                        use(xlink:href='#stroked-calendar')
-                                        | Gelen Kutusu
-                                li
-                                    a(href='chiefEditorIslemleri.html')
-                                        use(xlink:href='#stroked-line-graph')
-                                        | Editör İşlemleri
-                                li.active
-                                    a(href='chiefSubTopic.html')
-                                        use(xlink:href='#stroked-table')
-                                        |  Bilim Alanı İşlemleri
-                                li
-                                    a(href='forms.html')
-                                        use(xlink:href='#stroked-pencil')
-                                        | Forms
-                                li
-                                    a(href='panels.html')
-                                        use(xlink:href='#stroked-app-window')
-                                        |  Alerts & Panels
-                                li
-                                    a(href='icons.html')
-                                        use(xlink:href='#stroked-star')
-                                        |  Icons
+
                         // /.sidebar
                         .col-md-9
-                            form(method='post', action='/users/addTopic')
+                            form(method='post', action='/topic/addTopic')
                                 .form-group
                                     .col-md-1
                                     .col-md-11
@@ -152,9 +81,15 @@ html(lang='en')
                                             .panel-body
                                                 input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
                                         .panel.panel-success.col-md-8
-                                            .panel-heading Topic Definition
+                                            .panel-heading Topic Özeti
                                             .panel-body
-                                                input.form-control(type='text', name='topicDefinition', placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                                                textarea(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                                        .panel.panel-success.col-md-12
+                                            .panel-heading Kavram Tanımı
+                                            br
+                                            textarea#textarea(name='topicDefinition')
+                                            script.
+                                                CKEDITOR.replace('textarea');
                                         .col-md-5
                                             button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
 

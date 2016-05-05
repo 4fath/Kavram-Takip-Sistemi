@@ -58,6 +58,12 @@ var MainTopicSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'SubTopic'
     }],
+    
+    relevantSubTopicSize : {
+        type : Number,
+        default : 0,
+        required : true
+    },
 
     viewCount: {
         type: Number,

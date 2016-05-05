@@ -13,40 +13,64 @@ var router = express.Router();
 router.get('/addTopic', ensureAuthentication, function (req, res, next) {
     var myMainTopics = [];
     var mySubTopics = [];
-    async.parallel([
-        function (callback) {
-            MainTopic.find({}, function (err, mainTopics) {
-                mainTopics.forEach(function (mainTopic) {
-                    if (err) return callback(err);
-                    myMainTopics.push(mainTopic);
-                });
-            });
-            callback();
-        },
-        function (callback) {
-            SubTopic.find({}, function (err, subTopics) {
-                if (err) return callback(err);
-                subTopics.forEach(function (subTopic) {
-                    mySubTopics.push(subTopic);
-                });
-            });
-            callback();
-        }
-    ], function (err) {
-        if (err) return (err);
-        res.render('add_new_topic', {
-            mainTopics: myMainTopics,
-            subTopics: mySubTopics
+    MainTopic.find({}, function (err, mainTopics) {
+        if (err) throw err;
+        mainTopics.forEach(function (mainTopic) {
+            myMainTopics.push(mainTopic);
         });
+
+        SubTopic.find({}, function (err, subTopics) {
+            if (err) throw err;
+            subTopics.forEach(function (subTopic) {
+                mySubTopics.push(subTopic);
+            });
+            res.render('addTopic', {
+                mainTopics: myMainTopics,
+                subTopics: mySubTopics
+            });
+        })
     });
+
+    // async.parallel([
+    //     function (callback) {
+    //         MainTopic.find({}, function (err, mainTopics) {
+    //             if (err) return callback(err);
+    //             console.log(mainTopics);
+    //             myMainTopics = mainTopics;
+    //             // mainTopics.forEach(function (mainTopic) {
+    //             //     myMainTopics.push(mainTopic);
+    //             // });
+    //         });
+    //         callback();
+    //     },
+    //     function (callback) {
+    //         SubTopic.find({}, function (err, subTopics) {
+    //             if (err) return callback(err);
+    //             console.log(subTopics);
+    //             mySubTopics = subTopics;
+    //             // subTopics.forEach(function (subTopic) {
+    //             //     mySubTopics.push(subTopic);
+    //             // });
+    //         });
+    //         callback();
+    //     }
+    // ], function (err) {
+    //     if (err) return (err);
+    //     console.log("MainTopics :" + myMainTopics);
+    //     console.log("SubTopics :" + mySubTopics);
+    //     res.render('addTopic', {
+    //         mainTopics: myMainTopics,
+    //         subTopics: mySubTopics
+    //     });
+    // });
 
 });
 
 // Add Topic
 router.post('/addTopic', ensureAuthentication, function (req, res, next) {
 
-    var selectedMainTopicId = req.body.mainTopicID;
-    var selectedSubTopicId = req.body.subTopicID;
+    var selectedMainTopicId = req.body.myMainTopic;
+    var selectedSubTopicId = req.body.mySubTopic;
 
     var topicName = req.body.topicName;
     var topicAbstract = req.body.topicAbstract;
@@ -65,8 +89,8 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
             abstract: topicAbstract,
             definition: topicDefinition,
             author: currentUser._id,
-            relevantMainTopic: [selectedMainTopicId],
-            relevantSubTopic: [selectedSubTopicId],
+            relevantMainTopics: [selectedMainTopicId],
+            relevantSubTopics: [selectedSubTopicId],
             allowStatus: false,
             isDraft: false
         });
@@ -74,24 +98,79 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
         newTopic.save(function (err) {
             if (err) throw err;
             var query = {_id: selectedMainTopicId};
-            SubTopic.findOneAndUpdate(query,
-                {$push: {relevantTopics: newTopic._id}},
-                {safe: true, upsert: true},
-                function (err, doc) {
+
+            SubTopic.findById(selectedSubTopicId, function (err, subTopic) {
+
+                console.log(subTopic);
+
+                subTopic.relevantTopics.push(newTopic._id);
+
+                +subTopic.save(function (err) {
                     if (err) throw err;
-                    res.render('add_new_topic', {
-                        messages: 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
-                        ' onaylandıktan sonra sistemde görünmeye başlayacaktır '
+                    var myMainTopics = [];
+                    var mySubTopics = [];
+                    MainTopic.find({}, function (err, mainTopics) {
+                        if (err) throw err;
+                        mainTopics.forEach(function (mainTopic) {
+                            myMainTopics.push(mainTopic);
+                        });
+
+                        SubTopic.find({}, function (err, subTopics) {
+                            if (err) throw err;
+                            subTopics.forEach(function (subTopic) {
+                                mySubTopics.push(subTopic);
+                            });
+                            res.render('addTopic', {
+                                messages: 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
+                                ' onaylandıktan sonra sistemde görünmeye başlayacaktır ',
+                                mainTopics: myMainTopics,
+                                subTopics: mySubTopics
+                            });
+                        })
                     });
-                });
+
+                })
+
+            });
+
+            // SubTopic.findOneAndUpdate(query,
+            //     {$push: {relevantTopics: newTopic._id}},
+            //     {safe: true, upsert: true},
+            //     function (err, doc) {
+            //         if (err) throw err;
+            //         res.render('add_new_topic', {
+            //             messages: 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
+            //             ' onaylandıktan sonra sistemde görünmeye başlayacaktır ',
+            //             mainTopics: myMainTopics,
+            //             subTopics: mySubTopics
+            //         });
+            //     });
         });
 
     } else {
-        res.render('add_new_topic', {
-            errors: errors,
-            name: topicName,
-            abstract: topicAbstract,
-            definition: topicDefinition
+        var myMainTopics = [];
+        var mySubTopics = [];
+
+        MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw err;
+            mainTopics.forEach(function (mainTopic) {
+                myMainTopics.push(mainTopic);
+            });
+
+            SubTopic.find({}, function (err, subTopics) {
+                if (err) throw err;
+                subTopics.forEach(function (subTopic) {
+                    mySubTopics.push(subTopic);
+                });
+                res.render('addTopic', {
+                    errors: errors,
+                    mainTopics: myMainTopics,
+                    subTopics: mySubTopics,
+                    topicName: topicName,
+                    topicAbstract: topicAbstract,
+                    topicDefinition: topicDefinition
+                });
+            })
         });
     }
 });
@@ -178,15 +257,17 @@ router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, nex
     req.checkBody('topicDefinition', 'Tanım alanı boş olamaz').notEmpty();
 
     if (!errors) {
-        var query = {_id : topicId};
+        var query = {_id: topicId};
         Topic.findOneAndUpdate(query,
-            {$set: {
-                name: topicName,
-                abstract : topicAbstract,
-                definition : topicDefinition,
-                allowStatus : false,
-                updatedAt : Date.now
-            }},
+            {
+                $set: {
+                    name: topicName,
+                    abstract: topicAbstract,
+                    definition: topicDefinition,
+                    allowStatus: false,
+                    updatedAt: Date.now
+                }
+            },
             {safe: true, upsert: true},
             function (err, doc) {
                 if (err) throw err;
@@ -195,9 +276,9 @@ router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, nex
             }
         )
 
-    }else {
-        res.render('edit_topic',{
-            errors : errors,
+    } else {
+        res.render('edit_topic', {
+            errors: errors,
             topicName: topicName,
             topicAbstract: topicAbstract,
             topicDefinition: topicDefinition
@@ -206,7 +287,6 @@ router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, nex
 
 });
 
-
 function ensureAuthentication(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
@@ -214,38 +294,14 @@ function ensureAuthentication(req, res, next) {
     res.redirect('/');
 }
 
-router.get('/:mainTopicId', ensureAuthentication, function (req, res, next) {
-    var mainTopicId = req.params.mainTopicId; 
-    MainTopic.findById(mainTopicId, function (err, mainTopic) {
-        if (err) throw err;
-        var subTopicArray = mainTopic.relevantSubTopics;
-        res.render('show_sub_topic_list',{
-            subTopics : subTopicArray
-        });
-    });
-});
-
-router.get('/:subTopicId', ensureAuthentication, function (req, res, next) {
-    var subTopicId = req.params.subTopicId;
-    SubTopic.findById(subTopicId, function (err, subTopic) {
-        if (err) throw err;
-        var topicArray = subTopic.relevantTopics;
-        res.render('show_topic_list', {
-            topics : topicArray
-        });
-    });
-});
-
 router.get('/:topicId', ensureAuthentication, function (req, res, next) {
     var topicId = req.params.topicId;
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
         res.render('show_topic', {
-           topic : topic 
+            topic: topic
         });
     });
 });
-
-
 
 module.exports = router;

@@ -15,6 +15,8 @@ var Comment = require('../models/Comment');
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
+
+    // req.user.role == 'admin'
     if (req.user.role == 'admin') {
         var myMainTopics, mySubTopics, myTopics, myComments;
         var myUsers = [];
@@ -81,7 +83,7 @@ router.get('/', function (req, res, next) {
         });
 
     } else {
-        res.render('/not-found');
+        res.render('not_found');
     }
 });
 

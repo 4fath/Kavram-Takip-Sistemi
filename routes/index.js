@@ -18,6 +18,7 @@ router.get('/', function (req, res, next) {
     var myTopics = [];
     var onerilenTopicler = [];
 
+    // USER access
     if (currentUser) {
         var currentUserId = currentUser._id;
         // parallel search for async process
@@ -49,7 +50,6 @@ router.get('/', function (req, res, next) {
                                 });
                             }
                         });
-
                     });
                     callback();
                 });
@@ -57,11 +57,11 @@ router.get('/', function (req, res, next) {
             function (callback) {
                 Topic.find({}, function (err, topics) {
                     if (err) return callback(err);
-                    if (topics.length > 0){
+                    if (topics.length > 0) {
                         var maxViewedTopic = topics[0];
                         topics.forEach(function (topic) {
                             myTopics.push(topic);
-                            if (topic.viewCount > maxViewedTopic.viewCount){
+                            if (topic.viewCount > maxViewedTopic.viewCount) {
                                 maxViewedTopic = topic;
                             }
                         });
@@ -87,9 +87,8 @@ router.get('/', function (req, res, next) {
             // get a random Main, Sub etc.. topic for display on screen
             var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength - 1)];
             var randomSubTopic = myMainTopics[getRandomInt(0, subTopicLength - 1)];
-            var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
 
-            
+
             // instanceof istediğim gibi çalışıyor
             // if (myMainTopics[0] instanceof SubTopic){
             //     console.log("SubTopic sanan mainTopic")
@@ -99,22 +98,43 @@ router.get('/', function (req, res, next) {
             //     console.log("Ne olduğunu anlamdık");
             // }
 
-            res.render('kavram_takip', {
-                title: 'Kavram Takip Sistemi',
-                mainTopics: myMainTopics,
-                subTopics: mySubTopics,
-                topics: myTopics,
-                randomMainTopic: randomMainTopic,
-                randomSubTopic: randomSubTopic,
-                randomTopic: randomTopic,
-                takipEdilenler: takipEdilenListesi,
-                onerilenTopicler: onerilenTopicler
-            });
 
+            // var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+
+            var randomTopic = myTopics[topicLength - 1];
+
+            var MainTopicsId = randomTopic.relevantMainTopics[0];
+            var SubTopicId = randomTopic.relevantSubTopics[0];
+
+            // finding screen mainTopic and subTopic
+
+            MainTopic.findById(MainTopicsId, function (err, mainTopic) {
+                if (err) throw err;
+                SubTopic.findById(SubTopicId, function (err, subTopic) {
+                    if (err) throw err;
+                    res.render('kavram_takip', {
+                        title: 'Kavram Takip Sistemi',
+                        mainTopics: myMainTopics,
+                        subTopics: mySubTopics,
+                        topics: myTopics,
+
+                        screenMainTopic: mainTopic,
+                        screenSubTopic: subTopic,
+                        screenTopic: randomTopic,
+                        takipEdilenler: takipEdilenListesi,
+                        onerilenTopicler: onerilenTopicler
+                    });
+                })
+            });
         });
-        // guest access
+
+
+        // ======== GUEST access
     } else {
         // parallel search for async process
+
+
+
         async.parallel([
             function (callback) {
                 MainTopic.find({}, function (err, mainTopics) {
@@ -153,21 +173,32 @@ router.get('/', function (req, res, next) {
             // get a random Main, Sub etc.. topic for display on screen
             var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength - 1)];
             var randomSubTopic = myMainTopics[getRandomInt(0, subTopicLength - 1)];
-            var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+            // var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
 
-            res.render('kavram_takip', {
-                title: 'Kavram Takip Sistemi',
-                mainTopics: myMainTopics,
-                subTopics: mySubTopics,
-                topics: myTopics,
-                randomMainTopic: randomMainTopic,
-                randomSubTopic: randomSubTopic,
-                randomTopic: randomTopic
+            var randomTopic = myTopics[topicLength - 1];
+
+            var MainTopicsId = randomTopic.relevantMainTopics[0];
+            var SubTopicId = randomTopic.relevantSubTopics[0];
+
+            // finding screen mainTopic and subTopic
+
+            MainTopic.findById(MainTopicsId, function (err, mainTopic) {
+                if (err) throw err;
+                SubTopic.findById(SubTopicId, function (err, subTopic) {
+                    if (err) throw err;
+                    res.render('kavram_takip', {
+                        title: 'Kavram Takip Sistemi',
+                        mainTopics: myMainTopics,
+                        subTopics: mySubTopics,
+                        topics: myTopics,
+                        screenMainTopic: mainTopic,
+                        screenSubTopic: subTopic,
+                        screenTopic: randomTopic
+                    });
+                })
             });
-
         });
     }
-
 });
 
 function getRandomInt(min, max) {

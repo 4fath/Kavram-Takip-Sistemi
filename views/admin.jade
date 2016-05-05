@@ -1,3 +1,154 @@
 //
    Created by TOSHIBA on 30.4.2016.
 
+doctype html
+html(lang='en')
+
+    head
+        title Kavram Takip Sistemi
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(charset='utf-8')
+        meta(http-equiv='X-UA-Compatible', content='IE=edge')
+        meta(name='viewport', content='width=device-width, initial-scale=1')
+        link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+        link(type='text/css', rel='stylesheet', href='../css/materialize.css', media='screen,projection')
+        link(href='../css/bootstrap.min.css', rel='stylesheet')
+        link(href='../css/style.css', rel='stylesheet')
+        link(href='../css/dataTable.css', rel='stylesheet')
+        script(src='../ckeditor/ckeditor.js')
+        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
+        script(src='../js/scripts.js')
+        script(src='../js/jquery-2.2.2.js')
+        script(type='text/javascript', src='//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js')
+        script(src='../js/dirPagination.js')
+        script(type='text/javascript').
+    body
+        != messages()
+        .container-fluid
+            .row
+                .col-md-12
+                    nav.navbar.navbar-inverse
+                        .container-fluid
+                            // Brand and toggle get grouped for better mobile display
+                            .navbar-header
+                                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                                    span.sr-only Toggle navigation
+                                    span.icon-bar
+                                    span.icon-bar
+                                    span.icon-bar
+                                a.navbar-brand(href='/') KavramTakip
+                            // Collect the nav links, forms, and other content for toggling
+                            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                .col-md-3
+                                form.navbar-form.navbar-left(role='search')
+                                    .form-group
+                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                        button.btn.btn-default(type='submit') Ara
+
+                                if !user
+                                    ul.nav.navbar-nav.navbar-right
+                                        .navbar-form.form-group
+                                            button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
+                                                | Giriş
+                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
+                                                | Kaydol !
+
+                                if user
+                                    | #{user.role}
+                                    if user.role == 'admin'
+                                        ul.nav.navbar-nav.navbar-right
+                                            .navbar-form.form-group
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addChiefEditor';")
+                                                    | Chief Editor Ekle #{user.firstName} !
+                                            .navbar-form.form-group
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addMainTopic';")
+                                                    | Main Topic Ekle #{user.firstName} !
+                                    else
+                                        if user.role == 'chiefEditor'
+                                            ul.nav.navbar-nav.navbar-right
+                                                .navbar-form.form-group
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                        |  Editor Ekle #{user.firstName}!
+                                                .navbar-form.form-group
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addSubTopic';")
+                                                        |  SubTopic Ekle #{user.firstName}!
+                                        else
+                                            if user.role == 'editor'
+                                                ul.nav.navbar-nav.navbar-right
+                                                    .navbar-form.form-group
+                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                            |  Editor girmis #{user.firstName}!
+                                                    .navbar-form.form-group
+                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addTopic';")
+                                                            |  SubTopic Ekle #{user.firstName}!
+
+                                            else
+                                                if user.role == 'author'
+                                                    ul.nav.navbar-nav.navbar-right
+                                                        .navbar-form.form-group
+                                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                                |  Hoşgeldin #{user.firstName}!
+
+                                    ul.nav.navbar-nav.navbar-right
+                                        .navbar-form.form-group
+                                            if user.role == 'editor'
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
+                                                    | Editor Profili !
+                                            else
+                                                if user.role == 'admin'
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                        | Admin profili !
+                                                else
+                                                    if user.role == 'author'
+                                                        a.btn.btn-info.btn-lg(href='#')
+                                                            span.glyphicon.glyphicon-user
+                                                            |  Profil
+                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
+                                                | Çıkış !
+                    .row
+                        #sidebar-collapse.col-md-2.sidebar
+                            ul.nav.nav-pills.nav-stacked
+                                li
+                                    a(href='adminOptions.html')
+                                        |  İstatislikler
+                                li
+                                    a(href='adminInbox.html')
+                                        | Gelen Kutusu
+                                li.active
+                                    a(href='adminSubAdmin.html')
+                                        | Alt Admin İşlemleri
+                                li
+                                    a(href='tables.html')
+                                        |  Tables
+                                li
+                                    a(href='forms.html')
+                                        | Forms
+                                li
+                                    a(href='panels.html')
+                                        |  Alerts & Panels
+                                li
+                                    a(href='icons.html')
+                                        |  Icons
+
+            .fixed-action-btn.horizontal(style='bottom: 45px; right: 24px;')
+                a.btn-floating.btn-large.red
+                    i.large.material-icons mode_edit
+                ul
+                    li
+                        a.btn-floating.red
+                            i.material-icons insert_chart
+                    li
+                        a.btn-floating.yellow.darken-1
+                            i.material-icons format_quote
+                    li
+                        a.btn-floating.green
+                            i.material-icons publish
+                    li
+                        a.btn-floating.blue
+                            i.material-icons attach_file
+
+        script(src='../js/jquery.min.js')
+        script(src='../js/bootstrap.min.js')
+        script(src='../js/scripts.js')
+        script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
+        script(type='text/javascript', src='../js/materialize.js')

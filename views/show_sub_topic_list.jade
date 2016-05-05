@@ -1,3 +1,6 @@
+//
+   Created by TOSHIBA on 5.5.2016.
+
 doctype html
 html(lang='en')
 
@@ -42,7 +45,6 @@ html(lang='en')
                                         input.form-control(type='text', placeholder='Kavram adı giriniz')
                                         button.btn.btn-default(type='submit') Ara
 
-                                        // Guest access
                                 if !user
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
@@ -51,12 +53,44 @@ html(lang='en')
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
                                                 | Kaydol !
 
-
                                 if user
+                                    | #{user.role}
+                                    if user.role == 'admin'
+                                        ul.nav.navbar-nav.navbar-right
+                                            .navbar-form.form-group
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addChiefEditor';")
+                                                    | Chief Editor Ekle #{user.firstName} !
+                                            .navbar-form.form-group
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addMainTopic';")
+                                                    | Main Topic Ekle #{user.firstName} !
+                                    else
+                                        if user.role == 'chiefEditor'
+                                            ul.nav.navbar-nav.navbar-right
+                                                .navbar-form.form-group
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                        |  Editor Ekle #{user.firstName}!
+                                                .navbar-form.form-group
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addSubTopic';")
+                                                        |  SubTopic Ekle #{user.firstName}!
+                                        else
+                                            if user.role == 'editor'
+                                                ul.nav.navbar-nav.navbar-right
+                                                    .navbar-form.form-group
+                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                            |  Editor girmis #{user.firstName}!
+                                                    .navbar-form.form-group
+                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addTopic';")
+                                                            |  SubTopic Ekle #{user.firstName}!
+
+                                            else
+                                                if user.role == 'author'
+                                                    ul.nav.navbar-nav.navbar-right
+                                                        .navbar-form.form-group
+                                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                                |  Hoşgeldin #{user.firstName}!
+
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
-                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';")
-                                                span.glyphicon.glyphicon-plus(aria-hidden='true')
                                             if user.role == 'editor'
                                                 button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                     | Editor Profili !
@@ -71,62 +105,17 @@ html(lang='en')
                                                             |  Profil
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                 | Çıkış !
-                    .row
-                        .col-md-2
-                            .list-group
-                                span.list-group-item.active(href='#')
-                                    | Ana Başlıklar
-                                    span#slide-submenu.pull-right
-                                        i.fa.fa-times
-                                each mainTopic in mainTopics
-                                    a.list-group-item(href='/mainTopic/#{mainTopic._id}')
-                                        i.fa
-                                        |  #{mainTopic.name}
-                                        if mainTopic.relevantSubTopics.length > 0
-                                            span.badge 1
-                                        else
-                                            span.badge 0
 
-                        .col-md-8
-                            .row
-                                .col-md-1
-                                .col-md-10
-                                    ul.list-group
-                                        li.list-group-item.modal-header
-                                            h3
-                                                ul.breadcrumb
-                                                    li
-                                                        a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
-                                                    li
-                                                        a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
-                                                    li
-                                                        a(href='#') #{screenTopic.name}
+                        .col-md-10
+                            .col-md-8
+                                h2 Condensed Table
+                                table.table.table-responsive
+                                    tbody
+                                        tr.col-md-4(style='display: block; float: left;')
+                                        each subTopic in subTopics
+                                            td
+                                                a(style='color:#5cb85c;', href='/subTopic/#{subTopic._id}') #{subTopic.name}
 
-                                                | !{screenTopic.definition}
-                                                .row
-                                                    .col-md-2
-                                                        a(href='/#{screenTopic.author}') Yazar
-                                                    .col-md-8
-                                                    .col-md-2
-                                                        span #{screenTopic.author}
-
-
-                                        //if user
-                                        //    li.list-group-item
-                                        //        form(method='post', action='/users/addComment', role='form')
-                                        //            textarea#textarea(name='commentBody')
-                                        //            script.
-                                        //                CKEDITOR.replace('textarea');
-                                        //            br
-                                        //            .row
-                                        //                .col-md-6
-                                        //                    button.btn.btn-default.btn-block(type='submit')
-                                        //                        | Taslak Olarak Kaydet    
-                                        //                        span.glyphicon.glyphicon-pencil(class='aria-hidden=')
-                                        //                .col-md-6
-                                        //                    button.btn.btn-success.btn-block(formaction='/comment/addComment', type='submit')
-                                        //                        | Gönder
-                                .col-md-1
                         .col-md-2
                             if user
                                 .list-group

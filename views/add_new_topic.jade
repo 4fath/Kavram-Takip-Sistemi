@@ -21,56 +21,9 @@ html(lang='en')
         link(href='../css/dataTable.css', rel='stylesheet')
         script(type='text/javascript', src='//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js')
         script(src='../js/dirPagination.js')
-        script(type='text/javascript').
-            $(document).ready(function(){
-                $('#myTable').DataTable();
-            });
-        // InstanceBeginEditable name="head"
-        // InstanceEndEditable
+
     body
-        script(type='text/javascript').
-            var mainApp = angular.module("mainApp", ['angularUtils.directives.dirPagination']);
-            mainApp.controller('userController', function($scope) {
-                $scope.bigCurrentPage = 1;
-                $scope.kavramPageSize = 10;
-                $scope.pageSize = 10;
-                $scope.users = {
-                    kavramList:[
-                        {topics:'java', commentCount:'10'},
-                        {topics:'veri madenciliği', commentCount:'100'},
-                        {topics:'sql server', commentCount:'12'},
-                        {topics:'visual studio', commentCount:'6'},
-                        {topics:'c++', commentCount:'34'},
-                        {topics:'javascript', commentCount:'76'},
-                        {topics:'swift', commentCount:'1'},
-                        {topics:'android', commentCount:'6'},
-                        {topics:'veri madenciliği', commentCount:'100'},
-                        {topics:'sql server', commentCount:'12'},
-                        {topics:'visual studio', commentCount:'6'},
-                        {topics:'c++', commentCount:'34'},
-                        {topics:'javascript', commentCount:'76'},
-                        {topics:'swift', commentCount:'1'}
-                    ],
-                    fields:[
-                        {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Kuantum Bilgisayarları'},
-                        {temelAlan:'Sosyal, Beşeri ve İdari Bilimler',bilimAlani:'Felsefe', anahtarKelime:'Mantık'},
-                        {temelAlan:'Spor Bilimleri',bilimAlani:'Spor Bilimleri', anahtarKelime:'Spor Biyomekaniği'},
-                        {temelAlan:'Ziraat, Orman ve Su Ürünleri',bilimAlani:'Orman Mühendisliği', anahtarKelime:'Orman Botaniği'},
-                        {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Robotik'},
-                        {temelAlan:'Sosyal, Beşeri ve İdari Bilimler',bilimAlani:'Yeniçağ Tarihi', anahtarKelime:'Denizcilik Tarihi'},
-                        {temelAlan:'Sosyal, Beşeri ve İdari Bilimler',bilimAlani:'Felsefe', anahtarKelime:'Ontoloji'},
-                        {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Ses İşleme'},
-                        {temelAlan:'Mühendislik',bilimAlani:'Bilgisayar Bilimleri ve Mühendisliği', anahtarKelime:'Veri Madenciliği'}
-                    ],
-                };
-                $scope.deleteField=function (a){
-                    $scope.users.fields.splice(a,1);
-                };
-                $scope.sort = function(keyname){
-                    $scope.sortKey = keyname;   //set the sortKey to the param passed
-                    $scope.reverse = !$scope.reverse; //if true make it false and vice versa
-                };
-            });
+
         .container-fluid
             .row
                 .col-md-12
@@ -118,30 +71,28 @@ html(lang='en')
                                 .col-md-10
                                 form(method='POST', action='/topic/add')
                                     .form-group
-                                        .panel.panel-success.col-md-3
-                                            .panel-heading Temel Alan
+
+                                        .panel.panel-success.col-md-5
+                                            .panel-heading Main Topic
                                             .panel-body
-                                                select.form-control(name='size')
-                                                    option(value='') Seçiniz
-                                                    option(value='', ng-repeat='x in users.fields') {{ x.temelAlan }}
-                                        .col-md-1
-                                        .panel.panel-success.col-md-3
-                                            .panel-heading Bilim Alanı
+                                                select(name='myMainTopic')
+                                                    each mainTopic in mainTopics
+                                                        option(value='#{mainTopic._id}')  #{mainTopic.name}
+
+                                        .panel.panel-success.col-md-5
+                                            .panel-heading Sub Topic
                                             .panel-body
-                                                select.form-control(name='size')
-                                                    option(value='') Seçiniz
-                                                    option(value='', ng-repeat='x in users.fields') {{ x.bilimAlani }}
-                                        .col-md-1
-                                        .panel.panel-success.col-md-3
-                                            .panel-heading Anahtar Kelime
-                                            .panel-body
-                                                select.form-control(name='size')
-                                                    option(value='') Seçiniz
-                                                    option(value='', ng-repeat='x in users.fields') {{ x.anahtarKelime }}
+                                                select(name='mySubTopic')
+                                                    each subTopic in subTopics
+                                                        option(value='#{subTopic._id}')  #{subTopic.name}
                                         .panel.panel-success.col-md-8
-                                            .panel-heading Kavram Adı
+                                            .panel-heading  Topic Name
                                             .panel-body
-                                                input#topicName.form-control(type='text', placeholder='Kavram Adını Giriniz',name ='kavram_adi', autofocus='')
+                                                input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                                        .panel.panel-success.col-md-8
+                                            .panel-heading Topic Definition
+                                            .panel-body
+                                                input.form-control(type='text', name='topicDefinition', placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
                                         .panel.panel-success.col-md-12
                                             .panel-heading Kavram Tanımı
                                             br

@@ -179,6 +179,13 @@ passport.use(new LocalStrategy(
 
 router.get('/authorProfile', ensureAuthentication, function (req, res, next) {
     
+    var userId = req.user._id;
+    
+    res.render('', {
+        
+    });
+    
+    
 });
 
 // TODO : NOT tested
@@ -359,7 +366,7 @@ router.post('/follow/:topicId', function (req, res) {
 
 });
 
-router.get('/:userId', function (req, res, next) {
+router.get('/authorProfile', function (req, res, next) {
     var userId = req.params.userId;
     var displayUser = {};
     var displayTopics = [];
@@ -383,8 +390,7 @@ router.get('/:userId', function (req, res, next) {
             });
             callback();
         }
-
-
+        
     ], function (err) {
         if (err) return (err);
         res.render('user_profile',{
