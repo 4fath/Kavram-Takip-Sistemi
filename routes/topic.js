@@ -294,7 +294,7 @@ function ensureAuthentication(req, res, next) {
     res.redirect('/');
 }
 
-router.get('/:topicId', ensureAuthentication, function (req, res, next) {
+router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next) {
     var topicId = req.params.topicId;
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
@@ -302,6 +302,42 @@ router.get('/:topicId', ensureAuthentication, function (req, res, next) {
             topic: topic
         });
     });
+});
+
+router.get('/onApprove', ensureAuthentication, function (req, res, next) {
+    var currentUser = req.user;
+    var query = {author : currentUser._id , allowStatus : false };
+    Topic.find(query, function (err, topics) {
+        if (err) throw err;
+        res.render('onArrovedTopic', {
+            onApprovedTopics : topics
+        });
+    });
+});
+
+
+router.get('/myDrafts' , ensureAuthentication, function (req, res, next) {
+    var currentUser = req.user;
+    var query = {author : currentUser._id , isDraft : true };
+    Topic.find(query, function (err, topics) {
+        if (err) throw err;
+        res.render('onDraftTopics', {
+            myDraftTopics : topics
+        });
+    });
+});
+
+
+router.get('/myTopics', ensureAuthentication, function (req, res, next) {
+    var currentUser = req.user;
+    var query = {author : currentUser._id, isDraft : false, allowStatus : true};
+    Topic.find(query, function (err, topics) {
+        if (err) throw err;
+        res.render ('myTopics', {
+            myTopics : topics
+        });
+    });
+    
 });
 
 module.exports = router;

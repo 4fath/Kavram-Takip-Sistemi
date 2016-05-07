@@ -58,17 +58,22 @@ html(lang='en')
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';")
                                                 span.glyphicon.glyphicon-plus(aria-hidden='true')
                                             if user.role == 'editor'
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
                                                     | Editor Profili !
                                             else
                                                 if user.role == 'admin'
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
                                                         | Admin profili !
                                                 else
                                                     if user.role == 'author'
-                                                        a.btn.btn-info.btn-lg(href='#')
+                                                        a.btn.btn-info.btn-lg(href='/user/authorProfile')
                                                             span.glyphicon.glyphicon-user
                                                             |  Profil
+                                                    else
+                                                        if user.role == 'chiefEditor'
+                                                            a.btn.btn-info.btn-lg(href='/user/chiefEditorProfile')
+                                                                span.glyphicon.glyphicon-user
+                                                                |  Chief Profile
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                 | Çıkış !
                     .row
@@ -96,9 +101,11 @@ html(lang='en')
                                             h3
                                                 ul.breadcrumb
                                                     li
-                                                        a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
+                                                        if screenMainTopic
+                                                            a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
                                                     li
-                                                        a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                                                        if screenSubTopic
+                                                            a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
                                                     li
                                                         a(href='#') #{screenTopic.name}
 

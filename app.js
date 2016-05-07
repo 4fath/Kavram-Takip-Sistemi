@@ -13,7 +13,6 @@ var flash = require('connect-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 
-
 // routes
 var index = require('./routes/index');
 var user = require('./routes/users');
@@ -22,6 +21,7 @@ var mainTopic = require('./routes/mainTopic');
 var subTopic = require('./routes/subTopic');
 var comment = require('./routes/comment');
 var admin = require('./routes/admin');
+var chiefEditor = require('./routes/chiefEditor');
 var notFound = require('./routes/notFound');
 
 var app = express();
@@ -85,6 +85,7 @@ app.use('/user', user);
 app.use('/topic', topic);
 app.use('/mainTopic',mainTopic);
 app.use('/subTopic',subTopic);
+app.use('/chiefEditor', chiefEditor);
 app.use('/comment', comment);
 app.use('/admin', admin);
 app.use('/*', notFound);

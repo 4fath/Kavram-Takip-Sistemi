@@ -1,6 +1,9 @@
 //
    Created by TOSHIBA on 5.5.2016.
 
+//
+   Created by TOSHIBA on 5.5.2016.
+
 doctype html
 html(lang='en')
 
@@ -112,19 +115,26 @@ html(lang='en')
                     .row
                         #sidebar-collapse.col-md-2.sidebar
                             ul.nav.nav-pills.nav-stacked
-                                li
+                                li.active
                                     a(href='/topic/onApprove')
                                         |  Onay Bekleyenler
                                 li
-                                    a(href='adminInbox.html')
-                                        | Onaylananlar
-                                li.active
-                                    a(href='adminSubAdmin.html')
+                                    a(href='/topic/myDrafts')
                                         | Taslaklarım
                                 li
-                                    a(href='tables.html')
+                                    a(href='/topic/myTopics')
+                                        | Onaylananlar
+                                li
+                                    a(href='/user/settings')
                                         |  Profi Ayarları
                         // /.sidebar
+                        .col-md-9
+                            ul.list-group
+                                li.list-group-item.text-muted Onay Bekleyenler
+                                each item in onApprovedTopics
+                                    li.list-group-item.text-right
+                                        a.pull-left(href='/topic/getTopic/#{item._id}') #{item.abstract}
+                                        button.btn-success(ng-click='addChiefEditor($index)') Düzenle
 
             .fixed-action-btn.horizontal(style='bottom: 45px; right: 24px;')
                 a.btn-floating.btn-large.red

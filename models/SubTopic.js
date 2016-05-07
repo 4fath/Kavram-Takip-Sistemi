@@ -49,9 +49,11 @@ var SubTopicSchema = new Schema({
         default : Date.now()
     },
 
+    // NOTE : look at that point when you searching wolfram design
     mainTopic : {
         type : Schema.Types.ObjectId,
-        ref : 'MainTopic'
+        ref : 'MainTopic',
+        required : true
     },
 
     relevantTopics : [{

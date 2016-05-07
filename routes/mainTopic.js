@@ -15,12 +15,43 @@ var router = express.Router();
 
 router.get('/:mainTopicId', function (req, res, next) {
     var mainTopicId = req.params.mainTopicId;
-    MainTopic.findById(mainTopicId, function (err, mainTopic) {
+    console.log(mainTopicId);
+    var query = { mainTopics : mainTopicId };
+    // var queryF = {_id : mainTopicId};
+    //
+    // MainTopic.find(queryF, function (err, mainTopics) {
+    //     if (err) throw err;
+    //     console.log("buraya bak:" + mainTopics);
+    // });
+
+    SubTopic.find({}, function (err, subTopics) {
         if (err) throw err;
-        var subTopicArray = mainTopic.relevantSubTopics;
-        res.render('show_sub_topic_list',{
-            subTopics : subTopicArray
+        console.log("Bağlantılı olduğu alt başlıklar  : ");
+        // console.log(subTopics);
+
+        subTopics.forEach(function (subTopic) {
+            console.log(subTopic.name);
+            console.log(subTopic);
+            console.log("================")
         });
+
+
+        if (subTopics.length == 0){
+            var query = {mainTopics : mainTopicId};
+            SubTopic.find(query, function (err, subTopics) {
+                if (err) throw err;
+                console.log("we are in");
+                console.log(subTopics);
+                res.render('show_sub_topic_list',{
+                    subTopics : subTopics
+                });
+            })
+        }else {
+            res.render('show_sub_topic_list',{
+                subTopics : subTopics
+            });
+        }
+
     });
 });
 module.exports = router;

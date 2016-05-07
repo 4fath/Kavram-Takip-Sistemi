@@ -132,7 +132,6 @@ router.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-//noinspection JSUnresolvedFunction
 router.post('/login', passport.authenticate('local', {
         failureRedirect: '/user/login',
         failureFlash: 'Kullanıcı adı ve şifrenizi kotrol edip tekrar deneyiniz'
@@ -176,15 +175,74 @@ passport.use(new LocalStrategy(
     }
 ));
 
-
-router.get('/authorProfile', ensureAuthentication, function (req, res, next) {
-    
+// TODO : NOT tested
+router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next) {
     var userId = req.user._id;
+    var myMainTopics = [];
+    var myTopics = [];
+    var myTopicAsDraft = [];
+    var myWholeSystemSubTopic = [];
+    var myWaitingAllowSubTopics = [];
     
-    res.render('', {
+    
+    async.parallel([
+        function(callback){
+            var query = {chiefEditor : userId};
+            MainTopic.find(query, function (err, mainTopics) {
+               if (err) return callback(err);
+                mainTopics.forEach(function (mainTopic) {
+                    myMainTopics.push(mainTopic);
+                });
+            });
+            callback();
+        },
+        function (callback) {
+            var query = {author: userId};
+            Topic.find(query, function (err, topics) {
+                if (err) return callback(err);
+                topics.forEach(function (topic) {
+                    if (topic.idDraft) {
+                        myTopicAsDraft.push(topic);
+                    } else {
+                        myTopics.push(topic);
+                    }
+                });
+                callback();
+            })
+        },
+        function (callback) {
+            if (err) return callback(err);
+            SubTopic.find({}, function (err, topics) {
+                if (err) return callback(err);
+                topics.forEach(function (topic) {
+                    myWholeSystemSubTopic.push(topic);
+                });
+                callback();
+            })
+        }
+        
+    ], function (err) {
+        if (err) return (err);
+
+        myWholeSystemSubTopic.forEach(function (subTopic) {
+            if (!subTopic.allowStatus) {
+                myMainTopics.forEach(function (mainTopic) {
+                    if (subTopic.relevantSubTopics[0] == mainTopic._id) {
+                        myWaitingAllowSubTopics.push(subTopic);
+                    }
+                });
+            }
+        });
+
+        res.render('editorProfile', {
+            currentUser: currentUser,
+            myTopics: myTopics,
+            myTopicsAsDraft: myTopicAsDraft,
+            myMainTopics: myMainTopics,
+            myWaitingAllowRequests: myWaitingAllowSubTopics
+        });
         
     });
-    
     
 });
 
@@ -262,77 +320,43 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     });
 });
 
-// TODO : NOT tested
-router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next) {
+router.get('/authorProfile', function (req, res, next) {
+    console.log('authorProfile girdi');
     var userId = req.user._id;
-    var myMainTopics = [];
-    var myTopics = [];
-    var myTopicAsDraft = [];
-    var myWholeSystemSubTopic = [];
-    var myWaitingAllowSubTopics = [];
-    
-    
+    var displayUser = {};
+    var displayTopics = [];
+
     async.parallel([
-        function(callback){
-            var query = {chiefEditor : userId};
-            MainTopic.find(query, function (err, mainTopics) {
-               if (err) return callback(err);
-                mainTopics.forEach(function (mainTopic) {
-                    myMainTopics.push(mainTopic);
-                });
+        function (callback) {
+            User.findById(userId, function (err, user) {
+                if (err) return callback(err);
+                displayUser = user;
             });
             callback();
         },
+
         function (callback) {
-            var query = {author: userId};
+            var query = {author : userId};
             Topic.find(query, function (err, topics) {
                 if (err) return callback(err);
                 topics.forEach(function (topic) {
-                    if (topic.idDraft) {
-                        myTopicAsDraft.push(topic);
-                    } else {
-                        myTopics.push(topic);
-                    }
+                    displayTopics.push(topic);
                 });
-                callback();
-            })
-        },
-        function (callback) {
-            if (err) return callback(err);
-            SubTopic.find({}, function (err, topics) {
-                if (err) return callback(err);
-                topics.forEach(function (topic) {
-                    myWholeSystemSubTopic.push(topic);
-                });
-                callback();
-            })
+            });
+            callback();
         }
-        
+
     ], function (err) {
         if (err) return (err);
-
-        myWholeSystemSubTopic.forEach(function (subTopic) {
-            if (!subTopic.allowStatus) {
-                myMainTopics.forEach(function (mainTopic) {
-                    if (subTopic.relevantSubTopics[0] == mainTopic._id) {
-                        myWaitingAllowSubTopics.push(subTopic);
-                    }
-                });
-            }
-        });
-
-        res.render('editorProfile', {
-            currentUser: currentUser,
-            myTopics: myTopics,
-            myTopicsAsDraft: myTopicAsDraft,
-            myMainTopics: myMainTopics,
-            myWaitingAllowRequests: myWaitingAllowSubTopics
-        });
-        
+        res.render('user_profile',{
+            userRole : displayUser.role,
+            userFirstName : displayUser.firstName,
+            userSecondName : displayUser.lastName,
+            username : displayUser.username,
+            topics : displayTopics
+        })
     });
-    
 });
-
 
 router.post('/follow/:topicId', function (req, res) {
     var currentUser = req.user;
@@ -364,43 +388,6 @@ router.post('/follow/:topicId', function (req, res) {
 
     }
 
-});
-
-router.get('/authorProfile', function (req, res, next) {
-    var userId = req.params.userId;
-    var displayUser = {};
-    var displayTopics = [];
-
-    async.parallel([
-        function (callback) {
-            User.findById(userId, function (err, user) {
-                if (err) return callback(err);
-                displayUser = user;
-            });
-            callback();
-        },
-
-        function (callback) {
-            var query = {author : userId};
-            Topic.find(query, function (err, topics) {
-                if (err) return callback(err);
-                topics.forEach(function (topic) {
-                    displayTopics.push(topic);
-                });
-            });
-            callback();
-        }
-        
-    ], function (err) {
-        if (err) return (err);
-        res.render('user_profile',{
-            userRole : user.role,
-            userFirstName : user.firstName,
-            userSecondName : user.lastName,
-            username : user.username,
-            topics : displayTopics
-        })
-    });
 });
 
 function ensureAuthentication(req, res, next) {
