@@ -107,7 +107,8 @@ html(lang='en')
                                                         if screenSubTopic
                                                             a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
                                                     li
-                                                        a(href='#') #{screenTopic.name}
+                                                        if screeenTopic
+                                                            a(href='#') #{screenTopic.name}
 
                                                 | !{screenTopic.definition}
                                                 .row

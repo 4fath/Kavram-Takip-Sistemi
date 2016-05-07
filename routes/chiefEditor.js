@@ -21,7 +21,7 @@ router.get('/addSubTopic', function (req, res) {
         mainTopics.forEach(function (mainTopic) {
             myMainTopics.push(mainTopic)
         });
-        res.render('add_sub_topic', {
+        res.render('addSubTopic', {
             mainTopics : myMainTopics
         })
     });
@@ -30,7 +30,8 @@ router.get('/addSubTopic', function (req, res) {
 // TODO : NOT tested
 router.post('/addSubTopic', function (req, res, next) {
     var currentUserId = req.user._id;
-    var mainTopicId = req.body.mainTopicID;
+    var mainTopicId = req.body.mainTopicId;
+
     var subTopicName = req.body.subTopicName;
     var subTopicDefinition = req.body.subTopicDefinition;
     req.checkBody('subTopicName', "Bu kısım boş olmamlı.").notEmpty();
@@ -47,7 +48,9 @@ router.post('/addSubTopic', function (req, res, next) {
 
         newSubTopic.save(function (err) {
             if (err) throw err;
+
             var query = {_id : mainTopicId};
+
             MainTopic.findOneAndUpdate(query,
                 {$push : {relevantSubTopics : newSubTopic._id}},
                 {safe: true, upsert: true},
@@ -55,14 +58,13 @@ router.post('/addSubTopic', function (req, res, next) {
                     if (err) throw err;
                     console.log("SubTopic başarılı bir şekilde kaydedildi : "+newSubTopic );
                     console.log("MainTopic update edildi : " + doc);
-                    res.render('/', {
-                        message : 'SubTopic başarılı bir şekilde eklendi.'
-                    });
+                    req.flash('success', 'Başarılı bir şekkilde eklendi');
+                    res.redirect('/user/chiefEditorProfile');
                 }
             );
         });
     }else {
-        res.render('add_sub_topic', {
+        res.render('addSubTopic', {
             errors : errors,
             subTopicName : subTopicName,
             subTopicDefinition : subTopicDefinition

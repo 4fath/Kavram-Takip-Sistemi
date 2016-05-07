@@ -175,8 +175,98 @@ passport.use(new LocalStrategy(
     }
 ));
 
+router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
+    
+    console.log("buraya girdi");
+    console.log(req.user.role);
+    if (req.user.role == 'admin') {
+        var myMainTopics, mySubTopics, myTopics, myComments;
+        var myUsers = [];
+        var myAuthors = [];
+        var myEditors = [];
+        var myChiefEditors = [];
+
+        async.parallel([
+            function (callback) {
+                MainTopic.find({}, function (err, mainTopics) {
+                    if (err) return callback(err);
+                    // console.log("MainTopicler : "+mainTopics);
+                    // console.log("============");
+                    myMainTopics = mainTopics;
+                });
+                callback();
+            },
+            function (callback) {
+                SubTopic.find({}, function (err, subTopics) {
+                    if (err) return callback(err);
+                    // console.log("SubTopicler : "+subTopics);
+                    // console.log("============");
+                    mySubTopics = subTopics
+                });
+                callback();
+            },
+            function (callback) {
+                Topic.find({}, function (err, topics) {
+                    if (err) return callback(err);
+                    // console.log("Topicler : "+topics);
+                    // console.log("============");
+                    myTopics = topics;
+                });
+                callback();
+            },
+            function (callback) {
+                User.find({}, function (err, users) {
+                    if (err) return callback(err);
+                    users.forEach(function (user) {
+                        if (user.role === 'author') {
+                            myAuthors.push(user);
+                            myUsers.push(user);
+                        } else if (user.role == 'editor') {
+                            myEditors.push(user);
+                            myUsers.push(user);
+                        } else if (user.role == 'chiefEditor') {
+                            myChiefEditors.push(user);
+                            myUsers.push(user);
+                        }
+                    });
+
+                    console.log("Authors : " + myAuthors);
+                    console.log("Editors : " + myEditors);
+                    console.log("ChiefEditor : " + myChiefEditors);
+
+
+                    // console.log("Userlar : "+users);
+                    // console.log("============");
+                });
+                callback();
+            }
+        ], function (err) {
+            if (err) return (err);
+            console.log(err);
+            console.log("sonuclandi");
+            res.render('admin', {
+                myMainTopics: myMainTopics,
+                mySubTopics: mySubTopics,
+                myTopics: myTopics,
+                myComments: myComments,
+                myUsers: myUsers,
+                myAuthors: myAuthors,
+                myEditors: myEditors,
+                myChiefEditors: myChiefEditors
+            });
+        });
+
+    } else {
+        res.render('not_found');
+    }
+    
+    
+});
+
+
 // TODO : NOT tested
 router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next) {
+    
     var userId = req.user._id;
     var myMainTopics = [];
     var myTopics = [];
@@ -184,65 +274,68 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
     var myWholeSystemSubTopic = [];
     var myWaitingAllowSubTopics = [];
     
+    res.render('chiefEditorProfile');
     
-    async.parallel([
-        function(callback){
-            var query = {chiefEditor : userId};
-            MainTopic.find(query, function (err, mainTopics) {
-               if (err) return callback(err);
-                mainTopics.forEach(function (mainTopic) {
-                    myMainTopics.push(mainTopic);
-                });
-            });
-            callback();
-        },
-        function (callback) {
-            var query = {author: userId};
-            Topic.find(query, function (err, topics) {
-                if (err) return callback(err);
-                topics.forEach(function (topic) {
-                    if (topic.idDraft) {
-                        myTopicAsDraft.push(topic);
-                    } else {
-                        myTopics.push(topic);
-                    }
-                });
-                callback();
-            })
-        },
-        function (callback) {
-            if (err) return callback(err);
-            SubTopic.find({}, function (err, topics) {
-                if (err) return callback(err);
-                topics.forEach(function (topic) {
-                    myWholeSystemSubTopic.push(topic);
-                });
-                callback();
-            })
-        }
-        
-    ], function (err) {
-        if (err) return (err);
-
-        myWholeSystemSubTopic.forEach(function (subTopic) {
-            if (!subTopic.allowStatus) {
-                myMainTopics.forEach(function (mainTopic) {
-                    if (subTopic.relevantSubTopics[0] == mainTopic._id) {
-                        myWaitingAllowSubTopics.push(subTopic);
-                    }
-                });
-            }
-        });
-
-        res.render('editorProfile', {
-            currentUser: currentUser,
-            myTopics: myTopics,
-            myTopicsAsDraft: myTopicAsDraft,
-            myMainTopics: myMainTopics,
-            myWaitingAllowRequests: myWaitingAllowSubTopics
-        });
-        
-    });
+    
+    // async.parallel([
+    //     function(callback){
+    //         var query = {chiefEditor : userId};
+    //         MainTopic.find(query, function (err, mainTopics) {
+    //            if (err) return callback(err);
+    //             myMainTopics = mainTopics;
+    //             // mainTopics.forEach(function (mainTopic) {
+    //             //     myMainTopics.push(mainTopic);
+    //             // });
+    //         });
+    //         callback();
+    //     },
+    //     function (callback) {
+    //         var query = {author: userId};
+    //         Topic.find(query, function (err, topics) {
+    //             if (err) return callback(err);
+    //             topics.forEach(function (topic) {
+    //                 if (topic.idDraft) {
+    //                     myTopicAsDraft.push(topic);
+    //                 } else {
+    //                     myTopics.push(topic);
+    //                 }
+    //             });
+    //             callback();
+    //         })
+    //     },
+    //     function (callback) {
+    //         if (err) return callback(err);
+    //         SubTopic.find({}, function (err, topics) {
+    //             if (err) return callback(err);
+    //             topics.forEach(function (topic) {
+    //                 myWholeSystemSubTopic.push(topic);
+    //             });
+    //             callback();
+    //         })
+    //     }
+    //    
+    // ], function (err) {
+    //     if (err) return (err);
+    //
+    //     myWholeSystemSubTopic.forEach(function (subTopic) {
+    //         if (!subTopic.allowStatus) {
+    //             myMainTopics.forEach(function (mainTopic) {
+    //                 if (subTopic.relevantSubTopics[0] == mainTopic._id) {
+    //                     myWaitingAllowSubTopics.push(subTopic);
+    //                 }
+    //             });
+    //         }
+    //     });
+    //
+    //     res.render('chiefEditorProfile', {
+    //         currentUser: currentUser,
+    //         myTopics: myTopics,
+    //         myTopicsAsDraft: myTopicAsDraft,
+    //         myMainTopics: myMainTopics,
+    //         myWaitingAllowRequests: myWaitingAllowSubTopics
+    //     });
+    //    
+    // });
     
 });
 

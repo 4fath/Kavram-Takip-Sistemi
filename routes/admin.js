@@ -87,17 +87,16 @@ router.get('/', function (req, res, next) {
     }
 });
 
+
+// DONE
 router.get('/addMainTopic', function (req, res) {
-    MainTopic.find({}, function (err, mainTopics) {
-        if (err) throw err;
-        res.render('add_main_topic', {
-           mainTopics : mainTopics 
-        });
-    });
+    res.render('addMainTopic');
 });
 
+// DONE
 router.post('/addMainTopic', function (req, res) {
-    
+    console.log("Admin Veni mainTopic ekliyor");
+
     var name = req.body.mainTopicName;
     var definition = req.body.mainTopicDefinition;
     
@@ -106,15 +105,26 @@ router.post('/addMainTopic', function (req, res) {
 
     var errors = req.validationErrors();
     if (!errors) {
-        var newMainTopic = new MainTopic({
-            name: name,
-            definition: definition,
-            hasChiefEditor : false
-        });
-        newMainTopic.save(function (err) {
+        var query = {name : name};
+        MainTopic.find(query, function (err, mainTopics) {
             if (err) throw err;
-            res.redirect('/admin/addMainTopic');
-        })
+            if (mainTopics.length != 0){
+                req.flash('error', "Bu isimle zaten Ana Kavram var");
+                res.render ('addMainTopic');
+            }else {
+                var newMainTopic = new MainTopic({
+                    name: name,
+                    definition: definition,
+                    hasChiefEditor : false
+                });
+                newMainTopic.save(function (err) {
+                    if (err) throw err;
+                    req.flash('success', "Başarılı bir şekilde Ana kavram eklendi");
+                    res.redirect('/admin/addMainTopic');
+                })
+            }
+        });
+
     } else {
         res.render('addMainTopic', {
             errors: errors,
@@ -143,7 +153,7 @@ router.get('/addChiefEditor', function (req, res, next) {
             User.find({}, function (err, users) {
                 if (err) return callback(err);
                 users.forEach(function (user) {
-                    if (user.role == 'editor') {
+                    if (user.role == 'author') {
                         myUsers.push(user);
                     }
                 });
@@ -152,7 +162,7 @@ router.get('/addChiefEditor', function (req, res, next) {
         }
     ], function (err) {
         if (err) return (err);
-        res.render('', {
+        res.render('addChiefEditor', {
             myMainTopics: myMainTopics,
             myUsers: myUsers
         });
@@ -176,35 +186,64 @@ router.post('/addChiefEditor', function (req, res, next) {
         async.parallel([
             function (callback) {
                 var query = {_id: userId};
-                User.findOneAndUpdate(query,
-                    {$set: {role: 'chiefEditor', mainTopic: mainTopicId, isChiefEditor: true}},
-                    {safe: true, upsert: true},
-                    function (err, doc) {
+                User.findById (userId, function (err, user) {
+                    if (err) return callback(err);
+                    console.log(user);
+                    console.log(user.role);
+                    user.role = 'chiefEditor';
+                    user.isChiefEditor = true;
+                    user.mainTopic = mainTopicId;
+                    user.save(function (err) {
                         if (err) return callback(err);
-                        console.log(doc);
-                        myUser = doc;
-                    });
+                        console.log("User Update Edildi");
+                    })
+                });
                 callback();
+                // User.findOneAndUpdate(query,
+                //     {$set: {role: 'chiefEditor', mainTopic: mainTopicId, isChiefEditor: true}},
+                //     {safe: true, upsert: true},
+                //     function (err, doc) {
+                //         if (err) return callback(err);
+                //         console.log(doc);
+                //         myUser = doc;
+                //     });
+
             },
             function (callback) {
                 var query = {_id: mainTopicId};
-                MainTopic.findOneAndUpdate(query,
-                    {$set: {hasChiefEditor: true, chiefEditor: userId}},
-                    {safe: true, upsert: true},
-                    function (err, doc) {
+
+                MainTopic.findById (mainTopicId, function (err, mainTopic) {
+                    if (err) return callback(err);
+                    mainTopic.hasChiefEditor = true;
+                    mainTopic.chiefEditor = userId;
+                    mainTopic.save(function (err) {
                         if (err) return callback(err);
-                        console.log(doc);
-                        myMainTopic = doc;
+                        console.log("MainTopic Update Edildi");
                     });
+                });
                 callback();
+                // MainTopic.findOneAndUpdate(query,
+                //     {$set: {hasChiefEditor: true, chiefEditor: userId}},
+                //     {safe: true, upsert: true},
+                //     function (err, doc) {
+                //         if (err) return callback(err);
+                //         console.log(doc);
+                //         myMainTopic = doc;
+                //     });
+
             }
         ], function (err) {
             if (err) return (err);
             console.log('All went fine');
-            res.send("ok");
+            req.flash('success', 'Başarılı bir şekilde atama yapılmıştır');
+            res.redirect('/admin/addChiefEditor');
 
         });
 
+    }else {
+        res.render('addChiefEditor', {
+            errors: errors
+        })
     }
 
 });

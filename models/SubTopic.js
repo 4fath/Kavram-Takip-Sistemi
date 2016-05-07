@@ -28,14 +28,13 @@ var SubTopicSchema = new Schema({
     definition : {
         type : String,
         required : true,
-        trim : true,
-        min : 120          
+        trim : true
     },
 
     editor : {
         type : Schema.Types.ObjectId,
         ref : 'User',
-        required : false
+        required : true
     },
 
     createdAt : {
