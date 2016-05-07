@@ -18,7 +18,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
 	window.CCounter++;
 
 	return {
-		title : editor.lang.eqneditor.title,
+		title : "",
 		minWidth : 550,
 		minHeight : 380,
 		resizable: CKEDITOR.DIALOG_RESIZE_NONE,
@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
 					},
 					{
 							type: 'html',
-							html: '<label for="CClatex'+window.CCounter+'">Equation (LaTeX):</label>',
+							html: '<label for="CClatex'+window.CCounter+'">Fonksiyon (LaTeX):</label>',
 					},
 					{
 							type: 'html',
@@ -43,11 +43,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
 					},
 					{
 						 	type: 'html',
-							html: '<label for="CCequation'+window.CCounter+'">Preview:</label>'		
-					},
-					{
-							type :'html',
-							html: '<div style="position:absolute; left:5px; bottom:0; z-index:999"><a href="http://www.codecogs.com" target="_blank"><img src="'+http+'latex.codecogs.com/images/poweredbycc.gif" alt="Powered by CodeCogs" style="vertical-align:-4px; border:none"/></a> &nbsp; <a href="http://www.codecogs.com/latex/about.php" target="_blank">About</a> | <a href="http://www.codecogs.com/latex/popup.php" target="_blank">Install</a> | <a href="http://www.codecogs.com/pages/forums/forum_view.php?f=28" target="_blank">Forum</a> | <a href="http://www.codecogs.com" target="_blank">CodeCogs</a> &copy; 2007-2014</div><img id="CCequation'+window.CCounter+'" src="'+http+'www.codecogs.com/images/spacer.gif" />'					
+							html: '<label for="CCequation'+window.CCounter+'">Önizleme:</label>'		
 					}
 				]
 			}

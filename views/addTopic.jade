@@ -1,11 +1,121 @@
-//
-   Created by TOSHIBA on 29.4.2016.
+extends MainLayout
 
-//
-   Created by TOSHIBA on 29.4.2016.
+//block solMenu
+    .list-group
+        span.list-group-item.active(href='#')
+            | Ana Başlıklar
+            span#slide-submenu.pull-right
+                i.fa.fa-times
+        each mainTopic in mainTopics
+            a.list-group-item(href='/mainTopic/#{mainTopic._id}')
+                i.fa
+                |  #{mainTopic.name}
+                if mainTopic.relevantSubTopics.length > 0
+                    span.badge 1
+                else
+                    span.badge 0
 
-doctype html
-html(lang='en')
+block sagMenu
+    if user
+        .list-group
+            span.list-group-item.active(href='#')
+                | Takip Edilen Kavramlar
+                span#slide-submenu.pull-right
+                    i.fa.fa-times
+            a.list-group-item(href='#')
+                i.fa
+                |  java
+                span.badge 124
+
+
+        .list-group
+            span.list-group-item.active(href='#')
+                | Tavsiye Edilen Kavramlar
+                span#slide-submenu.pull-right
+                    i.fa.fa-times
+            a.list-group-item(href='#')
+                i.fa
+                |  java
+                span.badge 124
+
+//block sagUstMenu
+    if !user
+        ul.nav.navbar-nav.navbar-right
+            .navbar-form.form-group
+                button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
+                    | Giriş
+                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
+                    | Kaydol !
+
+
+    if user
+        ul.nav.navbar-nav.navbar-right
+            .navbar-form.form-group
+                button.btn.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';")
+                    span.glyphicon.glyphicon-plus(aria-hidden='true')
+                        |  Kavram Ekle
+                if user.role == 'editor'
+                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
+                        | Editor Profili !
+                else
+                    if user.role == 'admin'
+                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
+                            | Admin profili !
+                    else
+                        if user.role == 'author'
+                            a.btn.btn-info.btn-md(href='/user/authorProfile')
+                                span.glyphicon.glyphicon-user
+                                |  Profil
+                        else
+                            if user.role == 'chiefEditor'
+                                a.btn.btn-info.btn-lg(href='/user/chiefEditorProfile')
+                                    span.glyphicon.glyphicon-user
+                                    |  Chief Profile
+                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
+                    | Çıkış !
+
+block content
+    form(method='post', action='/topic/addTopic')
+        .form-group
+            .col-md-1
+            .col-md-11
+                .panel.panel-success.col-md-5
+                    .panel-heading Main Topic
+                    .panel-body
+                        select(name='myMainTopic')
+                            each mainTopic in mainTopics
+                                option(value='#{mainTopic._id}')  #{mainTopic.name}
+                .panel.panel-success.col-md-5
+                    .panel-heading Sub Topic
+                    .panel-body
+                        select(name='mySubTopic')
+                            each subTopic in subTopics
+                                option(value='#{subTopic._id}')  #{subTopic.name}
+                .panel.panel-success.col-md-8
+                    .panel-heading  Topic Name
+                    .panel-body
+                        input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                .panel.panel-success.col-md-8
+                    .panel-heading Topic Özeti
+                    .panel-body
+                        textarea(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                .panel.panel-success.col-md-12
+                    .panel-heading Kavram Tanımı
+                    br
+                    textarea#textarea(name='topicDefinition')
+                    script.
+                        CKEDITOR.replace('textarea');
+                .col-md-5
+                    button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
+
+
+script(src='../ckeditor/ckeditor.js')
+script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
+script(src='js/jquery.min.js')
+script(src='js/bootstrap.min.js')
+script(src='js/scripts.js')
+
+//html(lang='en')
     head
         meta(charset='utf-8')
         meta(http-equiv='X-UA-Compatible', content='IE=edge')
@@ -18,8 +128,7 @@ html(lang='en')
         meta(name='author', content='LayoutIt!')
         script(src='../js/adminOptionsjs.js')
         link(href='../css/dataTable.css', rel='stylesheet')
-        script(src='../ckeditor/ckeditor.js')
-        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
+
         link(href='../css/bootstrap.min.css', rel='stylesheet')
         link(href='../css/style.css', rel='stylesheet')
         script(src='../js/jquery-2.2.2.js')

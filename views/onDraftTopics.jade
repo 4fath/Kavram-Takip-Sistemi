@@ -1,163 +1,32 @@
-//
-   Created by TOSHIBA on 5.5.2016.
+extends ProfileLayout
 
-//
-   Created by TOSHIBA on 5.5.2016.
+block solMenu
+    ul.nav.nav-pills.nav-stacked
+        li
+            a(href='/topic/onApprove')
+                |  Onay Bekleyenler
+        li.active
+            a(href='/topic/myDrafts')
+                | Taslaklarım
+        li
+            a(href='/topic/myTopics')
+                | Onaylananlar
+        li
+            a(href='/user/settings')
+                |  Profil Ayarları
 
-//
-   Created by TOSHIBA on 5.5.2016.
+block content
+    ul.list-group
+        li.list-group-item.text-muted Onay Bekleyenler
+        each item in myDraftTopics
+            li.list-group-item.text-right
+                a.pull-left(href='/topic/#{item._id}') #{item.abstract}
+                button.btn-success(ng-click='addChiefEditor($index)') Düzenle
 
-doctype html
-html(lang='en')
 
-    head
-        title Kavram Takip Sistemi
-        meta(name='viewport', content='width=device-width, initial-scale=1.0')
-        meta(charset='utf-8')
-        meta(http-equiv='X-UA-Compatible', content='IE=edge')
-        meta(name='viewport', content='width=device-width, initial-scale=1')
-        link(href='http://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
-        link(type='text/css', rel='stylesheet', href='../css/materialize.css', media='screen,projection')
-        link(href='../css/bootstrap.min.css', rel='stylesheet')
-        link(href='../css/style.css', rel='stylesheet')
-        link(href='../css/dataTable.css', rel='stylesheet')
-        script(src='../ckeditor/ckeditor.js')
-        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
-        script(src='../js/scripts.js')
-        script(src='../js/jquery-2.2.2.js')
-        script(type='text/javascript', src='//cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js')
-        script(src='../js/dirPagination.js')
-        script(type='text/javascript').
-    body
-        != messages()
-        .container-fluid
-            .row
-                .col-md-12
-                    nav.navbar.navbar-inverse
-                        .container-fluid
-                            .navbar-header
-                                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
-                                    span.sr-only Toggle navigation
-                                    span.icon-bar
-                                    span.icon-bar
-                                    span.icon-bar
-                                a.navbar-brand(href='/') KavramTakip
-                            #bs-example-navbar-collapse-1.collapse.navbar-collapse
-                                .col-md-3
-                                form.navbar-form.navbar-left(role='search')
-                                    .form-group
-                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
-                                        button.btn.btn-default(type='submit') Ara
 
-                                if !user
-                                    ul.nav.navbar-nav.navbar-right
-                                        .navbar-form.form-group
-                                            button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
-                                                | Giriş
-                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
-                                                | Kaydol !
-
-                                if user
-                                    | #{user.role}
-                                    if user.role == 'admin'
-                                        ul.nav.navbar-nav.navbar-right
-                                            .navbar-form.form-group
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addChiefEditor';")
-                                                    | Chief Editor Ekle #{user.firstName} !
-                                            .navbar-form.form-group
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addMainTopic';")
-                                                    | Main Topic Ekle #{user.firstName} !
-                                    else
-                                        if user.role == 'chiefEditor'
-                                            ul.nav.navbar-nav.navbar-right
-                                                .navbar-form.form-group
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                        |  Editor Ekle #{user.firstName}!
-                                                .navbar-form.form-group
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addSubTopic';")
-                                                        |  SubTopic Ekle #{user.firstName}!
-                                        else
-                                            if user.role == 'editor'
-                                                ul.nav.navbar-nav.navbar-right
-                                                    .navbar-form.form-group
-                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                            |  Editor girmis #{user.firstName}!
-                                                    .navbar-form.form-group
-                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addTopic';")
-                                                            |  SubTopic Ekle #{user.firstName}!
-
-                                            else
-                                                if user.role == 'author'
-                                                    ul.nav.navbar-nav.navbar-right
-                                                        .navbar-form.form-group
-                                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                                |  Hoşgeldin #{user.firstName}!
-
-                                    ul.nav.navbar-nav.navbar-right
-                                        .navbar-form.form-group
-                                            if user.role == 'admin'
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/admin';")
-                                                    | Admin Profile !
-                                            else
-                                                if user.role == 'chiefEditor'
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/chiefEditorProfile';")
-                                                        | Chief Editor Profile !
-                                                else
-                                                    if user.role == 'editor'
-                                                        a.btn.btn-info.btn-lg(href='/user/editorProfile')
-                                                            span.glyphicon.glyphicon-user
-                                                            |  Profil
-                                                    else
-                                                        if user.role == 'author'
-                                                            a.btn.btn-info.btn-lg(href='/user/authorProfile')
-                                                                span.glyphicon.glyphicon-user
-                                                                |  Profil
-
-                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
-                                                | Çıkış !
-                    .row
-                        #sidebar-collapse.col-md-2.sidebar
-                            ul.nav.nav-pills.nav-stacked
-                                li
-                                    a(href='/topic/onApprove')
-                                        |  Onay Bekleyenler
-                                li.active
-                                    a(href='/topic/myDrafts')
-                                        | Taslaklarım
-                                li
-                                    a(href='/topic/myTopics')
-                                        | Onaylananlar
-                                li
-                                    a(href='/user/settings')
-                                        |  Profi Ayarları
-                        // /.sidebar
-                        .col-md-9
-                            ul.list-group
-                                li.list-group-item.text-muted Onay Bekleyenler
-                                each item in myDraftTopics
-                                    li.list-group-item.text-right
-                                        a.pull-left(href='/topic/#{item._id}') #{item.abstract}
-                                        button.btn-success(ng-click='addChiefEditor($index)') Düzenle
-
-            .fixed-action-btn.horizontal(style='bottom: 45px; right: 24px;')
-                a.btn-floating.btn-large.red
-                    i.large.material-icons mode_edit
-                ul
-                    li
-                        a.btn-floating.red
-                            i.material-icons insert_chart
-                    li
-                        a.btn-floating.yellow.darken-1
-                            i.material-icons format_quote
-                    li
-                        a.btn-floating.green
-                            i.material-icons publish
-                    li
-                        a.btn-floating.blue
-                            i.material-icons attach_file
-
-        script(src='../js/jquery.min.js')
-        script(src='../js/bootstrap.min.js')
-        script(src='../js/scripts.js')
-        script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
-        script(type='text/javascript', src='../js/materialize.js')
+script(src='../js/jquery.min.js')
+script(src='../js/bootstrap.min.js')
+script(src='../js/scripts.js')
+script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
+script(type='text/javascript', src='../js/materialize.js')

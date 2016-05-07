@@ -1,0 +1,91 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='/css/bootstrap.css')
+        link(rel='stylesheet', href='/css/bootstrap.min.css')
+        link(rel='stylesheet', href='/css/style.css')
+        script(src='../ckeditor/ckeditor.js')
+        script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
+    body
+        != messages()
+        .container-fluid
+            .row
+                .col-md-12
+                    nav.navbar.navbar-inverse
+                        .container-fluid
+                            // Brand and toggle get grouped for better mobile display
+                            .navbar-header
+                                button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#bs-example-navbar-collapse-1', aria-expanded='false')
+                                    span.sr-only Toggle navigation
+                                    span.icon-bar
+                                    span.icon-bar
+                                    span.icon-bar
+                                a.navbar-brand(href='/') KavramTakip
+                            // Collect the nav links, forms, and other content for toggling
+                            #bs-example-navbar-collapse-1.collapse.navbar-collapse
+                                .col-md-3
+                                form.navbar-form.navbar-left(role='search')
+                                    .form-group
+                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                        button.btn.btn-default(type='submit') Ara
+
+                                        // Guest access
+                                if !user
+                                    ul.nav.navbar-nav.navbar-right
+                                        .navbar-form.form-group
+                                            button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
+                                                | Giriş
+                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
+                                                | Kaydol !
+
+
+                                if user
+                                    ul.nav.navbar-nav.navbar-right
+                                        .navbar-form.form-group
+                                            button.btn.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';")
+                                                span.glyphicon.glyphicon-plus(aria-hidden='true')
+                                                    |  Kavram Ekle
+                                            if user.role == 'editor'
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
+                                                    | Editor Profili !
+                                            else
+                                                if user.role == 'admin'
+                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
+                                                        | Admin profili !
+                                                else
+                                                    if user.role == 'author'
+                                                        a.btn.btn-info.btn-md(href='/user/authorProfile')
+                                                            span.glyphicon.glyphicon-user
+                                                            |  Profil
+                                                    else
+                                                        if user.role == 'chiefEditor'
+                                                            a.btn.btn-info.btn-lg(href='/user/chiefEditorProfile')
+                                                                span.glyphicon.glyphicon-user
+                                                                |  Chief Profile
+                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
+                                                | Çıkış !
+                    .row
+                        .col-md-2
+                            .list-group
+                                span.list-group-item.active(href='#')
+                                    | Ana Başlıklar
+                                    span#slide-submenu.pull-right
+                                        i.fa.fa-times
+                                if mainTopics
+                                    each mainTopic in mainTopics
+                                        a.list-group-item(href='/mainTopic/#{mainTopic._id}')
+                                            i.fa
+                                            |  #{mainTopic.name}
+                                            if mainTopic.relevantSubTopics.length > 0
+                                                span.badge 1
+                                            else
+                                                span.badge 0
+                        .col-md-8
+                            block content
+                        .col-md-2
+                            block sagMenu
+
+    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
+    // script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )r  ben arayım
+

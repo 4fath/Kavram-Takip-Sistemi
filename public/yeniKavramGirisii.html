@@ -114,10 +114,7 @@
                     <div class="navbar-form form-group">
                     
                      <button class="btn btn-success" data-toggle="modal" data-target="#myModal">
-                        Giriş
-                     </button>
-                     <button  type="submit" onclick="location.href='kaydol.html';" class="btn btn-warning"  >
-                     	Kaydol 
+                        Profil
                      </button>
                      </div>
 
@@ -173,16 +170,6 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-md-1"></div>
-                            <div class="panel panel-success col-md-3">
-                                <div class="panel-heading">Anahtar Kelime</div>
-                                <div class="panel-body">
-                                   <select class="form-control" name="size" >
-                                        <option value="">Seçiniz</option>
-                                        <option value="" ng-repeat="x in users.fields">{{ x.anahtarKelime }}</option>
-                                    </select>
-                                </div>
-                            </div>
                             <div class="panel panel-success col-md-8">
                                 <div class="panel-heading">Kavram Adı</div>
                                         <div class="panel-body">
@@ -197,7 +184,10 @@
                                     CKEDITOR.replace( 'textarea' );
                                 </script>
          		            </div>
-                            <div class="col-md-9"></div>
+                            <div class="col-md-6"></div>
+							<div class="col-md-3">
+                            	<button type="submit" class="btn btn-default btn-block">Taslak Olarak Kaydet</button>
+                            </div>
                             <div class="col-md-3">
                             	<button type="submit" class="btn btn-success btn-block">Yorum Gönder</button>
                             </div>
