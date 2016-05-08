@@ -42,7 +42,7 @@ html
                                 if user
                                     | #{user.role}
                                     if user.role == 'admin'
-                                        ul.nav.navbar-nav.navbar-right
+                                        //ul.nav.navbar-nav.navbar-right
                                             .navbar-form.form-group
                                                 button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
                                                     | Chief Editor Ekle #{user.firstName} !
@@ -51,10 +51,10 @@ html
                                                     | Main Topic Ekle #{user.firstName} !
                                     else
                                         if user.role == 'chiefEditor'
-                                            ul.nav.navbar-nav.navbar-right
+                                            //ul.nav.navbar-nav.navbar-right
                                                 .navbar-form.form-group
                                                     button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                        |  Editor Ekle #{user.firstName}!
+                                                        |  Editör Ekle #{user.firstName}!
                                                 .navbar-form.form-group
                                                     button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addSubTopic';")
                                                         |  SubTopic Ekle #{user.firstName}!
@@ -78,17 +78,17 @@ html
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
                                             if user.role == 'admin'
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/admin';")
-                                                    | Admin Profile !
+                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/admin';")
+                                                    | Admin Profil
                                             else
                                                 if user.role == 'chiefEditor'
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/chiefEditorProfile';")
-                                                        | Chief Editor Profile !
+                                                    button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/chiefEditorProfile';")
+                                                        | Baş Editör Profil
                                                 else
                                                     if user.role == 'editor'
                                                         a.btn.btn-info.btn-md(href='/user/editorProfile')
                                                             span.glyphicon.glyphicon-user
-                                                            |  Profil
+                                                            |  Editör Profil
                                                     else
                                                         if user.role == 'author'
                                                             a.btn.btn-info.btn-md(href='/user/authorProfile')

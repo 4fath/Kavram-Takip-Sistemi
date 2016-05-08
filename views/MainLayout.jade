@@ -47,12 +47,12 @@ html
                                                 span.glyphicon.glyphicon-plus(aria-hidden='true')
                                                     |  Kavram Ekle
                                             if user.role == 'editor'
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
-                                                    | Editor Profili !
+                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
+                                                    | Editor Profil
                                             else
                                                 if user.role == 'admin'
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
-                                                        | Admin profili !
+                                                    button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
+                                                        | Admin Profil
                                                 else
                                                     if user.role == 'author'
                                                         a.btn.btn-info.btn-md(href='/user/authorProfile')
@@ -60,9 +60,9 @@ html
                                                             |  Profil
                                                     else
                                                         if user.role == 'chiefEditor'
-                                                            a.btn.btn-info.btn-lg(href='/user/chiefEditorProfile')
+                                                            a.btn.btn-info.btn-md(href='/user/chiefEditorProfile')
                                                                 span.glyphicon.glyphicon-user
-                                                                |  Chief Profile
+                                                                |  Baş Editör Profil
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                 | Çıkış !
                     .row
@@ -84,7 +84,27 @@ html
                         .col-md-8
                             block content
                         .col-md-2
-                            block sagMenu
+                            if user
+                                .list-group
+                                    span.list-group-item.active(href='#')
+                                        | Takip Edilen Kavramlar
+                                        span#slide-submenu.pull-right
+                                            i.fa.fa-times
+                                    a.list-group-item(href='#')
+                                        i.fa
+                                        |  java
+                                        span.badge 124
+
+
+                                .list-group
+                                    span.list-group-item.active(href='#')
+                                        | Tavsiye Edilen Kavramlar
+                                        span#slide-submenu.pull-right
+                                            i.fa.fa-times
+                                    a.list-group-item(href='#')
+                                        i.fa
+                                        |  java
+                                        span.badge 124
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
     // script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )r  ben arayım

@@ -1,3 +1,23 @@
-//
-   Created by TOSHIBA on 29.4.2016.
+extends ProfileLayout
 
+block solMenu
+    ul.nav.nav-pills.nav-stacked
+        li
+            a(href='/chiefEditor/addSubTopic')
+                |  Sub Topic Ekle
+        li.active
+            a(href='/chiefEditor/addEditor')
+                |  Editor Ekle
+        li
+            a(href='/admin/wholeData')
+                | Alt Admin İşlemleri
+        li
+            a(href='/user/settings')
+                |  Icons
+
+//block content
+    //BURAYA İÇERİK GELECEK
+
+script(src='js/jquery.min.js')
+script(src='js/bootstrap.min.js')
+script(src='js/scripts.js')

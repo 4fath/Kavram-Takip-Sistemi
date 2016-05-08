@@ -56,43 +56,43 @@ block content
             .col-md-2
             //form
 
-        script(src='../js/jquery.min.js')
-                script(src='../js/datepicker.js')
-                script(src='../js/bootstrap.min.js')
-                script(src='../js/scripts.js')
-                script.
-                    $(document).ready(function() {
-                        $('#productForm')
-                                .formValidation({
-                                    framework: 'bootstrap',
-                                    icon: {
-                                        valid: 'glyphicon glyphicon-ok',
-                                        invalid: 'glyphicon glyphicon-remove',
-                                        validating: 'glyphicon glyphicon-refresh'
-                                    },
-                                    excluded: ':disabled',
-                                    fields: {
-                                        size: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The size is required'
-                                                }
+            script(src='../js/jquery.min.js')
+            script(src='../js/datepicker.js')
+            script(src='../js/bootstrap.min.js')
+            script(src='../js/scripts.js')
+            script.
+                $(document).ready(function() {
+                    $('#productForm')
+                            .formValidation({
+                                framework: 'bootstrap',
+                                icon: {
+                                    valid: 'glyphicon glyphicon-ok',
+                                    invalid: 'glyphicon glyphicon-remove',
+                                    validating: 'glyphicon glyphicon-refresh'
+                                },
+                                excluded: ':disabled',
+                                fields: {
+                                    size: {
+                                        validators: {
+                                            notEmpty: {
+                                                message: 'The size is required'
                                             }
-                                        },
-                                        color: {
-                                            validators: {
-                                                notEmpty: {
-                                                    message: 'The color is required'
-                                                }
+                                        }
+                                    },
+                                    color: {
+                                        validators: {
+                                            notEmpty: {
+                                                message: 'The color is required'
                                             }
                                         }
                                     }
-                                })
-                                // Using Bootbox for color and size select elements
-                                .find('[name="color"], [name="size"]')
-                                .combobox()
-                                .end()
-                    });
+                                }
+                            })
+                            // Using Bootbox for color and size select elements
+                            .find('[name="color"], [name="size"]')
+                            .combobox()
+                            .end()
+                });
 
 block sagUstMenu
     if !user
