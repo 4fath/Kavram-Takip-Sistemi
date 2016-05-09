@@ -69,7 +69,7 @@ var TopicSchema = new Schema({
     }],
 
     relevantSubTopics : [{
-        type : Schema.Types.ObjectId,
+type : Schema.Types.ObjectId,
         ref : 'SubTopic'
     }],
 

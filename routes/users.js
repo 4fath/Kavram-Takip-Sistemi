@@ -382,7 +382,6 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
             })
         },
         function (callback) {
-            if (err) return callback(err);
             Topic.find({}, function (err, topics) {
                 if (err) return callback(err);
                 topics.forEach(function (topic) {
@@ -403,8 +402,10 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
             }
         });
 
-        res.render('editorProfile', {
-            currentUser: currentUser,
+
+        // editor profilinde , kendi üzerine atanmış subTopiclerin altına ayzılan onaylanmamış topicler gelecek
+
+        res.render('editor_profile', {
             myTopics: myTopics,
             myTopicsAsDraft: myTopicAsDraft,
             mySubTopics: mySubTopics,
@@ -449,6 +450,60 @@ router.get('/authorProfile', function (req, res, next) {
             topics : displayTopics
         })
     });
+});
+
+
+router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
+    
+    var user = req.user;
+    if ( user.role != 'editor'){
+        res.redirect('/');
+    }
+    var userID = user._id;
+    
+    var query = {editor : userID};
+
+    SubTopic.find(query, function (err, subTopics) {
+        if (err) throw err;
+        console.log("bulunan sub topicler "+ subTopics);
+        var currentSubTopic = subTopics[0];
+        var subTopicID = currentSubTopic._id;
+        console.log(subTopicID);
+        
+        Topic.find({}, function (err, topics) {
+            if (err) throw err;
+            var onayBekleyenTopicler = [];
+
+
+            topics.forEach(function (subTop) {
+                console.log("=========");
+                console.log(subTop.relevantSubTopics[0]);
+
+            });
+            topics.forEach(function (topic) {
+               if (!topic.allowStatus ){
+                   console.log("caca");
+                   if (subTopicID.toString() === String(topic.relevantSubTopics[0])){
+                       console.log("uygun bulundu");
+                       onayBekleyenTopicler.push(topic);
+
+                   }
+               }
+            });
+
+            // console.log(onayBekleyenTopicler);
+            // if (onayBekleyenTopicler[0] == subTopicID){
+            //     console.log(true);
+            // }else {
+            //     console.log(false);
+            // }
+            res.render('onaydakiTopicler', {
+                onayBekleyenler : onayBekleyenTopicler
+            })
+            
+        })
+    })
+    
 });
 
 router.post('/follow/:topicId', function (req, res) {

@@ -120,6 +120,7 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
                             subTopics.forEach(function (subTopic) {
                                 mySubTopics.push(subTopic);
                             });
+                            req.flash('success', "Helal sana !");
                             res.render('addTopic', {
                                 messages: 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
                                 ' onaylandıktan sonra sistemde görünmeye başlayacaktır ',

@@ -60,12 +60,6 @@ html
                                         else
                                             if user.role == 'editor'
                                                 ul.nav.navbar-nav.navbar-right
-                                                    .navbar-form.form-group
-                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                            |  Editor girmis #{user.firstName}!
-                                                    .navbar-form.form-group
-                                                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addTopic';")
-                                                            |  SubTopic Ekle #{user.firstName}!
 
                                             else
                                                 if user.role == 'author'
