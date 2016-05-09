@@ -28,10 +28,15 @@ router.get('/:subTopicId', function (req, res, next) {
                 screenTopicArray.push(topic);
             }
         });
-        res.render('show_topic_list', {
-            topics : screenTopicArray,
-            title : 'Kavramlar'
+
+        MainTopic.find({}, function (err, mainTopics) {
+            res.render('show_topic_list', {
+                topics : screenTopicArray,
+                title : 'Kavramlar',
+                mainTopics : mainTopics
+            });
         });
+        
     });
 });
 
