@@ -78,7 +78,7 @@ html
                                             i.fa
                                             |  #{mainTopic.name}
                                             if mainTopic.relevantSubTopics.length > 0
-                                                span.badge 1
+                                                span.badge #{mainTopic.relevantSubTopics.length}
                                             else
                                                 span.badge 0
                         .col-md-8

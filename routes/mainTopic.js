@@ -16,15 +16,10 @@ var router = express.Router();
 router.get('/:mainTopicId', function (req, res, next) {
     var mainTopicId = req.params.mainTopicId;
     console.log(mainTopicId);
-    var query = { mainTopics : mainTopicId };
-    // var queryF = {_id : mainTopicId};
-    //
-    // MainTopic.find(queryF, function (err, mainTopics) {
-    //     if (err) throw err;
-    //     console.log("buraya bak:" + mainTopics);
-    // });
 
-    SubTopic.find({}, function (err, subTopics) {
+    var query = { mainTopic : mainTopicId };
+
+    SubTopic.find(query, function (err, subTopics) {
         if (err) throw err;
         console.log("Bağlantılı olduğu alt başlıklar  : ");
         // console.log(subTopics);

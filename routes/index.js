@@ -99,41 +99,65 @@ router.get('/', function (req, res, next) {
             // }
 
 
-            // var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+            var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
 
-            var randomTopic = myTopics[topicLength - 1];
+            //  var randomTopic = myTopics[topicLength - 1];
 
-            var MainTopicsId = randomTopic.relevantMainTopics[0];
-            var SubTopicId = randomTopic.relevantSubTopics[0];
+            var MainTopicsId ;
+            var SubTopicId ;
+            if (randomTopic){
+                MainTopicsId = randomTopic.relevantMainTopics[0];
+                SubTopicId = randomTopic.relevantSubTopics[0];
+                MainTopic.findById(MainTopicsId, function (err, mainTopic) {
+                    if (err) throw err;
+                    SubTopic.findById(SubTopicId, function (err, subTopic) {
+                        if (err) throw err;
+                        res.render('kavram_takip', {
+                            title: 'Kavram Takip Sistemi',
+                            mainTopics: myMainTopics,
+                            subTopics: mySubTopics,
+                            topics: myTopics,
+
+                            screenMainTopic: mainTopic,
+                            screenSubTopic: subTopic,
+                            screenTopic: randomTopic,
+                            takipEdilenler: takipEdilenListesi,
+                            onerilenTopicler: onerilenTopicler
+                        });
+                    })
+                });
+
+            }else {
+                MainTopicsId = {};
+                SubTopicId = {};
+
+                MainTopic.find(MainTopicsId, function (err, mainTopic) {
+                    if (err) throw err;
+                    SubTopic.find(SubTopicId, function (err, subTopic) {
+                        if (err) throw err;
+                        res.render('kavram_takip', {
+                            title: 'Kavram Takip Sistemi',
+                            mainTopics: myMainTopics,
+                            subTopics: mySubTopics,
+                            topics: myTopics,
+                            screenMainTopic: mainTopic,
+                            screenSubTopic: subTopic,
+                            screenTopic: randomTopic
+                        });
+                    })
+                });
+            }
+
 
             // finding screen mainTopic and subTopic
 
-            MainTopic.findById(MainTopicsId, function (err, mainTopic) {
-                if (err) throw err;
-                SubTopic.findById(SubTopicId, function (err, subTopic) {
-                    if (err) throw err;
-                    res.render('kavram_takip', {
-                        title: 'Kavram Takip Sistemi',
-                        mainTopics: myMainTopics,
-                        subTopics: mySubTopics,
-                        topics: myTopics,
 
-                        screenMainTopic: mainTopic,
-                        screenSubTopic: subTopic,
-                        screenTopic: randomTopic,
-                        takipEdilenler: takipEdilenListesi,
-                        onerilenTopicler: onerilenTopicler
-                    });
-                })
-            });
         });
 
 
         // ======== GUEST access
     } else {
         // parallel search for async process
-
-
 
         async.parallel([
             function (callback) {
@@ -173,30 +197,64 @@ router.get('/', function (req, res, next) {
             // get a random Main, Sub etc.. topic for display on screen
             var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength - 1)];
             var randomSubTopic = myMainTopics[getRandomInt(0, subTopicLength - 1)];
-            // var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+            var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
 
-            var randomTopic = myTopics[topicLength - 1];
+            // var randomTopic = myTopics[topicLength - 1];
 
-            var MainTopicsId = randomTopic.relevantMainTopics[0];
-            var SubTopicId = randomTopic.relevantSubTopics[0];
+            var MainTopicsId;
+            var SubTopicId;
+            if (randomTopic){
+                MainTopicsId = randomTopic.relevantMainTopics[0];
+                SubTopicId = randomTopic.relevantSubTopics[0];
+
+                MainTopic.findById(MainTopicsId, function (err, mainTopic) {
+                    if (err) throw err;
+                    SubTopic.findById(SubTopicId, function (err, subTopic) {
+                        if (err) throw err;
+                        res.render('kavram_takip', {
+                            title: 'Kavram Takip Sistemi',
+                            mainTopics: myMainTopics,
+                            subTopics: mySubTopics,
+                            topics: myTopics,
+                            screenMainTopic: mainTopic,
+                            screenSubTopic: subTopic,
+                            screenTopic: randomTopic
+                        });
+                    })
+                });
+
+
+
+            }else {
+                MainTopicsId = {};
+                SubTopicId = {};
+
+                MainTopic.find(MainTopicsId, function (err, mainTopic) {
+                    if (err) throw err;
+                    SubTopic.find(SubTopicId, function (err, subTopic) {
+                        if (err) throw err;
+                        res.render('kavram_takip', {
+                            title: 'Kavram Takip Sistemi',
+                            mainTopics: myMainTopics,
+                            subTopics: mySubTopics,
+                            topics: myTopics,
+                            screenMainTopic: mainTopic,
+                            screenSubTopic: subTopic,
+                            screenTopic: randomTopic
+                        });
+                    })
+                });
+
+
+
+            }
+
+            // var MainTopicsId = randomTopic.relevantMainTopics[0];
+            // var SubTopicId = randomTopic.relevantSubTopics[0];
 
             // finding screen mainTopic and subTopic
 
-            MainTopic.findById(MainTopicsId, function (err, mainTopic) {
-                if (err) throw err;
-                SubTopic.findById(SubTopicId, function (err, subTopic) {
-                    if (err) throw err;
-                    res.render('kavram_takip', {
-                        title: 'Kavram Takip Sistemi',
-                        mainTopics: myMainTopics,
-                        subTopics: mySubTopics,
-                        topics: myTopics,
-                        screenMainTopic: mainTopic,
-                        screenSubTopic: subTopic,
-                        screenTopic: randomTopic
-                    });
-                })
-            });
+
         });
     }
 });

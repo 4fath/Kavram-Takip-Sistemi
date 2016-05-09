@@ -1,3 +1,7 @@
+//
+   Created by TOSHIBA on 9.5.2016.
+
+
 extends MainLayout
 
 block content
@@ -15,17 +19,16 @@ block content
                                 if screenSubTopic
                                     a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
                             li
-                                if screenTopic
-                                    a(href='#') #{screenTopic.name}
+                                if topic
+                                    a(href='#') #{topic.name}
 
-                        if screenTopic
-                            | !{screenTopic.definition}
-                            .row
-                                .col-md-2
-                                    a(href='/#{screenTopic.author}') Yazar
-                                .col-md-8
-                                .col-md-2
-                                    span #{screenTopic.author}
+                        | !{topic.definition}
+                        .row
+                            .col-md-2
+                                a(href='/#{topic.author}') #{user}
+                            .col-md-8
+                            .col-md-2
+                                span #{topic.createdAt}
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')

@@ -298,8 +298,14 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
     var topicId = req.params.topicId;
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
-        res.render('show_topic', {
-            topic: topic
+        
+        User.findById(topic.author, function (err, user) {
+            if (err) throw err;
+            var userName = user.username;
+            res.render('show_topic', {
+                topic: topic,
+                user : userName
+            });    
         });
     });
 });

@@ -16,11 +16,21 @@ var router = express.Router();
 
 router.get('/:subTopicId', function (req, res, next) {
     var subTopicId = req.params.subTopicId;
-    SubTopic.findById(subTopicId, function (err, subTopic) {
+    console.log(subTopicId);
+    
+    Topic.find({}, function (err, topics) {
         if (err) throw err;
-        var topicArray = subTopic.relevantTopics;
+        
+        var screenTopicArray = [];
+        topics.forEach(function (topic) {
+            // TODO : forEach 
+            if (topic.relevantSubTopics[0] == subTopicId){
+                screenTopicArray.push(topic);
+            }
+        });
         res.render('show_topic_list', {
-            topics : topicArray
+            topics : screenTopicArray,
+            title : 'Kavramlar'
         });
     });
 });
