@@ -31,10 +31,16 @@ var SubTopicSchema = new Schema({
         trim : true
     },
 
+    hasEditor : {
+        type : Boolean,
+        required : true,
+        default : false
+    },
+    
     editor : {
         type : Schema.Types.ObjectId,
         ref : 'User',
-        required : true
+        required : false
     },
 
     createdAt : {
