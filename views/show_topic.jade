@@ -25,21 +25,20 @@ block content
                         | !{topic.definition}
                         .row
                             .col-md-2
-                                a(href='/#{topic.author}') #{user}
+                                a(href='/#{topic.author}') #{userName}
                             .col-md-8
                             .col-md-2
                                 span #{topic.createdAt}
 
-
-                        .row
-                            .col-md-4
-                            .col-md-4
-                                form(method='POST', action='/topic/approveByEditor/#{topic._id}')
-                                    .form-group
-                                        button.btn.btn-success(type='Submit', value='Submit') Onayla
-                            .col-md-4
-
-                                button.btn.btn-warning(type='Submit', value='Submit') Reddet
+                        if user.role == 'editor'
+                            .row
+                                .col-md-4
+                                .col-md-4
+                                    form(method='POST', action='/topic/approveByEditor/#{topic._id}')
+                                        .form-group
+                                            button.btn.btn-success(type='Submit', value='Submit') Onayla
+                                .col-md-4
+                                    button.btn.btn-warning(type='Submit', value='Submit') Reddet
 
 
 

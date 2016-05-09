@@ -122,8 +122,6 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
                             });
                             req.flash('success', "Helal sana !");
                             res.render('addTopic', {
-                                messages: 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
-                                ' onaylandıktan sonra sistemde görünmeye başlayacaktır ',
                                 mainTopics: myMainTopics,
                                 subTopics: mySubTopics
                             });
@@ -309,7 +307,7 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
             var userName = user.username;
             res.render('show_topic', {
                 topic: topic,
-                user: userName
+                userName: userName
             });
         });
     });

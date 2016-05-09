@@ -5,6 +5,7 @@ var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
 var Topic = require('../models/Topic');
 var Comment = require('../models/Comment');
+var User = require('../models/User');
 
 var router = express.Router();
 
@@ -88,20 +89,7 @@ router.get('/', function (req, res, next) {
             var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength - 1)];
             var randomSubTopic = myMainTopics[getRandomInt(0, subTopicLength - 1)];
 
-
-            // instanceof istediğim gibi çalışıyor
-            // if (myMainTopics[0] instanceof SubTopic){
-            //     console.log("SubTopic sanan mainTopic")
-            // }else if (myMainTopics[0] instanceof MainTopic){
-            //     console.log("mainTopic gibi mainTopic")
-            // }else {
-            //     console.log("Ne olduğunu anlamdık");
-            // }
-
-
             var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
-
-            //  var randomTopic = myTopics[topicLength - 1];
 
             var MainTopicsId ;
             var SubTopicId ;
@@ -112,18 +100,25 @@ router.get('/', function (req, res, next) {
                     if (err) throw err;
                     SubTopic.findById(SubTopicId, function (err, subTopic) {
                         if (err) throw err;
-                        res.render('kavram_takip', {
-                            title: 'Kavram Takip Sistemi',
-                            mainTopics: myMainTopics,
-                            subTopics: mySubTopics,
-                            topics: myTopics,
+                        
+                        User.findById(randomTopic.author, function (err, user) {
+                            if (err) throw err;
+                            res.render('kavram_takip', {
+                                title: 'Kavram Takip Sistemi',
+                                mainTopics: myMainTopics,
+                                subTopics: mySubTopics,
+                                topics: myTopics,
 
-                            screenMainTopic: mainTopic,
-                            screenSubTopic: subTopic,
-                            screenTopic: randomTopic,
-                            takipEdilenler: takipEdilenListesi,
-                            onerilenTopicler: onerilenTopicler
-                        });
+                                screenMainTopic: mainTopic,
+                                screenSubTopic: subTopic,
+                                screenTopic: randomTopic,
+                                takipEdilenler: takipEdilenListesi,
+                                onerilenTopicler: onerilenTopicler,
+                                topicUser : user
+                            });
+                        })
+                        
+                        
                     })
                 });
 
@@ -211,15 +206,20 @@ router.get('/', function (req, res, next) {
                     if (err) throw err;
                     SubTopic.findById(SubTopicId, function (err, subTopic) {
                         if (err) throw err;
-                        res.render('kavram_takip', {
-                            title: 'Kavram Takip Sistemi',
-                            mainTopics: myMainTopics,
-                            subTopics: mySubTopics,
-                            topics: myTopics,
-                            screenMainTopic: mainTopic,
-                            screenSubTopic: subTopic,
-                            screenTopic: randomTopic
-                        });
+                        User.findById(randomTopic.author, function (err, user) {
+                            if (err) throw err;
+                            res.render('kavram_takip', {
+                                title: 'Kavram Takip Sistemi',
+                                mainTopics: myMainTopics,
+                                subTopics: mySubTopics,
+                                topics: myTopics,
+                                screenMainTopic: mainTopic,
+                                screenSubTopic: subTopic,
+                                screenTopic: randomTopic,
+                                topicUser : user
+                            });
+                        })
+
                     })
                 });
 

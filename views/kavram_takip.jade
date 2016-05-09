@@ -7,25 +7,34 @@ block content
             ul.list-group
                 li.list-group-item.modal-header
                     h3
-                        ul.breadcrumb
-                            li
-                                if screenMainTopic
-                                    a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
-                            li
-                                if screenSubTopic
-                                    a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
-                            li
-                                if screenTopic
-                                    a(href='#') #{screenTopic.name}
+                        //ul.breadcrumb
+                        //    li
+                        //        if screenMainTopic
+                        //            a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
+                        //    li
+                        //        if screenSubTopic
+                        //            a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                        //    li
+                        //        if screenTopic
+                        //            a(href='/test/git') #{screenTopic.name}
+                        .breadcrumb
+                            if screenMainTopic
+                                a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
+                            if screenSubTopic
+                                a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                            if screenTopic
+                                a(href='/test/git') #{screenTopic.name}
 
                         if screenTopic
                             | !{screenTopic.definition}
-                            .row
-                                .col-md-2
-                                    a(href='/#{screenTopic.author}') Yazar
-                                .col-md-8
-                                .col-md-2
-                                    span #{screenTopic.author}
+                            if topicUser
+                                .row
+                                    .col-md-2
+                                        a(href='/#{screenTopic.author}') #{topicUser.username}
+                                    .col-md-8
+                                    .col-md-2
+                                        span #{screenTopic.createdAt}
+
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')
