@@ -30,23 +30,29 @@ router.get('/:mainTopicId', function (req, res, next) {
             console.log("================")
         });
 
-
         if (subTopics.length == 0){
             var query = {mainTopics : mainTopicId};
             SubTopic.find(query, function (err, subTopics) {
                 if (err) throw err;
                 console.log("we are in");
                 console.log(subTopics);
-                res.render('show_sub_topic_list',{
-                    subTopics : subTopics
+                MainTopic.find({}, function (err, mainTopics) {
+                    if (err) throw err;
+                    res.render('show_sub_topic_list',{
+                        subTopics : subTopics,
+                        mainTopics : mainTopics
+                    });
                 });
             })
         }else {
-            res.render('show_sub_topic_list',{
-                subTopics : subTopics
+            MainTopic.find({}, function (err, mainTopics) {
+                if (err) throw err;
+                res.render('show_sub_topic_list',{
+                    subTopics : subTopics,
+                    mainTopics : mainTopics
+                });
             });
         }
-
     });
 });
 module.exports = router;
