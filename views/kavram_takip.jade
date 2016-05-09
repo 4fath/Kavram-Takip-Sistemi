@@ -23,7 +23,7 @@ block content
                             if screenSubTopic
                                 a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
                             if screenTopic
-                                a(href='/test/git') #{screenTopic.name}
+                                a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
 
                         if screenTopic
                             | !{screenTopic.definition}
