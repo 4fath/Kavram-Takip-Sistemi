@@ -4,8 +4,11 @@ block content
     h2 Bilim Alanları
     table.table.table-responsive
         tbody
-            tr.col-md-4(style='display: block; float: left;')
+            tr
             each subTopic in subTopics
-                td
+                td.col-md-4(style='display: block; float:left')
                     a(style='color:#5cb85c;', href='/subTopic/#{subTopic._id}') #{subTopic.name}
 
+script(src='../js/jquery.min.js')
+script(src='../js/bootstrap.min.js')
+script(src='../js/scripts.js')

@@ -22,19 +22,19 @@ block content
             .col-md-1
             .col-md-11
                 .panel.panel-success.col-md-5
-                    .panel-heading Sub Topic
-                    .panel-body
-                        select(name='editorID')
-                            if myUser
-                                each user in myUser
-                                    option(value='#{user._id}')  #{user.username}
-                .panel.panel-success.col-md-5
-                    .panel-heading Sub Topic
+                    .panel-heading Bilim Alanı
                     .panel-body
                         select(name='subTopicID')
                             if mySubTopics
                                 each subTopic in mySubTopics
                                     option(value='#{subTopic._id}')  #{subTopic.name}
+                .panel.panel-success.col-md-5
+                    .panel-heading Kullanıcı
+                    .panel-body
+                        select(name='editorID')
+                            if myUser
+                                each user in myUser
+                                    option(value='#{user._id}')  #{user.username}
                 .col-md-5
                     button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
 
