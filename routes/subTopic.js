@@ -25,7 +25,9 @@ router.get('/:subTopicId', function (req, res, next) {
         topics.forEach(function (topic) {
             // TODO : forEach 
             if (topic.relevantSubTopics[0] == subTopicId){
-                screenTopicArray.push(topic);
+                if (topic.allowStatus){
+                    screenTopicArray.push(topic);
+                }
             }
         });
 

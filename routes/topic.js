@@ -134,18 +134,6 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
 
             });
 
-            // SubTopic.findOneAndUpdate(query,
-            //     {$push: {relevantTopics: newTopic._id}},
-            //     {safe: true, upsert: true},
-            //     function (err, doc) {
-            //         if (err) throw err;
-            //         res.render('add_new_topic', {
-            //             messages: 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
-            //             ' onaylandıktan sonra sistemde görünmeye başlayacaktır ',
-            //             mainTopics: myMainTopics,
-            //             subTopics: mySubTopics
-            //         });
-            //     });
         });
 
     } else {
@@ -242,6 +230,22 @@ router.get('/editTopic/:topicId', ensureAuthentication, function (req, res, next
     });
 });
 
+
+router.post('/approveByEditor/:topicId', ensureAuthentication, function (req, res, next) {
+    var topicId = req.params.topicId;
+    console.log("Topic ID" + topicId);
+    Topic.findById(topicId, function (err, topic) {
+        if (err) throw err;
+        topic.allowStatus = true;
+        topic.save(function (err) {
+            if (err) throw err;
+            console.log("Onaylandı"+ err);
+            req.flash('success', "Başarıyla onaylandı");
+            res.redirect('/user/editorProfile');
+        });
+    });
+});
+
 router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, next) {
     var topicId = req.params.topicId;
 
@@ -299,37 +303,37 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
     var topicId = req.params.topicId;
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
-        
+
         User.findById(topic.author, function (err, user) {
             if (err) throw err;
             var userName = user.username;
             res.render('show_topic', {
                 topic: topic,
-                user : userName
-            });    
+                user: userName
+            });
         });
     });
 });
 
 router.get('/onApprove', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
-    var query = {author : currentUser._id , allowStatus : false };
+    var query = {author: currentUser._id, allowStatus: false};
     Topic.find(query, function (err, topics) {
         if (err) throw err;
         res.render('onArrovedTopic', {
-            onApprovedTopics : topics
+            onApprovedTopics: topics
         });
     });
 });
 
 
-router.get('/myDrafts' , ensureAuthentication, function (req, res, next) {
+router.get('/myDrafts', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
-    var query = {author : currentUser._id , isDraft : true };
+    var query = {author: currentUser._id, isDraft: true};
     Topic.find(query, function (err, topics) {
         if (err) throw err;
         res.render('onDraftTopics', {
-            myDraftTopics : topics
+            myDraftTopics: topics
         });
     });
 });
@@ -337,14 +341,14 @@ router.get('/myDrafts' , ensureAuthentication, function (req, res, next) {
 
 router.get('/myTopics', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
-    var query = {author : currentUser._id, isDraft : false, allowStatus : true};
+    var query = {author: currentUser._id, isDraft: false, allowStatus: true};
     Topic.find(query, function (err, topics) {
         if (err) throw err;
-        res.render ('myTopics', {
-            myTopics : topics
+        res.render('myTopics', {
+            myTopics: topics
         });
     });
-    
+
 });
 
 module.exports = router;

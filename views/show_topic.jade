@@ -30,6 +30,19 @@ block content
                             .col-md-2
                                 span #{topic.createdAt}
 
+
+                        .row
+                            .col-md-4
+                            .col-md-4
+                                form(method='POST', action='/topic/approveByEditor/#{topic._id}')
+                                    .form-group
+                                        button.btn.btn-success(type='Submit', value='Submit') Onayla
+                            .col-md-4
+
+                                button.btn.btn-warning(type='Submit', value='Submit') Reddet
+
+
+
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')
 script(src='../js/scripts.js')
