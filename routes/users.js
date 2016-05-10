@@ -505,7 +505,6 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     })
     
 });
-
 router.post('/follow/:topicId', function (req, res) {
     var currentUser = req.user;
     var clickedId = req.params.topicId;
@@ -527,15 +526,14 @@ router.post('/follow/:topicId', function (req, res) {
                     topic.save(function (err) {
                         if (err) throw err;
                         console.log("takip islemi başarılı");
+                        req.flash('success',"Takip Listenize eklendi");
+                        res.redirect('/');
                     })
                 })
             })
         });
 
-    } else {
-
     }
-
 });
 
 function ensureAuthentication(req, res, next) {

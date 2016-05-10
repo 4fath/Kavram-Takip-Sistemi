@@ -19,28 +19,28 @@ var Schema = mongoose.Schema;
 
 var TopicSchema = new Schema({
 
-    name : {
-        type : String,
-        required : true,
-        trim : true
-    },
-    
-    abstract : {
-        type : String,
-        required : true,
-        trim : true
-    },
-    
-    definition : {
-        type : String,
-        required : true,
-        trim : true
+    name: {
+        type: String,
+        required: true,
+        trim: true
     },
 
-    author : {
-        type : Schema.Types.ObjectId,
-        ref : 'User',
-        required : false
+    abstract: {
+        type: String,
+        required: true,
+        trim: true
+    },
+
+    definition: {
+        type: String,
+        required: true,
+        trim: true
+    },
+
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: false
     },
 
     allowStatus: {
@@ -56,32 +56,32 @@ var TopicSchema = new Schema({
         type: Boolean,
         require: true,
         default: true,
-        lastUpdate : {
-            type : Date,
-            require : true,
-            default : Date.now()
+        lastUpdate: {
+            type: Date,
+            require: true,
+            default: Date.now()
         }
     },
 
-    relevantMainTopics : [{
-        type : Schema.Types.ObjectId,
-        ref : 'MainTopic'
+    relevantMainTopics: [{
+        type: Schema.Types.ObjectId,
+        ref: 'MainTopic'
     }],
 
-    relevantSubTopics : [{
-type : Schema.Types.ObjectId,
-        ref : 'SubTopic'
+    relevantSubTopics: [{
+        type: Schema.Types.ObjectId,
+        ref: 'SubTopic'
     }],
 
-    relevantComments : [{
-        type : Schema.Types.ObjectId,
-        ref : 'Comment'
+    relevantComments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
     }],
 
-    followers : [{
-        type : Schema.Types.ObjectId,
-        ref : 'User',
-        require : false
+    followers: [{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        require: false
     }],
 
     viewCount: {
@@ -94,28 +94,28 @@ type : Schema.Types.ObjectId,
         type: Number,
         default: 0
     },
-    
-    comments : [{
-        type : Schema.Types.ObjectId,
-        ref : 'Comment',
-        required : false
+
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+        required: false
     }],
-    
-    createdAt : {
-        type : Date,
+
+    createdAt: {
+        type: Date,
         required: true,
-        default : Date.now()
+        default: Date.now()
     },
 
-    updatedAt : {
-        type : Date,
-        default : Date.now()
+    updatedAt: {
+        type: Date,
+        default: Date.now()
     }
 
 });
 
 
-TopicSchema.pre('save', function(next){
+TopicSchema.pre('save', function (next) {
     var now = new Date();
     this.updated_at = now;
     if (!this.created_at) {
@@ -124,10 +124,10 @@ TopicSchema.pre('save', function(next){
     next();
 });
 
-var Topic = mongoose.model('Topic',TopicSchema);
+var Topic = mongoose.model('Topic', TopicSchema);
 
 module.exports = Topic;
 
-module.exports.createTopic = function(newTopic, callback){
+module.exports.createTopic = function (newTopic, callback) {
     newTopic.save(callback);
 };

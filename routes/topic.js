@@ -305,10 +305,15 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
         User.findById(topic.author, function (err, user) {
             if (err) throw err;
             var userName = user.username;
-            res.render('show_topic', {
-                topic: topic,
-                userName: userName
-            });
+            MainTopic.find({},function (err, mainTopics) {
+                if(err) throw err;
+                res.render('show_topic', {
+                    topic: topic,
+                    userName: userName,
+                    mainTopics: mainTopics
+                });
+            })
+            
         });
     });
 });

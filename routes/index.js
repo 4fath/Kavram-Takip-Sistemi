@@ -61,7 +61,9 @@ router.get('/', function (req, res, next) {
                     if (topics.length > 0) {
                         var maxViewedTopic = topics[0];
                         topics.forEach(function (topic) {
-                            myTopics.push(topic);
+                            if (topic.allowStatus){
+                                myTopics.push(topic);
+                            }
                             if (topic.viewCount > maxViewedTopic.viewCount) {
                                 maxViewedTopic = topic;
                             }
@@ -177,7 +179,10 @@ router.get('/', function (req, res, next) {
                 Topic.find({}, function (err, topics) {
                     if (err) return callback(err);
                     topics.forEach(function (topic) {
-                        myTopics.push(topic);
+                        if (topic.allowStatus){
+                            myTopics.push(topic);
+                        }
+
                     });
                     callback();
                 });
@@ -193,6 +198,8 @@ router.get('/', function (req, res, next) {
             var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength - 1)];
             var randomSubTopic = myMainTopics[getRandomInt(0, subTopicLength - 1)];
             var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+
+
 
             // var randomTopic = myTopics[topicLength - 1];
 

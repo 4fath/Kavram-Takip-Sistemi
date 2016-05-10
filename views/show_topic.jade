@@ -31,14 +31,15 @@ block content
                                 span #{topic.createdAt}
 
                         if user.role == 'editor'
-                            .row
-                                .col-md-4
-                                .col-md-4
-                                    form(method='POST', action='/topic/approveByEditor/#{topic._id}')
-                                        .form-group
-                                            button.btn.btn-success(type='Submit', value='Submit') Onayla
-                                .col-md-4
-                                    button.btn.btn-warning(type='Submit', value='Submit') Reddet
+                            if !topic.allowStatus
+                                .row
+                                    .col-md-4
+                                    .col-md-4
+                                        form(method='POST', action='/topic/approveByEditor/#{topic._id}')
+                                            .form-group
+                                                button.btn.btn-success(type='Submit', value='Submit') Onayla
+                                    .col-md-4
+                                        button.btn.btn-warning(type='Submit', value='Submit') Reddet
 
 
 
