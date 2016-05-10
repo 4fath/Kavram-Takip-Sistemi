@@ -506,9 +506,10 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     
 });
 router.post('/follow/:topicId', function (req, res) {
+    console.log("hata burada");
     var currentUser = req.user;
     var clickedId = req.params.topicId;
-
+    console.log("hata burada1");
     var errors = req.validationErrors();
     if (!errors) {
 
@@ -516,12 +517,14 @@ router.post('/follow/:topicId', function (req, res) {
         User.findById(currentUser._id, function (err, user) {
             if (err) throw err;
             user.followingTopics.push(clickedId);
+            console.log("hata burada2");
             user.save(function (err) {
                 if (err) throw err;
 
 //noinspection JSUnresolvedFunction
                 Topic.findById(clickedId, function (err, topic) {
                     if (err) throw err;
+                    console.log("hata burada3");
                     topic.followers.push(currentUser._id);
                     topic.save(function (err) {
                         if (err) throw err;
@@ -534,6 +537,42 @@ router.post('/follow/:topicId', function (req, res) {
         });
 
     }
+});
+
+router.get('/following_list/:userId', function (req, res, next) {
+    //var bos = req.user._id;
+    var topicList = [];
+    var takipEdilenler = [];
+    var userId = req.params.userId;
+    console.log(userId);
+
+    User.findById(userId, function (err, user) {
+        if (err) throw (err);
+        console.log("Buraya gelebildik");
+        console.log(user);
+
+        user.followingTopics.forEach(function (following) {
+            takipEdilenler.push(following);
+        });
+        var i = 0;
+        takipEdilenler.forEach(function (topicId) {
+            Topic.findById(topicId, function (err, topic) {
+                if (err) throw(err);
+                topicList.push(topic);
+                console.log(topic);
+                i++;
+                if (i == takipEdilenler.length){
+                    res.render('following_topics',{
+                        takipEdilenlerTopicler : topicList
+                    });
+                }
+            });
+        });
+        console.log(topicList);
+
+
+    });
+
 });
 
 function ensureAuthentication(req, res, next) {

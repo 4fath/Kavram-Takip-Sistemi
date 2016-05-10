@@ -24,7 +24,7 @@ body{
     background: #0A9E3B;
 }
 .list-group .modal-header{
-     background-color: #a9a9a9 !important;
+     background-color: #e0e09c  !important;
 }
 
 .list-group .active{
@@ -177,7 +177,6 @@ ul.error li{
 .breadcrumb {
 	/*centering*/
 	display: inline-block;
-	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.35);
 	overflow: hidden;
 	border-radius: 5px;
 	/*Lets add the numbers for each link using CSS counters. flag is the name of the counter. to be defined using counter-reset in the parent element of the links*/
