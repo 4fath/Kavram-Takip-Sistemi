@@ -102,7 +102,7 @@ router.get('/', function (req, res, next) {
                     if (err) throw err;
                     SubTopic.findById(SubTopicId, function (err, subTopic) {
                         if (err) throw err;
-                        
+                         
                         User.findById(randomTopic.author, function (err, user) {
                             if (err) throw err;
                             res.render('kavram_takip', {

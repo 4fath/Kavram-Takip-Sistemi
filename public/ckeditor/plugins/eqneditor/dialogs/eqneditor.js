@@ -18,7 +18,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
 	window.CCounter++;
 
 	return {
-		title : "",
+		title : "Fonksiyon Editörü",
 		minWidth : 550,
 		minHeight : 380,
 		resizable: CKEDITOR.DIALOG_RESIZE_NONE,
@@ -34,7 +34,7 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
 					},
 					{
 							type: 'html',
-							html: '<label for="CClatex'+window.CCounter+'">Fonksiyon (LaTeX):</label>',
+							html: '<label for="CClatex'+window.CCounter+'">Eşitlik (LaTeX):</label>',
 					},
 					{
 							type: 'html',
@@ -43,7 +43,11 @@ CKEDITOR.dialog.add( 'eqneditorDialog', function(editor)
 					},
 					{
 						 	type: 'html',
-							html: '<label for="CCequation'+window.CCounter+'">Önizleme:</label>'		
+							html: '<label for="CCequation'+window.CCounter+'">Önizleme:</label>'
+					},
+					{
+							type :'html',
+							html: '<div style="position:absolute; left:5px; bottom:0; z-index:999"><a href="http://www.codecogs.com" target="_blank"></a></div><img id="CCequation'+window.CCounter+'" src="'+http+'www.codecogs.com/images/spacer.gif" />'
 					}
 				]
 			}

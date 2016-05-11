@@ -45,7 +45,7 @@ router.get('/register', function (req, res) {
 
         if (err) return (err);
         res.render('signup', {
-
+            mainTopics : myMainTopics
         });
 
     });
@@ -58,7 +58,9 @@ router.get('/register', function (req, res) {
         res.location('/');
         res.redirect('/');
     } else {
-        res.render('signup');
+        // res.render('signup', {
+        //     mainTopics : myMainTopics
+        // });
         console.log("register'a girdi.");
     }
 });
@@ -120,9 +122,19 @@ router.get('/login', function (req, res) {
         res.location('/');
         res.redirect('/');
     } else {
-        res.render('signin');
-        console.log("logine girdi");
+        var myMainTopics = [];
+        MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw (err);
+            mainTopics.forEach(function (mainTopic) {
+                myMainTopics.push(mainTopic);
+            });
+            res.render('signin', {
+                mainTopics : myMainTopics
+            });
+
+        });
     }
+
 
 });
 

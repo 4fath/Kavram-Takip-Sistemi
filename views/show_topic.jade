@@ -11,16 +11,13 @@ block content
             ul.list-group
                 li.list-group-item.modal-header
                     h3
-                        ul.breadcrumb
-                            li
-                                if screenMainTopic
+                        .breadcrumb
+                            if screenMainTopic
                                     a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
-                            li
-                                if screenSubTopic
-                                    a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
-                            li
-                                if topic
-                                    a(href='#') #{topic.name}
+                            if screenSubTopic
+                                a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                            if topic
+                                a(href='/topic/getTopic/#{topic._id}') #{topic.name}
 
                         | !{topic.definition}
                         .row

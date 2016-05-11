@@ -4,12 +4,12 @@ extends ProfileLayout
 
 block content
     h2 Takip Edilen Kavramlar
-        table.table.table-responsive
-            tbody
-                tr
-                each takipTopic in takipEdilenlerTopicler
-                    td.col-md-4(style='display: block; float:left')
-                        a(style='color:#5cb85c;', href='/subTopic/#{takipTopic._id}') #{takipTopic.name}
+    table.table.table-responsive
+        tbody
+            tr
+            each takipTopic in takipEdilenlerTopicler
+                td.col-md-4(style='display: block; float:left')
+                    a(style='color:#5cb85c;', href='/subTopic/#{takipTopic._id}') #{takipTopic.name}
 
 block solMenu
     ul.nav.nav-pills.nav-stacked

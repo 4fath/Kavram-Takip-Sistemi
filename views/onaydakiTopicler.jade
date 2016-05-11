@@ -10,7 +10,7 @@ extends ProfileLayout
 block solMenu
     ul.nav.nav-pills.nav-stacked
         li
-            a(href='/user/settings')
+            a(href='/user/following_list/#{user._id}')
                 |  Takip Ettiklerim
         li.active
             a(href='/user/editor/getOnay')
@@ -23,15 +23,16 @@ block solMenu
                 | Taslaklarım
         li
             a(href='tables.html')
-                |  Profi Ayarları
+                |  Profil Ayarları
         // /.sidebar
 block content
     ul.list-group
         li.list-group-item.text-muted Onay Bekleyenler Kavramlar
         each item in onayBekleyenler
             li.list-group-item.text-right
-                a.pull-left(href='/topic/getTopic/#{item._id}') #{item.abstract}
-                button.btn-success(ng-click='addChiefEditor($index)') Düzenle
+                a.pull-left(href='/topic/getTopic/#{item._id}') #{item.name}
+                //button.btn-success(ng-click='addChiefEditor($index)') Aç
+                a.btn.btn-success(href='/topic/getTopic/#{item._id}') Aç
 
 
 

@@ -3,6 +3,9 @@ extends ProfileLayout
 block solMenu
     ul.nav.nav-pills.nav-stacked
         li
+            a(href='/user/following_list/#{user._id}')
+                |  Takip Ettiklerim
+        li
             a(href='/topic/onApprove')
                 |  Onay Bekleyenler
         li
@@ -11,9 +14,6 @@ block solMenu
         li.active
             a(href='adminSubAdmin.html')
                 | Taslaklarım
-        li
-            a(href='tables.html')
-                |  Takip Ettiklerim
         // /.sidebar
 
 

@@ -123,7 +123,8 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
                             req.flash('success', "Helal sana !");
                             res.render('addTopic', {
                                 mainTopics: myMainTopics,
-                                subTopics: mySubTopics
+                                subTopics: mySubTopics,
+                                user: currentUser
                             });
                         })
                     });
@@ -301,19 +302,26 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
     var topicId = req.params.topicId;
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
-
-        User.findById(topic.author, function (err, user) {
+        MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
             if (err) throw err;
-            var userName = user.username;
-            MainTopic.find({},function (err, mainTopics) {
-                if(err) throw err;
-                res.render('show_topic', {
-                    topic: topic,
-                    userName: userName,
-                    mainTopics: mainTopics
+            SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
+                if (err) throw err;
+                User.findById(topic.author, function (err, user) {
+                    if (err) throw err;
+                    var userName = user.username;
+                    MainTopic.find({}, function (err, mainTopics) {
+                        if (err) throw err;
+                        res.render('show_topic', {
+                            topic: topic,
+                            userName: userName,
+                            mainTopics: mainTopics,
+                            screenMainTopic: mainTopic,
+                            screenSubTopic: subTopic,
+                        });
+                    });
+
                 });
-            })
-            
+            });
         });
     });
 });

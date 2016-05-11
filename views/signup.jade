@@ -93,39 +93,3 @@ block content
                             .combobox()
                             .end()
                 });
-
-block sagUstMenu
-    if !user
-        ul.nav.navbar-nav.navbar-right
-            .navbar-form.form-group
-                button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
-                    | Giriş
-                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
-                    | Kaydol !
-
-
-    if user
-        ul.nav.navbar-nav.navbar-right
-            .navbar-form.form-group
-                button.btn.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';")
-                    span.glyphicon.glyphicon-plus(aria-hidden='true')
-                        |  Kavram Ekle
-                if user.role == 'editor'
-                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
-                        | Editor Profili !
-                else
-                    if user.role == 'admin'
-                        button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
-                            | Admin profili !
-                    else
-                        if user.role == 'author'
-                            a.btn.btn-info.btn-md(href='/user/authorProfile')
-                                span.glyphicon.glyphicon-user
-                                |  Profil
-                        else
-                            if user.role == 'chiefEditor'
-                                a.btn.btn-info.btn-lg(href='/user/chiefEditorProfile')
-                                    span.glyphicon.glyphicon-user
-                                    |  Chief Profile
-                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
-                    | Çıkış !

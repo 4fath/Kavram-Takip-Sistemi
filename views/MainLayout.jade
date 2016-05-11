@@ -21,7 +21,9 @@ html
                                     span.icon-bar
                                     span.icon-bar
                                     span.icon-bar
-                                a.navbar-brand(href='/') KavramTakip
+
+                                a.navbar-brand(href='/')
+                                    | KavramTakip
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
@@ -33,11 +35,13 @@ html
                                         // Guest access
                                 if !user
                                     ul.nav.navbar-nav.navbar-right
-                                        .navbar-form.form-group
-                                            button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
-                                                | Giriş
-                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
-                                                | Kaydol !
+                                        .navbar-form
+                                            .form-group
+                                                button.btn.btn-success(type= 'submit', name = 'Submit', onclick="location.href='/user/login';")
+                                                    | Giriş
+                                            .form-group
+                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/register';")
+                                                    | Kaydol !
 
 
                                 if user
