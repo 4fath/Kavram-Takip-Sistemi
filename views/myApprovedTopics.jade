@@ -1,19 +1,11 @@
 //
-   Created by Asus on 10.05.2016.
-extends ProfileLayout
+   Created by Asus on 12.05.2016.
 
-block content
-    h2 Takip Edilen Kavramlar
-    table.table.table-responsive
-        tbody
-            tr
-            each takipTopic in takipEdilenlerTopicler
-                td.col-md-4(style='display: block; float:left')
-                    a(style='color:#5cb85c;', href='/subTopic/#{takipTopic._id}') #{takipTopic.name}
+extends ProfileLayout
 
 block solMenu
     ul.nav.nav-pills.nav-stacked
-        li.active
+        li
             a(href='/user/following_list/#{user._id}')
                 |  Takip Ettiklerim
         if user.role == 'admin'
@@ -37,12 +29,16 @@ block solMenu
         li
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım
-        li
-            a(href='adminInbox.html')
+        li.active
+            a(href='#')
                 | Onaylanan Kavramlarım
         li
             a(href='/topic/myDrafts')
                 | Taslaklarım
+
+
+//block content
+    BURAYA İÇERİK GELECEK
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')

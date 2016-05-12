@@ -24,6 +24,7 @@ html
 
                                 a.navbar-brand(href='/')
                                     | KavramTakip
+                                //img(src='../logo.jpg')
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
@@ -52,7 +53,7 @@ html
                                                     |  Kavram Ekle
                                             if user.role == 'editor'
                                                 button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
-                                                    | Editor Profil
+                                                    | Editör Profil
                                             else
                                                 if user.role == 'admin'
                                                     button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")

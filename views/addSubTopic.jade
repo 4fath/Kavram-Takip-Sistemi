@@ -10,13 +10,16 @@ block solMenu
                 | Bilim Alanı Ekle
         li
             a(href='/chiefEditor/addEditor')
-                | Editor Ekle
+                | Editör Ekle
         li
-            a(href='/admin/wholeData')
-                | Alt Admin İşlemleri
+            a(href='/topic/onApprove')
+                |  Onay Bekleyen Kavramlarım
         li
-            a(href='/user/settings')
-                | Icons
+            a(href='adminInbox.html')
+                | Onaylanan Kavramlarım
+        li
+            a(href='/topic/myDrafts')
+                | Taslaklarım
 block content
     form(method='post', action='/chiefEditor/addSubTopic')
         .form-group

@@ -7,7 +7,7 @@ block content
     h2 #{title}
     table.table.table-responsive
         tbody
-            tr.col-md-4(style='display: block; float: left;')
+            tr
             each topic in topics
-                td
+                td.col-md-4(style='display: block; float: left;')
                     a(style='color:#5cb85c;', href='/topic/getTopic/#{topic._id}') #{topic.name}

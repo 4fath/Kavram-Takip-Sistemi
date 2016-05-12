@@ -12,11 +12,20 @@ block solMenu
             a(href='/admin/addChiefEditor')
                 | Baş Editör Ekle
         li
-            a(href='/admin/wholeData')
-                | Alt Admin İşlemleri
+            a(href='/topic/onApprove')
+                |  Onay Bekleyen Kavramlarım
         li
-            a(href='/user/settings')
-                |  Icons
+            a(href='adminInbox.html')
+                | Onaylanan Kavramlarım
+        li
+            a(href='/topic/myDrafts')
+                | Taslaklarım
+        //li
+        //    a(href='/admin/wholeData')
+        //        | Alt Admin İşlemleri
+        //li
+        //    a(href='/user/settings')
+        //        |  Icons
 
 block content
     .form-group
