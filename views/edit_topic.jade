@@ -10,22 +10,32 @@ block content
                 .panel.panel-success.col-md-5
                     .panel-heading Temel Alan
                     .panel-body
-                        select(name='myMainTopic', value='#{myMainTopic}')
-                            each mainTopic in mainTopics
-                                if mainTopic._id
-                                    option(value='#{mainTopic._id}', selected=myMainTopic==mainTopic._id)  #{mainTopic.name}
-                                else
+                        select(name='myMainTopic', value='#{myMainTopic}', disabled=true)
+                            if myMainTopic
+                                -var count = 0;
+                                each mainTopic in mainTopics
+                                    option(value='#{mainTopic._id}', selected=count==mainTopicSira)  #{mainTopic.name}
+                                    -count++;
+                            else
+                                each mainTopic in mainTopics
                                     option(value='#{mainTopic._id}')  #{mainTopic.name}
                 .panel.panel-success.col-md-5
                     .panel-heading Bilim Alanı
                     .panel-body
-                        select(name='mySubTopic', value='#{mySubTopic}')
+                        if mySubTopic
+                            select(name='mySubTopic', value='#{mySubTopic}', disabled=true)
+                                - var countNow = 0;
+                                each subTopic in subTopics
+                                    option(value='#{subTopic._id}', selected=countNow==subTopicSira)  #{subTopic.name}
+                                    -countNow++;
+                        else
                             each subTopic in subTopics
                                 option(value='#{subTopic._id}')  #{subTopic.name}
+
                 .panel.panel-success.col-md-8
                     .panel-heading  Kavram Adı
                     .panel-body
-                        input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='', value='#{topicName}')
+                        input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='', value='#{topicName}',disabled=true)
                 .panel.panel-success.col-md-8
                     .panel-heading Kavram Özeti
                     .panel-body

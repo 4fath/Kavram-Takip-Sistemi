@@ -194,18 +194,9 @@ router.post('/addTopicAsDraft', ensureAuthentication, function (req, res, next) 
 
         newTopic.save(function (err) {
             if (err) throw err;
-            // SubTopic.findOneAndUpdate(query,
-            //     {$push: {relevantTopics: newTopic._id}},
-            //     {safe: true, upsert: true},
-            //     function (err, doc) {
-            //         if (err) throw err;
-            //         res.render('add_new_topic', {
-            //             messages: 'Başarılı bir şekilde işleminiz kaydedilmiştir,' +
-            //             ' onaylandıktan sonra sistemde görünmeye başlayacaktır '
-            //         });
-            //     });
             var myMainTopics = [];
             var mySubTopics = [];
+            
             MainTopic.find({}, function (err, mainTopics) {
                 if (err) throw err;
                 mainTopics.forEach(function (mainTopic) {
@@ -239,24 +230,54 @@ router.post('/addTopicAsDraft', ensureAuthentication, function (req, res, next) 
 
 router.get('/editTopic/:topicId', ensureAuthentication, function (req, res, next) {
     var topicId = req.params.topicId;
-    var query = {_id: topicId};
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
         console.log(topic.name);
 
         MainTopic.find({}, function (err, mainTopics) {
             if (err) throw err;
+            var mainTopicSira ;
+            for (var i = 0; i< mainTopics.length ; i++){
+                var currentMainTopic = mainTopics[i];
+                console.log(currentMainTopic._id);
+                console.log(topic.relevantMainTopics[0]);
+                console.log("============");
+                
+                if (String(topic.relevantMainTopics[0]) === currentMainTopic._id.toString()){
+                    console.log("sonunda"+true);
+                    mainTopicSira = i;
+                }
+            }
+            
             SubTopic.find({}, function (err, subTopics) {
                 if (err) throw err;
-                console.log(topic.relevantMainTopics);
+                console.log(topic.relevantSubTopics);
+                console.log(topic.relevantSubTopics[0]);
+                console.log("SUBTOPICC =================");
+                var subTopicSira ;
+                for (var j = 0; j < subTopics.length ; j++ ){
+                    var currentSubTopic = subTopics[j];
+                    console.log(currentSubTopic._id);
+                    console.log(topic.relevantSubTopics[0]);
 
+                    if (String(topic.relevantSubTopics[0]) === currentSubTopic._id.toString()){
+                        console.log("sonunda"+true);
+                        subTopicSira = j;
+                    }else {
+                        console.log(false);
+                    }
+                }
+                
+                
                 res.render('edit_topic', {
                     topic: topic,
                     topicName: topic.name,
                     topicAbstract: topic.abstract,
                     topicDefinition: topic.definition,
-                    myMainTopic: topic.relevantMainTopics,
-                    mySubTopic: topic.relevantSubTopics,
+                    myMainTopic: topic.relevantMainTopics[0],
+                    mySubTopic: topic.relevantSubTopics[0],
+                    mainTopicSira : mainTopicSira,
+                    subTopicSira : subTopicSira,
                     mainTopics: mainTopics,
                     subTopics: subTopics
                 });
@@ -298,29 +319,46 @@ router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, nex
     var errors = req.validationErrors();
     if (!errors) {
         var query = {_id: topicId};
-        Topic.findOneAndUpdate(query,
-            {
-                $set: {
-                    name: topicName,
-                    abstract: topicAbstract,
-                    definition: topicDefinition,
-                    allowStatus: false
-                }
-            },
-            {upsert: true},
-            function (err, doc) {
+
+        Topic.findById(topicId, function (err, topic) {
+            if (err) throw err;
+
+            topic.name = topicName;
+            topic.abstract = topicAbstract;
+            topic.definition = topicDefinition;
+            topic.relevantMainTopics[0] = selectedMainTopicId;
+            topic.relevantSubTopics[0] = selectedSubTopicId;
+
+            topic.save(function (err) {
                 if (err) throw err;
-                console.log(doc);
-                var query = {author: currentUser._id, isDraft: true};
-                Topic.find(query, function (err, topics) {
-                    if (err) throw err;
-                    res.render('onDraftTopics', {
-                        myDraftTopics: topics,
-                        user: currentUser
-                    });
-                });
-            }
-        )
+                res.redirect('/topic/myDrafts');
+            });
+
+        });
+
+        // Topic.findOneAndUpdate(query,
+        //     {
+        //         $set: {
+        //             name: topicName,
+        //             abstract: topicAbstract,
+        //             definition: topicDefinition,
+        //             allowStatus: false
+        //         }
+        //     },
+        //     {upsert: true},
+        //     function (err, doc) {
+        //         if (err) throw err;
+        //         console.log(doc);
+        //         var query = {author: currentUser._id, isDraft: true};
+        //         Topic.find(query, function (err, topics) {
+        //             if (err) throw err;
+        //             res.render('onDraftTopics', {
+        //                 myDraftTopics: topics,
+        //                 user: currentUser
+        //             });
+        //         });
+        //     }
+        // )
 
     } else {
         console.log("hata burda");

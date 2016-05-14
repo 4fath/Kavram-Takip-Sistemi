@@ -495,6 +495,7 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
             topics.forEach(function (topic) {
                if (!topic.allowStatus ){
                    console.log("caca");
+                   
                    if (subTopicID.toString() === String(topic.relevantSubTopics[0])){
                        console.log("uygun bulundu");
                        onayBekleyenTopicler.push(topic);
