@@ -11,25 +11,34 @@ block content
             .col-md-8
                 .form-group
                     label İsim
-                    input.form-control(type='text', name='firstName', placeholder='Adınızı Giriniz', autofocus='')
+                    if firstName
+                        input.form-control(type='text', name='firstName', placeholder='Adınızı Giriniz', autofocus='', value = '#{firstName}')
+                    else
+                        input.form-control(type='text', name='firstName', placeholder='Adınızı Giriniz', autofocus='', value = '')
                 .form-group
                     label Soyisim
-                    input.form-control(type='text', name='lastName', placeholder='Soyadınızı Giriniz', autofocus='')
+                    if lastName
+                        input.form-control(type='text', name='lastName', placeholder='Soyadınızı Giriniz', autofocus='', value = '#{lastName}')
+                    else
+                        input.form-control(type='text', name='lastName', placeholder='Soyadınızı Giriniz', autofocus='')
                 .form-group
                     label Kullanıcı Adı
-                    input#userName.form-control(type='text', name='username' placeholder='Kullanıcı Adı Giriniz', autofocus='')
+                    if username
+                        input#userName.form-control(type='text', name='username' placeholder='Kullanıcı Adı Giriniz', autofocus='', value = '#{username}')
+                    else
+                        input#userName.form-control(type='text', name='username' placeholder='Kullanıcı Adı Giriniz', autofocus='')
                 .form-group
                     label E-mail
-                    input.form-control(type='email', name='email' placeholder='E-mail Giriniz')
+                    if email
+                        input.form-control(type='email', name='email' placeholder='E-mail Giriniz', value='#{email}')
+                    else
+                        input.form-control(type='email', name='email' placeholder='E-mail Giriniz')
                 .form-group
                     label Şifre
                     input#password.form-control(type='password', name = 'password', placeholder='Şifre Giriniz')
                 .form-group
                     label Şifre Tekrar
                     input#passwordRepeat.form-control(type='password', name = 'passwordConfirm', placeholder='Şifreyi Tekrar Giriniz')
-                .form-group
-                    label Doğum Tarihi
-                    input#birthDate.datepicker-here.form-control(type='text', data-language='tr', placeholder='Doğum Tarihinizi Seçiniz')
                 //.form-group
                 //    label.col-sm-3.control-label Alanınız
                 //    .col-sm-9(ng-app='myApp', ng-controller='myCtrl')

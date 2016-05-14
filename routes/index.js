@@ -96,8 +96,14 @@ router.get('/', function (req, res, next) {
             var MainTopicsId ;
             var SubTopicId ;
             if (randomTopic){
+                var followControl = false;
                 MainTopicsId = randomTopic.relevantMainTopics[0];
                 SubTopicId = randomTopic.relevantSubTopics[0];
+                randomTopic.followers.forEach(function (follower) {
+                    if (follower.toString() == (currentUser._id).toString()){
+                        followControl = true;
+                    }
+                });
                 MainTopic.findById(MainTopicsId, function (err, mainTopic) {
                     if (err) throw err;
                     SubTopic.findById(SubTopicId, function (err, subTopic) {
@@ -105,12 +111,13 @@ router.get('/', function (req, res, next) {
                          
                         User.findById(randomTopic.author, function (err, user) {
                             if (err) throw err;
+                            console.log(followControl);
                             res.render('kavram_takip', {
                                 title: 'Kavram Takip Sistemi',
                                 mainTopics: myMainTopics,
                                 subTopics: mySubTopics,
                                 topics: myTopics,
-
+                                followerControl: followControl,
                                 screenMainTopic: mainTopic,
                                 screenSubTopic: subTopic,
                                 screenTopic: randomTopic,

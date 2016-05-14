@@ -27,7 +27,7 @@ block solMenu
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım
         li
-            a(href='adminInbox.html')
+            a(href='/topic/myTopics')
                 | Onaylanan Kavramlarım
         li.active
             a(href='/topic/myDrafts')
@@ -38,8 +38,8 @@ block content
         li.list-group-item.text-muted Taslaklarım
         each item in myDraftTopics
             li.list-group-item.text-right
-                a.pull-left(href='/topic/#{item._id}') #{item.abstract}
-                button.btn-success(ng-click='addChiefEditor($index)') Düzenle
+                a.pull-left(href='/topic/editTopic/#{item._id}') #{item.name}
+                button.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';") Düzenle
 
 
 

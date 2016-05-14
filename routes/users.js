@@ -17,6 +17,9 @@ router.get('/', function (req, res) {
 
 // === REGİSTER ==== //
 
+
+// REGISTER GET //
+
 router.get('/register', function (req, res) {
 
     var myMainTopics = [];
@@ -50,21 +53,16 @@ router.get('/register', function (req, res) {
 
     });
 
-
-
-
     if (req.session.user) {
         console.log("zaten kayit olundu");
         res.location('/');
         res.redirect('/');
     } else {
-        // res.render('signup', {
-        //     mainTopics : myMainTopics
-        // });
         console.log("register'a girdi.");
     }
 });
 
+// REGISTER POST //
 router.post('/register', function (req, res) {
     var firstName = req.body.firstName;
     var lastName = req.body.lastName;
@@ -75,44 +73,46 @@ router.post('/register', function (req, res) {
 
     // form validation
     req.checkBody('firstName', 'isim bos olamaz').notEmpty();
-    req.checkBody('lastName', 'isim bos olamaz').notEmpty();
-    req.checkBody('email', '').isEmail();
-    req.checkBody('email', '').notEmpty();
+    req.checkBody('lastName', 'soyisim bos olamaz').notEmpty();
+    req.checkBody('email', 'emain uygun formatta değil').isEmail();
+    req.checkBody('email', 'email boş olama<').notEmpty();
     req.checkBody('username', 'kullanici adi bos olamaz').notEmpty();
-    req.checkBody('password', 'bu alan da gerekli').notEmpty();
+    req.checkBody('password', 'şifre gerekli').notEmpty();
     req.checkBody('passwordConfirm', 'iki passpord da uyusmali').equals(req.body.password);
-
+    MainTopic.find({}, function (err, mainTopics) {
+        if (err) throw err;
     // check errors
-    var errors = req.validationErrors();
-    if (errors) {
-        res.render('signup', {
-            errors: errors,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            username: username,
-            password: password,
-            passwordConfirm: passwordConfirm
-        });
-    } else {
-        var newUser = new User({
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            username: username,
-            password: password
-        });
+        var errors = req.validationErrors();
+        if (errors) {
+            res.render('signup', {
+                errors: errors,
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                username: username,
+                password: password,
+                passwordConfirm: passwordConfirm,
+                mainTopics: mainTopics
+            });
+        } else {
+            var newUser = new User({
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                username: username,
+                password: password
+            });
 
-        User.createUser(newUser, function (err, user) {
-            if (err) throw err;
-            console.log(user);
-        });
+            User.createUser(newUser, function (err, user) {
+                if (err) throw err;
+                console.log(user);
+            });
 
-        req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
-        res.location('/');
-        res.redirect('/');
-    }
-
+            req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
+            res.location('/');
+            res.redirect('/')
+        }
+    });
 });
 
 // === LOGİN ==== //

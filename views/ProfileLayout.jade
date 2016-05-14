@@ -5,7 +5,7 @@ html
         link(rel='stylesheet', href='/css/bootstrap.css')
         link(rel='stylesheet', href='/css/bootstrap.min.css')
         link(rel='stylesheet', href='/css/style.css')
-        script(src='../ckeditor/ckeditor.js')
+        script(src='/ckeditor/ckeditor.js')
         script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
     body
         != messages()
@@ -71,7 +71,7 @@ html
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
                                             if user.role == 'admin'
-                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/admin';")
+                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
                                                     | Admin Profil
                                             else
                                                 if user.role == 'chiefEditor'

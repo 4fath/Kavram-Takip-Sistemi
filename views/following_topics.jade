@@ -9,7 +9,7 @@ block content
             tr
             each takipTopic in takipEdilenlerTopicler
                 td.col-md-4(style='display: block; float:left')
-                    a(style='color:#5cb85c;', href='/subTopic/#{takipTopic._id}') #{takipTopic.name}
+                    a(style='color:#5cb85c;', href='/topic/getTopic/#{takipTopic._id}') #{takipTopic.name}
 
 block solMenu
     ul.nav.nav-pills.nav-stacked
@@ -38,7 +38,7 @@ block solMenu
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım
         li
-            a(href='adminInbox.html')
+            a(href='/topic/myTopics')
                 | Onaylanan Kavramlarım
         li
             a(href='/topic/myDrafts')
