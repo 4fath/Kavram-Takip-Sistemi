@@ -305,29 +305,29 @@ router.post('/approveByEditor/:topicId', ensureAuthentication, function (req, re
 router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, next) {
     var topicId = req.params.topicId;
 
-    var selectedMainTopicId = req.body.myMainTopic;
-    var selectedSubTopicId = req.body.mySubTopic;
+    // var selectedMainTopicId = req.body.myMainTopic;
+    // var selectedSubTopicId = req.body.mySubTopic;
 
     var topicName = req.body.topicName;
     var topicAbstract = req.body.topicAbstract;
     var topicDefinition = req.body.topicDefinition;
     var currentUser = req.user;
 
-    req.checkBody('topicName', 'Keyword alanı boş olamaz.').notEmpty();
+    // req.checkBody('topicName', 'Keyword alanı boş olamaz.').notEmpty();
     req.checkBody('topicAbstract', 'Özet alanı boş olamaz.').notEmpty();
     req.checkBody('topicDefinition', 'Tanım alanı boş olamaz').notEmpty();
+
     var errors = req.validationErrors();
     if (!errors) {
+
         var query = {_id: topicId};
 
         Topic.findById(topicId, function (err, topic) {
             if (err) throw err;
 
-            topic.name = topicName;
+            // topic.name = topicName;
             topic.abstract = topicAbstract;
             topic.definition = topicDefinition;
-            topic.relevantMainTopics[0] = selectedMainTopicId;
-            topic.relevantSubTopics[0] = selectedSubTopicId;
 
             topic.save(function (err) {
                 if (err) throw err;
@@ -336,33 +336,10 @@ router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, nex
 
         });
 
-        // Topic.findOneAndUpdate(query,
-        //     {
-        //         $set: {
-        //             name: topicName,
-        //             abstract: topicAbstract,
-        //             definition: topicDefinition,
-        //             allowStatus: false
-        //         }
-        //     },
-        //     {upsert: true},
-        //     function (err, doc) {
-        //         if (err) throw err;
-        //         console.log(doc);
-        //         var query = {author: currentUser._id, isDraft: true};
-        //         Topic.find(query, function (err, topics) {
-        //             if (err) throw err;
-        //             res.render('onDraftTopics', {
-        //                 myDraftTopics: topics,
-        //                 user: currentUser
-        //             });
-        //         });
-        //     }
-        // )
-
     } else {
         console.log("hata burda");
         res.render('edit_topic', {
+            user : currentUser,
             errors: errors,
             topicName: topicName,
             topicAbstract: topicAbstract,
