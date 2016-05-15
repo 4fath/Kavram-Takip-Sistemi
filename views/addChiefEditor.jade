@@ -12,6 +12,9 @@ block solMenu
             a(href='/admin/addChiefEditor')
                 | Baş Editör Ekle
         li
+            a(href='/admin/addSubTopic')
+                | Bilim Alanı Ekle
+        li
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım
         li
@@ -32,12 +35,12 @@ block content
             .col-md-1
             .col-md-11
                 .panel.panel-success.col-md-5
-                    .panel-heading Main Topic
+                    .panel-heading Bilim Alanı
                     .panel-body
                         select(name='mainTopicID')
-                            if myMainTopics
-                                each mainTopic in myMainTopics
-                                    option(value='#{mainTopic._id}')  #{mainTopic.name}
+                            if mySubTopics
+                                each subTopic in mySubTopics
+                                    option(value='#{subTopic._id}')  #{subTopic.name}
                 .panel.panel-success.col-md-5
                     .panel-heading Kullanıcı
                     .panel-body

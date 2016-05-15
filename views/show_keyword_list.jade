@@ -1,0 +1,17 @@
+//
+   Created by Asus on 15.05.2016.
+
+extends MainLayout
+
+block content
+    h2 Anahtar Kelimeler
+    table.table.table-responsive
+        tbody
+            tr
+            each keyword in keywords
+                td.col-md-4(style='display: block; float:left')
+                    a(style='color:#5cb85c;', href='/keyword/#{keyword._id}') #{keyword.name}
+
+script(src='../js/jquery.min.js')
+script(src='../js/bootstrap.min.js')
+script(src='../js/scripts.js')

@@ -15,10 +15,10 @@ block solMenu
             li
                 a(href='/admin/addChiefEditor')
                     | Baş Editör Ekle
-        if user.role == 'chiefEditor'
             li
-                a(href='/chiefEditor/addSubTopic')
+                a(href='/admin/addSubTopic')
                     | Bilim Alanı Ekle
+        if user.role == 'chiefEditor'
             li
                 a(href='/chiefEditor/addEditor')
                     | Editör Ekle

@@ -81,7 +81,7 @@ router.get('/addKeyword', function (req, res) {
         subTopics.forEach(function (subTopic) {
             mySubTopics.push(subTopic)
         });
-        res.render('addSubTopic', {
+        res.render('addKeyword', {
             subTopics: mySubTopics
         })
     });

@@ -5,18 +5,24 @@ block content
         .form-group
             .col-md-1
             .col-md-11
-                .panel.panel-success.col-md-5
-                    .panel-heading Main Topic
+                .panel.panel-success.col-md-4
+                    .panel-heading Temel Alan
                     .panel-body
                         select(name='myMainTopic')
                             each mainTopic in mainTopics
                                 option(value='#{mainTopic._id}')  #{mainTopic.name}
-                .panel.panel-success.col-md-5
-                    .panel-heading Sub Topic
+                .panel.panel-success.col-md-4
+                    .panel-heading Bilim Alanı
                     .panel-body
                         select(name='mySubTopic')
                             each subTopic in subTopics
                                 option(value='#{subTopic._id}')  #{subTopic.name}
+                .panel.panel-success.col-md-4
+                    .panel-heading Anahtar Kelime
+                    .panel-body
+                        select(name='myKeyword')
+                            each keyword in keywords
+                                option(value='#{keywords._id}')  #{keywords.name}
                 .panel.panel-success.col-md-8
                     .panel-heading  Topic Name
                     .panel-body

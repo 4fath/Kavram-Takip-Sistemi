@@ -7,7 +7,7 @@ block content
         .form-group
             .col-md-1
             .col-md-11
-                .panel.panel-success.col-md-5
+                .panel.panel-success.col-md-4
                     .panel-heading Temel Alan
                     .panel-body
                         select(name='myMainTopic', value='#{myMainTopic}', disabled=true)
@@ -19,7 +19,7 @@ block content
                             else
                                 each mainTopic in mainTopics
                                     option(value='#{mainTopic._id}')  #{mainTopic.name}
-                .panel.panel-success.col-md-5
+                .panel.panel-success.col-md-4
                     .panel-heading Bilim Alanı
                     .panel-body
                         if mySubTopic
@@ -31,7 +31,18 @@ block content
                         else
                             each subTopic in subTopics
                                 option(value='#{subTopic._id}')  #{subTopic.name}
-
+                .panel.panel-success.col-md-4
+                    .panel-heading Anahtar Kelime
+                    .panel-body
+                        select(name='myKeyword', value='#{myKeyword}', disabled=true)
+                            if myKeyword
+                                -var countNew = 0;
+                                each keyword in keywords
+                                    option(value='#{keyword._id}', selected=countNew == keywordSira)  #{keyword.name}
+                                    -countNew++;
+                            else
+                                each keyword in keywords
+                                    option(value='#{keyword._id}')  #{keyword.name}
                 .panel.panel-success.col-md-8
                     .panel-heading  Kavram Adı
                     .panel-body

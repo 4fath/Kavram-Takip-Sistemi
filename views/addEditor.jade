@@ -7,8 +7,8 @@ block solMenu
             a(href='/user/following_list/#{user._id}')
                 |  Takip Ettiklerim
         li
-            a(href='/chiefEditor/addSubTopic')
-                |  Bilim Alanı Ekle
+            a(href='/chiefEditor/addKeyword')
+                |  Anahtar Kelime Ekle
         li.active
             a(href='/chiefEditor/addEditor')
                 |  Editör Ekle
@@ -28,12 +28,12 @@ block content
             .col-md-1
             .col-md-11
                 .panel.panel-success.col-md-5
-                    .panel-heading Bilim Alanı
+                    .panel-heading Anahtar Kelime
                     .panel-body
-                        select(name='subTopicID')
+                        select(name='keywordID')
                             if mySubTopics
-                                each subTopic in mySubTopics
-                                    option(value='#{subTopic._id}')  #{subTopic.name}
+                                each myKeyword in myKeywords
+                                    option(value='#{myKeyword._id}')  #{myKeyword.name}
                 .panel.panel-success.col-md-5
                     .panel-heading Kullanıcı
                     .panel-body

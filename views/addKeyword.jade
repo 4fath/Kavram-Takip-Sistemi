@@ -5,15 +5,12 @@ block solMenu
         li
             a(href='/user/following_list/#{user._id}')
                 |  Takip Ettiklerim
-        li
-            a(href='/admin/addMainTopic')
-                | Temel Alan Ekle
-        li
-            a(href='/admin/addChiefEditor')
-                | Baş Editör Ekle
         li.active
-            a(href='/admin/addSubTopic')
-                | Bilim Alanı Ekle
+            a(href='/chiefEditor/addKeyword')
+                |  Anahtar Kelime Ekle
+        li
+            a(href='/chiefEditor/addEditor')
+                | Editör Ekle
         li
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım
@@ -24,24 +21,24 @@ block solMenu
             a(href='/topic/myDrafts')
                 | Taslaklarım
 block content
-    form(method='post', action='/admin/addSubTopic')
+    form(method='post', action='/chiefEditor/addKeyword')
         .form-group
             .col-md-1
             .col-md-11
                 .panel.panel-success.col-md-5
-                    .panel-heading Temel Alan
+                    .panel-heading Bilim Alanı
                     .panel-body
-                        select(name='mainTopicId')
-                            each mainTopic in mainTopics
-                                option(value='#{mainTopic._id}')  #{mainTopic.name}
+                        select(name='subTopicId')
+                            each subTopic in subTopics
+                                option(value='#{subTopic._id}')  #{subTopic.name}
                 .panel.panel-success.col-md-8
-                    .panel-heading Bilim Alanı Adı
+                    .panel-heading Anahtar Kelime Adı
                     .panel-body
-                        input.form-control(type='text', name='subTopicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                        input.form-control(type='text', name='keywordName', placeholder='Anahtar Kelime Adını Giriniz', autofocus='')
                 .panel.panel-success.col-md-8
-                    .panel-heading Bilim Alanı Açıklaması
+                    .panel-heading Anahtar Kelime Açıklaması
                     .panel-body
-                        input.form-control(type='text', name='subTopicDefinition', placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                        input.form-control(type='text', name='keywordDefinition', placeholder='Anahtar Kelime Açıklamasını Giriniz', autofocus='')
                 .col-md-5
                     button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
 

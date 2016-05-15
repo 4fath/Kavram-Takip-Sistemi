@@ -22,6 +22,8 @@ block content
                                 a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
                             if screenSubTopic
                                 a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                            if screenKeyword
+                                a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
                             if screenTopic
                                 a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
 
@@ -36,16 +38,17 @@ block content
                                         span #{moment(screenTopic.createdAt).format('MMMM Do YYYY')}
                         .row
                             if user
-                                if screenTopic.allowStatus
-                                    if !followerControl
-                                        .col-md-6
-                                        .col-md-3
-                                            form(method='POST', action='/user/follow/#{screenTopic._id}')
-                                                .form-group
-                                                    button.btn.btn-success(type='Submit', value='Submit')
-                                                        span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
-                                                        | Takip Et
-                                        .col-md-3
+                                if screenTopic
+                                    if screenTopic.allowStatus
+                                        if !followerControl
+                                            .col-md-6
+                                            .col-md-3
+                                                form(method='POST', action='/user/follow/#{screenTopic._id}')
+                                                    .form-group
+                                                        button.btn.btn-success(type='Submit', value='Submit')
+                                                            span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                            | Takip Et
+                                            .col-md-3
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')

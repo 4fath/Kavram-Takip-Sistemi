@@ -236,7 +236,7 @@ router.get('/', function (req, res, next) {
 
             // get a random Main, Sub etc.. topic for display on screen
             var randomMainTopic = myMainTopics[getRandomInt(0, mainTopicLength - 1)];
-            var randomSubTopic = mySubTopicsTopics[getRandomInt(0, subTopicLength - 1)];
+            var randomSubTopic = mySubTopics[getRandomInt(0, subTopicLength - 1)];
             var randomKeyword = myKeywords[getRandomInt(0, keywordLength - 1)];
 
             var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];

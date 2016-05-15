@@ -16,6 +16,8 @@ block content
                                     a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
                             if screenSubTopic
                                 a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                            if screenKeyword
+                                a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
                             if topic
                                 a(href='/topic/getTopic/#{topic._id}') #{topic.name}
 
