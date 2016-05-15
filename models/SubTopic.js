@@ -31,13 +31,13 @@ var SubTopicSchema = new Schema({
         trim : true
     },
 
-    hasEditor : {
+    hasChiefEditor: {
         type : Boolean,
         required : true,
         default : false
     },
-    
-    editor : {
+
+    chiefEditor: {
         type : Schema.Types.ObjectId,
         ref : 'User',
         required : false
@@ -61,9 +61,9 @@ var SubTopicSchema = new Schema({
         required : true
     },
 
-    relevantTopics : [{
+    relevantKeywords: [{
         type : Schema.Types.ObjectId,
-        ref : 'Topic'
+        ref: 'Keyword'
     }],
 
     followers : [{

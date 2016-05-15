@@ -13,6 +13,7 @@ var Schema = mongoose.Schema;
 // updated_at           : 'Date'
 // relevantSubTopics    : ['SubTopics']
 // relevantPosts        : ['Post']
+// relevantKeywords     : ['Keyword']
 // followers            : ['User']
 // viewCount            : 'Number'
 // likeCount            : 'Number'
@@ -71,6 +72,11 @@ var TopicSchema = new Schema({
     relevantSubTopics: [{
         type: Schema.Types.ObjectId,
         ref: 'SubTopic'
+    }],
+
+    relevantKeywords: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Keyword'
     }],
 
     relevantComments: [{

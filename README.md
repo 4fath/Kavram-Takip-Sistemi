@@ -16,9 +16,9 @@ npm start
 ```
 
 ```
-Temel Alan (MainTopic)      --> Mühendislik
-Bilim Alanı (SubTopic)      --> Bilgisayar Mühendisliği
-Anahtar Kelime (Keyword)    --> Veri Madenciliği
-Kavram (Topic)              --> Bayes Algoritması
+Temel Alan (MainTopic)      --> Mühendislik                 --> Admin
+Bilim Alanı (SubTopic)      --> Bilgisayar Mühendisliği     --> ChiefEditor
+Anahtar Kelime (Keyword)    --> Veri Madenciliği            --> Editor
+Kavram (Topic)              --> Bayes Algoritması           --> Author
 ```
 

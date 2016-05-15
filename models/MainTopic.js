@@ -31,17 +31,17 @@ var MainTopicSchema = new Schema({
         trim: true
     },
 
-    hasChiefEditor: {
-        type: Boolean,
-        default: false,
-        required: true
-    },
-    
-    chiefEditor: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: false
-    },
+    // hasChiefEditor: {
+    //     type: Boolean,
+    //     default: false,
+    //     required: true
+    // },
+    //
+    // chiefEditor: {
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'User',
+    //     required: false
+    // },
 
     createdAt: {
         type: Date,
@@ -78,7 +78,8 @@ var MainTopicSchema = new Schema({
 
     countOfFollowers: {
         type: Boolean,
-        default: 0
+        default: 0,
+        required: false
     }
 
 });

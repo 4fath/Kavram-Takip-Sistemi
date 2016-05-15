@@ -114,6 +114,11 @@ var UserSchema = new Schema({
         ref: 'SubTopic'
     }],
 
+    followingKeywords: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Keyword'
+    }],
+
     followingTopics: [{
         type: Schema.Types.ObjectId,
         ref: 'Topic'
@@ -146,6 +151,7 @@ var UserSchema = new Schema({
         }
     },
 
+    // uploaded via multer, string for path
     photoUrl: {
         type: String,
         trim: true,
@@ -175,15 +181,15 @@ var UserSchema = new Schema({
         required: true,
         default: false
     },
-    
-    mainTopic: {
-        type: Schema.Types.ObjectId,
-        ref: 'MainTopic'
-    },
 
     subTopic: {
         type: Schema.Types.ObjectId,
         ref: 'SubTopic'
+    },
+
+    keyword: {
+        type: Schema.Types.ObjectId,
+        ref: 'Keyword'
     }
 
 });
