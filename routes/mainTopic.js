@@ -7,7 +7,6 @@ var async = require('async');
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
 var Topic = require('../models/Topic');
-
 var User = require('../models/User');
 var Comment = require('../models/Comment');
 
@@ -24,11 +23,11 @@ router.get('/:mainTopicId', function (req, res, next) {
         console.log("Bağlantılı olduğu alt başlıklar  : ");
         // console.log(subTopics);
 
-        subTopics.forEach(function (subTopic) {
-            console.log(subTopic.name);
-            console.log(subTopic);
-            console.log("================")
-        });
+        // subTopics.forEach(function (subTopic) {
+        //     console.log(subTopic.name);
+        //     console.log(subTopic);
+        //     console.log("================")
+        // });
 
         if (subTopics.length == 0){
             var query = {mainTopics : mainTopicId};

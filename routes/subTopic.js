@@ -8,7 +8,7 @@ var async = require('async');
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
 var Topic = require('../models/Topic');
-
+var Keyword = require('../models/Keyword');
 var User = require('../models/User');
 var Comment = require('../models/Comment');
 
@@ -17,24 +17,22 @@ var router = express.Router();
 router.get('/:subTopicId', function (req, res, next) {
     var subTopicId = req.params.subTopicId;
     console.log(subTopicId);
-    
-    Topic.find({}, function (err, topics) {
+
+    Keyword.find({}, function (err, keywords) {
         if (err) throw err;
-        
-        var screenTopicArray = [];
-        topics.forEach(function (topic) {
+
+        var screenKeywordArray = [];
+        keywords.forEach(function (keyword) {
             // TODO : forEach 
-            if (topic.relevantSubTopics[0] == subTopicId){
-                if (topic.allowStatus){
-                    screenTopicArray.push(topic);
-                }
+            if (keyword.relevantSubTopics[0] == subTopicId) {
+                screenKeywordArray.push(keyword);
             }
         });
 
         MainTopic.find({}, function (err, mainTopics) {
-            res.render('show_topic_list', {
-                topics : screenTopicArray,
-                title : 'Kavramlar',
+            res.render('show_keyword_list', {
+                keywords: screenKeywordArray,
+                title: 'Anahtar Kelimeler',
                 mainTopics : mainTopics
             });
         });

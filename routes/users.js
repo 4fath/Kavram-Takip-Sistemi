@@ -7,6 +7,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var User = require('../models/User');
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
+var Keyword = require('../models/Keyword');
 var Topic = require('../models/Topic');
 var Comment = require('../models/Comment');
 
@@ -24,6 +25,8 @@ router.get('/register', function (req, res) {
 
     var myMainTopics = [];
     var mySubTopics = [];
+    var myKeywords = [];
+    var myTopics = [];
 
     async.parallel([
         function (callback) {
@@ -43,14 +46,34 @@ router.get('/register', function (req, res) {
                 });
                 callback();
             });
+        },
+        function (callback) {
+            Keyword.find({}, function (err, keywords) {
+                if (err) return callback(err);
+                keywords.forEach(function (keyword) {
+                    myKeywords.push(keyword);
+                });
+                callback();
+            });
+        },
+        function (callback) {
+            Topic.find({}, function (err, topics) {
+                if (err) return callback(err);
+                topics.forEach(function (topic) {
+                    myTopics.push(topic);
+                });
+                callback();
+            });
         }
     ], function (err) {
 
         if (err) return (err);
         res.render('signup', {
-            mainTopics : myMainTopics
+            mainTopics: myMainTopics,
+            subTopics: mySubTopics,
+            keywords: myKeywords,
+            topics: myTopics
         });
-
     });
 
     if (req.session.user) {
@@ -74,11 +97,11 @@ router.post('/register', function (req, res) {
     // form validation
     req.checkBody('firstName', 'isim bos olamaz').notEmpty();
     req.checkBody('lastName', 'soyisim bos olamaz').notEmpty();
-    req.checkBody('email', 'emain uygun formatta değil').isEmail();
-    req.checkBody('email', 'email boş olama<').notEmpty();
-    req.checkBody('username', 'kullanici adi bos olamaz').notEmpty();
+    req.checkBody('email', 'email uygun formatta değil').isEmail();
+    req.checkBody('email', 'email boş olamaz').notEmpty();
+    req.checkBody('username', 'kullanıcı adi bos olamaz').notEmpty();
     req.checkBody('password', 'şifre gerekli').notEmpty();
-    req.checkBody('passwordConfirm', 'iki passpord da uyusmali').equals(req.body.password);
+    req.checkBody('passwordConfirm', 'iki şifre de uyuşmalıdır').equals(req.body.password);
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
     // check errors
@@ -192,7 +215,7 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
     console.log("buraya girdi");
     console.log(req.user.role);
     if (req.user.role == 'admin') {
-        var myMainTopics, mySubTopics, myTopics, myComments;
+        var myMainTopics, mySubTopics, myKeywords, myTopics, myComments;
         var myUsers = [];
         var myAuthors = [];
         var myEditors = [];
@@ -218,6 +241,15 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
                 callback();
             },
             function (callback) {
+                Keyword.find({}, function (err, keywords) {
+                    if (err) return callback(err);
+                    // console.log("SubTopicler : "+subTopics);
+                    // console.log("============");
+                    myKeywords = keywords
+                });
+                callback();
+            },
+            function (callback) {
                 Topic.find({}, function (err, topics) {
                     if (err) return callback(err);
                     // console.log("Topicler : "+topics);
@@ -230,15 +262,13 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
                 User.find({}, function (err, users) {
                     if (err) return callback(err);
                     users.forEach(function (user) {
+                        myUsers.push(user);
                         if (user.role === 'author') {
                             myAuthors.push(user);
-                            myUsers.push(user);
                         } else if (user.role == 'editor') {
                             myEditors.push(user);
-                            myUsers.push(user);
                         } else if (user.role == 'chiefEditor') {
                             myChiefEditors.push(user);
-                            myUsers.push(user);
                         }
                     });
 
@@ -259,6 +289,7 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
             res.render('admin', {
                 myMainTopics: myMainTopics,
                 mySubTopics: mySubTopics,
+                myKeywords: myKeywords,
                 myTopics: myTopics,
                 myComments: myComments,
                 myUsers: myUsers,
@@ -431,7 +462,7 @@ router.get('/authorProfile', function (req, res, next) {
     var userId = req.user._id;
     var displayUser = {};
     var displayTopics = [];
-
+    var currentUser = req.user;
     async.parallel([
         function (callback) {
             User.findById(userId, function (err, user) {
@@ -454,16 +485,103 @@ router.get('/authorProfile', function (req, res, next) {
 
     ], function (err) {
         if (err) return (err);
+        console.log(currentUser.firstName);
         res.render('user_profile',{
             userRole : displayUser.role,
-            userFirstName : displayUser.firstName,
-            userSecondName : displayUser.lastName,
-            username : displayUser.username,
+            userFirstName: currentUser.firstName,
+            userLastName: currentUser.lastName,
+            useremail: currentUser.email,
+            username: currentUser.username,
             topics : displayTopics
         })
     });
 });
 
+router.post('/authorProfile', function (req, res) {
+    var currentUser = req.user;
+    var userFirstName = req.body.userFirstName;
+    var userLastName = req.body.userLastName;
+    var userName = req.body.username;
+    var userEmail = req.body.useremail;
+
+    req.checkBody('userFirstName', 'İsim alanı boş olamaz').notEmpty();
+    req.checkBody('userLastName', 'Soyisim alanı boş olamaz').notEmpty();
+    req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
+    req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
+    var errors = req.validationErrors();
+
+    if (!errors) {
+        var query = {_id: currentUser._id};
+
+        User.findById(query, function (err, user) {
+            if (err) throw err;
+
+            user.firstName = userFirstName;
+            user.lastName = userLastName;
+            user.email = userEmail;
+            user.username = userName;
+            console.log(user._id);
+            User.createUser(user, function (err) {
+                if (err) throw err;
+                req.flash('success', "Profiliniz başarıyla güncellendi.");
+                res.redirect('/');
+            })
+        })
+    }
+    else {
+        req.flash('error', "Verileri kontrol ediniz!");
+        res.render('user_profile', {
+            userFirstName: userFirstName,
+            userLastName: userLastName,
+            username: userName,
+            useremail: userEmail,
+            user: currentUser
+        });
+    }
+});
+
+router.post('/changePassword', function (req, res) {
+    var currentUser = req.user;
+    var oldPassword = req.body.oldPassword;
+    var newPassword = req.body.newPassword;
+    var newPassword = req.body.newPasswordConfirm;
+    req.checkBody('newPassword', 'Yeni şifreyi giriniz').notEmpty();
+    req.checkBody('newPasswordConfirm', 'Girdiğiniz şifreler uyuşmuyor.').equals(req.body.newPassword);
+
+    var errors = req.validationErrors();
+    if (!errors) {
+        User.comparePassword(oldPassword, currentUser.password, function (err, isMatch) {
+            if (err) throw err;
+            if (isMatch) {
+                var query = {_id: currentUser._id};
+
+                User.findById(query, function (err, user) {
+                    if (err) throw err;
+
+                    // topic.name = topicName;
+                    user.password = newPassword;
+
+                    User.createUser(user, function (err, euser) {
+                        if (err) throw err;
+                        req.flash('success', "Şifreniz değiştirildi.");
+                        res.redirect('/');
+                    });
+                });
+
+            } else {
+                console.log('Kullanıcı şifreyi yanlış girdi.');
+                req.flash('error', "Eski şifreniz uyuşmuyor. Tekrar deneyiniz.");
+                res.redirect('/user/authorProfile');
+            }
+        });
+    }
+    else {
+        console.log("Hata var maalesef!!!");
+        req.flash('error', "Girdiğiniz verilerde hata var. Tekrar deneyiniz.");
+        res.redirect('/user/authorProfile');
+    }
+
+});
 
 router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     
@@ -475,41 +593,26 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     
     var query = {editor : userID};
 
-    SubTopic.find(query, function (err, subTopics) {
+    Keyword.find(query, function (err, keywords) {
         if (err) throw err;
-        console.log("bulunan sub topicler "+ subTopics);
-        var currentSubTopic = subTopics[0];
-        var subTopicID = currentSubTopic._id;
-        console.log(subTopicID);
+        console.log("bulunan keywords " + keywords);
+        var currentKeyword = keywords[0];
+        var keywordID = currentKeyword._id;
+        console.log(keywordID);
         
         Topic.find({}, function (err, topics) {
             if (err) throw err;
             var onayBekleyenTopicler = [];
 
-
-            topics.forEach(function (subTop) {
-                console.log("=========");
-                console.log(subTop.relevantSubTopics[0]);
-
-            });
             topics.forEach(function (topic) {
                if (!topic.allowStatus ){
-                   console.log("caca");
-                   
-                   if (subTopicID.toString() === String(topic.relevantSubTopics[0])){
+                   if (keywordID.toString() === String(topic.relevantKeywords[0])) {
                        console.log("uygun bulundu");
                        onayBekleyenTopicler.push(topic);
-
                    }
                }
             });
 
-            // console.log(onayBekleyenTopicler);
-            // if (onayBekleyenTopicler[0] == subTopicID){
-            //     console.log(true);
-            // }else {
-            //     console.log(false);
-            // }
             res.render('onaydakiTopicler', {
                 onayBekleyenler : onayBekleyenTopicler
             })
@@ -518,6 +621,7 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     })
     
 });
+
 router.post('/follow/:topicId', function (req, res) {
     console.log("hata burada");
     var currentUser = req.user;
@@ -526,7 +630,6 @@ router.post('/follow/:topicId', function (req, res) {
     var errors = req.validationErrors();
     if (!errors) {
 
-//noinspection JSUnresolvedFunction
         User.findById(currentUser._id, function (err, user) {
             if (err) throw err;
             user.followingTopics.push(clickedId);
@@ -534,7 +637,6 @@ router.post('/follow/:topicId', function (req, res) {
             user.save(function (err) {
                 if (err) throw err;
 
-//noinspection JSUnresolvedFunction
                 Topic.findById(clickedId, function (err, topic) {
                     if (err) throw err;
                     console.log("hata burada3");
@@ -582,8 +684,6 @@ router.get('/following_list/:userId', function (req, res, next) {
             });
         });
         console.log(topicList);
-
-
     });
 
 });
