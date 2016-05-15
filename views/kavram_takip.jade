@@ -33,7 +33,7 @@ block content
                                         a(href='/#{screenTopic.author}') #{topicUser.username}
                                     .col-md-8
                                     .col-md-2
-                                        span #{screenTopic.createdAt}
+                                        span #{moment(screenTopic.createdAt).format('MMMM Do YYYY')}
                         .row
                             if user
                                 if screenTopic.allowStatus
