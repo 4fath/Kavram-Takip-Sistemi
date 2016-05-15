@@ -7,19 +7,17 @@ var async = require('async');
 
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
+var Keyword = require('../models/Keyword');
 var Topic = require('../models/Topic');
 
 var User = require('../models/User');
-var Comment = require('../models/Comment');
 
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
 
-    // req.user.role == 'admin'
     if (req.user.role == 'admin') {
-        var myMainTopics, mySubTopics, myTopics, myComments;
-        var myUsers = [];
+        var myMainTopics, mySubTopics, myTopics, myKeywords, myUsers;
         var myAuthors = [];
         var myEditors = [];
         var myChiefEditors = [];
@@ -40,6 +38,13 @@ router.get('/', function (req, res, next) {
                 callback();
             },
             function (callback) {
+                Keyword.find({}, function (err, keywords) {
+                    if (err) return callback(err);
+                    myKeywords = keywords;
+                });
+                callback();
+            },
+            function (callback) {
                 Topic.find({}, function (err, topics) {
                     if (err) return callback(err);
                     myTopics = topics;
@@ -48,24 +53,16 @@ router.get('/', function (req, res, next) {
             function (callback) {
                 User.find({}, function (err, users) {
                     if (err) return callback(err);
+                    myUsers = users;
                     users.forEach(function (user) {
                         if (user.role === 'author') {
                             myAuthors.push(user);
-                            myUsers.push(user);
                         } else if (user.role == 'editor') {
                             myEditors.push(user);
-                            myUsers.push(user);
                         } else if (user.role == 'chiefEditor') {
                             myChiefEditors.push(user);
-                            myUsers.push(user);
                         }
                     });
-                })
-            },
-            function (callback) {
-                Comment.find({}, function (err, comments) {
-                    if (err) return callback(err);
-                    myComments = comments;
                 })
             }
         ], function (err) {
@@ -73,8 +70,8 @@ router.get('/', function (req, res, next) {
             res.render('admin', {
                 myMainTopics: myMainTopics,
                 mySubTopics: mySubTopics,
+                myKeywords: myKeywords,
                 myTopics: myTopics,
-                myComments: myComments,
                 myUsers: myUsers,
                 myAuthors: myAuthors,
                 myEditors: myEditors,
@@ -99,23 +96,22 @@ router.post('/addMainTopic', function (req, res) {
 
     var name = req.body.mainTopicName;
     var definition = req.body.mainTopicDefinition;
-    
+
     req.checkBody('mainTopicName', 'isim bos olamaz').notEmpty();
     req.checkBody('mainTopicDefinition', 'isim bos olamaz').notEmpty();
 
     var errors = req.validationErrors();
     if (!errors) {
-        var query = {name : name};
+        var query = {name: name};
         MainTopic.find(query, function (err, mainTopics) {
             if (err) throw err;
-            if (mainTopics.length != 0){
+            if (mainTopics.length != 0) {
                 req.flash('error', "Bu isimle zaten Ana Kavram var");
-                res.render ('addMainTopic');
-            }else {
+                res.render('addMainTopic');
+            } else {
                 var newMainTopic = new MainTopic({
                     name: name,
-                    definition: definition,
-                    hasChiefEditor : false
+                    definition: definition
                 });
                 newMainTopic.save(function (err) {
                     if (err) throw err;
@@ -134,16 +130,74 @@ router.post('/addMainTopic', function (req, res) {
     }
 });
 
-router.get('/addChiefEditor', function (req, res, next) {
+router.get('/addSubTopic', function (req, res) {
+
     var myMainTopics = [];
+    MainTopic.find({}, function (err, mainTopics) {
+        if (err) throw err;
+        mainTopics.forEach(function (mainTopic) {
+            myMainTopics.push(mainTopic)
+        });
+        res.render('addSubTopic', {
+            mainTopics: myMainTopics
+        })
+    });
+});
+
+// TODO : NOT tested
+router.post('/addSubTopic', function (req, res, next) {
+    var currentUserId = req.user._id;
+    var mainTopicId = req.body.mainTopicId;
+
+    var subTopicName = req.body.subTopicName;
+    var subTopicDefinition = req.body.subTopicDefinition;
+    req.checkBody('subTopicName', "Bu kısım boş olmamlı.").notEmpty();
+    req.checkBody('subTopicDefinition', "Bu kısım bos olmamalı").notEmpty();
+
+    var errors = req.validationErrors();
+    if (!errors) {
+        var newSubTopic = new SubTopic({
+            name: subTopicName,
+            definition: subTopicDefinition,
+            mainTopic: mainTopicId
+        });
+
+        newSubTopic.save(function (err) {
+            if (err) throw err;
+
+            var query = {_id: mainTopicId};
+
+            MainTopic.findOneAndUpdate(query,
+                {$push: {relevantSubTopics: newSubTopic._id}},
+                {safe: true, upsert: true},
+                function (err, doc) {
+                    if (err) throw err;
+                    console.log("SubTopic başarılı bir şekilde kaydedildi : " + newSubTopic);
+                    console.log("MainTopic update edildi : " + doc);
+                    req.flash('success', 'Başarılı bir şekkilde eklendi');
+                    res.redirect('/user/chiefEditorProfile');
+                }
+            );
+        });
+    } else {
+        res.render('addSubTopic', {
+            errors: errors,
+            subTopicName: subTopicName,
+            subTopicDefinition: subTopicDefinition
+        });
+    }
+});
+
+router.get('/addChiefEditor', function (req, res, next) {
+    var mySubTopics = [];
     var myUsers = [];
     async.parallel([
         function (callback) {
-            MainTopic.find({}, function (err, mainTopics) {
+            SubTopic.find({}, function (err, subTopics) {
                 if (err) return callback(err);
-                mainTopics.forEach(function (mainTopic) {
-                    if (!mainTopic.hasChiefEditor) {
-                        myMainTopics.push(mainTopic);
+                subTopics.forEach(function (subTopic) {
+                    if (!subTopic.hasChiefEditor) {
+                        mySubTopics.push(subTopic);
                     }
                 });
                 callback();
@@ -163,7 +217,7 @@ router.get('/addChiefEditor', function (req, res, next) {
     ], function (err) {
         if (err) return (err);
         res.render('addChiefEditor', {
-            myMainTopics: myMainTopics,
+            mySubTopics: mySubTopics,
             myUsers: myUsers
         });
     });
@@ -172,75 +226,49 @@ router.get('/addChiefEditor', function (req, res, next) {
 router.post('/addChiefEditor', function (req, res, next) {
 
     var userId = req.body.userID;
-    var mainTopicId = req.body.mainTopicID;
+    var subTopicId = req.body.subTopicID;
 
-    req.checkBody('userID', 'User boş olmamalıdır').notEmpty();
-    req.checkBody('mainTopicID', 'MainTopic Boş olmamalıdır').notEmpty();
+    req.checkBody('userID', 'Kullanıcı boş olmamalıdır').notEmpty();
+    req.checkBody('subTopicId', 'Bilim Alanı boş olmamalıdır').notEmpty();
 
     var errors = req.validationErrors();
     if (!errors) {
-
-        var myUser = {};
-        var myMainTopic = {};
-
         async.parallel([
             function (callback) {
-                var query = {_id: userId};
-                User.findById (userId, function (err, user) {
+                User.findById(userId, function (err, user) {
                     if (err) return callback(err);
                     console.log(user);
                     console.log(user.role);
                     user.role = 'chiefEditor';
                     user.isChiefEditor = true;
-                    user.mainTopic = mainTopicId;
+                    user.subTopic = subTopicId;
                     user.save(function (err) {
                         if (err) return callback(err);
                         console.log("User Update Edildi");
                     })
                 });
                 callback();
-                // User.findOneAndUpdate(query,
-                //     {$set: {role: 'chiefEditor', mainTopic: mainTopicId, isChiefEditor: true}},
-                //     {safe: true, upsert: true},
-                //     function (err, doc) {
-                //         if (err) return callback(err);
-                //         console.log(doc);
-                //         myUser = doc;
-                //     });
-
             },
             function (callback) {
-                var query = {_id: mainTopicId};
-
-                MainTopic.findById (mainTopicId, function (err, mainTopic) {
+                SubTopic.findById(subTopicId, function (err, subTopic) {
                     if (err) return callback(err);
-                    mainTopic.hasChiefEditor = true;
-                    mainTopic.chiefEditor = userId;
-                    mainTopic.save(function (err) {
+                    subTopic.hasChiefEditor = true;
+                    subTopic.chiefEditor = userId;
+                    subTopic.save(function (err) {
                         if (err) return callback(err);
-                        console.log("MainTopic Update Edildi");
+                        console.log("SubTopic Update Edildi");
                     });
                 });
                 callback();
-                // MainTopic.findOneAndUpdate(query,
-                //     {$set: {hasChiefEditor: true, chiefEditor: userId}},
-                //     {safe: true, upsert: true},
-                //     function (err, doc) {
-                //         if (err) return callback(err);
-                //         console.log(doc);
-                //         myMainTopic = doc;
-                //     });
-
             }
         ], function (err) {
             if (err) return (err);
             console.log('All went fine');
             req.flash('success', 'Başarılı bir şekilde atama yapılmıştır');
             res.redirect('/admin/addChiefEditor');
-
         });
 
-    }else {
+    } else {
         res.render('addChiefEditor', {
             errors: errors
         })

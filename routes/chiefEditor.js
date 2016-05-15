@@ -8,6 +8,7 @@ var async = require('async');
 
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
+var Keyword = require('../models/Keyword');
 var Topic = require('../models/Topic');
 
 var User = require('../models/User');
@@ -15,84 +16,138 @@ var Comment = require('../models/Comment');
 
 var router = express.Router();
 
-// TODO : NOT tested 
-router.get('/addSubTopic', function (req, res) {
-    var myMainTopics = [];
-    MainTopic.find({}, function (err, mainTopics) {
+// TODO : NOT tested
+// router.get('/addSubTopic', function (req, res) {
+//     var myMainTopics = [];
+//     MainTopic.find({}, function (err, mainTopics) {
+//         if (err) throw err;
+//         mainTopics.forEach(function (mainTopic) {
+//             myMainTopics.push(mainTopic)
+//         });
+//         res.render('addSubTopic', {
+//             mainTopics: myMainTopics
+//         })
+//     });
+// });
+//
+// // TODO : NOT tested
+// router.post('/addSubTopic', function (req, res, next) {
+//     var currentUserId = req.user._id;
+//     var mainTopicId = req.body.mainTopicId;
+//
+//     var subTopicName = req.body.subTopicName;
+//     var subTopicDefinition = req.body.subTopicDefinition;
+//     req.checkBody('subTopicName', "Bu kısım boş olmamlı.").notEmpty();
+//     req.checkBody('subTopicDefinition', "Bu kısım bos olmamalı").notEmpty();
+//
+//     var errors = req.validationErrors();
+//     if (!errors) {
+//         var newSubTopic = new SubTopic({
+//             name: subTopicName,
+//             definition: subTopicDefinition,
+//             mainTopic: mainTopicId
+//         });
+//
+//         newSubTopic.save(function (err) {
+//             if (err) throw err;
+//
+//             var query = {_id: mainTopicId};
+//
+//             MainTopic.findOneAndUpdate(query,
+//                 {$push: {relevantSubTopics: newSubTopic._id}},
+//                 {safe: true, upsert: true},
+//                 function (err, doc) {
+//                     if (err) throw err;
+//                     console.log("SubTopic başarılı bir şekilde kaydedildi : " + newSubTopic);
+//                     console.log("MainTopic update edildi : " + doc);
+//                     req.flash('success', 'Başarılı bir şekkilde eklendi');
+//                     res.redirect('/user/chiefEditorProfile');
+//                 }
+//             );
+//         });
+//     } else {
+//         res.render('addSubTopic', {
+//             errors: errors,
+//             subTopicName: subTopicName,
+//             subTopicDefinition: subTopicDefinition
+//         });
+//     }
+// });
+
+router.get('/addKeyword', function (req, res) {
+    var mySubTopics = [];
+    SubTopic.find({}, function (err, subTopics) {
         if (err) throw err;
-        mainTopics.forEach(function (mainTopic) {
-            myMainTopics.push(mainTopic)
+        subTopics.forEach(function (subTopic) {
+            mySubTopics.push(subTopic)
         });
         res.render('addSubTopic', {
-            mainTopics: myMainTopics
+            subTopics: mySubTopics
         })
     });
 });
 
 // TODO : NOT tested
-router.post('/addSubTopic', function (req, res, next) {
-    var currentUserId = req.user._id;
-    var mainTopicId = req.body.mainTopicId;
+router.post('/addKeyword', function (req, res, next) {
 
-    var subTopicName = req.body.subTopicName;
-    var subTopicDefinition = req.body.subTopicDefinition;
-    req.checkBody('subTopicName', "Bu kısım boş olmamlı.").notEmpty();
-    req.checkBody('subTopicDefinition', "Bu kısım bos olmamalı").notEmpty();
+    var subTopicId = req.body.subTopicId;
+    var keywordName = req.body.keywordName;
+    var keywordDefinition = req.body.keywordDefinition;
+    req.checkBody('keywordName', "Bu kısım boş olmamlı.").notEmpty();
+    req.checkBody('keywordDefinition', "Bu kısım bos olmamalı").notEmpty();
 
     var errors = req.validationErrors();
     if (!errors) {
-        var newSubTopic = new SubTopic({
-            name: subTopicName,
-            definition: subTopicDefinition,
-            mainTopic: mainTopicId
+        var newKeyword = new Keyword({
+            name: keywordName,
+            definition: keywordDefinition,
+            subTopic: subTopicId
         });
 
-        newSubTopic.save(function (err) {
+        newKeyword.save(function (err) {
             if (err) throw err;
 
-            var query = {_id: mainTopicId};
+            var query = {_id: subTopicId};
 
-            MainTopic.findOneAndUpdate(query,
-                {$push: {relevantSubTopics: newSubTopic._id}},
+            SubTopic.findOneAndUpdate(query,
+                {$push: {relevantKeywords: newKeyword._id}},
                 {safe: true, upsert: true},
                 function (err, doc) {
                     if (err) throw err;
-                    console.log("SubTopic başarılı bir şekilde kaydedildi : " + newSubTopic);
-                    console.log("MainTopic update edildi : " + doc);
-                    req.flash('success', 'Başarılı bir şekkilde eklendi');
+                    console.log("Keyword başarılı bir şekilde kaydedildi : " + newKeyword);
+                    console.log("SubTopic update edildi : " + doc);
+                    req.flash('success', 'Başarılı bir şekilde Anahtar Kelime eklendi :' + newKeyword.name);
                     res.redirect('/user/chiefEditorProfile');
                 }
             );
         });
     } else {
-        res.render('addSubTopic', {
+        res.render('addKeyword', {
             errors: errors,
-            subTopicName: subTopicName,
-            subTopicDefinition: subTopicDefinition
+            keywordName: keywordName,
+            keywordDefinition: keywordDefinition
         });
     }
 });
 
-// FOOL 
-// TODO : NOT completed 
+
 router.get('/addEditor', function (req, res, next) {
     var queryForUser = {role: 'author'};
-    var queryForSubTopic = {hasEditor: false};
-    var myUsers = [];
-    var mySubTopics = [] ;
-
+    var queryForKeyword = {hasEditor: false};
 
     User.find(queryForUser, function (err, users) {
         if (err) throw err;
-        SubTopic.find(queryForSubTopic, function (err, subTopics) {
+        Keyword.find(queryForKeyword, function (err, keywords) {
             if (err) throw err;
             res.render('addEditor', {
                 myUser : users,
-                mySubTopics : subTopics
+                myKeywords: keywords
             });
         })
     });
 
+    // var myUsers = [];
+    // var mySubTopics = [] ;
     // async.parallel([
     //     function (callback) {
     //         User.find(queryForUser, function (err, users) {
@@ -130,16 +185,16 @@ router.get('/addEditor', function (req, res, next) {
 // TODO : NOT completed
 router.post('/addEditor', function (req, res, next) {
     var currentUser = req.body.editorID;
-    var currentSubTopic = req.body.subTopicID;
+    var currentKeyword = req.body.keywordID;
 
     async.parallel([
         function (callback) {
-            SubTopic.findById(currentSubTopic, function (err, subTopic) {
+            Keyword.findById(currentKeyword, function (err, keyword) {
                 if (err) return callback(err);
-                subTopic.editor = currentUser;
-                subTopic.save(function (err) {
+                keyword.editor = currentUser;
+                keyword.save(function (err) {
                     if (err) return callback(err);
-                    console.log("subTopic update edildi");
+                    console.log("Keyword update edildi");
                 })
             });
             callback();
@@ -149,7 +204,7 @@ router.post('/addEditor', function (req, res, next) {
                 if (err) return callback(err);
                 user.role = 'editor';
                 user.isEditor = true;
-                user.subTopic = currentSubTopic;
+                user.keyword = currentKeyword;
                 user.save(function (err) {
                     if (err) return callback(err);
                     console.log("User update edildi");
