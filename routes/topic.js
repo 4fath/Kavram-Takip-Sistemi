@@ -367,6 +367,10 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
                 followControl = true;
             }
         });
+        topic.viewCount++;
+        topic.save(function (err) {
+            if (err) throw err;
+        });
         MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
             if (err) throw err;
             SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
