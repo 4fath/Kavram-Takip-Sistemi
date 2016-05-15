@@ -15,3 +15,10 @@ npm install
 npm start
 ```
 
+```
+Temel Alan (MainTopic)      --> Mühendislik
+Bilim Alanı (SubTopic)      --> Bilgisayar Mühendisliği
+Anahtar Kelime (Keyword)    --> Veri Madenciliği
+Kavram (Topic)              --> Bayes Algoritması
+```
+
