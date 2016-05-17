@@ -110,7 +110,7 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
         newTopic.save(function (err) {
             if (err) throw err;
 
-            Keyword.findById(selectedKeywordIdId, function (err, keyword) {
+            Keyword.findById(selectedKeywordId, function (err, keyword) {
 
                 console.log(keyword);
 

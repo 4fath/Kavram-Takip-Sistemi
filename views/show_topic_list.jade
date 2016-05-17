@@ -8,6 +8,12 @@ block content
     table.table.table-responsive
         tbody
             tr
-            each topic in topics
-                td.col-md-4(style='display: block; float: left;')
-                    a(style='color:#5cb85c;', href='/topic/getTopic/#{topic._id}') #{topic.name}
+            if topics.length > 0
+                each topic in topics
+                    td.col-md-4(style='display: block; float: left;')
+                        a(style='color:#5cb85c;', href='/topic/getTopic/#{topic._id}') #{topic.name}
+            else
+                br
+                i
+                    p
+                        | Bu anahtar kelime içerinde kavram tanımlanmamıştır.

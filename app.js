@@ -19,6 +19,7 @@ var user = require('./routes/users');
 var topic = require('./routes/topic');
 var mainTopic = require('./routes/mainTopic');
 var subTopic = require('./routes/subTopic');
+var keyword = require('./routes/keyword');
 var comment = require('./routes/comment');
 var admin = require('./routes/admin');
 var chiefEditor = require('./routes/chiefEditor');
@@ -68,6 +69,7 @@ app.use(expressValidator({
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+//app.use('/static', express.static('public'));
 
 app.use(flash());
 app.locals.moment = require('moment');
@@ -86,6 +88,7 @@ app.use('/user', user);
 app.use('/topic', topic);
 app.use('/mainTopic',mainTopic);
 app.use('/subTopic',subTopic);
+app.use('/keyword', keyword);
 app.use('/chiefEditor', chiefEditor);
 app.use('/comment', comment);
 app.use('/admin', admin);

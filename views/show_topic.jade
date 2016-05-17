@@ -27,7 +27,7 @@ block content
                                 a(href='/#{topic.author}') #{userName}
                             .col-md-8
                             .col-md-2
-                                span #{topic.createdAt}
+                                span #{moment(topic.createdAt).format('DD/MM/YYYY')}
 
                         if user.role == 'editor'
                             if !topic.allowStatus

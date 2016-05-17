@@ -211,7 +211,7 @@ passport.use(new LocalStrategy(
 ));
 
 router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
-    
+    var currentUser = req.user;
     console.log("buraya girdi");
     console.log(req.user.role);
     if (req.user.role == 'admin') {
@@ -220,6 +220,8 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
         var myAuthors = [];
         var myEditors = [];
         var myChiefEditors = [];
+        var displayUser = {};
+        var displayTopics = [];
 
         async.parallel([
             function (callback) {
@@ -281,6 +283,25 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
                     // console.log("============");
                 });
                 callback();
+            },
+            function (callback) {
+                User.findById(currentUser._id, function (err, user) {
+                    if (err) return callback(err);
+                    displayUser = user;
+                    console.log(displayUser.firstName);
+                });
+                callback();
+            },
+            function (callback) {
+                var query = {author: currentUser._id};
+                Topic.find(query, function (err, topics) {
+                    if (err) return callback(err);
+                    topics.forEach(function (topic) {
+                        displayTopics.push(topic);
+                        console.log(topic.name);
+                    });
+                });
+                callback();
             }
         ], function (err) {
             if (err) return (err);
@@ -295,17 +316,63 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
                 myUsers: myUsers,
                 myAuthors: myAuthors,
                 myEditors: myEditors,
-                myChiefEditors: myChiefEditors
+                myChiefEditors: myChiefEditors,
+                userRole: displayUser.role,
+                userFirstName: currentUser.firstName,
+                userLastName: currentUser.lastName,
+                useremail: currentUser.email,
+                username: currentUser.username,
+                topics: displayTopics
             });
         });
 
     } else {
         res.render('not_found');
     }
-    
-    
 });
 
+router.post('/adminProfile', function (req, res) {
+    var currentUser = req.user;
+    var userFirstName = req.body.userFirstName;
+    var userLastName = req.body.userLastName;
+    var userName = req.body.username;
+    var userEmail = req.body.useremail;
+
+    req.checkBody('userFirstName', 'İsim alanı boş olamaz').notEmpty();
+    req.checkBody('userLastName', 'Soyisim alanı boş olamaz').notEmpty();
+    req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
+    req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
+    var errors = req.validationErrors();
+
+    if (!errors) {
+        var query = {_id: currentUser._id};
+
+        User.findById(query, function (err, user) {
+            if (err) throw err;
+
+            user.firstName = userFirstName;
+            user.lastName = userLastName;
+            user.email = userEmail;
+            user.username = userName;
+            console.log(user._id);
+            User.createUser(user, function (err) {
+                if (err) throw err;
+                req.flash('success', "Profiliniz başarıyla güncellendi.");
+                res.redirect('/');
+            })
+        })
+    }
+    else {
+        req.flash('error', "Verileri kontrol ediniz!");
+        res.render('admin', {
+            userFirstName: userFirstName,
+            userLastName: userLastName,
+            username: userName,
+            useremail: userEmail,
+            user: currentUser
+        });
+    }
+});
 
 // TODO : NOT tested
 router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next) {

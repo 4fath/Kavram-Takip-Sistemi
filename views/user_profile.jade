@@ -21,8 +21,6 @@ block content
             li.active
                 a(href='#home', data-toggle='tab') Profil
             li
-                a(href='#userName', data-toggle='tab') Kullanıcı Adı Değiştir
-            li
                 a(href='#profile', data-toggle='tab') Şifre Değiştirme
         #myTabContent.tab-content
             #home.tab-pane.active.in
@@ -85,27 +83,27 @@ block content
                                 .col-md-3
                                     button#btnDegistir.btn.btn-success(type='Submit', value='Submit') Güncelle
                         .col-md-2
-            #userName.tab-pane.fade
-                form#tab3.form-horizontal(role='form')
-                    .row
-                        .form-group
-                        .form-group
-                    .row
-                        .col-md-2
-                        .col-md-8
-                            .form-group
-                                label.col-sm-4.control-label(for='password') Kullanıcı Adı
-                                .col-sm-8
-                                    input#kullaniciAdi.form-control(type='text', placeholder='Eski Kullanıcı Adını Giriniz')
-                            .form-group
-                                label.col-sm-4.control-label(for='text') Yeni Kullanıcı Adı
-                                .col-sm-8
-                                    input#newKullaniciAdi.form-control(type='text', placeholder='Yeni Kullanıcı Adını Giriniz')
-                            .form-group
-                                .col-md-9
-                                .col-md-3
-                                    button#btnDegistir.btn.btn-success Değiştir
-                        .col-md-2
+            //#userName.tab-pane.fade
+            //    form#tab3.form-horizontal(role='form')
+            //        .row
+            //            .form-group
+            //            .form-group
+            //        .row
+            //            .col-md-2
+            //            .col-md-8
+            //                .form-group
+            //                    label.col-sm-4.control-label(for='password') Kullanıcı Adı
+            //                    .col-sm-8
+            //                        input#kullaniciAdi.form-control(type='text', placeholder='Eski Kullanıcı Adını Giriniz')
+            //                .form-group
+            //                    label.col-sm-4.control-label(for='text') Yeni Kullanıcı Adı
+            //                    .col-sm-8
+            //                        input#newKullaniciAdi.form-control(type='text', placeholder='Yeni Kullanıcı Adını Giriniz')
+            //                .form-group
+            //                    .col-md-9
+            //                    .col-md-3
+            //                        button#btnDegistir.btn.btn-success Değiştir
+            //            .col-md-2
 
 
 script(src='/public/js/jquery.min.js')

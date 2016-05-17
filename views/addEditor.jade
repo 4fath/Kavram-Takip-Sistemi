@@ -31,7 +31,7 @@ block content
                     .panel-heading Anahtar Kelime
                     .panel-body
                         select(name='keywordID')
-                            if mySubTopics
+                            if myKeywords
                                 each myKeyword in myKeywords
                                     option(value='#{myKeyword._id}')  #{myKeyword.name}
                 .panel.panel-success.col-md-5

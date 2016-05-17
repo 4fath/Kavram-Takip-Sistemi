@@ -37,7 +37,7 @@ block content
                 .panel.panel-success.col-md-5
                     .panel-heading Bilim Alanı
                     .panel-body
-                        select(name='mainTopicID')
+                        select(name='subTopicID')
                             if mySubTopics
                                 each subTopic in mySubTopics
                                     option(value='#{subTopic._id}')  #{subTopic.name}

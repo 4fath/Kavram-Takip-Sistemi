@@ -24,6 +24,9 @@ html
                                     span.icon-bar
                                     span.icon-bar
                                     span.icon-bar
+
+                                a(href='/')
+                                    img(src='/logo.jpg', height=60, width=60)
                                 a.navbar-brand(href='/') KavramTakip
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
@@ -64,12 +67,12 @@ html
                                             if user.role == 'editor'
                                                 ul.nav.navbar-nav.navbar-right
 
-                                            else
-                                                if user.role == 'author'
-                                                    ul.nav.navbar-nav.navbar-right
-                                                        .navbar-form.form-group
-                                                            button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                                |  Hoşgeldin #{user.firstName}!
+                                            //else
+                                            //    if user.role == 'author'
+                                            //        ul.nav.navbar-nav.navbar-right
+                                            //            .navbar-form.form-group
+                                            //                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
+                                            //                    |  Hoşgeldin #{user.firstName}!
 
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group

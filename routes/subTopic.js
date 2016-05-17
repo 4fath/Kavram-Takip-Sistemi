@@ -24,7 +24,7 @@ router.get('/:subTopicId', function (req, res, next) {
         var screenKeywordArray = [];
         keywords.forEach(function (keyword) {
             // TODO : forEach 
-            if (keyword.relevantSubTopics[0] == subTopicId) {
+            if (keyword.subTopic == subTopicId) {
                 screenKeywordArray.push(keyword);
             }
         });

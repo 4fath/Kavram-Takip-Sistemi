@@ -20,11 +20,12 @@ router.get('/:keywordId', function (req, res, next) {
 
     Topic.find({}, function (err, topics) {
         if (err) throw err;
-
+        console.log("girdi");
         var screenTopicArray = [];
         topics.forEach(function (topic) {
-            // TODO : forEach 
-            if (topics.relevantKeywords[0] == keywordId) {
+            // TODO : forEach
+            console.log(topic);
+            if (topic.relevantKeywords[0] == keywordId) {
                 if (topic.allowStatus)
                     screenTopicArray.push(topic);
             }
