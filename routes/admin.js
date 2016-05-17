@@ -175,7 +175,7 @@ router.post('/addSubTopic', function (req, res, next) {
                     console.log("SubTopic başarılı bir şekilde kaydedildi : " + newSubTopic);
                     console.log("MainTopic update edildi : " + doc);
                     req.flash('success', 'Başarılı bir şekkilde eklendi');
-                    res.redirect('/user/chiefEditorProfile');
+                    res.redirect('/user/adminProfile');
                 }
             );
         });
@@ -278,91 +278,6 @@ router.post('/addChiefEditor', function (req, res, next) {
     }
 
 });
-
-// router.get('/Profile', function (req, res, next) {
-//     console.log('admin Profile girdi');
-//     var userId = req.user._id;
-//     var displayUser = {};
-//     var displayTopics = [];
-//     var currentUser = req.user;
-//     async.parallel([
-//         function (callback) {
-//             User.findById(userId, function (err, user) {
-//                 if (err) return callback(err);
-//                 displayUser = user;
-//                 console.log(displayUser.firstName);
-//             });
-//             callback();
-//         },
-//
-//         function (callback) {
-//             var query = {author : userId};
-//             Topic.find(query, function (err, topics) {
-//                 if (err) return callback(err);
-//                 topics.forEach(function (topic) {
-//                     displayTopics.push(topic);
-//                     console.log(topic.name);
-//                 });
-//             });
-//             callback();
-//         }
-//
-//     ], function (err) {
-//         if (err) return (err);
-//         console.log(currentUser.firstName);
-//         res.render('admin',{
-//             userRole : displayUser.role,
-//             userFirstName: currentUser.firstName,
-//             userLastName: currentUser.lastName,
-//             useremail: currentUser.email,
-//             username: currentUser.username,
-//             topics : displayTopics
-//         })
-//     });
-// });
-//
-// router.post('/adminProfile', function (req, res) {
-//     var currentUser = req.user;
-//     var userFirstName = req.body.userFirstName;
-//     var userLastName = req.body.userLastName;
-//     var userName = req.body.username;
-//     var userEmail = req.body.useremail;
-//
-//     req.checkBody('userFirstName', 'İsim alanı boş olamaz').notEmpty();
-//     req.checkBody('userLastName', 'Soyisim alanı boş olamaz').notEmpty();
-//     req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
-//     req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
-//     var errors = req.validationErrors();
-//
-//     if (!errors) {
-//         var query = {_id: currentUser._id};
-//
-//         User.findById(query, function (err, user) {
-//             if (err) throw err;
-//
-//             user.firstName = userFirstName;
-//             user.lastName = userLastName;
-//             user.email = userEmail;
-//             user.username = userName;
-//             console.log(user._id);
-//             User.createUser(user, function (err) {
-//                 if (err) throw err;
-//                 req.flash('success', "Profiliniz başarıyla güncellendi.");
-//                 res.redirect('/');
-//             })
-//         })
-//     }
-//     else {
-//         req.flash('error', "Verileri kontrol ediniz!");
-//         res.render('admin', {
-//             userFirstName: userFirstName,
-//             userLastName: userLastName,
-//             username: userName,
-//             useremail: userEmail,
-//             user: currentUser
-//         });
-//     }
-// });
 
 module.exports = router;
 

@@ -23,6 +23,76 @@ block solMenu
                 | Taslaklarım
         // /.sidebar
 
+block content
+    .well
+        ul.nav.nav-tabs
+            li.active
+                a(href='#home', data-toggle='tab') Profil
+            li
+                a(href='#profile', data-toggle='tab') Şifre Değiştirme
+        #myTabContent.tab-content
+            #home.tab-pane.active.in
+                form.form-horizontal(role='form',method='post', action='/user/editorProfile')
+                    .row
+                        .form-group
+                        .form-group
+                    .row
+                        .col-md-2
+                        .col-md-8
+                            .form-group
+                                label.col-sm-4.control-label(for='firstName') İsim
+                                .col-sm-8
+                                    input#firstName.form-control(name='userFirstName', type='text', placeholder='İsim', autofocus='', value='#{userFirstName}')
+                            .form-group
+                                label.col-sm-4.control-label(for='lastName') Soyisim
+                                .col-sm-8
+                                    input#lastName.form-control(name='userLastName', type='text', placeholder='Soyisim', autofocus='', value='#{userLastName}')
+                            .form-group
+                                label.col-sm-4.control-label(for='userUserName') Kullanıcı Adı
+                                .col-sm-8
+                                    input#userUserName.form-control(name='username', type='text', placeholder='Kullanıcı Adı', autofocus='', value='#{username}')
+                            .form-group
+                                label.col-sm-4.control-label(for='email') E-mail
+                                .col-sm-8
+                                    input#email.form-control(name='useremail', type='email', placeholder='E-mail', value='#{useremail}')
+                            .form-group
+                                label.col-sm-4.control-label Alanınız
+                                .col-sm-8(ng-app='myApp', ng-controller='myCtrl')
+                                    select.form-control(name='size')
+                                        option(value='') Seçiniz
+                                        option(value='', ng-repeat='x in names') {{ x }}
+                            .form-group
+                                .col-md-9
+                                .col-md-3
+                                    button#btnDegistir.btn.btn-success Güncelle
+                        .col-md-2
+            #profile.tab-pane.fade
+                form#tab2.form-horizontal(role='form',method='post', action='/user/changePassword')
+                    .row
+                        .form-group
+                        .form-group
+                    .row
+                        .col-md-2
+                        .col-md-8
+                            .form-group
+                                label.col-sm-4.control-label(for='password') Eski Şifre
+                                .col-sm-8
+                                    input#password.form-control(name='oldPassword', type='password', placeholder='Eski Şifreyi Giriniz')
+                            .form-group
+                                label.col-sm-4.control-label(for='newPassword') Yeni Şifre
+                                .col-sm-8
+                                    input#newPassword.form-control(name='newPassword', type='password', placeholder='Yeni Şifreyi Giriniz')
+                            .form-group
+                                label.col-sm-4.control-label(for='newPasswordConfirm') Yeni Şifre Tekrar
+                                .col-sm-8
+                                    input#newPasswordConfirm.form-control(name='newPasswordConfirm', type='password', placeholder='Yeni Şifreyi Tekrar Giriniz')
+                            .form-group
+                                .col-md-9
+                                .col-md-3
+                                    button#btnDegistir.btn.btn-success(type='Submit', value='Submit') Güncelle
+                        .col-md-2
+
+
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')
 script(src='../js/scripts.js')

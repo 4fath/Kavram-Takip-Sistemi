@@ -355,7 +355,7 @@ router.post('/adminProfile', function (req, res) {
             user.email = userEmail;
             user.username = userName;
             console.log(user._id);
-            User.createUser(user, function (err) {
+            user.save(function (err) {
                 if (err) throw err;
                 req.flash('success', "Profiliniz başarıyla güncellendi.");
                 res.redirect('/');
@@ -376,15 +376,49 @@ router.post('/adminProfile', function (req, res) {
 
 // TODO : NOT tested
 router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next) {
-    
+    var currentUser = req.user;
     var userId = req.user._id;
     var myMainTopics = [];
     var myTopics = [];
     var myTopicAsDraft = [];
     var myWholeSystemSubTopic = [];
     var myWaitingAllowSubTopics = [];
-    
-    res.render('chiefEditorProfile');
+    var displayUser = {};
+    var displayTopics = [];
+    async.parallel([
+        function (callback) {
+            User.findById(userId, function (err, user) {
+                if (err) return callback(err);
+                displayUser = user;
+                console.log(displayUser.firstName);
+            });
+            callback();
+        },
+
+        function (callback) {
+            var query = {author: userId};
+            Topic.find(query, function (err, topics) {
+                if (err) return callback(err);
+                topics.forEach(function (topic) {
+                    displayTopics.push(topic);
+                    console.log(topic.name);
+                });
+            });
+            callback();
+        }
+
+    ], function (err) {
+        if (err) return (err);
+        console.log(currentUser.firstName);
+        res.render('chiefEditorProfile', {
+            userRole: displayUser.role,
+            userFirstName: currentUser.firstName,
+            userLastName: currentUser.lastName,
+            useremail: currentUser.email,
+            username: currentUser.username,
+            topics: displayTopics
+        });
+    });
     
     
     // async.parallel([
@@ -449,6 +483,49 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
     
 });
 
+router.post('/chiefEditorProfile', function (req, res) {
+    var currentUser = req.user;
+    var userFirstName = req.body.userFirstName;
+    var userLastName = req.body.userLastName;
+    var userName = req.body.username;
+    var userEmail = req.body.useremail;
+
+    req.checkBody('userFirstName', 'İsim alanı boş olamaz').notEmpty();
+    req.checkBody('userLastName', 'Soyisim alanı boş olamaz').notEmpty();
+    req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
+    req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
+    var errors = req.validationErrors();
+
+    if (!errors) {
+        var query = {_id: currentUser._id};
+
+        User.findById(query, function (err, user) {
+            if (err) throw err;
+
+            user.firstName = userFirstName;
+            user.lastName = userLastName;
+            user.email = userEmail;
+            user.username = userName;
+            console.log(user._id);
+            user.save(function (err) {
+                if (err) throw err;
+                req.flash('success', "Profiliniz başarıyla güncellendi.");
+                res.redirect('/');
+            })
+        })
+    }
+    else {
+        req.flash('error', "Verileri kontrol ediniz!");
+        res.render('chiefEditorProfile', {
+            userFirstName: userFirstName,
+            userLastName: userLastName,
+            username: userName,
+            useremail: userEmail,
+            user: currentUser
+        });
+    }
+});
+
 // TODO : NOT tested
 router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     var userId = req.user._id;
@@ -458,6 +535,9 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     var myTopicAsDraft = [];
     var myWholeSystemTopic = [];
     var myWaitingAllowTopics = [];
+    var displayUser = {};
+    var displayTopics = [];
+    var currentUser = req.user;
 
     async.parallel([
         function (callback) {
@@ -499,6 +579,26 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
                 });
                 callback();
             })
+        },
+        function (callback) {
+            User.findById(userId, function (err, user) {
+                if (err) return callback(err);
+                displayUser = user;
+                console.log(displayUser.firstName);
+            });
+            callback();
+        },
+
+        function (callback) {
+            var query = {author: userId};
+            Topic.find(query, function (err, topics) {
+                if (err) return callback(err);
+                topics.forEach(function (topic) {
+                    displayTopics.push(topic);
+                    console.log(topic.name);
+                });
+            });
+            callback();
         }
     ], function (err) {
         if (err) return (err);
@@ -519,9 +619,58 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
             myTopics: myTopics,
             myTopicsAsDraft: myTopicAsDraft,
             mySubTopics: mySubTopics,
-            myWaitingAllowRequests: myWaitingAllowTopics
+            myWaitingAllowRequests: myWaitingAllowTopics,
+            userRole: displayUser.role,
+            userFirstName: currentUser.firstName,
+            userLastName: currentUser.lastName,
+            useremail: currentUser.email,
+            username: currentUser.username,
+            topics: displayTopics
         });
     });
+});
+
+router.post('/editorProfile', function (req, res) {
+    var currentUser = req.user;
+    var userFirstName = req.body.userFirstName;
+    var userLastName = req.body.userLastName;
+    var userName = req.body.username;
+    var userEmail = req.body.useremail;
+
+    req.checkBody('userFirstName', 'İsim alanı boş olamaz').notEmpty();
+    req.checkBody('userLastName', 'Soyisim alanı boş olamaz').notEmpty();
+    req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
+    req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
+    var errors = req.validationErrors();
+
+    if (!errors) {
+        var query = {_id: currentUser._id};
+
+        User.findById(query, function (err, user) {
+            if (err) throw err;
+
+            user.firstName = userFirstName;
+            user.lastName = userLastName;
+            user.email = userEmail;
+            user.username = userName;
+            console.log(user._id);
+            user.save(function (err) {
+                if (err) throw err;
+                req.flash('success', "Profiliniz başarıyla güncellendi.");
+                res.redirect('/');
+            })
+        })
+    }
+    else {
+        req.flash('error', "Verileri kontrol ediniz!");
+        res.render('chiefEditorProfile', {
+            userFirstName: userFirstName,
+            userLastName: userLastName,
+            username: userName,
+            useremail: userEmail,
+            user: currentUser
+        });
+    }
 });
 
 router.get('/authorProfile', function (req, res, next) {
@@ -588,7 +737,7 @@ router.post('/authorProfile', function (req, res) {
             user.email = userEmail;
             user.username = userName;
             console.log(user._id);
-            User.createUser(user, function (err) {
+            user.save(function (err) {
                 if (err) throw err;
                 req.flash('success', "Profiliniz başarıyla güncellendi.");
                 res.redirect('/');
