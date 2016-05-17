@@ -63,7 +63,7 @@ router.get('/', function (req, res, next) {
                     if (topics.length > 0) {
                         var maxViewedTopic = topics[0];
                         topics.forEach(function (topic) {
-                            if (topic.allowStatus) {
+                            if (topic.allowStatus.status) {
                                 myTopics.push(topic);
                             }
 
@@ -219,7 +219,7 @@ router.get('/', function (req, res, next) {
                 Topic.find({}, function (err, topics) {
                     if (err) return callback(err);
                     topics.forEach(function (topic) {
-                        if (topic.allowStatus) {
+                        if (topic.allowStatus.status) {
                             myTopics.push(topic);
                         }
                     });

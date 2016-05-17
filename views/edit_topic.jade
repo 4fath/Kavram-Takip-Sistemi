@@ -58,7 +58,7 @@ block content
                     script.
                         CKEDITOR.replace('textarea');
                 .col-md-5
-                    button.btn.btn-success.btn-block(type='submit', value='Submit', formaction='/topic/addTopic') Gönder
+                    button.btn.btn-success.btn-block(type='submit', value='Submit', formaction='/topic/sendApprove/#{topic._id}') Gönder
                 .col-md-5
                     button.btn.btn-info(type='Submit', value='Submit') Güncelle
 
@@ -85,6 +85,9 @@ block solMenu
             li
                 a(href='/user/editor/getOnay')
                     |  Onay Havuzu
+        li
+            a(href='/topic/myRejectedTopics')
+                |  Reddedilen Kavramlarım
         li
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım

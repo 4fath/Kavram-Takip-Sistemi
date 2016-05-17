@@ -33,13 +33,13 @@ block content
                                 .row
                                     .col-md-2
                                         a(href='/#{screenTopic.author}') #{topicUser.username}
-                                    .col-md-6
-                                    .col-md-4
+                                    .col-md-7
+                                    .col-md-3
                                         span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
                         .row
                             if user
                                 if screenTopic
-                                    if screenTopic.allowStatus
+                                    if screenTopic.allowStatus.status
                                         if !followerControl
                                             .col-md-6
                                             .col-md-3

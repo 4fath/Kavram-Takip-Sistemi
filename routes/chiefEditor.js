@@ -76,7 +76,9 @@ var router = express.Router();
 
 router.get('/addKeyword', function (req, res) {
     var mySubTopics = [];
-    SubTopic.find({}, function (err, subTopics) {
+    var currentUser = req.user;
+    var query = {chiefEditor: currentUser._id};
+    SubTopic.find(query, function (err, subTopics) {
         if (err) throw err;
         subTopics.forEach(function (subTopic) {
             mySubTopics.push(subTopic)
@@ -132,19 +134,36 @@ router.post('/addKeyword', function (req, res, next) {
 
 
 router.get('/addEditor', function (req, res, next) {
+    var currentUser = req.user;
     var queryForUser = {role: 'author'};
-    var queryForKeyword = {hasEditor: false};
+    var myKeywords = [];
 
-    User.find(queryForUser, function (err, users) {
+    var queryForSubTopic = {chiefEditor: currentUser._id};
+    SubTopic.find(queryForSubTopic, function (err, subTopic) {
         if (err) throw err;
-        Keyword.find(queryForKeyword, function (err, keywords) {
+        var temp = subTopic;
+        User.find(queryForUser, function (err, users) {
             if (err) throw err;
-            res.render('addEditor', {
-                myUser : users,
-                myKeywords: keywords
+            // var queryForKeyword = {hasEditor: false, subTopic: subtopic};
+            Keyword.find({}, function (err, keywords) {
+                // keywords.forEach(function (keyword) {
+                //     console.log(subTopic+ "sub");
+                //     console.log(keyword.subTopic+ "key");
+                //     if ((keyword.subTopic).toString() === subTopic._id.toString()){
+                //         myKeywords.push(keyword);
+                //         console.log(keyword.name);
+                //     }
+                // });
+                console.log(myKeywords.name);
+                if (err) throw err;
+                res.render('addEditor', {
+                    myUser: users,
+                    myKeywords: keywords
+                });
             });
-        })
+        });
     });
+
 
     // var myUsers = [];
     // var mySubTopics = [] ;

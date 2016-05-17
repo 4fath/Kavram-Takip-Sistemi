@@ -103,7 +103,7 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
             relevantMainTopics: [selectedMainTopicId],
             relevantSubTopics: [selectedSubTopicId],
             relevantKeywords: [selectedKeywordId],
-            allowStatus: false,
+            allowStatus: {status: false, stage: 0},
             isDraft: false
         });
 
@@ -139,12 +139,7 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
                                     myKeywords.push(keyword);
                                 });
                                 req.flash('success', "Helal sana !");
-                                res.render('addTopic', {
-                                    mainTopics: myMainTopics,
-                                    subTopics: mySubTopics,
-                                    keywords: myKeywords,
-                                    user: currentUser
-                                });
+                                res.redirect('/');
                             });
                         });
                     });
@@ -188,6 +183,70 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
     }
 });
 
+router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, next) {
+    var currentUser = req.user;
+    var followControl = false;
+    var rejectReason = req.body.rejectReason;
+    var topicId = req.params.topicId;
+
+    req.checkBody('rejectReason', 'Sebep alanı boş olamaz.').notEmpty();
+
+    var errors = req.validationErrors();
+
+    if (!errors) {
+        Topic.findById(topicId, function (err, topic) {
+            topic.allowStatus = {stage: -1, status: false};
+            topic.reason = rejectReason;
+
+            topic.save(function (err) {
+                if (err) throw err;
+                req.flash('success', "Kavram reddi kullanıcıya bilgilendirilmiştir.");
+                res.redirect('/');
+            });
+        });
+
+    } else {
+        Topic.findById(topicId, function (err, topic) {
+            if (err) throw err;
+            topic.followers.forEach(function (follower) {
+                if (follower.toString() == (currentUser._id).toString()) {
+                    followControl = true;
+                }
+            });
+            topic.viewCount++;
+            topic.save(function (err) {
+                if (err) throw err;
+            });
+            MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
+                if (err) throw err;
+                SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
+                    if (err) throw err;
+                    Keyword.findById(topic.relevantKeywords[0], function (err, keyword) {
+                        if (err) throw err;
+                        User.findById(topic.author, function (err, user) {
+                            if (err) throw err;
+                            var userName = user.username;
+                            MainTopic.find({}, function (err, mainTopics) {
+                                if (err) throw err;
+                                console.log(followControl);
+                                res.render('show_topic', {
+                                    topic: topic,
+                                    userName: userName,
+                                    mainTopics: mainTopics,
+                                    screenMainTopic: mainTopic,
+                                    screenSubTopic: subTopic,
+                                    screenKeyword: keyword,
+                                    followerControl: followControl
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    }
+});
+
 // Add Topic as Draft
 router.post('/addTopicAsDraft', ensureAuthentication, function (req, res, next) {
 
@@ -214,7 +273,7 @@ router.post('/addTopicAsDraft', ensureAuthentication, function (req, res, next) 
             relevantMainTopics: [selectedMainTopicId],
             relevantSubTopics: [selectedSubTopicId],
             relevantKeywords: [selectedKeywordId],
-            allowStatus: false,
+            allowStatus: {stage: 9, status: false},
             isDraft: true
         });
 
@@ -391,7 +450,7 @@ router.post('/approveByEditor/:topicId', ensureAuthentication, function (req, re
     console.log("Topic ID" + topicId);
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
-        topic.allowStatus = true;
+        topic.allowStatus = {stage: 1, status: true};
         topic.save(function (err) {
             if (err) throw err;
             console.log("Onaylandı" + err);
@@ -447,11 +506,28 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
 
 router.get('/onApprove', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
-    var query = {author: currentUser._id, allowStatus: false, isDraft: false};
+    var onApprovedTopics = [];
+    var query = {author: currentUser._id, allowStatus: {stage: 0, status: false,}};
     Topic.find(query, function (err, topics) {
         if (err) throw err;
+        console.log("buldu");
+        topics.forEach(function (topic) {
+            onApprovedTopics.push(topic);
+            console.log(topic.name);
+        });
         res.render('onArrovedTopic', {
-            onApprovedTopics: topics
+            onApprovedTopics: onApprovedTopics
+        });
+    });
+});
+
+router.get('/myRejectedTopics', ensureAuthentication, function (req, res, next) {
+    var currentUser = req.user;
+    var query = {author: currentUser._id, allowStatus: {stage: -1, status: false}};
+    Topic.find(query, function (err, topics) {
+        if (err) throw err;
+        res.render('rejectedTopics', {
+            rejectedTopics: topics
         });
     });
 });
@@ -469,7 +545,11 @@ router.get('/myDrafts', ensureAuthentication, function (req, res, next) {
 
 router.get('/myTopics', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
-    var query = {author: currentUser._id, isDraft: false, allowStatus: true};
+    var query = {
+        author: currentUser._id,
+        isDraft: false,
+        allowStatus: {stage: 1, status: true}
+    };
     Topic.find(query, function (err, topics) {
         if (err) throw err;
         res.render('myTopics', {
@@ -477,6 +557,70 @@ router.get('/myTopics', ensureAuthentication, function (req, res, next) {
         });
     });
 
+});
+
+router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, next) {
+    var topicId = req.params.topicId;
+    var topicAbstract = req.body.topicAbstract;
+    var topicDefinition = req.body.topicDefinition;
+    var currentUser = req.user;
+
+    req.checkBody('topicAbstract', 'Özet alanı boş olamaz.').notEmpty();
+    req.checkBody('topicDefinition', 'Tanım alanı boş olamaz').notEmpty();
+
+    var errors = req.validationErrors();
+
+    if (!errors) {
+        Topic.findById(topicId, function (err, topic) {
+            if (err) throw err;
+
+            topic.definition = topicDefinition;
+            topic.abstract = topicAbstract;
+            topic.allowStatus = {stage: 0, status: false};
+            topic.reason = null;
+            topic.isDraft = false;
+
+            topic.save(function (err) {
+                if (err) throw err;
+                req.flash('success', "Helal sana !");
+                res.redirect('/');
+            });
+        });
+
+    } else {
+        var myMainTopics = [];
+        var mySubTopics = [];
+        var myKeywords = [];
+        MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw err;
+            mainTopics.forEach(function (mainTopic) {
+                myMainTopics.push(mainTopic);
+            });
+
+            SubTopic.find({}, function (err, subTopics) {
+                if (err) throw err;
+                subTopics.forEach(function (subTopic) {
+                    mySubTopics.push(subTopic);
+                });
+
+                Keyword.find({}, function (err, keywords) {
+                    if (err) throw err;
+                    keywords.forEach(function (keyword) {
+                        myKeywords.push(keyword);
+                    });
+                    res.render('addTopic', {
+                        errors: errors,
+                        mainTopics: myMainTopics,
+                        subTopics: mySubTopics,
+                        keywords: myKeywords,
+                        topicName: topicName,
+                        topicAbstract: topicAbstract,
+                        topicDefinition: topicDefinition
+                    });
+                });
+            });
+        });
+    }
 });
 
 function ensureAuthentication(req, res, next) {

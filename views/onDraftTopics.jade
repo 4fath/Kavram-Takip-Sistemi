@@ -27,6 +27,9 @@ block solMenu
                 a(href='/user/editor/getOnay')
                     |  Onay Havuzu
         li
+            a(href='/topic/myRejectedTopics')
+                |  Reddedilen Kavramlarım
+        li
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım
         li
@@ -42,7 +45,7 @@ block content
         each item in myDraftTopics
             li.list-group-item.text-right
                 a.pull-left(href='/topic/editTopic/#{item._id}') #{item.name}
-                button.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';") Düzenle
+                button.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/editTopic/#{item._id}';") Düzenle
 
 
 

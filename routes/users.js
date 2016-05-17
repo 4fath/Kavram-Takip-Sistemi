@@ -603,7 +603,7 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     ], function (err) {
         if (err) return (err);
         myWholeSystemTopic.forEach(function (topic) {
-            if (!topic.allowStatus) {
+            if (!topic.allowStatus.status) {
                 mySubTopics.forEach(function (subTopic) {
                     if (topic.relevantSubTopics[0] == subTopic._id) {
                         myWaitingAllowTopics.push(topic);
@@ -814,18 +814,16 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
         console.log("bulunan keywords " + keywords);
         var currentKeyword = keywords[0];
         var keywordID = currentKeyword._id;
+        var onayBekleyenTopicler = [];
         console.log(keywordID);
-        
-        Topic.find({}, function (err, topics) {
+        var query = {allowStatus: {stage: 0, status: false}};
+        Topic.find(query, function (err, topics) {
             if (err) throw err;
-            var onayBekleyenTopicler = [];
 
             topics.forEach(function (topic) {
-               if (!topic.allowStatus ){
-                   if (keywordID.toString() === String(topic.relevantKeywords[0])) {
-                       console.log("uygun bulundu");
-                       onayBekleyenTopicler.push(topic);
-                   }
+                if (keywordID.toString() === String(topic.relevantKeywords[0])) {
+                    console.log("uygun bulundu");
+                    onayBekleyenTopicler.push(topic);
                }
             });
 

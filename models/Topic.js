@@ -47,22 +47,26 @@ var TopicSchema = new Schema({
     //     Stage=0 ise Onaya gönderilmiştir
     //     Stage=1 ise Onaylanmıştır
     //     Stage=-1 ise Red olunmuştur
+    //     Stage=9 ise Taslaklardadır
     allowStatus: {
-        type: Boolean,
-        default: false,
+        status: {
+            type: Boolean,
+            default: false
+        },        
         allowedBy: {
             type: Schema.Types.ObjectId,
             ref: 'User'
-        },
-        reason: {
-            type: String,
-            trim: true
         },
         stage: {
             type: Number
         }
     },
 
+    reason: {
+        type: String,
+        trim: true
+    },
+    
     isDraft: {
         type: Boolean,
         require: true,

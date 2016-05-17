@@ -1,3 +1,6 @@
+//
+   Created by Asus on 17.05.2016.
+
 extends ProfileLayout
 
 block solMenu
@@ -26,10 +29,10 @@ block solMenu
             li
                 a(href='/user/editor/getOnay')
                     |  Onay Havuzu
-        li
+        li.active
             a(href='/topic/myRejectedTopics')
                 |  Reddedilen Kavramlarım
-        li.active
+        li
             a(href='/topic/onApprove')
                 |  Onay Bekleyen Kavramlarım
         li
@@ -38,14 +41,18 @@ block solMenu
         li
             a(href='/topic/myDrafts')
                 | Taslaklarım
-
+        // /.sidebar
 block content
     ul.list-group
-        li.list-group-item.text-muted Onay Bekleyenler
-        each item in onApprovedTopics
+        li.list-group-item.text-muted Reddedilen Kavramlar
+        each item in rejectedTopics
             li.list-group-item.text-right
-                a.pull-left(href='/topic/getTopic/#{item._id}') #{item.name}
-                button.btn-success(onclick="location.href='/topic/getTopic/#{item._id}';") Görüntüle
+                a.pull-left(href='/topic/editTopic/#{item._id}') #{item.name}
+                //button.btn-success(ng-click='addChiefEditor($index)') Aç
+                a.btn.btn-success(href='/topic/editTopic/#{item._id}') Aç
+                p
+                    b.pull-left
+                        | #{item.reason}
 
 
 script(src='../js/jquery.min.js')
@@ -53,5 +60,3 @@ script(src='../js/bootstrap.min.js')
 script(src='../js/scripts.js')
 script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
 script(type='text/javascript', src='../js/materialize.js')
-
-
