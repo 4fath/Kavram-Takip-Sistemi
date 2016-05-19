@@ -111,10 +111,12 @@ html
                                         | Tavsiye Edilen Kavramlar
                                         span#slide-submenu.pull-right
                                             i.fa.fa-times
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  java
-                                        span.badge 124
+                                    if onerilenTopicler
+                                        each topic in onerilenTopicler
+                                            a.list-group-item(href='/topic/getTopic/#{topic._id}')
+                                                i.fa
+                                                |  #{topic.name}
+                                                span.badge #{topic.viewCount}
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
     // script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )r  ben arayım

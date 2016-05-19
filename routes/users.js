@@ -785,9 +785,9 @@ router.post('/changePassword', function (req, res) {
     var currentUser = req.user;
     var oldPassword = req.body.oldPassword;
     var newPassword = req.body.newPassword;
-    var newPassword = req.body.newPasswordConfirm;
+    var newPasswordConfirm = req.body.newPasswordConfirm;
     req.checkBody('newPassword', 'Yeni şifreyi giriniz').notEmpty();
-    req.checkBody('newPasswordConfirm', 'Girdiğiniz şifreler uyuşmuyor.').equals(req.body.newPassword);
+    req.checkBody('newPasswordConfirm', 'Girdiğiniz şifreler uyuşmuyor.').equals(newPassword);
 
     var errors = req.validationErrors();
     if (!errors) {

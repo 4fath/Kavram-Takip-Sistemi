@@ -19,10 +19,13 @@ router.get('/', function (req, res, next) {
     var myKeywords = [];
     var myTopics = [];
     var onerilenTopicler = [];
+    var maxViewedTopic;
+
+    // NOT : async yapıda iç içe iki kez db sorgusu yapmamaya özen gösterelim.
+    // en son da sonuçlar elimizde olduğu zaman üzerinde işlemler yapalı.
 
     // USER access
     if (currentUser) {
-        var currentUserId = currentUser._id;
         // parallel search for async process
         async.parallel([
             function (callback) {
@@ -35,25 +38,29 @@ router.get('/', function (req, res, next) {
                 });
             },
             // oneri listesi
+            // Keywordler interest içinde , Topicler takip ediliyor
+            // Takip edilen Topiclerin her birinin keywordune gidilip onun altından bir topic seçilecek
+            // interestlerinin her birinin altından bir topic seçilecek
+            // toplam 5
             function (callback) {
                 Keyword.find({}, function (err, keywords) {
                     if (err) return callback(err);
-
-                    keywords.forEach(function (keyword) {
-                        myKeywords.push(keyword);
-
-                        currentUser.followingKeywords.forEach(function (keywordd) {
-                            if (keyword._id == keywordd._id) {
-                                keyword.relevantTopics.forEach(function (topic) {
-                                    currentUser.followingTopics.forEach(function (myTopic) {
-                                        if (topic._id != myTopic._id) {
-                                            onerilenTopicler.push(topic);
+                    if (keywords.length > 0) {
+                        keywords.forEach(function (keyword) {
+                            myKeywords.push(keyword);
+                            if (currentUser.interests.length > 0) {
+                                currentUser.interests.forEach(function (myInterest) {
+                                    if ((keyword._id).toString() === myInterest.toString) {
+                                        if (keyword.relevantMainTopics.length > 0) {
+                                            keyword.relevantTopics.forEach(function (topic) {
+                                                onerilenTopicler.push(topic);
+                                            });
                                         }
-                                    });
+                                    }
                                 });
                             }
                         });
-                    });
+                    }
                     callback();
                 });
             },
@@ -61,17 +68,17 @@ router.get('/', function (req, res, next) {
                 Topic.find({}, function (err, topics) {
                     if (err) return callback(err);
                     if (topics.length > 0) {
-                        var maxViewedTopic = topics[0];
+                        maxViewedTopic = topics[0];
                         topics.forEach(function (topic) {
                             if (topic.allowStatus.status) {
                                 myTopics.push(topic);
                             }
-
                             if (topic.viewCount > maxViewedTopic.viewCount) {
                                 maxViewedTopic = topic;
                             }
                         });
-                        onerilenTopicler.push(maxViewedTopic);
+
+                        // onerilenTopicler.push(maxViewedTopic);
                     }
                     callback();
                 });
@@ -96,7 +103,6 @@ router.get('/', function (req, res, next) {
             var randomSubTopic = mySubTopics[getRandomInt(0, subTopicLength - 1)];
             var randomKeyword = myKeywords[getRandomInt(0, keywordLength - 1)];
 
-
             var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
 
             var MainTopicsId;
@@ -108,11 +114,46 @@ router.get('/', function (req, res, next) {
                 SubTopicId = randomTopic.relevantSubTopics[0];
                 KeywordId = randomTopic.relevantKeywords[0];
 
+                // check screenTopic follow status
                 randomTopic.followers.forEach(function (follower) {
                     if (follower.toString() == (currentUser._id).toString()) {
                         followControl = true;
                     }
                 });
+
+                myTopics.forEach(function (topic) {
+
+                    currentUser.followingTopics.forEach(function (myTopic) {
+                        if ((topic._id).toString() === myTopic) {    // assume that currentUser following this topic
+
+                            var tmp = 0;
+                            if (myKeywords.length > 0) {
+                                while (tmp < myKeywords.length) {
+                                    var currentKeyword = myKeywords[tmp];
+                                    if ((currentKeyword._id).toString() === myTopic.relevantKeywords[0]) {
+
+                                        if (currentKeyword.relevantTopics.length > 0) {
+                                            currentKeyword.relevantTopics.forEach(function (relevanTopic) {
+                                                onerilenTopicler.push(relevanTopic);
+                                            });
+                                        }
+                                    }
+                                    tmp++;
+                                }
+                            }
+
+                        }
+                    });
+
+                });
+                onerilenTopicler.push(maxViewedTopic);
+                shuffle(onerilenTopicler);
+                var slicedTopics;
+                if (onerilenTopicler > 10) {
+                    slicedTopics = onerilenTopicler.slice(0, 11);
+                } else {
+                    slicedTopics = onerilenTopicler.slice(0, onerilenTopicler.length);
+                }
 
                 MainTopic.findById(MainTopicsId, function (err, mainTopic) {
                     if (err) throw err;
@@ -145,11 +186,10 @@ router.get('/', function (req, res, next) {
 
                                     takipEdilenler: takipEdilenListesi,
 
-                                    onerilenTopicler: onerilenTopicler // TODO : think about that
+                                    onerilenTopicler: slicedTopics // TODO : think about that
                                 });
                             })
                         });
-
 
                     })
                 });
@@ -214,7 +254,7 @@ router.get('/', function (req, res, next) {
                     callback();
                 });
             },
-            
+
             function (callback) {
                 Topic.find({}, function (err, topics) {
                     if (err) return callback(err);
@@ -307,6 +347,20 @@ router.get('/', function (req, res, next) {
 
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+/**
+ * Shuffles array in place.
+ * @param {Array} a items The array containing the items.
+ */
+function shuffle(a) {
+    var j, x, i;
+    for (i = a.length; i; i -= 1) {
+        j = Math.floor(Math.random() * i);
+        x = a[i - 1];
+        a[i - 1] = a[j];
+        a[j] = x;
+    }
 }
 
 module.exports = router;
