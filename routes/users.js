@@ -93,7 +93,9 @@ router.post('/register', function (req, res) {
     var username = req.body.username;
     var password = req.body.password;
     var passwordConfirm = req.body.passwordConfirm;
-
+    var alanlar = req.body.alanlar;
+    var interests = [];
+    console.log(alanlar);
     // form validation
     req.checkBody('firstName', 'isim bos olamaz').notEmpty();
     req.checkBody('lastName', 'soyisim bos olamaz').notEmpty();
@@ -118,22 +120,45 @@ router.post('/register', function (req, res) {
                 mainTopics: mainTopics
             });
         } else {
-            var newUser = new User({
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                username: username,
-                password: password
+            var i = 0;
+            console.log(alanlar + "şu birrrrr");
+            alanlar.forEach(function (field) {
+                var asd = field.toString();
+
+                console.log(field + "şu ikiiiiiii");
+                Keyword.findById(field, function (err, keyword) {
+                    if (err) throw err;
+                    i++;
+                    console.log(keyword.name + "naniiik");
+                    interests.push(keyword._id);
+                    console.log(i + "işte buuuuuuuuuuuuuuuuuuu");
+                    // if((keyword.name).toLowerCase() == String(asd).trim().toLowerCase()){
+                    //     console.log("girdiiiii");
+                    //     interests.push(keyword._id);
+                    // }
+                    if (i == alanlar.length) {
+                        console.log(interests + "şu dörttttt");
+                        var newUser = new User({
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            username: username,
+                            password: password,
+                            interests: interests
+                        });
+
+                        User.createUser(newUser, function (err, user) {
+                            if (err) throw err;
+                            console.log(user);
+                        });
+
+                        req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
+                        res.location('/');
+                        res.redirect('/')
+                    }
+                });
             });
 
-            User.createUser(newUser, function (err, user) {
-                if (err) throw err;
-                console.log(user);
-            });
-
-            req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
-            res.location('/');
-            res.redirect('/')
         }
     });
 });
@@ -884,19 +909,28 @@ router.get('/following_list/:userId', function (req, res, next) {
             takipEdilenler.push(following);
         });
         var i = 0;
-        takipEdilenler.forEach(function (topicId) {
-            Topic.findById(topicId, function (err, topic) {
-                if (err) throw(err);
-                topicList.push(topic);
-                console.log(topic);
-                i++;
-                if (i == takipEdilenler.length){
-                    res.render('following_topics',{
-                        takipEdilenlerTopicler : topicList
-                    });
-                }
+        if (takipEdilenler[0]) {
+            takipEdilenler.forEach(function (topicId) {
+                Topic.findById(topicId, function (err, topic) {
+                    if (err) throw(err);
+                    topicList.push(topic);
+                    console.log(topic);
+                    i++;
+                    if (i == takipEdilenler.length) {
+                        res.render('following_topics', {
+                            takipEdilenlerTopicler: topicList,
+                            takipEdilenler: takipEdilenler
+                        });
+                    }
+                });
             });
-        });
+        }
+        else {
+            res.render('following_topics', {
+                takipEdilenler: takipEdilenler
+            });
+        }
+
         console.log(topicList);
     });
 
@@ -907,6 +941,11 @@ function ensureAuthentication(req, res, next) {
         return next();
     }
     res.redirect('/');
+}
+
+function isAdmin(req, res, next) {
+    if (req.user.role == 'admin') {
+    }
 }
 
 module.exports = router;

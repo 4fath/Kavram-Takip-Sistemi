@@ -1,5 +1,6 @@
 extends MainLayout
 
+
 block content
     ul.errors
         if errors
@@ -39,12 +40,28 @@ block content
                 .form-group
                     label Şifre Tekrar
                     input#passwordRepeat.form-control(type='password', name = 'passwordConfirm', placeholder='Şifreyi Tekrar Giriniz')
-                //.form-group
-                //    label.col-sm-3.control-label Alanınız
-                //    .col-sm-9(ng-app='myApp', ng-controller='myCtrl')
-                //        select.form-control(name='size')
-                //            option(value='') Seçiniz
-                //            option(value='', ng-repeat='x in names') {{ x }}
+                .form-group
+                    label.control-label İlgi Alanlarınız
+                    select(multiple='multiple')
+                        each keyword in keywords
+                            option(value='#{keyword._id}')  #{keyword.name}
+
+                    script.
+                        $('select').multipleSelect();
+
+                    //dl.dropdown
+                    //    dt
+                    //        a(href='#')
+                    //            span.hida Seçiniz
+                    //            p.multiSel
+                    //    dd
+                    //        .mutliSelect
+                    //            ul
+                    //                each keyword in keywords
+                    //                    li
+                    //                        input(type='checkbox', value='#{keyword._id}', name='alanlar')
+                    //                        | #{keyword._id}
+
                 //.form-group
                 //    label.col-sm-3.control-label Sonuç nedir?
                 //    .col-sm-9
@@ -102,3 +119,11 @@ block content
                             .combobox()
                             .end()
                 });
+
+
+
+
+
+link(src='/css/dropdown.css', rel='stylesheet')
+script(src='/js/jquery.min.js')
+script(src='/js/dropdown.js', type='text/javascript')

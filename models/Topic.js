@@ -62,6 +62,7 @@ var TopicSchema = new Schema({
         }
     },
 
+    // TODO : rename 
     reason: {
         type: String,
         trim: true

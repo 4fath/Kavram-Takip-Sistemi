@@ -7,10 +7,15 @@ block content
     table.table.table-responsive
         tbody
             tr
-            each takipTopic in takipEdilenlerTopicler
-                td.col-md-4(style='display: block; float:left')
-                    a(style='color:#5cb85c;', href='/topic/getTopic/#{takipTopic._id}') #{takipTopic.name}
-
+            if takipEdilenler[0]
+                each takipTopic in takipEdilenlerTopicler
+                    td.col-md-4(style='display: block; float:left')
+                        a(style='color:#5cb85c;', href='/topic/getTopic/#{takipTopic._id}') #{takipTopic.name}
+            else
+                br
+                i
+                    p
+                        | Takip ettiğiniz herhangi bir kavram yoktur.
 block solMenu
     ul.nav.nav-pills.nav-stacked
         li.active

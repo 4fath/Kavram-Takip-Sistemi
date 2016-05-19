@@ -141,15 +141,19 @@ router.get('/addEditor', function (req, res, next) {
     var queryForSubTopic = {chiefEditor: currentUser._id};
     SubTopic.find(queryForSubTopic, function (err, subTopic) {
         if (err) throw err;
-        var temp = subTopic;
+        console.log(subTopic[0].name);
+        console.log("----------------------");
         User.find(queryForUser, function (err, users) {
             if (err) throw err;
-            // var queryForKeyword = {hasEditor: false, subTopic: subtopic};
-            Keyword.find({}, function (err, keywords) {
+            var queryForKeyword = {hasEditor: false, subTopic: subTopic[0]};
+            Keyword.find(queryForKeyword, function (err, keywords) {
+                console.log(" " + keywords.length)
                 // keywords.forEach(function (keyword) {
-                //     console.log(subTopic+ "sub");
+                //     console.log(subTopic[0]._id+ "sub");
                 //     console.log(keyword.subTopic+ "key");
-                //     if ((keyword.subTopic).toString() === subTopic._id.toString()){
+                //     console.log("=======");
+                //     if ((keyword.subTopic).toString() === subTopic[0]._id.toString()){
+                //
                 //         myKeywords.push(keyword);
                 //         console.log(keyword.name);
                 //     }

@@ -190,7 +190,12 @@ var UserSchema = new Schema({
     keyword: {
         type: Schema.Types.ObjectId,
         ref: 'Keyword'
-    }
+    },
+
+    interests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Keyword'
+    }]
 
 });
 
