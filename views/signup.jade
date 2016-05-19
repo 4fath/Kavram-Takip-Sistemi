@@ -42,7 +42,7 @@ block content
                     input#passwordRepeat.form-control(type='password', name = 'passwordConfirm', placeholder='Şifreyi Tekrar Giriniz')
                 .form-group
                     label.control-label İlgi Alanlarınız
-                    select(multiple='multiple')
+                    select(name='alanlar', multiple='multiple')
                         each keyword in keywords
                             option(value='#{keyword._id}')  #{keyword.name}
 
