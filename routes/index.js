@@ -9,6 +9,36 @@ var User = require('../models/User');
 
 var router = express.Router();
 
+var globalTopics = [];
+
+function getTopicObj(id) {
+    var lenOfTopics = globalTopics.length;
+    console.log(lenOfTopics);
+    console.log("buraya girdi ==========")
+    if (lenOfTopics > 0) {
+        var tmp = 0;
+        // var currentTopic = globalTopics[tmp];
+        var returnedObj = {};
+        globalTopics.forEach(function (globalTopic) {
+            console.log(id.toString());
+            console.log((globalTopic._id).toString());
+            console.log("=======");
+            if ((globalTopic._id).toString() === id.toString()) {
+                returnedObj = globalTopic;
+            }
+        });
+        // while(tmp < lenOfTopics && id.toString() !== (currentTopic._id).toString() ){
+        //     tmp++;
+        //     currentTopic = globalTopics[tmp];
+        // }
+        // console.log(tmp);
+        console.log(returnedObj);
+        return returnedObj;
+    } else {
+        return {};
+    }
+}
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
 
@@ -45,13 +75,33 @@ router.get('/', function (req, res, next) {
             function (callback) {
                 Keyword.find({}, function (err, keywords) {
                     if (err) return callback(err);
+                    // console.log("Keywords");
+                    // console.log(keywords);
+                    // console.log("======");
+
                     if (keywords.length > 0) {
+
                         keywords.forEach(function (keyword) {
                             myKeywords.push(keyword);
+
                             if (currentUser.interests.length > 0) {
+                                // console.log("Interests");
+                                // console.log(currentUser.interests);
+                                // console.log("======");
+
                                 currentUser.interests.forEach(function (myInterest) {
-                                    if ((keyword._id).toString() === myInterest.toString) {
-                                        if (keyword.relevantMainTopics.length > 0) {
+                                    // console.log(myInterest);
+                                    console.log("======");
+                                    console.log(myInterest.toString());
+                                    console.log((keyword._id).toString());
+
+                                    if ((keyword._id).toString() === myInterest.toString()) {
+                                        console.log(true);
+
+                                        if (keyword.relevantTopics.length > 0) {
+                                            console.log("keywordlerin relevant topicleri");
+                                            console.log(keyword.relevantTopics);
+                                            console.log("===");
                                             keyword.relevantTopics.forEach(function (topic) {
                                                 onerilenTopicler.push(topic);
                                             });
@@ -70,6 +120,7 @@ router.get('/', function (req, res, next) {
                     if (topics.length > 0) {
                         maxViewedTopic = topics[0];
                         topics.forEach(function (topic) {
+                            globalTopics.push(topic);
                             if (topic.allowStatus.status) {
                                 myTopics.push(topic);
                             }
@@ -78,7 +129,6 @@ router.get('/', function (req, res, next) {
                             }
                         });
 
-                        // onerilenTopicler.push(maxViewedTopic);
                     }
                     callback();
                 });
@@ -121,39 +171,47 @@ router.get('/', function (req, res, next) {
                     }
                 });
 
-                myTopics.forEach(function (topic) {
 
-                    currentUser.followingTopics.forEach(function (myTopic) {
-                        if ((topic._id).toString() === myTopic) {    // assume that currentUser following this topic
+                // BURASI 
+                // myTopics.forEach(function (topic) {
+                //
+                //
+                //     currentUser.followingTopics.forEach(function (myTopic) {
+                //         if ((topic._id).toString() === myTopic.toString()) {    // assume that currentUser following this topic
+                //
+                //             var tmp = 0;
+                //             if (myKeywords.length > 0) {
+                //                 while (tmp < myKeywords.length) {
+                //                     var currentKeyword = myKeywords[tmp];
+                //
+                //                     // TODO : it can be find a db query
+                //                     if ((currentKeyword._id).toString() === String(getTopicObj(topic).relevantKeywords[0])) {
+                //
+                //                         if (currentKeyword.relevantTopics.length > 0) {
+                //                             currentKeyword.relevantTopics.forEach(function (relevanTopic) {
+                //                                 onerilenTopicler.push(relevanTopic);
+                //                             });
+                //                         }
+                //                     }
+                //                     tmp++;
+                //                 }
+                //             }
+                //
+                //         }
+                //     });
+                //
+                // });
+                console.log("onerilen topicler");
+                console.log(onerilenTopicler);
 
-                            var tmp = 0;
-                            if (myKeywords.length > 0) {
-                                while (tmp < myKeywords.length) {
-                                    var currentKeyword = myKeywords[tmp];
-                                    if ((currentKeyword._id).toString() === myTopic.relevantKeywords[0]) {
-
-                                        if (currentKeyword.relevantTopics.length > 0) {
-                                            currentKeyword.relevantTopics.forEach(function (relevanTopic) {
-                                                onerilenTopicler.push(relevanTopic);
-                                            });
-                                        }
-                                    }
-                                    tmp++;
-                                }
-                            }
-
-                        }
-                    });
-
-                });
                 onerilenTopicler.push(maxViewedTopic);
                 shuffle(onerilenTopicler);
-                var slicedTopics;
-                if (onerilenTopicler > 10) {
-                    slicedTopics = onerilenTopicler.slice(0, 11);
-                } else {
-                    slicedTopics = onerilenTopicler.slice(0, onerilenTopicler.length);
-                }
+                // var slicedTopics;
+                // if (onerilenTopicler > 10) {
+                //     slicedTopics = onerilenTopicler.slice(0, 11);
+                // } else {
+                //     slicedTopics = onerilenTopicler.slice(0, onerilenTopicler.length);
+                // }
 
                 MainTopic.findById(MainTopicsId, function (err, mainTopic) {
                     if (err) throw err;
@@ -186,7 +244,7 @@ router.get('/', function (req, res, next) {
 
                                     takipEdilenler: takipEdilenListesi,
 
-                                    onerilenTopicler: slicedTopics // TODO : think about that
+                                    onerilenTopicler: onerilenTopicler // TODO : think about that
                                 });
                             })
                         });
