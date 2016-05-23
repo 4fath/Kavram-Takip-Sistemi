@@ -346,6 +346,7 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
                 userFirstName: currentUser.firstName,
                 userLastName: currentUser.lastName,
                 useremail: currentUser.email,
+                role: "Yönetici",
                 username: currentUser.username,
                 topics: displayTopics
             });
@@ -441,6 +442,7 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
             username: currentUser.username,
+            role: "Baş Editör",
             topics: displayTopics
         });
     });
@@ -649,6 +651,7 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
             userFirstName: currentUser.firstName,
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
+            role: "Editör",
             username: currentUser.username,
             topics: displayTopics
         });
@@ -733,6 +736,7 @@ router.get('/authorProfile', function (req, res, next) {
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
             username: currentUser.username,
+            role: "Yazar",
             topics : displayTopics
         })
     });

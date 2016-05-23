@@ -1,31 +1,129 @@
 extends ProfileLayout
 
 block solMenu
-    ul.nav.nav-pills.nav-stacked
-        li
-            a(href='/user/following_list/#{user._id}')
-                |  Takip Ettiklerim
-        li
-            a(href='/admin/addMainTopic')
-                | Temel Alan Ekle
-        li
-            a(href='/admin/addChiefEditor')
-                | Baş Editör Ekle
-        li.active
-            a(href='/admin/addSubTopic')
-                | Bilim Alanı Ekle
-        li
-            a(href='/topic/myRejectedTopics')
-                |  Reddedilen Kavramlarım
-        li
-            a(href='/topic/onApprove')
-                |  Onay Bekleyen Kavramlarım
-        li
-            a(href='/topic/myTopics')
-                | Onaylanan Kavramlarım
-        li
-            a(href='/topic/myDrafts')
-                | Taslaklarım
+    #accordion.panel-group
+        .panel.panel-default
+            .panel-heading
+                h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
+                        span.glyphicon.glyphicon-user
+                        | Profil
+            #collapseOne.panel-collapse.collapse
+                .panel-body
+                    table.table
+                        if user.role == 'admin'
+                            tr
+                                td
+                                    span.glyphicon.glyphicon-pencil.text-primary
+                                    a(href='/user/adminProfile') Profil Ayarları
+                        if user.role == 'chiefEditor'
+                            tr
+                                td
+                                    span.glyphicon.glyphicon-pencil.text-primary
+                                    a(href='/user/chiefEditorProfile') Profil Ayarları
+                        if user.role == 'editor'
+                            tr
+                                td
+                                    span.glyphicon.glyphicon-pencil.text-primary
+                                    a(href='/user/editorProfile') Profil Ayarları
+                        if user.role == 'author'
+                            tr
+                                td
+                                    span.glyphicon.glyphicon-pencil.text-primary
+                                    a(href='/user/authorProfile') Profil Ayarları
+                        tr
+                            td
+                                span.glyphicon.glyphicon-envelope
+                                a(href='http://www.jquery2dotnet.com') Gelen Kutusu
+                        //tr
+                        //    td
+                        //        span.glyphicon.glyphicon-file.text-info
+                        //        a(href='http://www.jquery2dotnet.com') Newsletters
+                        //tr
+                        //    td
+                        //        span.glyphicon.glyphicon-comment.text-success
+                        //        a(href='http://www.jquery2dotnet.com') Comments
+                        //        span.badge 42
+        if user.role == 'admin'
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#collapseTwo')
+                            span.glyphicon.glyphicon-th
+                            | Yönetici İşlemleri
+                #collapseTwo.panel-collapse.collapse.in
+                    .panel-body
+                        table.table
+                            tr
+                                td
+                                    a(href='/admin/addMainTopic') Temel Alan Ekle
+                            tr
+                                td
+                                    a(href='/admin/addSubTopic') Bilim Alanı Ekle
+                            tr
+                                td
+                                    a(href='/admin/addChiefEditor') Baş Editör Ata
+        if user.role == 'chiefEditor'
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#collapseTwo')
+                            span.glyphicon.glyphicon-th
+                            | Baş Editör İşlemleri
+                #collapseTwo.panel-collapse.collapse
+                    .panel-body
+                        table.table
+                            tr
+                                td
+                                    a(href='/chiefEditor/addKeyword') Anahtar Kelime Ekle
+                            tr
+                                td
+                                    a(href='/chiefEditor/addEditor') Editör Ata
+        if user.role == 'editor'
+            .panel.panel-default
+                .panel-heading
+                    h4.panel-title
+                        a(data-toggle='collapse', data-parent='#accordion', href='#collapseTwo')
+                            span.glyphicon.glyphicon-th
+                            | Baş Editör İşlemleri
+                #collapseTwo.panel-collapse.collapse
+                    .panel-body
+                        table.table
+                            tr
+                                td
+                                    a(href='/user/editor/getOnay') Onay Havuzu
+                            tr
+                                td
+                                    a(href='/chiefEditor/addEditor') Onayladıklarım
+        .panel.panel-default
+            .panel-heading
+                h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#collapseThree')
+                        span.glyphicon.glyphicon-folder-close
+                        | Kulanıcı İşlemleri
+            #collapseThree.panel-collapse.collapse
+                .panel-body
+                    table.table
+                        tr
+                            td.active
+                                a(href='/user/following_list/#{user._id}') Takip Ettiklerim
+                        tr
+                            td
+                                a(href='/topic/myDrafts') Taslaklarım
+                        tr
+                            td
+                                a(href='/topic/myTopics') Onaylanan Kavramlarım
+                        tr
+                            td
+                                a(href='/topic/onApprove')
+                                    | Onayda Bekleyen Kavramlarım
+                        tr
+                            td
+                                a(href='/topic/myRejectedTopics')
+                                    | Reddedilen Kavramlarım
+
+
+
 block content
     form(method='post', action='/admin/addSubTopic')
         .form-group
