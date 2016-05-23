@@ -1,5 +1,7 @@
 var express = require('express');
 var async = require('async');
+var multer = require('multer')
+var upload = multer({dest: 'uploads/'})
 
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
@@ -77,7 +79,7 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
 });
 
 // Add Topic
-router.post('/addTopic', ensureAuthentication, function (req, res, next) {
+router.post('/addTopic', upload.single('topic_image'), ensureAuthentication, function (req, res, next) {
 
     var selectedMainTopicId = req.body.myMainTopic;
     var selectedSubTopicId = req.body.mySubTopic;
@@ -88,11 +90,33 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
     var topicDefinition = req.body.topicDefinition;
     var currentUser = req.user;
 
+    // if (req.files.topic_image){
+    //     console.log(true);
+    // }else {
+    //     console.log(false);
+    // }
+
+    var fileName;
+    var fileError = false;
+    if (req.file && isImage(req.file.mimetype) > -1 && checkSize(req.file.size)) {
+        fileName = req.file.filename;
+        var fileOriginalName = req.file.originalname;
+        var fileMinType = req.file.mimetype;
+        var fileEncoding = req.file.encoding;
+        var fileTest = req.file.size;
+    } else {
+        fileError = true;
+        fileName = "no_image";
+        console.log("there is no such a file");
+    }
+
+
     req.checkBody('topicName', 'Keyword alanı boş olamaz.').notEmpty();
     req.checkBody('topicAbstract', 'Özet alanı boş olamaz.').notEmpty();
     req.checkBody('topicDefinition', 'Tanım alanı boş olamaz').notEmpty();
 
     var errors = req.validationErrors();
+    console.log(errors);
 
     if (!errors) {
         var newTopic = new Topic({
@@ -168,6 +192,7 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
                     keywords.forEach(function (keyword) {
                         myKeywords.push(keyword);
                     });
+                    errors.push("Resim uygun formatta değil");
                     res.render('addTopic', {
                         errors: errors,
                         mainTopics: myMainTopics,
@@ -182,6 +207,29 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
         });
     }
 });
+
+var mimTypesArray = ["image/bmp", "image/fif", "image/florian", "image/ief", "image/jpeg", "image/pjpeg",
+    "image/pict", "image/png", "image/x-rgb", "image/tiff", "image/x-xbitmap"];
+
+function isImage(mimType) {
+    for (var j = 0; j < mimTypesArray.length; j++) {
+        if (mimTypesArray[j].match(mimType)) return j;
+    }
+    return -1;
+}
+
+// TODO : check out this 
+function checkSize(imageSize) {
+    // assuming max image size 5Mb
+    var maxSize = 5000000;
+    var minSize = 25000;
+
+    if (imageSize < maxSize && imageSize > minSize) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
 
 router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
