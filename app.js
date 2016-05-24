@@ -93,9 +93,8 @@ app.use('/keyword', keyword);
 app.use('/chiefEditor', chiefEditor);
 app.use('/comment', comment);
 app.use('/admin', admin);
-app.use('/profile', publicProfile);
+app.use('/public_profile', publicProfile);
 app.use('/*', notFound);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
