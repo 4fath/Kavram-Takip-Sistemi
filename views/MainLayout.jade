@@ -8,7 +8,9 @@ html
         script(src='../ckeditor/ckeditor.js')
         script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
         link(href='/css/dropdown.css', rel='stylesheet')
+        link(href='/css/awesomplete.css', rel='stylesheet')
         script(src='/js/jquery.min.js')
+        script(src='/js/awesomplete.min.js', async='')
         script(src='/js/dropdown.js', type='text/javascript')
     body
         != messages()
@@ -33,10 +35,14 @@ html
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
-                                form.navbar-form.navbar-left(role='search')
+                                form.navbar-form.navbar-left(role='search', action('/getTopic/#{}'))
                                     .form-group
-                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
-                                        button.btn.btn-default(type='submit') Ara
+                                        //datalist#mylist
+                                        //    each topic in topics
+                                        //        option(value='#{topic._id}') #{topic.name}
+                                        //input.form-control.awesomplete(list='mylist')
+                                        ////input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                        //button.btn.btn-default(type='submit') Ara
 
                                         // Guest access
                                 if !user

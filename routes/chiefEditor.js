@@ -77,6 +77,7 @@ var router = express.Router();
 router.get('/addKeyword', function (req, res) {
     var mySubTopics = [];
     var currentUser = req.user;
+    var userRole = userRoleControl(req.user);
     var query = {chiefEditor: currentUser._id};
     SubTopic.find(query, function (err, subTopics) {
         if (err) throw err;
@@ -84,7 +85,9 @@ router.get('/addKeyword', function (req, res) {
             mySubTopics.push(subTopic)
         });
         res.render('addKeyword', {
-            subTopics: mySubTopics
+            userRole: userRole,
+            subTopics: mySubTopics,
+            roles: req.user.role
         })
     });
 });
@@ -124,7 +127,9 @@ router.post('/addKeyword', function (req, res, next) {
             );
         });
     } else {
+        var userRole = userRoleControl(req.user);
         res.render('addKeyword', {
+            userRole: userRole,
             errors: errors,
             keywordName: keywordName,
             keywordDefinition: keywordDefinition
@@ -136,7 +141,7 @@ router.post('/addKeyword', function (req, res, next) {
 router.get('/addEditor', function (req, res, next) {
     var currentUser = req.user;
     var myKeywords = [];
-
+    var userRole = userRoleControl(req.user);
     var queryForSubTopic = {chiefEditor: currentUser._id};
     SubTopic.find(queryForSubTopic, function (err, subTopic) {
         if (err) throw err;
@@ -157,7 +162,9 @@ router.get('/addEditor', function (req, res, next) {
                 if (err) throw err;
                 res.render('addEditor', {
                     myUser: users,
-                    myKeywords: keywords
+                    myKeywords: keywords,
+                    userRole: userRole,
+                    roles: req.user.role
                 });
             });
         });
@@ -251,6 +258,28 @@ router.post('/addEditor', function (req, res, next) {
 
 
 });
+
+function userRoleControl(user) {
+    var isAdmin = false;
+    var isChief = false;
+    var isEditor = false;
+    user.role.forEach(function (userRole) {
+        if (userRole == 'admin')
+            isAdmin = true;
+        if (userRole == 'chiefEditor')
+            isChief = true;
+        if (userRole == 'editor')
+            isEditor = true;
+    });
+    var userRole = "author";
+    if (isAdmin)
+        userRole = "admin";
+    else if (isChief)
+        userRole = "chiefEditor";
+    else if (isEditor)
+        userRole = "editor";
+    return userRole;
+}
 
 
 module.exports = router;

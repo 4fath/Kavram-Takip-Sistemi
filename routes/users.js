@@ -342,6 +342,24 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
             }
         ], function (err) {
             if (err) return (err);
+            var isAdmin = false;
+            var isChief = false;
+            var isEditor = false;
+            currentUser.role.forEach(function (userRole) {
+                if (userRole == 'admin')
+                    isAdmin = true;
+                if (userRole == 'chiefEditor')
+                    isChief = true;
+                if (userRole == 'editor')
+                    isEditor = true;
+            });
+            var userRole = "author";
+            if (isAdmin)
+                userRole = "admin";
+            else if (isChief)
+                userRole = "chiefEditor";
+            else if (isEditor)
+                userRole = "editor";
             console.log(err);
             console.log("sonuclandi");
             res.render('admin', {
@@ -359,6 +377,7 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
                 userLastName: currentUser.lastName,
                 useremail: currentUser.email,
                 roles: currentUser.role,
+                userRole: userRole,
                 username: currentUser.username,
                 topics: displayTopics
             });
@@ -423,6 +442,7 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
     var myWaitingAllowSubTopics = [];
     var displayUser = {};
     var displayTopics = [];
+    var userRole = userRoleControl(req.user);
     async.parallel([
         function (callback) {
             User.findById(userId, function (err, user) {
@@ -449,7 +469,7 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
         if (err) return (err);
         console.log(currentUser.firstName);
         res.render('chiefEditorProfile', {
-            userRole: displayUser.role,
+            userRole: userRole,
             userFirstName: currentUser.firstName,
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
@@ -534,7 +554,7 @@ router.post('/chiefEditorProfile', function (req, res) {
     req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
     req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
     var errors = req.validationErrors();
-
+    var userRole = userRoleControl(req.user);
     if (!errors) {
         var query = {_id: currentUser._id};
 
@@ -560,7 +580,8 @@ router.post('/chiefEditorProfile', function (req, res) {
             userLastName: userLastName,
             username: userName,
             useremail: userEmail,
-            user: currentUser
+            user: currentUser,
+            userRole: userRole
         });
     }
 });
@@ -577,7 +598,7 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     var displayUser = {};
     var displayTopics = [];
     var currentUser = req.user;
-
+    var userRole = userRoleControl(req.user);
     async.parallel([
         function (callback) {
             User.findById(userId, function (err, user) {
@@ -659,7 +680,7 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
             myTopicsAsDraft: myTopicAsDraft,
             mySubTopics: mySubTopics,
             myWaitingAllowRequests: myWaitingAllowTopics,
-            userRole: displayUser.role,
+            userRole: userRole,
             userFirstName: currentUser.firstName,
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
@@ -682,7 +703,7 @@ router.post('/editorProfile', function (req, res) {
     req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
     req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
     var errors = req.validationErrors();
-
+    var userRole = userRoleControl(req.user);
     if (!errors) {
         var query = {_id: currentUser._id};
 
@@ -708,7 +729,8 @@ router.post('/editorProfile', function (req, res) {
             userLastName: userLastName,
             username: userName,
             useremail: userEmail,
-            user: currentUser
+            user: currentUser,
+            userRole: userRole
         });
     }
 });
@@ -719,6 +741,7 @@ router.get('/authorProfile', function (req, res, next) {
     var displayUser = {};
     var displayTopics = [];
     var currentUser = req.user;
+    var userRole = userRoleControl(req.user);
     async.parallel([
         function (callback) {
             User.findById(userId, function (err, user) {
@@ -743,7 +766,7 @@ router.get('/authorProfile', function (req, res, next) {
         if (err) return (err);
         console.log(currentUser.firstName);
         res.render('user_profile',{
-            userRole : displayUser.role,
+            userRole: userRole,
             userFirstName: currentUser.firstName,
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
@@ -766,7 +789,7 @@ router.post('/authorProfile', function (req, res) {
     req.checkBody('username', 'Kullanıcı adı alanı boş olamaz.').notEmpty();
     req.checkBody('useremail', 'Kullanıcı email alanı boş olamaz').notEmpty();
     var errors = req.validationErrors();
-
+    var userRole = userRoleControl(req.user);
     if (!errors) {
         var query = {_id: currentUser._id};
 
@@ -792,7 +815,8 @@ router.post('/authorProfile', function (req, res) {
             userLastName: userLastName,
             username: userName,
             useremail: userEmail,
-            user: currentUser
+            user: currentUser,
+            userRole: userRole
         });
     }
 });
@@ -847,7 +871,7 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
         res.redirect('/');
     }
     var userID = user._id;
-    
+    var userRole = userRoleControl(req.user);
     var query = {editor : userID};
 
     Keyword.find(query, function (err, keywords) {
@@ -870,7 +894,8 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
                 });
 
                 res.render('onaydakiTopicler', {
-                    onayBekleyenler: onayBekleyenTopicler
+                    onayBekleyenler: onayBekleyenTopicler,
+                    userRole: userRole
                 })
 
             })
@@ -917,13 +942,15 @@ router.get('/following_list/:userId', function (req, res, next) {
     var topicList = [];
     var takipEdilenler = [];
     var userId = req.params.userId;
+    var userRole = userRoleControl(req.user);
     console.log(userId);
-
+    console.log(userRole);
+    var currentUser;
     User.findById(userId, function (err, user) {
         if (err) throw (err);
         console.log("Buraya gelebildik");
         console.log(user);
-
+        currentUser = user;
         user.followingTopics.forEach(function (following) {
             takipEdilenler.push(following);
         });
@@ -938,7 +965,9 @@ router.get('/following_list/:userId', function (req, res, next) {
                     if (i == takipEdilenler.length) {
                         res.render('following_topics', {
                             takipEdilenlerTopicler: topicList,
-                            takipEdilenler: takipEdilenler
+                            takipEdilenler: takipEdilenler,
+                            roles: currentUser.role,
+                            userRole: userRole
                         });
                     }
                 });
@@ -946,7 +975,9 @@ router.get('/following_list/:userId', function (req, res, next) {
         }
         else {
             res.render('following_topics', {
-                takipEdilenler: takipEdilenler
+                takipEdilenler: takipEdilenler,
+                roles: req.user.role,
+                userRole: userRole
             });
         }
 
@@ -965,6 +996,28 @@ function ensureAuthentication(req, res, next) {
 function isAdmin(req, res, next) {
     if (req.user.role == 'admin') {
     }
+}
+
+function userRoleControl(user) {
+    var isAdmin = false;
+    var isChief = false;
+    var isEditor = false;
+    user.role.forEach(function (userRole) {
+        if (userRole == 'admin')
+            isAdmin = true;
+        if (userRole == 'chiefEditor')
+            isChief = true;
+        if (userRole == 'editor')
+            isEditor = true;
+    });
+    var userRole = "author";
+    if (isAdmin)
+        userRole = "admin";
+    else if (isChief)
+        userRole = "chiefEditor";
+    else if (isEditor)
+        userRole = "editor";
+    return userRole;
 }
 
 module.exports = router;

@@ -230,7 +230,7 @@ router.get('/', function (req, res, next) {
                 // } else {
                 //     slicedTopics = onerilenTopicler.slice(0, onerilenTopicler.length);
                 // }
-
+                var topicNames = [];
                 MainTopic.findById(MainTopicsId, function (err, mainTopic) {
                     if (err) throw err;
                     SubTopic.findById(SubTopicId, function (err, subTopic) {
@@ -241,31 +241,32 @@ router.get('/', function (req, res, next) {
                             User.findById(randomTopic.author, function (err, user) {
                                 if (err) throw err;
                                 console.log(followControl);
+                                Topic.find({}, function (err, topics) {
+                                    res.render('kavram_takip', {
+                                        title: 'Kavram Takip Sistemi',
+                                        mainTopics: myMainTopics,
+                                        subTopics: mySubTopics,
+                                        topics: topics,
+                                        userRole: userRole,
 
-                                res.render('kavram_takip', {
-                                    title: 'Kavram Takip Sistemi',
-                                    mainTopics: myMainTopics,
-                                    subTopics: mySubTopics,
-                                    topics: myTopics,
+                                        followerControl: followControl,
 
-                                    userRole: userRole,
+                                        screenMainTopic: mainTopic,
 
-                                    followerControl: followControl,
+                                        screenSubTopic: subTopic,
 
-                                    screenMainTopic: mainTopic,
+                                        screenKeyword: keyword,
 
-                                    screenSubTopic: subTopic,
+                                        screenTopic: randomTopic,
 
-                                    screenKeyword: keyword,
+                                        topicUser: user,
 
-                                    screenTopic: randomTopic,
+                                        takipEdilenler: takipEdilenListesi,
 
-                                    topicUser: user,
-
-                                    takipEdilenler: takipEdilenListesi,
-
-                                    onerilenTopicler: onerilenTopicler // TODO : think about that
-                                });
+                                        onerilenTopicler: onerilenTopicler // TODO : think about that
+                                    });
+                                })
+                                
                             })
                         });
 

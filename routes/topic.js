@@ -561,6 +561,7 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
 router.get('/onApprove', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
     var onApprovedTopics = [];
+    var userRole = userRoleControl(req.user);
     var query = {author: currentUser._id, allowStatus: {stage: 0, status: false,}};
     Topic.find(query, function (err, topics) {
         if (err) throw err;
@@ -570,35 +571,44 @@ router.get('/onApprove', ensureAuthentication, function (req, res, next) {
             console.log(topic.name);
         });
         res.render('onArrovedTopic', {
-            onApprovedTopics: onApprovedTopics
+            onApprovedTopics: onApprovedTopics,
+            roles: req.user.role,
+            userRole: userRole
         });
     });
 });
 
 router.get('/myRejectedTopics', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
+    var userRole = userRoleControl(req.user);
     var query = {author: currentUser._id, allowStatus: {stage: -1, status: false}};
     Topic.find(query, function (err, topics) {
         if (err) throw err;
         res.render('rejectedTopics', {
-            rejectedTopics: topics
+            rejectedTopics: topics,
+            roles: req.user.role,
+            userRole: userRole
         });
     });
 });
 
 router.get('/myDrafts', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
+    var userRole = userRoleControl(req.user);
     var query = {author: currentUser._id, isDraft: true};
     Topic.find(query, function (err, topics) {
         if (err) throw err;
         res.render('onDraftTopics', {
-            myDraftTopics: topics
+            myDraftTopics: topics,
+            roles: req.user.role,
+            userRole: userRole
         });
     });
 });
 
 router.get('/myTopics', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
+    var userRole = userRoleControl(req.user);
     var query = {
         author: currentUser._id,
         isDraft: false,
@@ -607,7 +617,9 @@ router.get('/myTopics', ensureAuthentication, function (req, res, next) {
     Topic.find(query, function (err, topics) {
         if (err) throw err;
         res.render('myTopics', {
-            myTopics: topics
+            myTopics: topics,
+            roles: req.user.role,
+            userRole: userRole
         });
     });
 
@@ -682,6 +694,28 @@ function ensureAuthentication(req, res, next) {
         return next();
     }
     res.redirect('/');
+}
+
+function userRoleControl(user) {
+    var isAdmin = false;
+    var isChief = false;
+    var isEditor = false;
+    user.role.forEach(function (userRole) {
+        if (userRole == 'admin')
+            isAdmin = true;
+        if (userRole == 'chiefEditor')
+            isChief = true;
+        if (userRole == 'editor')
+            isEditor = true;
+    });
+    var userRole = "author";
+    if (isAdmin)
+        userRole = "admin";
+    else if (isChief)
+        userRole = "chiefEditor";
+    else if (isEditor)
+        userRole = "editor";
+    return userRole;
 }
 
 module.exports = router;

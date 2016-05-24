@@ -18,8 +18,12 @@ block content
                                 a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
                             if screenKeyword
                                 a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
-                            if topic
-                                a(href='/topic/getTopic/#{topic._id}') #{topic.name}
+                        h1
+                            a(href='/topic/getTopic/#{topic._id}') #{topic.name}
+
+                        h4
+                            i(style='color:#747474;')
+                                | #{topic.abstract}
 
                         | !{topic.definition}
                         .row

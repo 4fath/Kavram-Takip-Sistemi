@@ -1,6 +1,7 @@
 extends MainLayout
 
 block content
+
     .row
         .col-md-1
         .col-md-10
@@ -24,18 +25,32 @@ block content
                                 a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
                             if screenKeyword
                                 a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
+                        h1
+                            a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
+                        if user
+                            h4
+                                i(style='color:#747474;')
+                                    | #{screenTopic.abstract}
+                        if user
                             if screenTopic
-                                a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
-
-                        if screenTopic
-                            | !{screenTopic.definition}
-                            if topicUser
-                                .row
-                                    .col-md-2
-                                        a(href='/#{screenTopic.author}') #{topicUser.username}
-                                    .col-md-7
-                                    .col-md-3
-                                        span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
+                                | !{screenTopic.definition}
+                                if topicUser
+                                    .row
+                                        .col-md-2
+                                            a(href='/#{screenTopic.author}') #{topicUser.username}
+                                        .col-md-7
+                                        .col-md-3
+                                            span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
+                        else
+                            if screenTopic
+                                | !{screenTopic.abstract}
+                                if topicUser
+                                    .row
+                                        .col-md-2
+                                            a(href='/#{screenTopic.author}') #{topicUser.username}
+                                        .col-md-7
+                                        .col-md-3
+                                            span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
                         .row
                             if user
                                 if screenTopic

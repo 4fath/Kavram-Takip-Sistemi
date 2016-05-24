@@ -18,26 +18,29 @@ block solMenu
             #collapseOne.panel-collapse.collapse
                 .panel-body
                     table.table
-                        if user.role == 'admin'
+                        if userRole == 'admin'
                             tr
                                 td
                                     span.glyphicon.glyphicon-pencil.text-primary
                                     a(href='/user/adminProfile') Profil Ayarları
-                        if user.role == 'chiefEditor'
-                            tr
-                                td
-                                    span.glyphicon.glyphicon-pencil.text-primary
-                                    a(href='/user/chiefEditorProfile') Profil Ayarları
-                        if user.role == 'editor'
-                            tr
-                                td
-                                    span.glyphicon.glyphicon-pencil.text-primary
-                                    a(href='/user/editorProfile') Profil Ayarları
-                        if user.role == 'author'
-                            tr
-                                td
-                                    span.glyphicon.glyphicon-pencil.text-primary
-                                    a(href='/user/authorProfile') Profil Ayarları
+                        else
+                            if userRole == 'chiefEditor'
+                                tr
+                                    td
+                                        span.glyphicon.glyphicon-pencil.text-primary
+                                        a(href='/user/chiefEditorProfile') Profil Ayarları
+                            else
+                                if userRole == 'editor'
+                                    tr
+                                        td
+                                            span.glyphicon.glyphicon-pencil.text-primary
+                                            a(href='/user/editorProfile') Profil Ayarları
+                                else
+                                    if userRole == 'author'
+                                        tr
+                                            td
+                                                span.glyphicon.glyphicon-pencil.text-primary
+                                                a(href='/user/authorProfile') Profil Ayarları
                         tr
                             td
                                 span.glyphicon.glyphicon-envelope
@@ -52,7 +55,7 @@ block solMenu
                         //        a(href='http://www.jquery2dotnet.com') Comments
                         //        span.badge 42
         each role in roles
-            if user.role == 'admin'
+            if role == 'admin'
                 .panel.panel-default
                     .panel-heading
                         h4.panel-title

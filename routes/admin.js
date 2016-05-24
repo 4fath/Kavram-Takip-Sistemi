@@ -9,6 +9,7 @@ var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
 var Keyword = require('../models/Keyword');
 var Topic = require('../models/Topic');
+var user = require('./users');
 
 var User = require('../models/User');
 
@@ -87,7 +88,12 @@ router.get('/', function (req, res, next) {
 
 // DONE
 router.get('/addMainTopic', function (req, res) {
-    res.render('addMainTopic');
+    var userRole = userRoleControl(req.user);
+    res.render('addMainTopic',
+        {
+            userRole: userRole,
+            roles: req.user.role
+        });
 });
 
 // DONE
@@ -96,7 +102,7 @@ router.post('/addMainTopic', function (req, res) {
 
     var name = req.body.mainTopicName;
     var definition = req.body.mainTopicDefinition;
-
+    var userRole = userRoleControl(req.user);
     req.checkBody('mainTopicName', 'isim bos olamaz').notEmpty();
     req.checkBody('mainTopicDefinition', 'isim bos olamaz').notEmpty();
 
@@ -125,13 +131,14 @@ router.post('/addMainTopic', function (req, res) {
         res.render('addMainTopic', {
             errors: errors,
             name: name,
-            definition: definition
+            definition: definition,
+            userRole: userRole
         });
     }
 });
 
 router.get('/addSubTopic', function (req, res) {
-
+    var userRole = userRoleControl(req.user);
     var myMainTopics = [];
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
@@ -139,7 +146,9 @@ router.get('/addSubTopic', function (req, res) {
             myMainTopics.push(mainTopic)
         });
         res.render('addSubTopic', {
-            mainTopics: myMainTopics
+            mainTopics: myMainTopics,
+            roles: req.user.role,
+            userRole: userRole
         })
     });
 });
@@ -148,7 +157,7 @@ router.get('/addSubTopic', function (req, res) {
 router.post('/addSubTopic', function (req, res, next) {
     var currentUserId = req.user._id;
     var mainTopicId = req.body.mainTopicId;
-
+    var userRole = userRoleControl(req.user);
     var subTopicName = req.body.subTopicName;
     var subTopicDefinition = req.body.subTopicDefinition;
     req.checkBody('subTopicName', "Bu kısım boş olmamlı.").notEmpty();
@@ -183,7 +192,8 @@ router.post('/addSubTopic', function (req, res, next) {
         res.render('addSubTopic', {
             errors: errors,
             subTopicName: subTopicName,
-            subTopicDefinition: subTopicDefinition
+            subTopicDefinition: subTopicDefinition,
+            userRole: userRole
         });
     }
 });
@@ -215,10 +225,13 @@ router.get('/addChiefEditor', function (req, res, next) {
         }
     ], function (err) {
         if (err) return (err);
+        var userRole = userRoleControl(req.user);
         res.render('addChiefEditor', {
             mySubTopics: mySubTopics,
             myUsers: myUsers,
-            user: currentUser
+            user: currentUser,
+            userRole: userRole,
+            roles: currentUser.role
         });
     });
 });
@@ -269,19 +282,44 @@ router.post('/addChiefEditor', function (req, res, next) {
             }
         ], function (err) {
             if (err) return (err);
+
             console.log('All went fine');
             req.flash('success', 'Başarılı bir şekilde atama yapılmıştır');
             res.redirect('/admin/addChiefEditor');
         });
 
     } else {
+        var userRole = userRoleControl(req.user);
         res.render('addChiefEditor', {
+            userRole: userRole,
             errors: errors,
             user: req.user
         })
     }
 
 });
+
+function userRoleControl(user) {
+    var isAdmin = false;
+    var isChief = false;
+    var isEditor = false;
+    user.role.forEach(function (userRole) {
+        if (userRole == 'admin')
+            isAdmin = true;
+        if (userRole == 'chiefEditor')
+            isChief = true;
+        if (userRole == 'editor')
+            isEditor = true;
+    });
+    var userRole = "author";
+    if (isAdmin)
+        userRole = "admin";
+    else if (isChief)
+        userRole = "chiefEditor";
+    else if (isEditor)
+        userRole = "editor";
+    return userRole;
+}
 
 module.exports = router;
 
