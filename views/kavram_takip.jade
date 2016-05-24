@@ -37,7 +37,7 @@ block content
                                 if topicUser
                                     .row
                                         .col-md-2
-                                            a(href='/#{screenTopic.author}') #{topicUser.username}
+                                            a(href='/public_profile/getProfile/#{screenTopic.author}') #{topicUser.username}
                                         .col-md-7
                                         .col-md-3
                                             span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}

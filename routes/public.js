@@ -39,19 +39,18 @@ router.get('/getProfile/:userId', function (req, res, next) {
 });
 
 
-router.post('/sendMessage/:toId', function (req, res, next) {
-    console.log(req.params.toId);
+router.post('/sendMessage', function (req, res, next) {
     console.log("Buraya girdi");
     // res.render('not_found');
 
     var fromId = req.user._id;
-    var toId = req.params.toId;
 
-    var subject = req.body.subject;
-    var content = req.body.content;
+    var subject = req.body.messageSubject;
+    var content = req.body.messageContent;
+    var toId = req.body.toId;
 
-    req.checkBody('subject', 'Konu alanınu doldurunuz').notEmpty();
-    req.checkBody('content', 'İçerik alanını doldurunuz').notEmpty();
+    req.checkBody('messageSubject', 'Konu alanınu doldurunuz').notEmpty();
+    req.checkBody('messageContent', 'İçerik alanını doldurunuz').notEmpty();
 
     var errors = req.validationErrors();
 
@@ -73,7 +72,7 @@ router.post('/sendMessage/:toId', function (req, res, next) {
 
 
     } else {
-        console.log("hata var");
+        console.log(errors);
         res.sendStatus(404);
     }
     

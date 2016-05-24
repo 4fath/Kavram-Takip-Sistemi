@@ -23,16 +23,16 @@ block content
                             i
                                 p
                                     | Bu kişi kavram yazmamıştır.
-            form(method='post', action='/public_profile/sendMessage',enctype="multipart/form-data")
+            form(method='post', action='/public_profile/sendMessage')
                 .form-group
                     .panel.panel-info.col-md-11
                         .panel-heading  Mesaj Konusu
                         .panel-body
-                            input.form-control(type='text', name='topicName', placeholder='Mesaj Konusunu Giriniz', autofocus='')
-                            textarea.form-control(type='text', name='topicAbstract', placeholder='Göndermek İstediğiniz Mesajı Giriniz', autofocus='')
-                            input.form-control(type='hidden', name='topicName', placeholder='Mesaj Konusunu Giriniz', autofocus='')
+                            input.form-control(type='text', name='messageSubject', placeholder='Mesaj Konusunu Giriniz', autofocus='')
+                            textarea.form-control(name='messageContent',value='messageContent', placeholder='Göndermek İstediğiniz Mesajı Giriniz', autofocus='')
+                            input.form-control(type='hidden', name='toId',value='#{viewUser._id}', placeholder='Mesaj Konusunu Giriniz', autofocus='')
                     .col-md-5
-                        button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
+                        button.btn.btn-success.btn-block(type='submit', value='Submit') Mesaj Gönder
         .col-md-1
 
 
