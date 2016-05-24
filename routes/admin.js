@@ -208,9 +208,7 @@ router.get('/addChiefEditor', function (req, res, next) {
             User.find({}, function (err, users) {
                 if (err) return callback(err);
                 users.forEach(function (user) {
-                    if (user.role == 'author') {
-                        myUsers.push(user);
-                    }
+                    myUsers.push(user);
                 });
                 callback();
             });
@@ -232,7 +230,7 @@ router.post('/addChiefEditor', function (req, res, next) {
 
     req.checkBody('userID', 'Kullanıcı boş olmamalıdır').notEmpty();
     req.checkBody('subTopicID', 'Bilim Alanı boş olmamalıdır').notEmpty();
-
+    var chiefEditorControl = false;
     var errors = req.validationErrors();
     if (!errors) {
         async.parallel([
@@ -241,9 +239,15 @@ router.post('/addChiefEditor', function (req, res, next) {
                     if (err) return callback(err);
                     console.log(user);
                     console.log(user.role);
-                    user.role = 'chiefEditor';
+
+                    user.role.forEach(function (rolee) {
+                        if (rolee == "chiefEditor")
+                            chiefEditorControl = true;
+                    });
+                    if (chiefEditorControl == false)
+                        user.role.push("chiefEditor");
                     user.isChiefEditor = true;
-                    user.subTopic = subTopicId;
+                    user.subTopic.push(subTopicId);
                     user.save(function (err) {
                         if (err) return callback(err);
                         console.log("User Update Edildi");

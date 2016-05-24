@@ -96,6 +96,7 @@ router.post('/register', function (req, res) {
     var alanlar = req.body.alanlar;
     var interests = [];
     console.log(alanlar);
+
     // form validation
     req.checkBody('firstName', 'isim bos olamaz').notEmpty();
     req.checkBody('lastName', 'soyisim bos olamaz').notEmpty();
@@ -104,21 +105,26 @@ router.post('/register', function (req, res) {
     req.checkBody('username', 'kullanıcı adi bos olamaz').notEmpty();
     req.checkBody('password', 'şifre gerekli').notEmpty();
     req.checkBody('passwordConfirm', 'iki şifre de uyuşmalıdır').equals(req.body.password);
+    req.checkBody('alanlar', 'En az bir tane ilgi alani seçilmelidir ').notEmpty();
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
     // check errors
         var errors = req.validationErrors();
         if (errors) {
-            res.render('signup', {
-                errors: errors,
-                firstName: firstName,
-                lastName: lastName,
-                email: email,
-                username: username,
-                password: password,
-                passwordConfirm: passwordConfirm,
-                mainTopics: mainTopics
+            Keyword.find({}, function (err, keywords) {
+                res.render('signup', {
+                    errors: errors,
+                    firstName: firstName,
+                    lastName: lastName,
+                    email: email,
+                    username: username,
+                    password: password,
+                    passwordConfirm: passwordConfirm,
+                    mainTopics: mainTopics,
+                    keywords: keywords
+                });
             });
+
         } else {
             var i = 0;
             console.log(alanlar + "şu birrrrr");
@@ -144,7 +150,8 @@ router.post('/register', function (req, res) {
                             email: email,
                             username: username,
                             password: password,
-                            interests: interests
+                            interests: interests,
+                            role: ['author']
                         });
 
                         User.createUser(newUser, function (err, user) {
@@ -188,7 +195,7 @@ router.get('/login', function (req, res) {
 
 router.get('/logout', function (req, res) {
     req.logout();
-    req.flash("success", "Yine Bekleriz .. ");
+    req.flash("success", "Başarılı bir şekilde çıkış yapıldı.");
     res.redirect('/');
 });
 
@@ -239,7 +246,12 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
     console.log("buraya girdi");
     console.log(req.user.role);
-    if (req.user.role == 'admin') {
+    var adminControl = false;
+    currentUser.role.forEach(function (userRole) {
+        if (userRole == "admin")
+            adminControl = true;
+    });
+    if (adminControl) {
         var myMainTopics, mySubTopics, myKeywords, myTopics, myComments;
         var myUsers = [];
         var myAuthors = [];
@@ -346,7 +358,7 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
                 userFirstName: currentUser.firstName,
                 userLastName: currentUser.lastName,
                 useremail: currentUser.email,
-                role: "Yönetici",
+                roles: currentUser.role,
                 username: currentUser.username,
                 topics: displayTopics
             });
@@ -442,7 +454,7 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
             username: currentUser.username,
-            role: "Baş Editör",
+            roles: req.user.role,
             topics: displayTopics
         });
     });
@@ -651,7 +663,7 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
             userFirstName: currentUser.firstName,
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
-            role: "Editör",
+            roles: req.user.role,
             username: currentUser.username,
             topics: displayTopics
         });
@@ -736,7 +748,7 @@ router.get('/authorProfile', function (req, res, next) {
             userLastName: currentUser.lastName,
             useremail: currentUser.email,
             username: currentUser.username,
-            role: "Yazar",
+            roles: req.user.role,
             topics : displayTopics
         })
     });
@@ -841,26 +853,29 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     Keyword.find(query, function (err, keywords) {
         if (err) throw err;
         console.log("bulunan keywords " + keywords);
-        var currentKeyword = keywords[0];
-        var keywordID = currentKeyword._id;
-        var onayBekleyenTopicler = [];
-        console.log(keywordID);
-        var query = {allowStatus: {stage: 0, status: false}};
-        Topic.find(query, function (err, topics) {
-            if (err) throw err;
+        keywords.forEach(function (keyword) {
+            var currentKeyword = keyword;
+            var keywordID = currentKeyword._id;
+            var onayBekleyenTopicler = [];
+            console.log(keywordID);
+            var query = {allowStatus: {stage: 0, status: false}};
+            Topic.find(query, function (err, topics) {
+                if (err) throw err;
 
-            topics.forEach(function (topic) {
-                if (keywordID.toString() === String(topic.relevantKeywords[0])) {
-                    console.log("uygun bulundu");
-                    onayBekleyenTopicler.push(topic);
-               }
-            });
+                topics.forEach(function (topic) {
+                    if (keywordID.toString() === String(topic.relevantKeywords[0])) {
+                        console.log("uygun bulundu");
+                        onayBekleyenTopicler.push(topic);
+                    }
+                });
 
-            res.render('onaydakiTopicler', {
-                onayBekleyenler : onayBekleyenTopicler
+                res.render('onaydakiTopicler', {
+                    onayBekleyenler: onayBekleyenTopicler
+                })
+
             })
-            
         })
+
     })
     
 });

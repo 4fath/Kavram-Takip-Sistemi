@@ -16,19 +16,22 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
     var myMainTopics = [];
     var mySubTopics = [];
     var myKeywords = [];
+
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
         mainTopics.forEach(function (mainTopic) {
             myMainTopics.push(mainTopic);
         });
 
-        SubTopic.find({}, function (err, subTopics) {
+        var query = {hasChiefEditor: true};
+        SubTopic.find(query, function (err, subTopics) {
             if (err) throw err;
             subTopics.forEach(function (subTopic) {
                 mySubTopics.push(subTopic);
             });
 
-            Keyword.find({}, function (err, keywords) {
+            var query = {hasEditor: true};
+            Keyword.find(query, function (err, keywords) {
                 if (err) throw err;
                 keywords.forEach(function (keyword) {
                     myKeywords.push(keyword);
@@ -142,31 +145,32 @@ router.post('/addTopic', upload.single('topic_image'), ensureAuthentication, fun
 
                 keyword.save(function (err) {
                     if (err) throw err;
-                    var myMainTopics = [];
-                    var mySubTopics = [];
-                    var myKeywords = [];
-                    MainTopic.find({}, function (err, mainTopics) {
-                        if (err) throw err;
-                        mainTopics.forEach(function (mainTopic) {
-                            myMainTopics.push(mainTopic);
-                        });
-
-                        SubTopic.find({}, function (err, subTopics) {
-                            if (err) throw err;
-                            subTopics.forEach(function (subTopic) {
-                                mySubTopics.push(subTopic);
-                            });
-
-                            Keyword.find({}, function (err, keywords) {
-                                if (err) throw err;
-                                keywords.forEach(function (keyword) {
-                                    myKeywords.push(keyword);
-                                });
-                                req.flash('success', "Helal sana !");
-                                res.redirect('/');
-                            });
-                        });
-                    });
+                    req.flash('success', "Eklediğiniz Kavram sistemimize eklenmiştir, onaylandıktan sonra sistemde görünecektir !");
+                    res.redirect('/');
+                    // var myMainTopics = [];
+                    // var mySubTopics = [];
+                    // var myKeywords = [];
+                    // MainTopic.find({}, function (err, mainTopics) {
+                    //     if (err) throw err;
+                    //     mainTopics.forEach(function (mainTopic) {
+                    //         myMainTopics.push(mainTopic);
+                    //     });
+                    //
+                    //     SubTopic.find({}, function (err, subTopics) {
+                    //         if (err) throw err;
+                    //         subTopics.forEach(function (subTopic) {
+                    //             mySubTopics.push(subTopic);
+                    //         });
+                    //
+                    //         Keyword.find({}, function (err, keywords) {
+                    //             if (err) throw err;
+                    //             keywords.forEach(function (keyword) {
+                    //                 myKeywords.push(keyword);
+                    //             });
+                    //
+                    //         });
+                    //     });
+                    // });
                 });
             });
         });
@@ -265,6 +269,8 @@ router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, n
             topic.save(function (err) {
                 if (err) throw err;
             });
+
+            // TODO : do it async parallel
             MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
                 if (err) throw err;
                 SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
@@ -630,7 +636,7 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
 
             topic.save(function (err) {
                 if (err) throw err;
-                req.flash('success', "Helal sana !");
+                req.flash('success', "Eklediğiniz Kavram sistemimize eklenmiştir, onaylandıktan sonra sistemde görünecektir !");
                 res.redirect('/');
             });
         });

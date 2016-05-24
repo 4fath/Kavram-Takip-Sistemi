@@ -170,7 +170,25 @@ router.get('/', function (req, res, next) {
                         followControl = true;
                     }
                 });
-
+                var isAdmin = false;
+                var isChief = false;
+                var isEditor = false;
+                currentUser.role.forEach(function (userRole) {
+                    if (userRole == 'admin')
+                        isAdmin = true;
+                    if (userRole == 'chiefEditor')
+                        isChief = true;
+                    if (userRole == 'editor')
+                        isEditor = true;
+                });
+                var userRole = "author";
+                if (isAdmin)
+                    userRole = "admin";
+                else if (isChief)
+                    userRole = "chiefEditor";
+                else if (isEditor)
+                    userRole = "editor";
+                
 
                 // BURASI 
                 // myTopics.forEach(function (topic) {
@@ -229,6 +247,8 @@ router.get('/', function (req, res, next) {
                                     mainTopics: myMainTopics,
                                     subTopics: mySubTopics,
                                     topics: myTopics,
+
+                                    userRole: userRole,
 
                                     followerControl: followControl,
 

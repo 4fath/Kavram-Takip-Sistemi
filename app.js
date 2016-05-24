@@ -24,6 +24,7 @@ var comment = require('./routes/comment');
 var admin = require('./routes/admin');
 var chiefEditor = require('./routes/chiefEditor');
 var notFound = require('./routes/notFound');
+var publicProfile = require('./routes/public');
 
 var app = express();
 
@@ -92,7 +93,9 @@ app.use('/keyword', keyword);
 app.use('/chiefEditor', chiefEditor);
 app.use('/comment', comment);
 app.use('/admin', admin);
+app.use('/profile', publicProfile);
 app.use('/*', notFound);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

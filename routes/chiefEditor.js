@@ -135,7 +135,6 @@ router.post('/addKeyword', function (req, res, next) {
 
 router.get('/addEditor', function (req, res, next) {
     var currentUser = req.user;
-    var queryForUser = {role: 'author'};
     var myKeywords = [];
 
     var queryForSubTopic = {chiefEditor: currentUser._id};
@@ -143,21 +142,17 @@ router.get('/addEditor', function (req, res, next) {
         if (err) throw err;
         console.log(subTopic[0].name);
         console.log("----------------------");
-        User.find(queryForUser, function (err, users) {
+        User.find({}, function (err, users) {
             if (err) throw err;
+
+            /* NOTE :
+             *  Eğer hoca birden fazla kişiyi bir keyword e atmak 
+             *  isterse buraya da bakılacak.
+             * */
+            
             var queryForKeyword = {hasEditor: false, subTopic: subTopic[0]};
             Keyword.find(queryForKeyword, function (err, keywords) {
-                console.log(" " + keywords.length)
-                // keywords.forEach(function (keyword) {
-                //     console.log(subTopic[0]._id+ "sub");
-                //     console.log(keyword.subTopic+ "key");
-                //     console.log("=======");
-                //     if ((keyword.subTopic).toString() === subTopic[0]._id.toString()){
-                //
-                //         myKeywords.push(keyword);
-                //         console.log(keyword.name);
-                //     }
-                // });
+                console.log(" " + keywords.length);
                 console.log(myKeywords.name);
                 if (err) throw err;
                 res.render('addEditor', {
@@ -214,20 +209,32 @@ router.post('/addEditor', function (req, res, next) {
         function (callback) {
             Keyword.findById(currentKeyword, function (err, keyword) {
                 if (err) return callback(err);
+                keyword.hasEditor = true;
                 keyword.editor = currentUser;
                 keyword.save(function (err) {
                     if (err) return callback(err);
                     console.log("Keyword update edildi");
-                })
+                });
             });
             callback();
         },
         function (callback) {
             User.findById(currentUser, function (err, user) {
                 if (err) return callback(err);
-                user.role = 'editor';
+                var editorControl = false;
+                user.role.forEach(function (userRole) {
+                    if (userRole == 'editor') {
+                        editorControl = true;
+                    }
+                });
+
+                if (!editorControl) {
+                    user.role.push('editor');
+                }
+                
                 user.isEditor = true;
-                user.keyword = currentKeyword;
+                user.keyword.push(currentKeyword);
+                
                 user.save(function (err) {
                     if (err) return callback(err);
                     console.log("User update edildi");

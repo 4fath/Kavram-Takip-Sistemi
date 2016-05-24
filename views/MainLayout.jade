@@ -56,23 +56,24 @@ html
                                             button.btn.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';")
                                                 span.glyphicon.glyphicon-plus(aria-hidden='true')
                                                     |  Kavram Ekle
-                                            if user.role == 'editor'
-                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
-                                                    | Editör Profil
+                                            if userRole == 'admin'
+                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';") Ayarlar
                                             else
-                                                if user.role == 'admin'
-                                                    button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
-                                                        | Admin Profil
+                                                if userRole == 'chiefEditor'
+                                                    a.btn.btn-info.btn-md(href='/user/chiefEditorProfile')
+                                                        span.glyphicon.glyphicon-user
+                                                        |  Ayarlar
                                                 else
-                                                    if user.role == 'author'
-                                                        a.btn.btn-info.btn-md(href='/user/authorProfile')
-                                                            span.glyphicon.glyphicon-user
-                                                            |  Profil
+                                                    if userRole == 'editor'
+                                                        button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
+                                                            | Ayarlar
                                                     else
-                                                        if user.role == 'chiefEditor'
-                                                            a.btn.btn-info.btn-md(href='/user/chiefEditorProfile')
+                                                        if userRole == 'author'
+                                                            a.btn.btn-info.btn-md(href='/user/authorProfile')
                                                                 span.glyphicon.glyphicon-user
-                                                                |  Baş Editör Profil
+                                                                |  Ayarlar
+
+
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                 | Çıkış !
                     .row

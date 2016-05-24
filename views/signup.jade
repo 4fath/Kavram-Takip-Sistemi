@@ -41,43 +41,15 @@ block content
                     label Şifre Tekrar
                     input#passwordRepeat.form-control(type='password', name = 'passwordConfirm', placeholder='Şifreyi Tekrar Giriniz')
                 .form-group
-                    label.control-label İlgi Alanlarınız
-                    select(name='alanlar', multiple='multiple')
-                        each keyword in keywords
-                            option(value='#{keyword._id}')  #{keyword.name}
+                    if keywords
+                        label.control-label İlgi Alanlarınız
+                        select(name='alanlar', multiple='multiple')
+                            each keyword in keywords
+                                option(value='#{keyword._id}')  #{keyword.name}
 
-                    script.
-                        $('select').multipleSelect();
+                        script.
+                            $('select').multipleSelect();
 
-                    //dl.dropdown
-                    //    dt
-                    //        a(href='#')
-                    //            span.hida Seçiniz
-                    //            p.multiSel
-                    //    dd
-                    //        .mutliSelect
-                    //            ul
-                    //                each keyword in keywords
-                    //                    li
-                    //                        input(type='checkbox', value='#{keyword._id}', name='alanlar')
-                    //                        | #{keyword._id}
-
-                //.form-group
-                //    label.col-sm-3.control-label Sonuç nedir?
-                //    .col-sm-9
-                //        script(type='text/javascript').
-                //            DrawBotBoot()
-                //        input#Button1(type='button', value='Check', onclick='alert(ValidBotBoot());')
-                //.form-group
-                //    .col-sm-9.col-sm-offset-3
-                //        .checkbox
-                //            label
-                //                input(type='checkbox')
-                //                a(href='#') Lisans sözleşmesini
-                //                | okudum ve kabul ediyorum
-                // /.form-group
-                //.form-group
-                //    .col-sm-9.col-sm-offset-3
                 input.btn.btn-success(name = 'Submit', type = 'submit', value = 'Kayıt Ol')
             .col-md-2
             //form

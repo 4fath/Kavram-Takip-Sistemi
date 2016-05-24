@@ -17,17 +17,15 @@ var router = express.Router();
 router.get('/:keywordId', function (req, res, next) {
     var keywordId = req.params.keywordId;
     console.log(keywordId);
-
-    Topic.find({}, function (err, topics) {
+    var query = {allowStatus: {stage: 1, status: true}};
+    Topic.find(query, function (err, topics) {
         if (err) throw err;
         console.log("girdi");
         var screenTopicArray = [];
         topics.forEach(function (topic) {
-            // TODO : forEach
             console.log(topic);
             if (topic.relevantKeywords[0] == keywordId) {
-                if (topic.allowStatus)
-                    screenTopicArray.push(topic);
+                screenTopicArray.push(topic);
             }
         });
 

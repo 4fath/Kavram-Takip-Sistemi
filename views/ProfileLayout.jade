@@ -46,53 +46,25 @@ html
                                                 | Kaydol
 
                                 if user
-                                    if user.role == 'admin'
-                                        //ul.nav.navbar-nav.navbar-right
-                                            .navbar-form.form-group
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
-                                                    | Chief Editor Ekle #{user.firstName} !
-                                            .navbar-form.form-group
-                                                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addMainTopic';")
-                                                    | Main Topic Ekle #{user.firstName} !
-                                    else
-                                        if user.role == 'chiefEditor'
-                                            //ul.nav.navbar-nav.navbar-right
-                                                .navbar-form.form-group
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                                        |  Editör Ekle #{user.firstName}!
-                                                .navbar-form.form-group
-                                                    button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/addSubTopic';")
-                                                        |  SubTopic Ekle #{user.firstName}!
-                                        else
-                                            if user.role == 'editor'
-                                                ul.nav.navbar-nav.navbar-right
-
-                                            //else
-                                            //    if user.role == 'author'
-                                            //        ul.nav.navbar-nav.navbar-right
-                                            //            .navbar-form.form-group
-                                            //                button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/users/logout';")
-                                            //                    |  Hoşgeldin #{user.firstName}!
-
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
-                                            if user.role == 'admin'
+                                            if userRole == 'admin'
                                                 button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
-                                                    | Admin Profil
+                                                    | Ayarlar
                                             else
-                                                if user.role == 'chiefEditor'
+                                                if userRole == 'chiefEditor'
                                                     button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/chiefEditorProfile';")
-                                                        | Baş Editör Profil
+                                                        | Ayarlar
                                                 else
-                                                    if user.role == 'editor'
+                                                    if userRole == 'editor'
                                                         a.btn.btn-info.btn-md(href='/user/editorProfile')
                                                             span.glyphicon.glyphicon-user
-                                                            |  Editör Profil
+                                                            |  Ayarlar
                                                     else
-                                                        if user.role == 'author'
+                                                        if userRole == 'author'
                                                             a.btn.btn-info.btn-md(href='/user/authorProfile')
                                                                 span.glyphicon.glyphicon-user
-                                                                |  Profil
+                                                                |  Ayarlar
 
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                 | Çıkış !

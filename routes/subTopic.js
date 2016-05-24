@@ -18,20 +18,13 @@ router.get('/:subTopicId', function (req, res, next) {
     var subTopicId = req.params.subTopicId;
     console.log(subTopicId);
 
-    Keyword.find({}, function (err, keywords) {
+    var query = {subTopic: subTopicId, hasEditor: true};
+    Keyword.find(query, function (err, keywords) {
         if (err) throw err;
-
-        var screenKeywordArray = [];
-        keywords.forEach(function (keyword) {
-            // TODO : forEach 
-            if (keyword.subTopic == subTopicId) {
-                screenKeywordArray.push(keyword);
-            }
-        });
 
         MainTopic.find({}, function (err, mainTopics) {
             res.render('show_keyword_list', {
-                keywords: screenKeywordArray,
+                keywords: keywords,
                 title: 'Anahtar Kelimeler',
                 mainTopics : mainTopics
             });

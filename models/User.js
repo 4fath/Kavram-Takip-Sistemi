@@ -25,7 +25,7 @@ var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error'));
 
 db.once('open', function callback() {
-
+    console.log("db once open da");
 });
 
 // /*
@@ -157,12 +157,12 @@ var UserSchema = new Schema({
         trim: true,
         required: false
     },
-    
-    role: {
+
+    role: [{
         type: String,
         require: true,
         default: 'author'
-    },
+    }],
 
     isAdmin: {
         type: Boolean,
@@ -182,15 +182,15 @@ var UserSchema = new Schema({
         default: false
     },
 
-    subTopic: {
+    subTopic: [{
         type: Schema.Types.ObjectId,
         ref: 'SubTopic'
-    },
+    }],
 
-    keyword: {
+    keyword: [{
         type: Schema.Types.ObjectId,
         ref: 'Keyword'
-    },
+    }],
 
     interests: [{
         type: Schema.Types.ObjectId,
