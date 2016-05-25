@@ -16,7 +16,7 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
     var myMainTopics = [];
     var mySubTopics = [];
     var myKeywords = [];
-
+    var newPopTopics = [];
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
         mainTopics.forEach(function (mainTopic) {
@@ -36,11 +36,18 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
                 keywords.forEach(function (keyword) {
                     myKeywords.push(keyword);
                 });
-
-                res.render('addTopic', {
-                    mainTopics: myMainTopics,
-                    subTopics: mySubTopics,
-                    keywords: myKeywords
+                Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
+                    for (var i = 0; i < 2; i++) {
+                        newPopTopics.push(toppics[i]);
+                    }
+                    var userRole = userRoleControl(req.user);
+                    res.render('addTopic', {
+                        mainTopics: myMainTopics,
+                        subTopics: mySubTopics,
+                        keywords: myKeywords,
+                        populerTopics: newPopTopics,
+                        userRole: userRole
+                    });
                 });
             });
         })
@@ -518,6 +525,7 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
     var topicId = req.params.topicId;
     var currentUser = req.user;
     var followControl = false;
+    var userRole = userRoleControl(req.user);
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
         topic.followers.forEach(function (follower) {
@@ -529,6 +537,7 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
         topic.save(function (err) {
             if (err) throw err;
         });
+        var newPopTopics = [];
         MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
             if (err) throw err;
             SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
@@ -540,15 +549,21 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
                         var userName = user.username;
                         MainTopic.find({}, function (err, mainTopics) {
                             if (err) throw err;
-                            console.log(followControl);
-                            res.render('show_topic', {
-                                topic: topic,
-                                userName: userName,
-                                mainTopics: mainTopics,
-                                screenMainTopic: mainTopic,
-                                screenSubTopic: subTopic,
-                                screenKeyword: keyword,
-                                followerControl: followControl
+                            Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
+                                for (var i = 0; i < 2; i++) {
+                                    newPopTopics.push(toppics[i]);
+                                }
+                                res.render('show_topic', {
+                                    topic: topic,
+                                    userName: userName,
+                                    userRole: userRole,
+                                    mainTopics: mainTopics,
+                                    populerTopics: newPopTopics,
+                                    screenMainTopic: mainTopic,
+                                    screenSubTopic: subTopic,
+                                    screenKeyword: keyword,
+                                    followerControl: followControl
+                                });
                             });
                         });
                     });
@@ -657,6 +672,7 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
         var myMainTopics = [];
         var mySubTopics = [];
         var myKeywords = [];
+        var newPopTopics = [];
         MainTopic.find({}, function (err, mainTopics) {
             if (err) throw err;
             mainTopics.forEach(function (mainTopic) {
@@ -674,14 +690,20 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
                     keywords.forEach(function (keyword) {
                         myKeywords.push(keyword);
                     });
-                    res.render('addTopic', {
-                        errors: errors,
-                        mainTopics: myMainTopics,
-                        subTopics: mySubTopics,
-                        keywords: myKeywords,
-                        topicName: topicName,
-                        topicAbstract: topicAbstract,
-                        topicDefinition: topicDefinition
+                    Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
+                        for (var i = 0; i < 2; i++) {
+                            newPopTopics.push(toppics[i]);
+                        }
+                        res.render('addTopic', {
+                            errors: errors,
+                            mainTopics: myMainTopics,
+                            subTopics: mySubTopics,
+                            keywords: myKeywords,
+                            populerTopics: newPopTopics,
+                            topicName: topicName,
+                            topicAbstract: topicAbstract,
+                            topicDefinition: topicDefinition
+                        });
                     });
                 });
             });

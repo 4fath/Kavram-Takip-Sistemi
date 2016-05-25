@@ -104,13 +104,15 @@ html
                             if user
                                 .list-group
                                     span.list-group-item.active(href='#')
-                                        | Takip Edilen Kavramlar
+                                        | Popüler Kavramlar
                                         span#slide-submenu.pull-right
                                             i.fa.fa-times
-                                    a.list-group-item(href='#')
-                                        i.fa
-                                        |  java
-                                        span.badge 124
+                                    if populerTopics
+                                        each populerTopic in populerTopics
+                                            a.list-group-item(href='/topic/getTopic/#{populerTopic._id}')
+                                                i.fa
+                                                |  #{populerTopic.name}
+                                                span.badge #{populerTopic.viewCount}
 
 
                                 .list-group

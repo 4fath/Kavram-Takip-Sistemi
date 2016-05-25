@@ -231,43 +231,60 @@ router.get('/', function (req, res, next) {
                 //     slicedTopics = onerilenTopicler.slice(0, onerilenTopicler.length);
                 // }
                 var topicNames = [];
+                var popTopics = [];
+                var newPopTopics = [];
                 MainTopic.findById(MainTopicsId, function (err, mainTopic) {
                     if (err) throw err;
                     SubTopic.findById(SubTopicId, function (err, subTopic) {
                         if (err) throw err;
                         Keyword.findById(KeywordId, function (err, keyword) {
                             if (err) throw err;
+                            Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
+                                popTopics = toppics;
+                                for (var i = 0; i < 2; i++) {
+                                    newPopTopics.push(popTopics[i]);
+                                    console.log(i);
+                                    console.log(popTopics[i].name);
+                                }
+                                // popTopics.forEach(function (asd) {
+                                //     if (i < 5)
+                                //         newPopTopics.push(asd);
+                                //     i++;
+                                // });
+                                console.log(newPopTopics);
+                                User.findById(randomTopic.author, function (err, user) {
+                                    if (err) throw err;
+                                    console.log(followControl);
+                                    Topic.find({}, function (err, topics) {
+                                        res.render('kavram_takip', {
+                                            title: 'Kavram Takip Sistemi',
+                                            mainTopics: myMainTopics,
+                                            subTopics: mySubTopics,
+                                            topics: topics,
+                                            userRole: userRole,
 
-                            User.findById(randomTopic.author, function (err, user) {
-                                if (err) throw err;
-                                console.log(followControl);
-                                Topic.find({}, function (err, topics) {
-                                    res.render('kavram_takip', {
-                                        title: 'Kavram Takip Sistemi',
-                                        mainTopics: myMainTopics,
-                                        subTopics: mySubTopics,
-                                        topics: topics,
-                                        userRole: userRole,
+                                            followerControl: followControl,
 
-                                        followerControl: followControl,
+                                            screenMainTopic: mainTopic,
 
-                                        screenMainTopic: mainTopic,
+                                            screenSubTopic: subTopic,
 
-                                        screenSubTopic: subTopic,
+                                            screenKeyword: keyword,
 
-                                        screenKeyword: keyword,
+                                            screenTopic: randomTopic,
 
-                                        screenTopic: randomTopic,
+                                            topicUser: user,
 
-                                        topicUser: user,
+                                            takipEdilenler: takipEdilenListesi,
 
-                                        takipEdilenler: takipEdilenListesi,
+                                            populerTopics: newPopTopics,
 
-                                        onerilenTopicler: onerilenTopicler // TODO : think about that
-                                    });
-                                })
-                                
-                            })
+                                            onerilenTopicler: onerilenTopicler // TODO : think about that
+                                        });
+                                    })
+
+                                });
+                            });
                         });
 
                     })

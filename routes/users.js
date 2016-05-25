@@ -259,7 +259,8 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
         var myChiefEditors = [];
         var displayUser = {};
         var displayTopics = [];
-
+        var adminSubTopics = [];
+        var adminKeywords = [];
         async.parallel([
             function (callback) {
                 MainTopic.find({}, function (err, mainTopics) {
@@ -342,44 +343,37 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
             }
         ], function (err) {
             if (err) return (err);
-            var isAdmin = false;
-            var isChief = false;
-            var isEditor = false;
-            currentUser.role.forEach(function (userRole) {
-                if (userRole == 'admin')
-                    isAdmin = true;
-                if (userRole == 'chiefEditor')
-                    isChief = true;
-                if (userRole == 'editor')
-                    isEditor = true;
-            });
-            var userRole = "author";
-            if (isAdmin)
-                userRole = "admin";
-            else if (isChief)
-                userRole = "chiefEditor";
-            else if (isEditor)
-                userRole = "editor";
-            console.log(err);
-            console.log("sonuclandi");
-            res.render('admin', {
-                myMainTopics: myMainTopics,
-                mySubTopics: mySubTopics,
-                myKeywords: myKeywords,
-                myTopics: myTopics,
-                myComments: myComments,
-                myUsers: myUsers,
-                myAuthors: myAuthors,
-                myEditors: myEditors,
-                myChiefEditors: myChiefEditors,
-                userRole: displayUser.role,
-                userFirstName: currentUser.firstName,
-                userLastName: currentUser.lastName,
-                useremail: currentUser.email,
-                roles: currentUser.role,
-                userRole: userRole,
-                username: currentUser.username,
-                topics: displayTopics
+            var userRole = userRoleControl(req.user);
+            var query = {chiefEditor: req.user._id};
+            SubTopic.find(query, function (err, subtopics) {
+                if (err) throw (err);
+                adminSubTopics = subtopics;
+                var queryForKeyword = {editor: req.user._id};
+                Keyword.find(queryForKeyword, function (err, keywords) {
+                    if (err) throw (err);
+                    adminKeywords = keywords;
+                    res.render('admin', {
+                        myMainTopics: myMainTopics,
+                        mySubTopics: mySubTopics,
+                        myKeywords: myKeywords,
+                        myTopics: myTopics,
+                        myComments: myComments,
+                        myUsers: myUsers,
+                        myAuthors: myAuthors,
+                        myEditors: myEditors,
+                        myChiefEditors: myChiefEditors,
+                        userRole: displayUser.role,
+                        userFirstName: currentUser.firstName,
+                        userLastName: currentUser.lastName,
+                        useremail: currentUser.email,
+                        roles: currentUser.role,
+                        userRole: userRole,
+                        username: currentUser.username,
+                        topics: displayTopics,
+                        adminSubTopics: adminSubTopics,
+                        adminKeywords: adminKeywords
+                    });
+                });
             });
         });
 
@@ -442,6 +436,8 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
     var myWaitingAllowSubTopics = [];
     var displayUser = {};
     var displayTopics = [];
+    var chiefSubTopics = [];
+    var chiefKeywords = [];
     var userRole = userRoleControl(req.user);
     async.parallel([
         function (callback) {
@@ -468,14 +464,26 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
     ], function (err) {
         if (err) return (err);
         console.log(currentUser.firstName);
-        res.render('chiefEditorProfile', {
-            userRole: userRole,
-            userFirstName: currentUser.firstName,
-            userLastName: currentUser.lastName,
-            useremail: currentUser.email,
-            username: currentUser.username,
-            roles: req.user.role,
-            topics: displayTopics
+        var query = {chiefEditor: userId};
+        SubTopic.find(query, function (err, subtopics) {
+            if (err) throw (err);
+            chiefSubTopics = subtopics;
+            var queryForKeyword = {editor: userId};
+            Keyword.find(queryForKeyword, function (err, keywords) {
+                if (err) throw (err);
+                chiefKeywords = keywords;
+                res.render('chiefEditorProfile', {
+                    userRole: userRole,
+                    userFirstName: currentUser.firstName,
+                    userLastName: currentUser.lastName,
+                    useremail: currentUser.email,
+                    username: currentUser.username,
+                    roles: req.user.role,
+                    topics: displayTopics,
+                    chiefSubTopics: chiefSubTopics,
+                    chiefKeywords: chiefKeywords
+                });
+            });
         });
     });
     
@@ -599,6 +607,7 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     var displayTopics = [];
     var currentUser = req.user;
     var userRole = userRoleControl(req.user);
+    var editorKeywords = [];
     async.parallel([
         function (callback) {
             User.findById(userId, function (err, user) {
@@ -674,19 +683,24 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
 
 
         // editor profilinde , kendi üzerine atanmış subTopiclerin altına ayzılan onaylanmamış topicler gelecek
-
-        res.render('editor_profile', {
-            myTopics: myTopics,
-            myTopicsAsDraft: myTopicAsDraft,
-            mySubTopics: mySubTopics,
-            myWaitingAllowRequests: myWaitingAllowTopics,
-            userRole: userRole,
-            userFirstName: currentUser.firstName,
-            userLastName: currentUser.lastName,
-            useremail: currentUser.email,
-            roles: req.user.role,
-            username: currentUser.username,
-            topics: displayTopics
+        var queryForKeyword = {editor: userId};
+        Keyword.find(queryForKeyword, function (err, keywords) {
+            if (err) throw (err);
+            editorKeywords = keywords;
+            res.render('editor_profile', {
+                myTopics: myTopics,
+                myTopicsAsDraft: myTopicAsDraft,
+                mySubTopics: mySubTopics,
+                myWaitingAllowRequests: myWaitingAllowTopics,
+                userRole: userRole,
+                userFirstName: currentUser.firstName,
+                userLastName: currentUser.lastName,
+                useremail: currentUser.email,
+                roles: req.user.role,
+                username: currentUser.username,
+                topics: displayTopics,
+                editorKeywords: editorKeywords
+            });
         });
     });
 });

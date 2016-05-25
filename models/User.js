@@ -12,7 +12,7 @@ var mongoDBLocalURL = process.env.MONGODB_LOCAL_URL ;
 
 
 // both url working fine Local and Remote
-mongoose.connect(mongoLabURL, function (err) {
+mongoose.connect(mongoDBLocalURL, function (err) {
     if (err) {
         console.log('DB bağlantısında hata oluştu , hata :' + err);
     } else {

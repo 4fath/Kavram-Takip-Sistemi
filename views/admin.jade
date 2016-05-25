@@ -182,9 +182,23 @@ block content
                                 .col-sm-8
                                     input#email.form-control(name='useremail', type='email', placeholder='E-mail', value='#{useremail}')
                             .form-group
-                                label.col-sm-4.control-label(for='role') Rolünüz
-                                .col-sm-8
-                                    input#role.form-control(name='role', type='text', placeholder='Rolünüz', value='#{role}', disabled=true)
+                                label.col-sm-4.control-label Yönetici
+                            .form-group
+                                label.col-sm-4.control-label Baş Editör
+                                .col-sm-6
+                                    .list-group
+                                        each adminSubTopic in adminSubTopics
+                                            a.list-group-item(href='/subTopic/#{adminSubTopic._id}')
+                                                i.fa
+                                                |  #{adminSubTopic.name}
+                            .form-group
+                                label.col-sm-4.control-label Editör
+                                .col-sm-6
+                                    .list-group
+                                        each adminKeyword in adminKeywords
+                                            a.list-group-item(href='/keyword/#{adminKeyword._id}')
+                                                i.fa
+                                                |  #{adminKeyword.name}
                             .form-group
                                 label.col-sm-4.control-label Alanınız
                                 .col-sm-8(ng-app='myApp', ng-controller='myCtrl')
