@@ -236,6 +236,17 @@ router.get('/', function (req, res, next) {
                     });
                 });
 
+                // var lastonerilenTopicler = [];
+                // currentUser.followingTopics.forEach(function (followingTopic) {
+                //     onerilenTopicler.forEach(function (onerilen) {
+                //         if (followingTopic.toString() === (onerilen._id).toString()) {
+                //
+                //         }else {
+                //             lastonerilenTopicler.push(onerilen);
+                //         }
+                //     });
+                // });
+
 
                 console.log("onerilen topicler");
                 console.log(onerilenTopicler);
@@ -287,7 +298,7 @@ router.get('/', function (req, res, next) {
 
                                             populerTopics: newPopTopics,
 
-                                            onerilenTopicler: onerilenTopicler // TODO : think about that
+                                            onerilenTopicler: lastonerilenTopicler // TODO : think about that
                                         });
                                     })
 
