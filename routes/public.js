@@ -38,7 +38,6 @@ router.get('/getProfile/:userId', function (req, res, next) {
 
 });
 
-
 router.post('/sendMessage', function (req, res, next) {
     console.log("Buraya girdi");
     // res.render('not_found');
@@ -65,8 +64,8 @@ router.post('/sendMessage', function (req, res, next) {
 
         newMessage.save(function (err) {
             if (err) throw err;
-            console.log("oldu lan");
-            res.sendStatus(200);
+            req.flash('success', "Mesajınız başarıyla gönderilmiştir.");
+            res.redirect('/');
 
         });
 
@@ -78,5 +77,71 @@ router.post('/sendMessage', function (req, res, next) {
     
 });
 
+router.get('/inbox', function (req, res, next) {
+    var currentUser = req.user;
+    var query = {to: currentUser._id};
+    var userRole = userRoleControl(currentUser);
+
+    Message.find(query, function (err, messages) {
+        if (err) throw err;
+        res.render('inbox', {
+            userRole: userRole,
+            roles: currentUser.role,
+            mesajlar: messages
+        })
+    })
+});
+
+router.get('/outbox', function (req, res, next) {
+    var currentUser = req.user;
+    var query = {from: currentUser._id};
+    var userRole = userRoleControl(currentUser);
+
+    Message.find(query, function (err, messages) {
+        if (err) throw err;
+        res.render('outbox', {
+            userRole: userRole,
+            roles: currentUser.role,
+            mesajlar: messages
+        })
+    })
+});
+
+router.get('/showMessage/:messageId', function (req, res, next) {
+    var currentUser = req.user;
+    var messageId = req.params.messageId;
+    var userRole = userRoleControl(currentUser);
+
+    Message.findById(messageId, function (err, message) {
+        if (err) throw err;
+        res.render('showMessage', {
+            userRole: userRole,
+            roles: currentUser.role,
+            mesaj: message
+        })
+    })
+});
+
+function userRoleControl(user) {
+    var isAdmin = false;
+    var isChief = false;
+    var isEditor = false;
+    user.role.forEach(function (userRole) {
+        if (userRole == 'admin')
+            isAdmin = true;
+        if (userRole == 'chiefEditor')
+            isChief = true;
+        if (userRole == 'editor')
+            isEditor = true;
+    });
+    var userRole = "author";
+    if (isAdmin)
+        userRole = "admin";
+    else if (isChief)
+        userRole = "chiefEditor";
+    else if (isEditor)
+        userRole = "editor";
+    return userRole;
+}
 
 module.exports = router;

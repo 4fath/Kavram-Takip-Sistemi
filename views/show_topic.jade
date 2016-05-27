@@ -32,23 +32,23 @@ block content
                             .col-md-7
                             .col-md-3
                                 span #{moment(topic.createdAt).format('DD/MM/YYYY')}
-
-                        if user.role == 'editor'
-                            if !topic.allowStatus.status
-                                .row
-                                    form(method='POST', action='/topic/approveByEditor/#{topic._id}')
-                                        .form-group
-                                            .col-md-12
-                                                .col-md-4
-                                                .col-md-4
-                                                    button.btn.btn-success(type='Submit', value='Submit') Onayla
-                                                .col-md-4
-                                                    button.btn.btn-warning(type='Submit', value='Submit', formaction='/topic/rejectTopic/#{topic._id}') Reddet
-                                            br
-                                            br
-                                            .col-md-12
-                                                .form-group
-                                                    textarea(name='rejectReason', value='rejectReason',  rows='4', cols='50',placeholder='Red sebebini giriniz', autofocus='')
+                        each role in roles
+                            if role == 'editor'
+                                if !topic.allowStatus.status
+                                    .row
+                                        form(method='POST', action='/topic/approveByEditor/#{topic._id}')
+                                            .form-group
+                                                .col-md-12
+                                                    .col-md-4
+                                                    .col-md-4
+                                                        button.btn.btn-success(type='Submit', value='Submit') Onayla
+                                                    .col-md-4
+                                                        button.btn.btn-warning(type='Submit', value='Submit', formaction='/topic/rejectTopic/#{topic._id}') Reddet
+                                                br
+                                                br
+                                                .col-md-12
+                                                    .form-group
+                                                        textarea(name='rejectReason', value='rejectReason',  rows='4', cols='50',placeholder='Red sebebini giriniz', autofocus='')
                         .row
                             if user
                                 if topic.allowStatus.status

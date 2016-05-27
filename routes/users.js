@@ -183,8 +183,12 @@ router.get('/login', function (req, res) {
             mainTopics.forEach(function (mainTopic) {
                 myMainTopics.push(mainTopic);
             });
-            res.render('signin', {
-                mainTopics : myMainTopics
+            Topic.find({}, function (err, topics) {
+                if (err) throw (err);
+                res.render('signin', {
+                    mainTopics: myMainTopics,
+                    topics: topics
+                });
             });
 
         });
@@ -881,9 +885,6 @@ router.post('/changePassword', function (req, res) {
 router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     
     var user = req.user;
-    if ( user.role != 'editor'){
-        res.redirect('/');
-    }
     var userID = user._id;
     var userRole = userRoleControl(req.user);
     var query = {editor : userID};
@@ -909,7 +910,8 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
 
                 res.render('onaydakiTopicler', {
                     onayBekleyenler: onayBekleyenTopicler,
-                    userRole: userRole
+                    userRole: userRole,
+                    roles: req.user.role
                 })
 
             })

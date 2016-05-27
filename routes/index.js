@@ -265,7 +265,7 @@ router.get('/', function (req, res, next) {
                             if (err) throw err;
                             Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
                                 popTopics = toppics;
-                                for (var i = 0; i < 2; i++) {
+                                for (var i = 0; i < 5; i++) {
                                     newPopTopics.push(popTopics[i]);
                                     console.log(i);
                                     console.log(popTopics[i].name);
@@ -298,7 +298,7 @@ router.get('/', function (req, res, next) {
 
                                             populerTopics: newPopTopics,
 
-                                            onerilenTopicler: lastonerilenTopicler // TODO : think about that
+                                            onerilenTopicler: onerilenTopicler // TODO : think about that
                                         });
                                     })
 

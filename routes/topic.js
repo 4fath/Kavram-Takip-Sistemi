@@ -40,13 +40,17 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
                     for (var i = 0; i < 2; i++) {
                         newPopTopics.push(toppics[i]);
                     }
-                    var userRole = userRoleControl(req.user);
-                    res.render('addTopic', {
-                        mainTopics: myMainTopics,
-                        subTopics: mySubTopics,
-                        keywords: myKeywords,
-                        populerTopics: newPopTopics,
-                        userRole: userRole
+                    Topic.find({}, function (err, kavramlar) {
+                        if (err) throw (err);
+                        var userRole = userRoleControl(req.user);
+                        res.render('addTopic', {
+                            mainTopics: myMainTopics,
+                            subTopics: mySubTopics,
+                            keywords: myKeywords,
+                            populerTopics: newPopTopics,
+                            userRole: userRole,
+                            topics: kavramlar
+                        });
                     });
                 });
             });
@@ -89,8 +93,9 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
 });
 
 // Add Topic
-router.post('/addTopic', upload.single('topic_image'), ensureAuthentication, function (req, res, next) {
-
+router.post('/addTopic', ensureAuthentication, function (req, res, next) {
+    //
+    // upload.single('topic_image'),
     var selectedMainTopicId = req.body.myMainTopic;
     var selectedSubTopicId = req.body.mySubTopic;
     var selectedKeywordId = req.body.myKeyword;
@@ -106,19 +111,19 @@ router.post('/addTopic', upload.single('topic_image'), ensureAuthentication, fun
     //     console.log(false);
     // }
 
-    var fileName;
-    var fileError = false;
-    if (req.file && isImage(req.file.mimetype) > -1 && checkSize(req.file.size)) {
-        fileName = req.file.filename;
-        var fileOriginalName = req.file.originalname;
-        var fileMinType = req.file.mimetype;
-        var fileEncoding = req.file.encoding;
-        var fileTest = req.file.size;
-    } else {
-        fileError = true;
-        fileName = "no_image";
-        console.log("there is no such a file");
-    }
+    // var fileName;
+    // var fileError = false;
+    // if (req.file && isImage(req.file.mimetype) > -1 && checkSize(req.file.size)) {
+    //     fileName = req.file.filename;
+    //     var fileOriginalName = req.file.originalname;
+    //     var fileMinType = req.file.mimetype;
+    //     var fileEncoding = req.file.encoding;
+    //     var fileTest = req.file.size;
+    // } else {
+    //     fileError = true;
+    //     fileName = "no_image";
+    //     console.log("there is no such a file");
+    // }
 
 
     req.checkBody('topicName', 'Keyword alanı boş olamaz.').notEmpty();
@@ -340,6 +345,7 @@ router.post('/addTopicAsDraft', ensureAuthentication, function (req, res, next) 
 
         newTopic.save(function (err) {
             if (err) throw err;
+
             var myMainTopics = [];
             var mySubTopics = [];
             var myKeywords = [];
@@ -361,13 +367,18 @@ router.post('/addTopicAsDraft', ensureAuthentication, function (req, res, next) 
                         keywords.forEach(function (keyword) {
                             myKeywords.push(keyword);
                         });
+                        Topic.find({}, function (err, topics) {
+                            if (err) throw (err);
 
-                        req.flash('success', "Taslak olarak kaydedilmiştir !");
-                        res.render('addTopic', {
-                            mainTopics: myMainTopics,
-                            subTopics: mySubTopics,
-                            keywords: myKeywords,
-                            user: currentUser
+                            req.flash('success', "Taslak olarak kaydedilmiştir !");
+                            // res.redirect('/');
+                            res.render('addTopic', {
+                                mainTopics: myMainTopics,
+                                subTopics: mySubTopics,
+                                keywords: myKeywords,
+                                user: currentUser,
+                                topics: topics
+                            });
                         });
                     });
                 });
@@ -375,12 +386,20 @@ router.post('/addTopicAsDraft', ensureAuthentication, function (req, res, next) 
         });
 
     } else {
-        res.render('add_new_topic', {
-            errors: errors,
-            name: topicName,
-            abstract: topicAbstract,
-            definition: topicDefinition
-        });
+        MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw err;
+            var myMainTopics = [];
+            mainTopics.forEach(function (mainTopic) {
+                myMainTopics.push(mainTopic);
+            });
+            res.render('add_new_topic', {
+                errors: errors,
+                name: topicName,
+                abstract: topicAbstract,
+                definition: topicDefinition,
+                mainTopics: myMainTopics
+            })
+        })
     }
 });
 
@@ -553,16 +572,21 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
                                 for (var i = 0; i < 2; i++) {
                                     newPopTopics.push(toppics[i]);
                                 }
-                                res.render('show_topic', {
-                                    topic: topic,
-                                    userName: userName,
-                                    userRole: userRole,
-                                    mainTopics: mainTopics,
-                                    populerTopics: newPopTopics,
-                                    screenMainTopic: mainTopic,
-                                    screenSubTopic: subTopic,
-                                    screenKeyword: keyword,
-                                    followerControl: followControl
+                                Topic.find({}, function (err, topics) {
+                                    if (err) throw (err);
+                                    res.render('show_topic', {
+                                        topic: topic,
+                                        userName: userName,
+                                        userRole: userRole,
+                                        mainTopics: mainTopics,
+                                        populerTopics: newPopTopics,
+                                        screenMainTopic: mainTopic,
+                                        screenSubTopic: subTopic,
+                                        screenKeyword: keyword,
+                                        followerControl: followControl,
+                                        roles: currentUser.role,
+                                        topics: topics
+                                    });
                                 });
                             });
                         });
@@ -690,19 +714,25 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
                     keywords.forEach(function (keyword) {
                         myKeywords.push(keyword);
                     });
+                    var kavramlar = [];
                     Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
                         for (var i = 0; i < 2; i++) {
                             newPopTopics.push(toppics[i]);
                         }
-                        res.render('addTopic', {
-                            errors: errors,
-                            mainTopics: myMainTopics,
-                            subTopics: mySubTopics,
-                            keywords: myKeywords,
-                            populerTopics: newPopTopics,
-                            topicName: topicName,
-                            topicAbstract: topicAbstract,
-                            topicDefinition: topicDefinition
+                        Topic.find({}, function (err, kavramar) {
+                            if (err) throw (err);
+                            kavramlar = kavramar;
+                            res.render('addTopic', {
+                                errors: errors,
+                                mainTopics: myMainTopics,
+                                subTopics: mySubTopics,
+                                keywords: myKeywords,
+                                populerTopics: newPopTopics,
+                                topicName: topicName,
+                                topicAbstract: topicAbstract,
+                                topicDefinition: topicDefinition,
+                                topics: kavramlar
+                            });
                         });
                     });
                 });
@@ -710,6 +740,69 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
         });
     }
 });
+
+// router.post('/findTopic', ensureAuthentication, function (req, res, next) {
+//     var currentUser = req.user;
+//     var kavramAdi = req.body.kavramAdi;
+//     console.log(kavramAdi);
+//     var query = {name: kavramAdi};
+//     var followControl = false;
+//     var userRole = userRoleControl(req.user);
+//     Topic.find(query, function (err, topics) {
+//         if (err) throw err;
+//         console.log(topics);
+//         var topic = topics[0];
+//         topic.followers.forEach(function (follower) {
+//             if (follower.toString() == (currentUser._id).toString()){
+//                 followControl = true;
+//             }
+//         });
+//         topic.viewCount++;
+//         topic.save(function (err) {
+//             if (err) throw err;
+//         });
+//         var newPopTopics = [];
+//         MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
+//             if (err) throw err;
+//             SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
+//                 if (err) throw err;
+//                 Keyword.findById(topic.relevantKeywords[0], function (err, keyword) {
+//                     if (err) throw err;
+//                     User.findById(topic.author, function (err, user) {
+//                         if (err) throw err;
+//                         var userName = user.username;
+//                         MainTopic.find({}, function (err, mainTopics) {
+//                             if (err) throw err;
+//                             Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
+//                                 if (err) throw err;
+//                                 for (var i = 0; i < 2; i++) {
+//                                     newPopTopics.push(toppics[i]);
+//                                 }
+//                                 Topic.find({}, function (err, topics) {
+//                                     if (err) throw err;
+//                                     res.render('show_topic', {
+//                                         topic: topic,
+//                                         userName: userName,
+//                                         userRole: userRole,
+//                                         mainTopics: mainTopics,
+//                                         populerTopics: newPopTopics,
+//                                         screenMainTopic: mainTopic,
+//                                         screenSubTopic: subTopic,
+//                                         screenKeyword: keyword,
+//                                         followerControl: followControl,
+//                                         topics: topics,
+//                                         user: currentUser
+//                                     });
+//                                 })
+//
+//                             });
+//                         });
+//                     });
+//                 });
+//             });
+//         });
+//     });
+// });
 
 function ensureAuthentication(req, res, next) {
     if (req.isAuthenticated()) {

@@ -1,4 +1,19 @@
+//
+   Created by Asus on 27.05.2016.
 extends ProfileLayout
+
+block content
+    .row
+        .col-md-1
+        .col-md-10
+            ul.list-group
+                li.list-group-item.modal-header
+                    h3
+                        h1
+                            a(href='/public_profile/showMessage/#{mesaj._id}') #{mesaj.subject}
+
+                        | !{mesaj.content}
+        .col-md-1
 
 block solMenu
     #accordion.panel-group
@@ -8,7 +23,7 @@ block solMenu
                     a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
                         span.glyphicon.glyphicon-user
                         | Profil
-            #collapseOne.panel-collapse.collapse
+            #collapseOne.panel-collapse.collapse.in
                 .panel-body
                     table.table
                         if userRole == 'admin'
@@ -127,31 +142,6 @@ block solMenu
                             td
                                 a(href='/topic/myRejectedTopics')
                                     | Reddedilen Kavramlarım
-
-
-
-    //li
-        //    a(href='/admin/wholeData')
-        //        | Alt Admin İşlemleri
-        //li
-        //    a(href='/user/settings')
-        //        |  Icons
-
-block content
-    .form-group
-        .col-md-1
-        .col-md-11
-            form(method='post', action='/admin/addMainTopic', role='form')
-                .panel.panel-success.col-md-5
-                    .panel-heading Temel Alan Adı
-                    .panel-body
-                        input.form-control(type='text', name='mainTopicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
-                .panel.panel-success.col-md-8
-                    .panel-heading Temel Alan Açıklaması
-                    .panel-body
-                        input.form-control(type='text', name='mainTopicDefinition', placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
-                .col-md-5
-                    button.btn.btn-success.btn-block(type='submit') Kaydet
 
 
 script(src='../js/jquery.min.js')

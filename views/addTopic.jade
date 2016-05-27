@@ -1,7 +1,7 @@
 extends MainLayout
 
 block content
-    form(method='post', action='/topic/addTopic',enctype="multipart/form-data")
+    form(method='post', action='/topic/addTopic')
         .form-group
             .col-md-1
             .col-md-11
@@ -31,10 +31,10 @@ block content
                     .panel-heading Topic Özeti
                     .panel-body
                         textarea.form-group(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
-                .panel.panel-success.col-md-8
-                    .panel-heading  İlgili Görsel
-                    .panel-body
-                        input.form-control(type='file', name='topic_image', placeholder='Görsel içerik')
+                //.panel.panel-success.col-md-8
+                //    .panel-heading  İlgili Görsel
+                //    .panel-body
+                //        input.form-control(type='file', name='topic_image', placeholder='Görsel içerik')
                 .panel.panel-success.col-md-12
                     .panel-heading Kavram Tanımı
                     br

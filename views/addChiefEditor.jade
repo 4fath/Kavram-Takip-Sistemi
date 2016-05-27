@@ -18,7 +18,11 @@ block solMenu
                         tr
                             td
                                 span.glyphicon.glyphicon-envelope
-                                a(href='http://www.jquery2dotnet.com') Gelen Kutusu
+                                a(href='/public_profile/inbox') Gelen Kutusu
+                        tr
+                            td
+                                span.glyphicon.glyphicon-envelope
+                                a(href='/public_profile/outbox') Giden Kutusu
         each role in roles
             if role == 'admin'
                 .panel.panel-default

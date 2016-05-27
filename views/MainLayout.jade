@@ -35,16 +35,15 @@ html
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
-                                form.navbar-form.navbar-left(role='search', action('/getTopic/#{}'))
-                                    .form-group
-                                        //datalist#mylist
-                                        //    each topic in topics
-                                        //        option(value='#{topic._id}') #{topic.name}
-                                        //input.form-control.awesomplete(list='mylist')
-                                        ////input.form-control(type='text', placeholder='Kavram adı giriniz')
-                                        //button.btn.btn-default(type='submit') Ara
+                                //form.navbar-form.navbar-left(role='form', method='post', action='/topic/findTopic')
+                                //    .form-group
+                                //        datalist#mylist
+                                //            each topic in topics
+                                //                option #{topic.name}
+                                //        input.form-control.awesomplete(type='text', name='kavramAdi',list='mylist')
+                                //        //input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                //        button.btn.btn-default(type='submit') Ara
 
-                                        // Guest access
                                 if !user
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form
@@ -85,47 +84,50 @@ html
                     .row
                         .col-md-2
                             .list-group
-                                span.list-group-item.active(href='#')
-                                    | Temel Alanlar
-                                    span#slide-submenu.pull-right
-                                        i.fa.fa-times
-                                if mainTopics
-                                    each mainTopic in mainTopics
-                                        a.list-group-item(href='/mainTopic/#{mainTopic._id}')
-                                            i.fa
-                                            |  #{mainTopic.name}
-                                            if mainTopic.relevantSubTopics.length > 0
-                                                span.badge #{mainTopic.relevantSubTopics.length}
-                                            else
-                                                span.badge 0
+                                .col-md-12
+                                    span.list-group-item.active(href='#')
+                                        | Temel Alanlar
+                                        span#slide-submenu.pull-right
+                                            i.fa.fa-times
+                                    if mainTopics
+                                        each mainTopic in mainTopics
+                                            a.list-group-item(href='/mainTopic/#{mainTopic._id}')
+                                                i.fa
+                                                |  #{mainTopic.name}
+                                                if mainTopic.relevantSubTopics.length > 0
+                                                    span.badge #{mainTopic.relevantSubTopics.length}
+                                                else
+                                                    span.badge 0
                         .col-md-8
                             block content
                         .col-md-2
                             if user
                                 .list-group
-                                    span.list-group-item.active(href='#')
-                                        | Popüler Kavramlar
-                                        span#slide-submenu.pull-right
-                                            i.fa.fa-times
-                                    if populerTopics
-                                        each populerTopic in populerTopics
-                                            a.list-group-item(href='/topic/getTopic/#{populerTopic._id}')
-                                                i.fa
-                                                |  #{populerTopic.name}
-                                                span.badge #{populerTopic.viewCount}
+                                    .col-md-12
+                                        span.list-group-item.active(href='#')
+                                            | Popüler Kavramlar
+                                            span#slide-submenu.pull-right
+                                                i.fa.fa-times
+                                        if populerTopics
+                                            each populerTopic in populerTopics
+                                                a.list-group-item(href='/topic/getTopic/#{populerTopic._id}')
+                                                    i.fa
+                                                    |  #{populerTopic.name}
+                                                    span.badge #{populerTopic.viewCount}
 
 
                                 .list-group
-                                    span.list-group-item.active(href='#')
-                                        | Tavsiye Edilen Kavramlar
-                                        span#slide-submenu.pull-right
-                                            i.fa.fa-times
-                                    if onerilenTopicler
-                                        each topic in onerilenTopicler
-                                            a.list-group-item(href='/topic/getTopic/#{topic._id}')
-                                                i.fa
-                                                |  #{topic.name}
-                                                span.badge #{topic.viewCount}
+                                    .col-md-12
+                                        span.list-group-item.active(href='#')
+                                            | Tavsiye Edilen Kavramlar
+                                            span#slide-submenu.pull-right
+                                                i.fa.fa-times
+                                        if onerilenTopicler
+                                            each topic in onerilenTopicler
+                                                a.list-group-item(href='/topic/getTopic/#{topic._id}')
+                                                    i.fa
+                                                    |  #{topic.name}
+                                                    span.badge #{topic.viewCount}
 
     script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
     // script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )r  ben arayım
