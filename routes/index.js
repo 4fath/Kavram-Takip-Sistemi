@@ -67,6 +67,17 @@ router.get('/', function (req, res, next) {
                     callback();
                 });
             },
+
+            function (callback) {
+                SubTopic.find({}, function (err, subTopics) {
+                    if (err) return callback(err);
+                    subTopics.forEach(function (subTopic) {
+                        mySubTopics.push(subTopic);
+                    });
+                });
+                callback();
+            },
+
             // oneri listesi
             // Keywordler interest içinde , Topicler takip ediliyor
             // Takip edilen Topiclerin her birinin keywordune gidilip onun altından bir topic seçilecek
@@ -188,48 +199,50 @@ router.get('/', function (req, res, next) {
                     userRole = "chiefEditor";
                 else if (isEditor)
                     userRole = "editor";
-                
 
-                // BURASI 
-                // myTopics.forEach(function (topic) {
-                //
-                //
-                //     currentUser.followingTopics.forEach(function (myTopic) {
-                //         if ((topic._id).toString() === myTopic.toString()) {    // assume that currentUser following this topic
-                //
-                //             var tmp = 0;
-                //             if (myKeywords.length > 0) {
-                //                 while (tmp < myKeywords.length) {
-                //                     var currentKeyword = myKeywords[tmp];
-                //
-                //                     // TODO : it can be find a db query
-                //                     if ((currentKeyword._id).toString() === String(getTopicObj(topic).relevantKeywords[0])) {
-                //
-                //                         if (currentKeyword.relevantTopics.length > 0) {
-                //                             currentKeyword.relevantTopics.forEach(function (relevanTopic) {
-                //                                 onerilenTopicler.push(relevanTopic);
-                //                             });
-                //                         }
-                //                     }
-                //                     tmp++;
-                //                 }
-                //             }
-                //
-                //         }
-                //     });
-                //
-                // });
+
+                // BURASI
+                var keywordIdArray = [];
+                myTopics.forEach(function (topic) {
+                    currentUser.followingTopics.forEach(function (myTopic) {
+                        console.log("===========keywordArray ========");
+                        console.log(myTopic.toString());
+                        console.log((topic._id).toString());
+                        if ((topic._id).toString() === myTopic.toString()) {    // assume that currentUser following this topic
+                            console.log(true);
+                            console.log("bulduk lan amk !!!");
+                            var thisKeyword = topic.relevantKeywords[0];
+                            keywordIdArray.push(thisKeyword);
+
+                        }
+                    });
+
+                });
+
+                keywordIdArray.forEach(function (keywordId) {
+                    myTopics.forEach(function (topic) {
+                        var currentTopicsRelKey = topic.relevantKeywords[0];
+                        console.log("=========");
+                        console.log(keywordId.toString());
+                        console.log(currentTopicsRelKey.toString());
+                        if (currentTopicsRelKey.toString() === keywordId.toString()) {
+
+                            console.log("burda da bulduk mk");
+                            if (topic.allowStatus.status) {
+                                onerilenTopicler.push(topic);
+                            }
+
+                        }
+                    });
+                });
+
+
                 console.log("onerilen topicler");
                 console.log(onerilenTopicler);
 
                 onerilenTopicler.push(maxViewedTopic);
                 shuffle(onerilenTopicler);
-                // var slicedTopics;
-                // if (onerilenTopicler > 10) {
-                //     slicedTopics = onerilenTopicler.slice(0, 11);
-                // } else {
-                //     slicedTopics = onerilenTopicler.slice(0, onerilenTopicler.length);
-                // }
+
                 var topicNames = [];
                 var popTopics = [];
                 var newPopTopics = [];
@@ -246,11 +259,6 @@ router.get('/', function (req, res, next) {
                                     console.log(i);
                                     console.log(popTopics[i].name);
                                 }
-                                // popTopics.forEach(function (asd) {
-                                //     if (i < 5)
-                                //         newPopTopics.push(asd);
-                                //     i++;
-                                // });
                                 console.log(newPopTopics);
                                 User.findById(randomTopic.author, function (err, user) {
                                     if (err) throw err;
@@ -319,8 +327,6 @@ router.get('/', function (req, res, next) {
 
         // ======== GUEST access
     } else {
-        // parallel search for async process
-
         async.parallel([
             function (callback) {
                 MainTopic.find({}, function (err, mainTopics) {

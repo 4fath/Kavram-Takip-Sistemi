@@ -1,4 +1,7 @@
-# Empty CSS file for your own CSS
+#
+Empty CSS file for your own CSS *
+
+/
 
 body{
     padding: 50px;
@@ -281,8 +284,3 @@ ul.error li{
 .flat a:hover:after, .flat a.active:after{
 	background: #9EEB62;
 }
-
-
-
-
-
