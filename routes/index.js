@@ -458,6 +458,13 @@ router.get('/', function (req, res, next) {
     }
 });
 
+router.get('/search', function (req, res, next) {
+
+    var selectedTopic = req.query.key;
+    
+
+});
+
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
