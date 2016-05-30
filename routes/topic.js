@@ -92,6 +92,104 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
 
 });
 
+router.get('/getValueArray', function (req, res, next) {
+
+    MainTopic.find(function (err, mainTopics) {
+        if (err) throw err;
+        SubTopic.find(function (err, subTopics) {
+            if (err) throw err;
+            Keyword.find(function (err, keywords) {
+                if (err) throw err;
+                var jsonObjecct = {
+                    mainTopics: mainTopics,
+                    subTopics: subTopics,
+                    keywords: keywords
+                };
+
+                // res.send("ali ata bak ");
+
+                //let's create arrays
+                var chocolate = [
+                    {display: "Dark chocolate", value: "dark-chocolate"},
+                    {display: "Milk chocolate", value: "milk-chocolate"},
+                    {display: "White chocolate", value: "white-chocolate"},
+                    {display: "Gianduja chocolate", value: "gianduja-chocolate"}];
+
+                var vegetable = [
+                    {display: "Broccoli", value: "broccoli"},
+                    {display: "Cabbage", value: "cabbage"},
+                    {display: "Carrot", value: "carrot"},
+                    {display: "Cauliflower", value: "cauliflower"}];
+
+                var icecream = [
+                    {display: "Frozen yogurt", value: "frozen-yogurt"},
+                    {display: "Booza", value: "booza"},
+                    {display: "Frozen yogurt", value: "frozen-yogurt"},
+                    {display: "Ice milk", value: "ice-milk"}];
+
+                var jsonTestArray = {
+                    chocolates: chocolate,
+                    vegetables: vegetable,
+                    icecreams: icecream
+
+                };
+
+                res.setHeader('content-type', 'text/javascript');
+                res.header("Access-Control-Allow-Origin", "*");
+                res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+                res.send(jsonTestArray);
+
+            })
+        })
+    });
+
+    // async.parallel([
+    //     function (callback) {
+    //         MainTopic.find({}, function (err, mainTopics) {
+    //             if (err) return callback(err);
+    //             console.log("======="+mainTopics+"=========");
+    //             mainTopicArray = mainTopics;
+    //             // mainTopics.forEach(function (mainTopic) {
+    //             //     mainTopicArray.push(mainTopic);
+    //             // });
+    //         });
+    //         callback();
+    //     },
+    //     function (callback) {
+    //         SubTopic.find({}, function (err, subTopics) {
+    //             if (err) return callback(err);
+    //             subTopicArray = subTopics;
+    //             // subTopics.forEach(function (subTopic) {
+    //             //     subTopicArray.push(subTopic);
+    //             // });
+    //         });
+    //         callback();
+    //     },
+    //     function (callback) {
+    //         Keyword.find({}, function (err, keywords) {
+    //             if (err) return callback(err);
+    //             keywordArray = keywords;
+    //             // keywords.forEach(function (keyword) {
+    //             //     keywordArray.push(keyword);
+    //             // });
+    //         });
+    //         callback();
+    //     }
+    //
+    // ], function (err) {
+    //     if (err) return err;
+    //     console.log(mainTopicArray);
+    //     var jsonObject = {
+    //         mainTopics : mainTopicArray,
+    //         subTopics : subTopicArray,
+    //         keywords : keywordArray
+    //     };
+    //     res.send(jsonObject);
+    //
+    // });
+
+});
+
 // Add Topic
 router.post('/addTopic', ensureAuthentication, function (req, res, next) {
     //

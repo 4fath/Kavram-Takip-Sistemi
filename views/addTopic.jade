@@ -9,6 +9,7 @@ block content
                     .panel-heading Temel Alan
                     .panel-body
                         select(name='myMainTopic')
+                            option(value='#{mainTopics[0]._id') #{mainTopics[0].name}
                             each mainTopic in mainTopics
                                 option(value='#{mainTopic._id}')  #{mainTopic.name}
                 .panel.panel-success.col-md-4

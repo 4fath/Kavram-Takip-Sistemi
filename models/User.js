@@ -28,26 +28,6 @@ db.once('open', function callback() {
     console.log("db once open da");
 });
 
-// /*
-// * MONGOLAB_URI=mongodb://example:example@ds053312.mongolab.com:53312/todolist
-// * 'mongodb://example:example@ds053312.mongolab.com:53312/todolist'
-// */
-// // mongoose.connect('mongodb://example:example@ds053312.mongolab.com:53312/todolist', function (error) {
-// //     if (error) console.error(error);
-// //     else console.log('mongo connected');
-// // });
-//
-//
-//
-// //
-// //var connectionUrlMongoLab = 'mongodb://4fath:notion_follow@ds013848.mlab.com:13848/notion_follow';
-// ////var connectionUrlLocale = 'mongodb://localhost:27017/nodeauth';
-// //var db = mongoose.createConnection(connectionUrlMongoLab);
-//
-// //db.on('open', function(){
-// //   console.log('conneciton opened')
-// //});
-
 var Schema = mongoose.Schema;
 
 // FIELDS               :  TYPES //
@@ -90,6 +70,12 @@ var UserSchema = new Schema({
         type: String,
         required: true,
         trim: true
+    },
+
+    emailVerification: {
+        type: Boolean,
+        required: true,
+        default: false
     },
 
     password: {
