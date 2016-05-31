@@ -44,7 +44,9 @@ block content
                                             span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
                         else
                             if screenTopic
-                                | !{screenTopic.abstract}
+                                h4
+                                    i(style='color:#747474;')
+                                        | !{screenTopic.abstract}
                                 if topicUser
                                     .row
                                         .col-md-2

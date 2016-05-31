@@ -18,8 +18,19 @@ block content
                                 a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
                             if screenKeyword
                                 a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
-                        h1
-                            a(href='/topic/getTopic/#{topic._id}') #{topic.name}
+                        .row
+                            h1
+                                a.col-md-8(href='/topic/getTopic/#{topic._id}') #{topic.name}
+                            if user
+                                if topic
+                                    if topic.allowStatus.status
+                                        if !followerControl
+                                            .col-md-4
+                                                form(method='POST', action='/user/follow/#{topic._id}')
+                                                    .form-group
+                                                        button.btn.btn-success(type='Submit', value='Submit')
+                                                            span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                            | Takip Et
 
                         h4
                             i(style='color:#747474;')
@@ -28,7 +39,7 @@ block content
                         | !{topic.definition}
                         .row
                             .col-md-2
-                                a(href='/#{topic.author}') #{userName}
+                                a(href='/public_profile/getProfile/#{topic.author}') #{userName}
                             .col-md-7
                             .col-md-3
                                 span #{moment(topic.createdAt).format('DD/MM/YYYY')}
@@ -49,18 +60,7 @@ block content
                                                 .col-md-12
                                                     .form-group
                                                         textarea(name='rejectReason', value='rejectReason',  rows='4', cols='50',placeholder='Red sebebini giriniz', autofocus='')
-                        .row
-                            if user
-                                if topic.allowStatus.status
-                                    if !followerControl
-                                        .col-md-6
-                                        .col-md-3
-                                            form(method='POST', action='/user/follow/#{topic._id}')
-                                                .form-group
-                                                    button.btn.btn-success(type='Submit', value='Submit')
-                                                        span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
-                                                        | Takip Et
-                                        .col-md-3
+
         .col-md-1
 
 

@@ -6,13 +6,32 @@ block content
     .row
         .col-md-1
         .col-md-10
-            ul.list-group
-                li.list-group-item.modal-header
-                    h3
-                        h1
-                            a(href='/public_profile/showMessage/#{mesaj._id}') #{mesaj.subject}
-
-                        | !{mesaj.content}
+            .row
+                .list-group
+                    .col-md-12
+                        span.list-group-item.active(href='#')
+                            | #{mesajlar[0].subject}
+                            span#slide-submenu.pull-right
+                                i.fa.fa-times
+                        if mesajlar
+                            each mesaj in mesajlar
+                                .list-group-item
+                                    i.fa
+                                    |  #{mesaj.content}
+                                    .row
+                                        .col-md-4
+                                            a(href='/public_profile/getProfile/#{mesaj.from}') #{mesaj.fromName}
+                                        .col-md-4
+                                        .col-md-4
+                                            span #{moment(mesaj.createdAt).format('DD/MM/YYYY')}
+            .row
+                form(method='post', action='/public_profile/reply')
+                    .col-md-11
+                        .panel-body
+                            textarea.form-control(name='messageContent',value='messageContent', placeholder='Göndermek İstediğiniz Mesajı Giriniz', autofocus='')
+                            input.form-control(type='hidden', name='subject',value='#{mesajlar[0].subject}', autofocus='')
+                    .col-md-5
+                        button.btn.btn-success.btn-block(type='submit', value='Submit') Cevapla
         .col-md-1
 
 block solMenu

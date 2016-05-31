@@ -12,6 +12,7 @@ var multer = require('multer');
 var flash = require('connect-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var nodemailer = require('nodemailer');
 
 // routes
 var index = require('./routes/index');

@@ -12,9 +12,19 @@ var MessageSchema = new Schema({
         required: true
     },
 
+    fromName: {
+        type: String,
+        required: true
+    },
+
     to: {
         type: Schema.Types.ObjectId,
         ref: 'User',
+        required: true
+    },
+
+    toName: {
+        type: String,
         required: true
     },
 

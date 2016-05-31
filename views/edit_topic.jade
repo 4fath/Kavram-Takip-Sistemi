@@ -63,42 +63,136 @@ block content
                     button.btn.btn-info(type='Submit', value='Submit') Güncelle
 
 block solMenu
-    ul.nav.nav-pills.nav-stacked
-        li
-            a(href='/user/following_list/#{user._id}')
-                |  Takip Ettiklerim
-        if user.role == 'admin'
-            li
-                a(href='/admin/addMainTopic')
-                    | Temel Alan Ekle
-            li
-                a(href='/admin/addChiefEditor')
-                    | Baş Editör Ekle
-        if user.role == 'chiefEditor'
-            li
-                a(href='/chiefEditor/addSubTopic')
-                    | Bilim Alanı Ekle
-            li
-                a(href='/chiefEditor/addEditor')
-                    | Editör Ekle
-        if user.role == 'editor'
-            li
-                a(href='/user/editor/getOnay')
-                    |  Onay Havuzu
-        li
-            a(href='/topic/myRejectedTopics')
-                |  Reddedilen Kavramlarım
-        li
-            a(href='/topic/onApprove')
-                |  Onay Bekleyen Kavramlarım
-        li
-            a(href='/topic/myTopics')
-                | Onaylanan Kavramlarım
-        li.active
-            a(href='/topic/myDrafts')
-                | Taslaklarım
-
-
+    #accordion.panel-group
+        .panel.panel-default
+            .panel-heading
+                h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#collapseOne')
+                        span.glyphicon.glyphicon-user
+                        |   Profil
+            #collapseOne.panel-collapse.collapse
+                .panel-body
+                    table.table
+                        if userRole == 'admin'
+                            tr
+                                td
+                                    span.glyphicon.glyphicon-pencil.text-primary
+                                    a(href='/user/adminProfile') Profil Ayarları
+                        else
+                            if userRole == 'chiefEditor'
+                                tr
+                                    td
+                                        span.glyphicon.glyphicon-pencil.text-primary
+                                        a(href='/user/chiefEditorProfile') Profil Ayarları
+                            else
+                                if userRole == 'editor'
+                                    tr
+                                        td
+                                            span.glyphicon.glyphicon-pencil.text-primary
+                                            a(href='/user/editorProfile') Profil Ayarları
+                                else
+                                    if userRole == 'author'
+                                        tr
+                                            td
+                                                span.glyphicon.glyphicon-pencil.text-primary
+                                                a(href='/user/authorProfile') Profil Ayarları
+                        tr
+                            td
+                                span.glyphicon.glyphicon-envelope
+                                a(href='/public_profile/inbox') Gelen Kutusu
+                        tr
+                            td
+                                span.glyphicon.glyphicon-arrow-up
+                                a(href='/public_profile/outbox') Giden Kutusu
+                        //tr
+                        //    td
+                        //        span.glyphicon.glyphicon-file.text-info
+                        //        a(href='http://www.jquery2dotnet.com') Newsletters
+                        //tr
+                        //    td
+                        //        span.glyphicon.glyphicon-comment.text-success
+                        //        a(href='http://www.jquery2dotnet.com') Comments
+                        //        span.badge 42
+        each role in roles
+            if role == 'admin'
+                .panel.panel-default
+                    .panel-heading
+                        h4.panel-title
+                            a(data-toggle='collapse', data-parent='#accordion', href='#collapseTwo')
+                                span.glyphicon.glyphicon-th
+                                | Yönetici İşlemleri
+                    #collapseTwo.panel-collapse.collapse
+                        .panel-body
+                            table.table
+                                tr
+                                    td
+                                        a(href='/admin/addMainTopic') Temel Alan Ekle
+                                tr
+                                    td
+                                        a(href='/admin/addSubTopic') Bilim Alanı Ekle
+                                tr
+                                    td
+                                        a(href='/admin/addChiefEditor') Baş Editör Ata
+        each role in roles
+            if role == 'chiefEditor'
+                .panel.panel-default
+                    .panel-heading
+                        h4.panel-title
+                            a(data-toggle='collapse', data-parent='#accordion', href='#collapseThree')
+                                span.glyphicon.glyphicon-th
+                                | Baş Editör İşlemleri
+                    #collapseThree.panel-collapse.collapse
+                        .panel-body
+                            table.table
+                                tr
+                                    td
+                                        a(href='/chiefEditor/addKeyword') Anahtar Kelime Ekle
+                                tr
+                                    td
+                                        a(href='/chiefEditor/addEditor') Editör Ata
+        each role in roles
+            if role == 'editor'
+                .panel.panel-default
+                    .panel-heading
+                        h4.panel-title
+                            a(data-toggle='collapse', data-parent='#accordion', href='#collapseFour')
+                                span.glyphicon.glyphicon-th
+                                | Editör İşlemleri
+                    #collapseFour.panel-collapse.collapse
+                        .panel-body
+                            table.table
+                                tr
+                                    td
+                                        a(href='/user/editor/getOnay') Onay Havuzu
+                                tr
+                                    td
+                                        a(href='/chiefEditor/addEditor') Onayladıklarım
+        .panel.panel-default
+            .panel-heading
+                h4.panel-title
+                    a(data-toggle='collapse', data-parent='#accordion', href='#collapseFive')
+                        span.glyphicon.glyphicon-folder-close
+                        |   Kulanıcı İşlemleri
+            #collapseFive.panel-collapse.collapse.in
+                .panel-body
+                    table.table
+                        tr
+                            td
+                                a(href='/user/following_list/#{user._id}') Takip Ettiklerim
+                        tr
+                            td
+                                a(href='/topic/myDrafts') Taslaklarım
+                        tr
+                            td
+                                a(href='/topic/myTopics') Onaylanan Kavramlarım
+                        tr
+                            td
+                                a(href='/topic/onApprove')
+                                    | Onayda Bekleyen Kavramlarım
+                        tr
+                            td
+                                a(href='/topic/myRejectedTopics')
+                                    | Reddedilen Kavramlarım
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')
 script(src='../js/scripts.js')

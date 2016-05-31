@@ -8,10 +8,10 @@ extends ProfileLayout
 block content
     ul.list-group
         li.list-group-item.text-muted Gelen Kutusu
-        each message in mesajlar
+        each messa in mesajlar
             li.list-group-item.text-right
-                a.pull-left(href='/public_profile/showMessage/#{message._id}') #{message.subject}
-                button.btn-success(ng-click='/public_profile/showMessage/#{message._id}') Görüntüle
+                a.pull-left(href='/public_profile/showMessage/#{messa._id}') #{messa.subject}
+                button.btn-success(ng-click='/public_profile/showMessage/#{messa._id}') Görüntüle
 
 block solMenu
     #accordion.panel-group

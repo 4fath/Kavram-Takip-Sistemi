@@ -3,6 +3,7 @@ var async = require('async');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var nodemailer = require('nodemailer');
 
 var User = require('../models/User');
 var MainTopic = require('../models/MainTopic');
@@ -127,23 +128,17 @@ router.post('/register', function (req, res) {
 
         } else {
             var i = 0;
-            console.log(alanlar + "şu birrrrr");
             alanlar.forEach(function (field) {
                 var asd = field.toString();
-
-                console.log(field + "şu ikiiiiiii");
                 Keyword.findById(field, function (err, keyword) {
                     if (err) throw err;
                     i++;
-                    console.log(keyword.name + "naniiik");
                     interests.push(keyword._id);
-                    console.log(i + "işte buuuuuuuuuuuuuuuuuuu");
                     // if((keyword.name).toLowerCase() == String(asd).trim().toLowerCase()){
                     //     console.log("girdiiiii");
                     //     interests.push(keyword._id);
                     // }
                     if (i == alanlar.length) {
-                        console.log(interests + "şu dörttttt");
                         var newUser = new User({
                             firstName: firstName,
                             lastName: lastName,
@@ -157,11 +152,49 @@ router.post('/register', function (req, res) {
                         User.createUser(newUser, function (err, user) {
                             if (err) throw err;
                             console.log(user);
-                        });
 
-                        req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
-                        res.location('/');
-                        res.redirect('/')
+                            var newUserId;
+                            var queryForUserId = {username: newUser.username};
+                            User.find(queryForUserId, function (err, users) {
+                                var user = users[0];
+
+                                newUserId = user._id;
+                                console.log(users);
+
+                                var smtpTransport = nodemailer.createTransport("SMTP", {
+                                    service: "Gmail",
+                                    auth: {
+                                        user: "kavramtakip@gmail.com",
+                                        pass: "kavram123"
+                                    }
+                                });
+                                var newurl = "http://localhost:3000/user/emailVerification/" + newUserId;
+                                var mailOptions = {
+                                    from: "Kavram Takip Sistemi ✔ <cagri.alkann@gmail.com>", // sender address
+                                    to: newUser.email, // list of receivers
+                                    subject: "Kayıt Onayı", // Subject line
+                                    html: "<b>Kayıt onayı için aşağıdaki linke basınız.</b><br><br><a href=" + newurl + ">E-mail doğrula</a>"// html body
+
+                                };
+
+                                smtpTransport.sendMail(mailOptions, function (error, response) {
+                                    if (error) {
+                                        console.log("EMAIl HATSAU");
+                                        console.log(error);
+                                    } else {
+                                        console.log("Message sent: " + response.message);
+                                    }
+
+                                    // if you don't want to use this transport object anymore, uncomment following line
+                                    //smtpTransport.close(); // shut down the connection pool, no more messages
+                                });
+
+                                req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
+                                res.location('/');
+                                res.redirect('/')
+
+                            });
+                        });
                     }
                 });
             });
@@ -169,6 +202,19 @@ router.post('/register', function (req, res) {
         }
     });
 });
+
+router.get('/emailVerification/:newUserId', function (req, res) {
+    var userId = req.params.newUserId;
+    User.findById(userId, function (err, user) {
+        if (err) throw (err);
+        user.emailVerification = true;
+        user.save(function (err) {
+            if (err) throw err;
+            req.flash('success', "Hesabınız onaylanmıştır.");
+            res.redirect('/');
+        });
+    })
+})
 
 // === LOGİN ==== //
 router.get('/login', function (req, res) {
@@ -193,8 +239,6 @@ router.get('/login', function (req, res) {
 
         });
     }
-
-
 });
 
 router.get('/logout', function (req, res) {
@@ -208,12 +252,168 @@ router.post('/login', passport.authenticate('local', {
         failureFlash: 'Kullanıcı adı ve şifrenizi kotrol edip tekrar deneyiniz'
     }),
     function (req, res) {
-        console.log('auth success');
-        console.log(req.user);
-        req.flash('success', 'Hoşgeldin '+req.user.firstName);
+        if (req.user.emailVerification == false) {
+            req.flash('error', 'Email aktivasyonu yapılmamıştır. Lütfen emailinize gelen linke tıklayarak hesabınızı aktifleştirin. ');
+            MainTopic.find({}, function (err, mainTopics) {
+                if (err) throw (err);
+                res.render('signin', {
+                    mainTopics: mainTopics
+                });
+            });
+        }
+        else {
+            console.log('auth success');
+            console.log(req.user);
+            req.flash('success', 'Hoşgeldin ' + req.user.firstName);
+            res.location('/');
+            res.redirect('/');
+        }
+    });
+
+router.get('/forgetPassword', function (req, res, next) {
+    if (req.session.user) {
+        console.log("zaten giris yapmissin ! ");
         res.location('/');
         res.redirect('/');
-    });
+    } else {
+        var myMainTopics = [];
+        MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw (err);
+            mainTopics.forEach(function (mainTopic) {
+                myMainTopics.push(mainTopic);
+            });
+            Topic.find({}, function (err, topics) {
+                if (err) throw (err);
+                res.render('forgetPassword', {
+                    mainTopics: myMainTopics,
+                    topics: topics
+                });
+            });
+
+        });
+    }
+});
+
+router.post('/forgetPassword', function (req, res) {
+    var email = req.body.email;
+    var query = {email: email};
+
+    User.find(query, function (err, users) {
+        var newUserId = users[0]._id;
+
+        var smtpTransport = nodemailer.createTransport("SMTP", {
+            service: "Gmail",
+            auth: {
+                user: "kavramtakip@gmail.com",
+                pass: "kavram123"
+            }
+        });
+        var newurl = "http://localhost:3000/user/giveNewPassword/" + newUserId;
+        var mailOptions = {
+            from: "Kavram Takip Sistemi ✔ <kavramtakip@gmail.com>", // sender address
+            to: email, // list of receivers
+            subject: "Yeni şifre talebi", // Subject line
+            html: "<b>Yeni şifre için aşağıdaki linke basınız.</b><br><br><a href=" + newurl + ">Yeni Şifre Tanımlama</a>"// html body
+
+        };
+
+        smtpTransport.sendMail(mailOptions, function (error, response) {
+            if (error) {
+                console.log("EMAIl HATSAU");
+                console.log(error);
+            } else {
+                console.log("Message sent: " + response.message);
+                req.flash('success', "Mail gönderilmiştir. Lütfen kontrol ediniz.");
+                res.redirect('/');
+            }
+
+            // if you don't want to use this transport object anymore, uncomment following line
+            //smtpTransport.close(); // shut down the connection pool, no more messages
+        });
+    })
+});
+
+router.get('/giveNewPassword/:userId', function (req, res) {
+    var userId = req.params.userId;
+    if (req.session.user) {
+        console.log("zaten giris yapmis ! ");
+        res.location('/');
+        res.redirect('/');
+        sin
+    } else {
+        var myMainTopics = [];
+        MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw (err);
+            mainTopics.forEach(function (mainTopic) {
+                myMainTopics.push(mainTopic);
+            });
+            Topic.find({}, function (err, topics) {
+                if (err) throw (err);
+
+                User.findById(userId, function (err, user) {
+                    if (err) throw (err);
+                    res.render('giveNewPassword', {
+                        mainTopics: myMainTopics,
+                        topics: topics,
+                        userId: user._id
+                    });
+                })
+            });
+
+        });
+    }
+});
+
+router.post('/giveNewPassword/:userId', function (req, res, next) {
+    var newPassword = req.body.password;
+    var cNewPassword = req.body.npassword;
+    var usserId = req.params.userId;
+    req.checkBody('password', 'Yeni şifreyi giriniz').notEmpty();
+    req.checkBody('npassword', 'Girdiğiniz şifreler uyuşmuyor.').equals(newPassword);
+
+    var errors = req.validationErrors();
+    if (!errors) {
+        User.findById(usserId, function (err, user) {
+            if (err) throw err;
+            // users.forEach(function (kullanici) {
+            //     if((kullanici._id).toString() === usserId.toString())
+            //         user = kullanici;
+            // });
+            // topic.name = topicName;
+            user.password = newPassword;
+
+            User.createUser(user, function (err, euser) {
+                if (err) throw err;
+                req.flash('success', "Şifreniz değiştirildi.");
+                res.redirect('/');
+            });
+        });
+    }
+    else {
+        console.log("Hata var maalesef!!!");
+        req.flash('error', "Girdiğiniz şifreler eşleşmiyor!");
+        var myMainTopics = [];
+        MainTopic.find({}, function (err, mainTopics) {
+            if (err) throw (err);
+            mainTopics.forEach(function (mainTopic) {
+                myMainTopics.push(mainTopic);
+            });
+            Topic.find({}, function (err, topics) {
+                if (err) throw (err);
+
+                User.findById(usserId, function (err, user) {
+                    if (err) throw (err);
+                    res.render('giveNewPassword', {
+                        mainTopics: myMainTopics,
+                        topics: topics,
+                        userId: usserId
+                    });
+                })
+            });
+        });
+    }
+
+})
 
 passport.serializeUser(function (user, done) {
     done(null, user.id);

@@ -17,6 +17,83 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
     var mySubTopics = [];
     var myKeywords = [];
     var newPopTopics = [];
+
+    var n;
+    var m;
+    var matrix;
+    var yer;
+    var onereceklerimiz = [];
+    User.find({}, function (err, users) {
+        if (err) throw (err);
+        n = users.length;
+        Topic.find({}, function (err, topics) {
+            if (err) throw (err);
+            m = topics.length;
+            var newMatrix = new Array(users.length);
+            for (var i = 0; i < users.length; i++) {
+                newMatrix[i] = new Array(topics.length);
+            }
+            for (var i = 0; i < users.length; i++) {
+                var followingTopics = users[i].followingTopics;
+                if ((req.user._id).toString() === (users[i]._id).toString())
+                    yer = i;
+                for (var j = 0; j < topics.length; j++) {
+                    var control = false;
+                    followingTopics.forEach(function (topic) {
+                        if (topic.toString() === (topics[j]._id).toString())
+                            control = true;
+                    });
+                    if (control == true)
+                        newMatrix[i][j] = 1;
+                    else
+                        newMatrix[i][j] = 0;
+                    console.log(newMatrix[i][j]);
+                }
+            }
+            console.log(newMatrix);
+            var dizi = new Array(users.length);
+            for (var i = 0; i < users.length; i++) {
+                dizi[i] = new Array(2);
+            }
+            for (var i = 0; i < users.length; i++) {
+                var toplam = 0;
+                var d1 = 0;
+                var d2 = 0;
+                for (var j = 0; j < topics.length; j++) {
+                    toplam = toplam + (newMatrix[i][j] * newMatrix[yer][j]);
+                    d1 = d1 + newMatrix[i][j] * newMatrix[i][j];
+                    d2 = d2 + newMatrix[yer][j] * newMatrix[yer][j];
+                }
+                var bolu = (Math.sqrt(d1)) * (Math.sqrt(d2));
+                if (bolu == 0)
+                    dizi[i][0] = 0;
+                else
+                    dizi[i][0] = toplam / bolu;
+                dizi[i][1] = i;
+            }
+            dizi.sort(function (a, b) {
+                return b[0] - a[0]
+            });
+            console.log(dizi);
+            for (var k = 1; k < 5; k++) {
+                for (var c = 0; c < topics.length; c++) {
+                    var varMi = false;
+                    if (newMatrix[dizi[k][1]][c] == 1 && newMatrix[dizi[0][1]][c] == 0) {
+                        onereceklerimiz.forEach(function (onerilen) {
+                            if ((onerilen._id).toString() === (topics[c]._id).toString())
+                                varMi = true;
+                        });
+                        if (varMi == false)
+                            onereceklerimiz.push(topics[c]);
+                    }
+                }
+            }
+        })
+    });
+
+
+
+
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
         mainTopics.forEach(function (mainTopic) {
@@ -43,13 +120,16 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
                     Topic.find({}, function (err, kavramlar) {
                         if (err) throw (err);
                         var userRole = userRoleControl(req.user);
+
+
                         res.render('addTopic', {
                             mainTopics: myMainTopics,
                             subTopics: mySubTopics,
                             keywords: myKeywords,
                             populerTopics: newPopTopics,
                             userRole: userRole,
-                            topics: kavramlar
+                            topics: kavramlar,
+                            onerilenTopicler: onereceklerimiz
                         });
                     });
                 });
@@ -559,7 +639,7 @@ router.get('/editTopic/:topicId', ensureAuthentication, function (req, res, next
                             console.log(false);
                         }
                     }
-
+                    var userRole = userRoleControl(req.user);
                     res.render('edit_topic', {
                         topic: topic,
                         topicName: topic.name,
@@ -576,7 +656,10 @@ router.get('/editTopic/:topicId', ensureAuthentication, function (req, res, next
 
                         mainTopics: mainTopics,
                         subTopics: subTopics,
-                        keywords: keywords
+                        keywords: keywords,
+
+                        roles: req.user.role,
+                        userRole: userRole
                     });
                 });
             });
@@ -643,6 +726,80 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
     var currentUser = req.user;
     var followControl = false;
     var userRole = userRoleControl(req.user);
+
+    var n;
+    var m;
+    var matrix;
+    var yer;
+    var onereceklerimiz = [];
+    User.find({}, function (err, users) {
+        if (err) throw (err);
+        n = users.length;
+        Topic.find({}, function (err, topics) {
+            if (err) throw (err);
+            m = topics.length;
+            var newMatrix = new Array(users.length);
+            for (var i = 0; i < users.length; i++) {
+                newMatrix[i] = new Array(topics.length);
+            }
+            for (var i = 0; i < users.length; i++) {
+                var followingTopics = users[i].followingTopics;
+                if ((currentUser._id).toString() === (users[i]._id).toString())
+                    yer = i;
+                for (var j = 0; j < topics.length; j++) {
+                    var control = false;
+                    followingTopics.forEach(function (topic) {
+                        if (topic.toString() === (topics[j]._id).toString())
+                            control = true;
+                    });
+                    if (control == true)
+                        newMatrix[i][j] = 1;
+                    else
+                        newMatrix[i][j] = 0;
+                    console.log(newMatrix[i][j]);
+                }
+            }
+            console.log(newMatrix);
+            var dizi = new Array(users.length);
+            for (var i = 0; i < users.length; i++) {
+                dizi[i] = new Array(2);
+            }
+            for (var i = 0; i < users.length; i++) {
+                var toplam = 0;
+                var d1 = 0;
+                var d2 = 0;
+                for (var j = 0; j < topics.length; j++) {
+                    toplam = toplam + (newMatrix[i][j] * newMatrix[yer][j]);
+                    d1 = d1 + newMatrix[i][j] * newMatrix[i][j];
+                    d2 = d2 + newMatrix[yer][j] * newMatrix[yer][j];
+                }
+                var bolu = (Math.sqrt(d1)) * (Math.sqrt(d2));
+                if (bolu == 0)
+                    dizi[i][0] = 0;
+                else
+                    dizi[i][0] = toplam / bolu;
+                dizi[i][1] = i;
+            }
+            dizi.sort(function (a, b) {
+                return b[0] - a[0]
+            });
+            console.log(dizi);
+            for (var k = 1; k < 5; k++) {
+                for (var c = 0; c < topics.length; c++) {
+                    var varMi = false;
+                    if (newMatrix[dizi[k][1]][c] == 1 && newMatrix[dizi[0][1]][c] == 0) {
+                        onereceklerimiz.forEach(function (onerilen) {
+                            if ((onerilen._id).toString() === (topics[c]._id).toString())
+                                varMi = true;
+                        });
+                        if (varMi == false)
+                            onereceklerimiz.push(topics[c]);
+                    }
+                }
+            }
+        })
+    });
+
     Topic.findById(topicId, function (err, topic) {
         if (err) throw err;
         topic.followers.forEach(function (follower) {
@@ -654,6 +811,8 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
         topic.save(function (err) {
             if (err) throw err;
         });
+
+        // TODO : comit et olum sunları bak giderse fena olur 
         var newPopTopics = [];
         MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
             if (err) throw err;
@@ -683,7 +842,8 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
                                         screenKeyword: keyword,
                                         followerControl: followControl,
                                         roles: currentUser.role,
-                                        topics: topics
+                                        topics: topics,
+                                        onerilenTopicler: onereceklerimiz
                                     });
                                 });
                             });
