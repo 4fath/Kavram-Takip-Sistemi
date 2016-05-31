@@ -8,22 +8,22 @@ block content
                 .panel.panel-success.col-md-4
                     .panel-heading Temel Alan
                     .panel-body
-                        select(name='myMainTopic')
-                            option(value='#{mainTopics[0]._id') #{mainTopics[0].name}
-                            each mainTopic in mainTopics
-                                option(value='#{mainTopic._id}')  #{mainTopic.name}
+                        select(name='myMainTopic', id="main_topic_select", class="main_topic_select")
+                            //option(value='#{mainTopics[0]._id') #{mainTopics[0].name}
+                            //each mainTopic in mainTopics
+                            //    option(value='#{mainTopic._id}')  #{mainTopic.name}
                 .panel.panel-success.col-md-4
                     .panel-heading Bilim Alanı
                     .panel-body
-                        select(name='mySubTopic')
-                            each subTopic in subTopics
-                                option(value='#{subTopic._id}')  #{subTopic.name}
+                        select(name='mySubTopic', id="sub_topic_select", class="sub_topic_select")
+                            //each subTopic in subTopics
+                            //    option(value='#{subTopic._id}')  #{subTopic.name}
                 .panel.panel-success.col-md-4
                     .panel-heading Anahtar Kelime
                     .panel-body
-                        select(name='myKeyword')
-                            each keyword in keywords
-                                option(value='#{keyword._id}')  #{keyword.name}
+                        select(name='myKeyword', id="keyword_select", class="keyword_select")
+                            //each keyword in keywords
+                            //    option(value='#{keyword._id}')  #{keyword.name}
                 .panel.panel-success.col-md-8
                     .panel-heading  Topic Name
                     .panel-body
@@ -47,10 +47,10 @@ block content
                 .col-md-5
                     button.btn.btn-info(type='Submit', value='Submit', formaction='/topic/addTopicAsDraft') Taslak Olarak Kaydet
 
-
+script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
+script(src='js/add_topic.js')
 script(src='../ckeditor/ckeditor.js')
 script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
-script(src='js/jquery.min.js')
 script(src='js/bootstrap.min.js')
 script(src='js/scripts.js')
 

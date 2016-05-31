@@ -1,3 +1,18 @@
+/.idea/copyright
+/.env
+/.idea/jsLibraryMappings.xml
+/.idea/watcherTasks.xml
+/.idea/libraries
+/.idea/modules.xml
+/.idea/uiDesigner.xml
+/.idea/inspectionProfiles
+/.idea/.name
+/.idea/compiler.xml
+/.idea/Kavram_Takip_Sistemi.iml
+/.idea/dictionaries
+/.idea/misc.xml
+/.idea/vcs.xml
+/.idea/workspace.xml
 /.idea
 ### Node template
 # Logs

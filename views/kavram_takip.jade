@@ -8,16 +8,6 @@ block content
             ul.list-group
                 li.list-group-item.modal-header
                     h3
-                        //ul.breadcrumb
-                        //    li
-                        //        if screenMainTopic
-                        //            a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
-                        //    li
-                        //        if screenSubTopic
-                        //            a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
-                        //    li
-                        //        if screenTopic
-                        //            a(href='/test/git') #{screenTopic.name}
                         .breadcrumb
                             if screenMainTopic
                                 a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
@@ -68,3 +58,5 @@ script(src='../js/bootstrap.min.js')
 script(src='../js/scripts.js')
 script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
 script(type='text/javascript', src='../js/materialize.js')
+script.
+    alert('hello world');

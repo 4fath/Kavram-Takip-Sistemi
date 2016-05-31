@@ -137,7 +137,7 @@ router.get('/getValueArray', function (req, res, next) {
                 res.setHeader('content-type', 'text/javascript');
                 res.header("Access-Control-Allow-Origin", "*");
                 res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-                res.send(jsonTestArray);
+                res.send(jsonObjecct);
 
             })
         })
