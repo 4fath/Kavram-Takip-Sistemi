@@ -382,8 +382,8 @@ router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, n
                 if (err) throw err;
             });
 
-            // TODO : do it async parallel
-            MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
+            // TODO : do it async parallel i am sory for this merdiven
+            MainTospic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
                 if (err) throw err;
                 SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
                     if (err) throw err;
@@ -783,7 +783,6 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
             if (err) throw err;
         });
 
-        // TODO : comit et olum sunları bak giderse fena olur 
         var newPopTopics = [];
         var isAuthor = false;
         MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {

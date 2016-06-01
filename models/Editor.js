@@ -2,6 +2,7 @@
  * Created by TOSHIBA on 7.3.2016.
  */
 
+// NOTE : useless
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
@@ -39,7 +40,6 @@ var EditorSchema = new Schema({
         trim: true
     },
 
-    // TODO : password will stored via encrypt module
     password: {
         type : String,
         required : true,

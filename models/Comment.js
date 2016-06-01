@@ -1,6 +1,7 @@
 /**
  * Created by TOSHIBA on 3.3.2016.
  */
+// NOTE : useless , we have hope i can be useful next VERSİON 
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;

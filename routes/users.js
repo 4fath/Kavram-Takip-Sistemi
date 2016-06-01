@@ -653,7 +653,6 @@ router.post('/adminProfile', function (req, res) {
     }
 });
 
-// TODO : NOT tested
 router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
     var userId = req.user._id;
@@ -822,7 +821,6 @@ router.post('/chiefEditorProfile', function (req, res) {
     }
 });
 
-// TODO : NOT tested
 router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     var userId = req.user._id;
     var currentEditorUser = {};

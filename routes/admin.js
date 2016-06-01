@@ -153,7 +153,6 @@ router.get('/addSubTopic', function (req, res) {
     });
 });
 
-// TODO : NOT tested
 router.post('/addSubTopic', function (req, res, next) {
     var currentUserId = req.user._id;
     var mainTopicId = req.body.mainTopicId;

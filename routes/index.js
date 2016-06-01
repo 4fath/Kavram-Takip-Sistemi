@@ -368,7 +368,7 @@ router.get('/', function (req, res, next) {
 
                                             populerTopics: newPopTopics,
 
-                                            onerilenTopicler: onereceklerimiz // TODO : think about that
+                                            onerilenTopicler: onereceklerimiz 
                                         });
                                     })
 
