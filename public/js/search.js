@@ -4,6 +4,7 @@
 
 /** Examples
  * http://www.runningcoder.org/jquerytypeahead/demo/
+ * https://github.com/biggora/bootstrap-ajax-typeahead
  *
  *
  * */
