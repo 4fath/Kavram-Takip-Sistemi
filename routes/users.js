@@ -96,6 +96,7 @@ router.post('/register', function (req, res) {
     var passwordConfirm = req.body.passwordConfirm;
     var alanlar = req.body.alanlar;
     var interests = [];
+    var usernameControl = false;
     console.log(alanlar);
 
     // form validation
@@ -127,78 +128,101 @@ router.post('/register', function (req, res) {
             });
 
         } else {
-            var i = 0;
-            alanlar.forEach(function (field) {
-                var asd = field.toString();
-                Keyword.findById(field, function (err, keyword) {
-                    if (err) throw err;
-                    i++;
-                    interests.push(keyword._id);
-                    // if((keyword.name).toLowerCase() == String(asd).trim().toLowerCase()){
-                    //     console.log("girdiiiii");
-                    //     interests.push(keyword._id);
-                    // }
-                    if (i == alanlar.length) {
-                        var newUser = new User({
+            User.find({}, function (err, users) {
+                users.forEach(function (user) {
+                    if (user.username === username)
+                        usernameControl = true;
+                });
+                if (!usernameControl) {
+                    var i = 0;
+                    alanlar.forEach(function (field) {
+                        var asd = field.toString();
+                        Keyword.findById(field, function (err, keyword) {
+                            if (err) throw err;
+                            i++;
+                            interests.push(keyword._id);
+                            // if((keyword.name).toLowerCase() == String(asd).trim().toLowerCase()){
+                            //     console.log("girdiiiii");
+                            //     interests.push(keyword._id);
+                            // }
+                            if (i == alanlar.length) {
+                                var newUser = new User({
+                                    firstName: firstName,
+                                    lastName: lastName,
+                                    email: email,
+                                    username: username,
+                                    password: password,
+                                    interests: interests,
+                                    role: ['author']
+                                });
+
+                                User.createUser(newUser, function (err, user) {
+                                    if (err) throw err;
+                                    console.log(user);
+
+                                    var newUserId;
+                                    var queryForUserId = {username: newUser.username};
+                                    User.find(queryForUserId, function (err, users) {
+                                        var user = users[0];
+
+                                        newUserId = user._id;
+                                        console.log(users);
+
+                                        var smtpTransport = nodemailer.createTransport("SMTP", {
+                                            service: "Gmail",
+                                            auth: {
+                                                user: "kavramtakip@gmail.com",
+                                                pass: "kavram123"
+                                            }
+                                        });
+                                        var newurl = "http://localhost:3000/user/emailVerification/" + newUserId;
+                                        var mailOptions = {
+                                            from: "Kavram Takip Sistemi ✔ <cagri.alkann@gmail.com>", // sender address
+                                            to: newUser.email, // list of receivers
+                                            subject: "Kayıt Onayı", // Subject line
+                                            html: "<b>Kayıt onayı için aşağıdaki linke basınız.</b><br><br><a href=" + newurl + ">E-mail doğrula</a>"// html body
+
+                                        };
+
+                                        smtpTransport.sendMail(mailOptions, function (error, response) {
+                                            if (error) {
+                                                console.log("EMAIl HATSAU");
+                                                console.log(error);
+                                            } else {
+                                                console.log("Message sent: " + response.message);
+                                            }
+
+                                            // if you don't want to use this transport object anymore, uncomment following line
+                                            //smtpTransport.close(); // shut down the connection pool, no more messages
+                                        });
+
+                                        req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
+                                        res.location('/');
+                                        res.redirect('/')
+
+                                    });
+                                });
+                            }
+                        });
+                    });
+                }
+                else {
+                    Keyword.find({}, function (err, keywords) {
+                        req.flash('error', "Aynı isimli kullanıcı adı vardır. Lütfen kullanıcı adını değiştiriniz.");
+                        res.render('signup', {
+                            errors: errors,
                             firstName: firstName,
                             lastName: lastName,
                             email: email,
                             username: username,
                             password: password,
-                            interests: interests,
-                            role: ['author']
+                            passwordConfirm: passwordConfirm,
+                            mainTopics: mainTopics,
+                            keywords: keywords
                         });
-
-                        User.createUser(newUser, function (err, user) {
-                            if (err) throw err;
-                            console.log(user);
-
-                            var newUserId;
-                            var queryForUserId = {username: newUser.username};
-                            User.find(queryForUserId, function (err, users) {
-                                var user = users[0];
-
-                                newUserId = user._id;
-                                console.log(users);
-
-                                var smtpTransport = nodemailer.createTransport("SMTP", {
-                                    service: "Gmail",
-                                    auth: {
-                                        user: "kavramtakip@gmail.com",
-                                        pass: "kavram123"
-                                    }
-                                });
-                                var newurl = "http://localhost:3000/user/emailVerification/" + newUserId;
-                                var mailOptions = {
-                                    from: "Kavram Takip Sistemi ✔ <cagri.alkann@gmail.com>", // sender address
-                                    to: newUser.email, // list of receivers
-                                    subject: "Kayıt Onayı", // Subject line
-                                    html: "<b>Kayıt onayı için aşağıdaki linke basınız.</b><br><br><a href=" + newurl + ">E-mail doğrula</a>"// html body
-
-                                };
-
-                                smtpTransport.sendMail(mailOptions, function (error, response) {
-                                    if (error) {
-                                        console.log("EMAIl HATSAU");
-                                        console.log(error);
-                                    } else {
-                                        console.log("Message sent: " + response.message);
-                                    }
-
-                                    // if you don't want to use this transport object anymore, uncomment following line
-                                    //smtpTransport.close(); // shut down the connection pool, no more messages
-                                });
-
-                                req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
-                                res.location('/');
-                                res.redirect('/')
-
-                            });
-                        });
-                    }
-                });
+                    });
+                }
             });
-
         }
     });
 });

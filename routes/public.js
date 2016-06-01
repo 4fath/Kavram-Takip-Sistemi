@@ -220,20 +220,28 @@ router.get('/inbox', function (req, res, next) {
     var query = {to: currentUser._id};
     var userRole = userRoleControl(currentUser);
     var mesajlar = [];
-
-    Message.find(query).distinct('subject').exec(function (err, subjects) {
+    var i = 0;
+    Message.find({}, function (err, messages) {
         if (err) throw err;
-        subjects.forEach(function (subject) {
-            var queryForMessage = {subject: subject};
-            Message.find(queryForMessage, function (err, messages) {
-                mesajlar.push(messages[0]);
+        Message.find(query).distinct('subject').exec(function (err, subjects) {
+            if (err) throw err;
+            subjects.forEach(function (subject) {
+                var control = false;
+                var i = 0;
+                while (!control) {
+                    if (subject === messages[i].subject) {
+                        control = true;
+                        mesajlar.push(messages[i]);
+                    }
+                    i++;
+                }
+            });
+            res.render('inbox', {
+                userRole: userRole,
+                roles: currentUser.role,
+                mesajlar: mesajlar
             });
         });
-        res.render('inbox', {
-            userRole: userRole,
-            roles: currentUser.role,
-            mesajlar: mesajlar
-        })
     });
 });
 

@@ -41,7 +41,6 @@ var ChiefEditorSchema = new Schema({
         trim : true
     },
 
-    // TODO : password will stored via encrypt module
     password : {
         type : String,
         required : true,

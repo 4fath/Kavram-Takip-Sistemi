@@ -60,7 +60,8 @@ block content
                 .col-md-5
                     button.btn.btn-success.btn-block(type='submit', value='Submit', formaction='/topic/sendApprove/#{topic._id}') Gönder
                 .col-md-5
-                    button.btn.btn-info(type='Submit', value='Submit') Güncelle
+                    if !topic.allowStatus.status
+                        button.btn.btn-info(type='Submit', value='Submit') Güncelle
 
 block solMenu
     #accordion.panel-group

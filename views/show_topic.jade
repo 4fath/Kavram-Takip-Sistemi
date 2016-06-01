@@ -60,7 +60,18 @@ block content
                                                 .col-md-12
                                                     .form-group
                                                         textarea(name='rejectReason', value='rejectReason',  rows='4', cols='50',placeholder='Red sebebini giriniz', autofocus='')
-
+                        .row
+                            .col-md-8
+                            .col-md-4
+                                if user
+                                    if topic
+                                        if topic.allowStatus.status
+                                            if isAuthor
+                                                form(method='GET', action='/topic/editTopic/#{topic._id}')
+                                                    .form-group
+                                                        button.btn.btn-success(type='Submit', value='Submit')
+                                                            span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                            | Düzenle
         .col-md-1
 
 

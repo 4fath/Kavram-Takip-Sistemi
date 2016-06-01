@@ -1,51 +1,52 @@
-extends MainLayout
+extends forEditorLayout
 
 block content
     form(method='post', action='/topic/addTopic')
         .form-group
             .col-md-1
             .col-md-11
-                .panel.panel-success.col-md-4
-                    .panel-heading Temel Alan
-                    .panel-body
-                        select(name='myMainTopic', id="main_topic_select", class="main_topic_select")
-                            //option(value='#{mainTopics[0]._id') #{mainTopics[0].name}
-                            //each mainTopic in mainTopics
-                            //    option(value='#{mainTopic._id}')  #{mainTopic.name}
-                .panel.panel-success.col-md-4
-                    .panel-heading Bilim Alanı
-                    .panel-body
-                        select(name='mySubTopic', id="sub_topic_select", class="sub_topic_select")
-                            //each subTopic in subTopics
-                            //    option(value='#{subTopic._id}')  #{subTopic.name}
-                .panel.panel-success.col-md-4
-                    .panel-heading Anahtar Kelime
-                    .panel-body
-                        select(name='myKeyword', id="keyword_select", class="keyword_select")
-                            //each keyword in keywords
-                            //    option(value='#{keyword._id}')  #{keyword.name}
-                .panel.panel-success.col-md-8
-                    .panel-heading  Topic Name
-                    .panel-body
-                        input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
-                .panel.panel-success.col-md-8
-                    .panel-heading Topic Özeti
-                    .panel-body
-                        textarea.form-group(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
-                //.panel.panel-success.col-md-8
-                //    .panel-heading  İlgili Görsel
-                //    .panel-body
-                //        input.form-control(type='file', name='topic_image', placeholder='Görsel içerik')
-                .panel.panel-success.col-md-12
-                    .panel-heading Kavram Tanımı
-                    br
-                    textarea#textarea(name='topicDefinition')
-                    script.
-                        CKEDITOR.replace('textarea');
-                .col-md-5
-                    button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
-                .col-md-5
-                    button.btn.btn-info(type='Submit', value='Submit', formaction='/topic/addTopicAsDraft') Taslak Olarak Kaydet
+                .row
+                    .panel.panel-success.col-md-4
+                        .panel-heading Temel Alan
+                        .panel-body
+                            select(name='myMainTopic', id="main_topic_select", class="main_topic_select")
+                                //option(value='#{mainTopics[0]._id') #{mainTopics[0].name}
+                                //each mainTopic in mainTopics
+                                //    option(value='#{mainTopic._id}')  #{mainTopic.name}
+                    .panel.panel-success.col-md-4
+                        .panel-heading Bilim Alanı
+                        .panel-body
+                            select(name='mySubTopic', id="sub_topic_select", class="sub_topic_select")
+                                //each subTopic in subTopics
+                                //    option(value='#{subTopic._id}')  #{subTopic.name}
+                    .panel.panel-success.col-md-4
+                        .panel-heading Anahtar Kelime
+                        .panel-body
+                            select(name='myKeyword', id="keyword_select", class="keyword_select")
+                                //each keyword in keywords
+                                //    option(value='#{keyword._id}')  #{keyword.name}
+                    .panel.panel-success.col-md-9
+                        .panel-heading  Topic Name
+                        .panel-body
+                            input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                    .panel.panel-success.col-md-9
+                        .panel-heading Topic Özeti
+                        .panel-body
+                            textarea.form-control(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                    //.panel.panel-success.col-md-8
+                    //    .panel-heading  İlgili Görsel
+                    //    .panel-body
+                    //        input.form-control(type='file', name='topic_image', placeholder='Görsel içerik')
+                    .panel.panel-success.col-md-12
+                        .panel-heading Kavram Tanımı
+                        br
+                        textarea#textarea(name='topicDefinition')
+                        script.
+                            CKEDITOR.replace('textarea');
+                    .col-md-5
+                        button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
+                    .col-md-5
+                        button.btn.btn-info(type='Submit', value='Submit', formaction='/topic/addTopicAsDraft') Taslak Olarak Kaydet
 
 script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
 script(src='js/add_topic.js')
