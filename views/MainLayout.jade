@@ -2,68 +2,19 @@ doctype html
 html
     head
         title= title
+        link(href='http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css', rel='Stylesheet')
         link(rel='stylesheet', href='/css/bootstrap.css')
         link(rel='stylesheet', href='/css/bootstrap.min.css')
         link(rel='stylesheet', href='/css/style.css')
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
+        script(src='http://code.jquery.com/ui/1.10.2/jquery-ui.js')
         script(src='/js/add_topic.js', type='text/javascript')
+        script(src='/js/search.js', type='text/javascript')
         script(src='../ckeditor/ckeditor.js')
         script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
         link(href='/css/dropdown.css', rel='stylesheet')
         link(href='/css/awesomplete.css', rel='stylesheet')
         script(src='/js/dropdown.js', type='text/javascript')
-        //script(type='text/javascript').
-        //    alert('hello world');
-        //    $(document).ready(function () {
-        //        console.log("iceri girdi");
-        //        console.log("iceri girdi 2");
-        //        var myMainTopics;
-        //        var mySubTopics;
-        //        var myKeywords;
-        //        $.get("http://localhost:3000/topic/getValueArray", function (data, status) {
-        //            console.log("GET request atildi");
-        //            var returnedData = JSON.parse(data);
-        //            myMainTopics = returnedData.mainTopics;
-        //            mySubTopics = returnedData.subTopics;
-        //            myKeywords = returnedData.keywords;
-        //            alert("Data: " + returnedData.mainTopics[0].name + "\\nStatus: " + status);
-        //            console.log(myMainTopics);
-        //            var test = $('.main_topic_select').val();
-        //            console.log(test);
-        //        });
-        //        //If parent option is changed
-        //        $("#main_topic_select").change(function () {
-        //            console.log("degisti degişti");
-        //            var parent = $(this).val(); //get option value from parent
-        //            console.log(parent);
-        //            // switch (parent) { //using switch compare selected option and populate child
-        //            //     case 'chocolates':
-        //            //         list(chocolates);
-        //            //         break;
-        //            //     case 'vegetables':
-        //            //         list(vegetables);
-        //            //         break;
-        //            //     case 'icecreams':
-        //            //         list(icecreams);
-        //            //         break;
-        //            //     default: //default child option is blank
-        //            //         $("#child_selection").html('');
-        //            //         break;
-        //            // }
-        //        });
-        //        //function to populate child select box
-        //        function list(array_list) {
-        //            $("#child_selection").html(""); //reset child options
-        //            var selectedMain = $('parent_selection').val();
-        //            console.log(selectedMain);
-        //            $(array_list).each(function (i) { //populate child options
-        //                $("#child_selection").append("<option value=\\"
-        //                " + array_list[i].value + "\">" + array_list[i].display + "</option>"
-        //                )
-        //                ;
-        //            });
-        //        }
-        //    });
     body
         != messages()
         .container-fluid
@@ -87,14 +38,11 @@ html
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
-                                //form.navbar-form.navbar-left(role='form', method='post', action='/topic/findTopic')
-                                //    .form-group
-                                //        datalist#mylist
-                                //            each topic in topics
-                                //                option #{topic.name}
-                                //        input.form-control.awesomplete(type='text', name='kavramAdi',list='mylist')
-                                //        //input.form-control(type='text', placeholder='Kavram adı giriniz')
-                                //        button.btn.btn-default(type='submit') Ara
+                                    form.navbar-form.navbar-left(role='form', method='post', action='/topic/findTopic')
+                                        .form-group
+                                            input#search_input.search_input.form-control.awesomplete(type='text', name='kavramAdi')
+                                            //input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                            button.btn.btn-default(type='submit') Ara
 
                                 if !user
                                     ul.nav.navbar-nav.navbar-right

@@ -58,7 +58,6 @@ router.get('/', function (req, res, next) {
 
     // USER access
     if (currentUser) {
-        // parallel search for async process
         async.parallel([
             function (callback) {
                 MainTopic.find({}, function (err, mainTopics) {
@@ -527,13 +526,6 @@ router.get('/', function (req, res, next) {
             }
         });
     }
-});
-
-router.get('/search', function (req, res, next) {
-
-    var selectedTopic = req.query.key;
-    
-
 });
 
 function getRandomInt(min, max) {
