@@ -107,7 +107,7 @@ router.get('/:keywordId', function (req, res, next) {
 
                         Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
                             if (err) throw err;
-                            for (var i = 0; i < 2; i++) {
+                            for (var i = 0; i < 5; i++) {
                                 newPopTopics.push(toppics[i]);
                             }
 

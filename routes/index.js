@@ -16,7 +16,7 @@ var globalTopics = [];
 function getTopicObj(id) {
     var lenOfTopics = globalTopics.length;
     console.log(lenOfTopics);
-    console.log("buraya girdi ==========")
+    console.log("buraya girdi ==========");
     if (lenOfTopics > 0) {
         var tmp = 0;
         // var currentTopic = globalTopics[tmp];
@@ -368,7 +368,7 @@ router.get('/', function (req, res, next) {
 
                                             populerTopics: newPopTopics,
 
-                                            onerilenTopicler: onereceklerimiz 
+                                            onerilenTopicler: onereceklerimiz
                                         });
                                     })
 
@@ -462,68 +462,93 @@ router.get('/', function (req, res, next) {
             var randomSubTopic = mySubTopics[getRandomInt(0, subTopicLength - 1)];
             var randomKeyword = myKeywords[getRandomInt(0, keywordLength - 1)];
 
-            var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
-
-            var MainTopicsId;
-            var SubTopicId;
-            var KeywordId;
-            if (randomTopic) {
-                MainTopicsId = randomTopic.relevantMainTopics[0];
-                SubTopicId = randomTopic.relevantSubTopics[0];
-                KeywordId = randomTopic.relevantKeywords[0];
-                MainTopic.findById(MainTopicsId, function (err, mainTopic) {
-                    if (err) throw err;
-                    SubTopic.findById(SubTopicId, function (err, subTopic) {
-                        if (err) throw err;
-                        Keyword.findById(KeywordId, function (err, keyword) {
-                            if (err) throw err;
-                            User.findById(randomTopic.author, function (err, user) {
-                                if (err) throw err;
-                                res.render('kavram_takip', {
-                                    title: 'Kavram Takip Sistemi',
-                                    mainTopics: myMainTopics,
-                                    subTopics: mySubTopics,
-                                    keywords: myKeywords,
-                                    topics: myTopics,
-
-                                    screenMainTopic: mainTopic,
-                                    screenSubTopic: subTopic,
-                                    screenKeyword: keyword,
-                                    screenTopic: randomTopic,
-
-                                    topicUser: user
-                                });
-                            })
+            var randomTopics = [];
+            var MainTopicsIds = [];
+            var SubTopicIds = [];
+            var KeywordIds = [];
+            for (var i = 0; i < 3; i++) {
+                var randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+                if (i != 0) {
+                    var topicControl = false;
+                    while (!topicControl) {
+                        var control = false;
+                        randomTopics.forEach(function (top) {
+                            if ((top._id).toString() === (randomTopic._id).toString())
+                                control = true;
                         });
-                    })
-                });
+                        if (control == false) {
+                            randomTopics.push(randomTopic);
+                            topicControl = true;
+                        }
+                        else {
+                            randomTopic = myTopics[getRandomInt(0, topicLength - 1)];
+                        }
+                    }
+                }
+                else {
+                    randomTopics.push(randomTopic);
+                }
+                var followControl1 = false;
+                var followControl2 = false;
+                var followControl3 = false;
+                MainTopicsIds.push(randomTopic.relevantMainTopics[0]);
+                SubTopicIds.push(randomTopic.relevantSubTopics[0]);
+                KeywordIds.push(randomTopic.relevantKeywords[0]);
 
-            } else {
-                MainTopicsId = {};
-                SubTopicId = {};
-                KeywordId = {};
-
-                MainTopic.find(MainTopicsId, function (err, mainTopic) {
+            }
+            MainTopic.findById(MainTopicsIds[0], function (err, mainTopic) {
+                if (err) throw err;
+                SubTopic.findById(SubTopicIds[0], function (err, subTopic) {
                     if (err) throw err;
-                    SubTopic.find(SubTopicId, function (err, subTopic) {
+                    Keyword.findById(KeywordIds[0], function (err, keyword) {
                         if (err) throw err;
-                        Keyword.find(KeywordId, function (err, keyword) {
+                        User.findById(randomTopics[0].author, function (err, user) {
                             if (err) throw err;
                             res.render('kavram_takip', {
                                 title: 'Kavram Takip Sistemi',
                                 mainTopics: myMainTopics,
                                 subTopics: mySubTopics,
+                                keywords: myKeywords,
                                 topics: myTopics,
 
                                 screenMainTopic: mainTopic,
                                 screenSubTopic: subTopic,
                                 screenKeyword: keyword,
-                                screenTopic: randomTopic
+                                screenTopics: randomTopics,
+
+                                topicUser: user
                             });
-                        });
-                    })
-                });
-            }
+                        })
+                    });
+                })
+            });
+
+            // } else {
+            //     MainTopicsId = {};
+            //     SubTopicId = {};
+            //     KeywordId = {};
+            //
+            //     MainTopic.find(MainTopicsId, function (err, mainTopic) {
+            //         if (err) throw err;
+            //         SubTopic.find(SubTopicId, function (err, subTopic) {
+            //             if (err) throw err;
+            //             Keyword.find(KeywordId, function (err, keyword) {
+            //                 if (err) throw err;
+            //                 res.render('kavram_takip', {
+            //                     title: 'Kavram Takip Sistemi',
+            //                     mainTopics: myMainTopics,
+            //                     subTopics: mySubTopics,
+            //                     topics: myTopics,
+            //
+            //                     screenMainTopic: mainTopic,
+            //                     screenSubTopic: subTopic,
+            //                     screenKeyword: keyword,
+            //                     screenTopic: randomTopic
+            //                 });
+            //             });
+            //         })
+            //     });
+            // }
         });
     }
 });

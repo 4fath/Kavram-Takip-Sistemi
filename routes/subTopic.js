@@ -92,7 +92,7 @@ router.get('/:subTopicId', function (req, res, next) {
                     }
                 }
 
-                var query = {subTopic: subTopicId, hasEditor: true};
+                var query = {subTopic: subTopicId};
                 Keyword.find(query, function (err, keywords) {
                     if (err) throw err;
 
@@ -101,7 +101,7 @@ router.get('/:subTopicId', function (req, res, next) {
 
                         Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
                             if (err) throw err;
-                            for (var i = 0; i < 2; i++) {
+                            for (var i = 0; i < 5; i++) {
                                 newPopTopics.push(toppics[i]);
                             }
 

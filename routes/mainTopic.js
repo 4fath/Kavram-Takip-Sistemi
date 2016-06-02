@@ -17,7 +17,7 @@ router.get('/:mainTopicId', function (req, res, next) {
     var currentUser = req.user;
     console.log(mainTopicId);
     var newPopTopics = [];
-    var query = {mainTopic: mainTopicId, hasChiefEditor: true};
+    var query = {mainTopic: mainTopicId};
 
     var n;
     var m;
@@ -100,7 +100,7 @@ router.get('/:mainTopicId', function (req, res, next) {
         MainTopic.find({}, function (err, mainTopics) {
             if (err) throw err;
             Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
-                for (var i = 0; i < 2; i++) {
+                for (var i = 0; i < 5; i++) {
                     newPopTopics.push(toppics[i]);
                 }
                 res.render('show_sub_topic_list', {

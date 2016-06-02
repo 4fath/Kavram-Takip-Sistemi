@@ -1,67 +1,122 @@
 extends MainLayout
 
 block content
-
-    .row
-        .col-md-1
-        .col-md-10
-            ul.list-group
-                li.list-group-item.modal-header
-                    h3
-                        .breadcrumb
-                            if screenMainTopic
-                                a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
-                            if screenSubTopic
-                                a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
-                            if screenKeyword
-                                a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
-                        .row
-                            h1.col-md-6
-                                a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
-                            .col-md-3
-                            h1.col-md-3
+    if !user
+        .row
+            .col-md-1
+            .col-md-10
+                ul.list-group
+                    each screenTopic in screenTopics
+                        li.list-group-item.modal-header
+                            h3
+                                .row
+                                    h1.col-md-6
+                                        a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
+                                    .col-md-3
+                                    h1.col-md-3
+                                        if user
+                                            if screenTopic
+                                                if screenTopic.allowStatus.status
+                                                    if !followerControl1
+                                                        form(method='POST', action='/user/follow/#{screenTopic._id}')
+                                                            .form-group
+                                                                button.btn.btn-success(type='Submit', value='Submit')
+                                                                    span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                                    | Takip Et
+                                                    else
+                                                        .col-md-2
+                                                            form(method='POST', action='/user/unfollow/#{screenTopic._id}')
+                                                                .form-group
+                                                                    button.btn.btn-danger(type='Submit', value='Submit')
+                                                                        span.glyphicon.glyphicon-remove(aria-hidden='true')
+                                                                        | Takibi Bırak
+                                if user
+                                    h4
+                                        i(style='color:#747474;')
+                                            | #{screenTopic.abstract}
                                 if user
                                     if screenTopic
-                                        if screenTopic.allowStatus.status
-                                            if !followerControl
-                                                form(method='POST', action='/user/follow/#{screenTopic._id}')
-                                                    .form-group
-                                                        button.btn.btn-success(type='Submit', value='Submit')
-                                                            span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
-                                                            | Takip Et
-                                            else
+                                        | !{screenTopic.definition}
+                                        if topicUser1
+                                            .row
                                                 .col-md-2
-                                                    form(method='POST', action='/user/unfollow/#{screenTopic._id}')
+                                                    a(href='/public_profile/getProfile/#{screenTopics[0].author}') #{screenTopic.username}
+                                                .col-md-8
+                                                .col-md-2
+                                                    span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
+                                else
+                                    if screenTopic
+                                        h4
+                                            i(style='color:#747474;')
+                                                | !{screenTopic.abstract}
+                                        if topicUser1
+                                            .row
+                                                .col-md-2
+                                                    a(href='/#{screenTopics[0].author}') #{topicUser1.username}
+                                                .col-md-7
+                                                .col-md-3
+                                                    span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
+    else
+        .row
+            .col-md-1
+            .col-md-10
+                ul.list-group
+                    li.list-group-item.modal-header
+                        h3
+                            .breadcrumb
+                                if screenMainTopic
+                                    a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
+                                if screenSubTopic
+                                    a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                                if screenKeyword
+                                    a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
+                            .row
+                                h1.col-md-6
+                                    a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
+                                .col-md-3
+                                h1.col-md-3
+                                    if user
+                                        if screenTopic
+                                            if screenTopic.allowStatus.status
+                                                if !followerControl
+                                                    form(method='POST', action='/user/follow/#{screenTopic._id}')
                                                         .form-group
-                                                            button.btn.btn-danger(type='Submit', value='Submit')
-                                                                span.glyphicon.glyphicon-remove(aria-hidden='true')
-                                                                | Takibi Bırak
-                        if user
-                            h4
-                                i(style='color:#747474;')
-                                    | #{screenTopic.abstract}
-                        if user
-                            if screenTopic
-                                | !{screenTopic.definition}
-                                if topicUser
-                                    .row
-                                        .col-md-2
-                                            a(href='/public_profile/getProfile/#{screenTopic.author}') #{topicUser.username}
-                                        .col-md-8
-                                        .col-md-2
-                                            span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
-                        else
-                            if screenTopic
+                                                            button.btn.btn-success(type='Submit', value='Submit')
+                                                                span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                                | Takip Et
+                                                else
+                                                    .col-md-2
+                                                        form(method='POST', action='/user/unfollow/#{screenTopic._id}')
+                                                            .form-group
+                                                                button.btn.btn-danger(type='Submit', value='Submit')
+                                                                    span.glyphicon.glyphicon-remove(aria-hidden='true')
+                                                                    | Takibi Bırak
+                            if user
                                 h4
                                     i(style='color:#747474;')
-                                        | !{screenTopic.abstract}
-                                if topicUser
-                                    .row
-                                        .col-md-2
-                                            a(href='/#{screenTopic.author}') #{topicUser.username}
-                                        .col-md-7
-                                        .col-md-3
-                                            span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
+                                        | #{screenTopic.abstract}
+                            if user
+                                if screenTopic
+                                    | !{screenTopic.definition}
+                                    if topicUser
+                                        .row
+                                            .col-md-2
+                                                a(href='/public_profile/getProfile/#{screenTopic.author}') #{topicUser.username}
+                                            .col-md-8
+                                            .col-md-2
+                                                span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
+                            else
+                                if screenTopic
+                                    h4
+                                        i(style='color:#747474;')
+                                            | !{screenTopic.abstract}
+                                    if topicUser
+                                        .row
+                                            .col-md-2
+                                                a(href='/#{screenTopic.author}') #{topicUser.username}
+                                            .col-md-7
+                                            .col-md-3
+                                                span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')

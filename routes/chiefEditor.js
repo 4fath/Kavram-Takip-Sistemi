@@ -63,7 +63,7 @@ router.post('/addKeyword', function (req, res, next) {
                     console.log("Keyword başarılı bir şekilde kaydedildi : " + newKeyword);
                     console.log("SubTopic update edildi : " + doc);
                     req.flash('success', 'Başarılı bir şekilde Anahtar Kelime eklendi :' + newKeyword.name);
-                    res.redirect('/user/chiefEditorProfile');
+                    res.redirect('/chiefEditor/addKeyword');
                 }
             );
         });

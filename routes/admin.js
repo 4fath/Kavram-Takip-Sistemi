@@ -182,8 +182,8 @@ router.post('/addSubTopic', function (req, res, next) {
                     if (err) throw err;
                     console.log("SubTopic başarılı bir şekilde kaydedildi : " + newSubTopic);
                     console.log("MainTopic update edildi : " + doc);
-                    req.flash('success', 'Başarılı bir şekkilde eklendi');
-                    res.redirect('/user/adminProfile');
+                    req.flash('success', 'Başarılı bir şekilde eklendi');
+                    res.redirect('/admin/addSubTopic');
                 }
             );
         });

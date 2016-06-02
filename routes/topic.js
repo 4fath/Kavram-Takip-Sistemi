@@ -115,7 +115,7 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
                     myKeywords.push(keyword);
                 });
                 Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
-                    for (var i = 0; i < 2; i++) {
+                    for (var i = 0; i < 5; i++) {
                         newPopTopics.push(toppics[i]);
                     }
                     Topic.find({}, function (err, kavramlar) {
@@ -799,7 +799,7 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
                         MainTopic.find({}, function (err, mainTopics) {
                             if (err) throw err;
                             Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
-                                for (var i = 0; i < 2; i++) {
+                                for (var i = 0; i < 5; i++) {
                                     newPopTopics.push(toppics[i]);
                                 }
                                 Topic.find({}, function (err, topics) {
@@ -948,7 +948,7 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
                     });
                     var kavramlar = [];
                     Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
-                        for (var i = 0; i < 2; i++) {
+                        for (var i = 0; i < 5; i++) {
                             newPopTopics.push(toppics[i]);
                         }
                         Topic.find({}, function (err, kavramar) {
@@ -1015,7 +1015,7 @@ router.post('/findTopic', function (req, res, next) {
                                 if (err) throw err;
                                 Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
                                     if (err) throw err;
-                                    for (var i = 0; i < 2; i++) {
+                                    for (var i = 0; i < 5; i++) {
                                         newPopTopics.push(toppics[i]);
                                     }
                                     Topic.find({}, function (err, topics) {

@@ -49,7 +49,7 @@ router.get('/register', function (req, res) {
             });
         },
         function (callback) {
-            Keyword.find({}, function (err, keywords) {
+            Keyword.find({}, null, {sort: {name: +1}}, function (err, keywords) {
                 if (err) return callback(err);
                 keywords.forEach(function (keyword) {
                     myKeywords.push(keyword);
@@ -1105,42 +1105,39 @@ router.post('/changePassword', function (req, res) {
 });
 
 router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
-    
+
     var user = req.user;
     var userID = user._id;
     var userRole = userRoleControl(req.user);
     var query = {editor : userID};
-
+    var onayBekleyenTopicler = [];
     Keyword.find(query, function (err, keywords) {
         if (err) throw err;
-        console.log("bulunan keywords " + keywords);
-        keywords.forEach(function (keyword) {
-            var currentKeyword = keyword;
-            var keywordID = currentKeyword._id;
-            var onayBekleyenTopicler = [];
-            console.log(keywordID);
-            var query = {allowStatus: {stage: 0, status: false}};
-            Topic.find(query, function (err, topics) {
-                if (err) throw err;
-
+        var query = {allowStatus: {stage: 0, status: false}};
+        Topic.find(query, function (err, topics) {
+            if (err) throw err;
+            console.log("bulunan keywords " + keywords);
+            var i = 0;
+            keywords.forEach(function (keyword) {
+                i++;
+                var currentKeyword = keyword;
+                var keywordID = currentKeyword._id;
                 topics.forEach(function (topic) {
                     if (keywordID.toString() === String(topic.relevantKeywords[0])) {
                         console.log("uygun bulundu");
                         onayBekleyenTopicler.push(topic);
                     }
                 });
-
-                res.render('onaydakiTopicler', {
-                    onayBekleyenler: onayBekleyenTopicler,
-                    userRole: userRole,
-                    roles: req.user.role
-                })
-
+                if (i == keywords.length) {
+                    res.render('onaydakiTopicler', {
+                        onayBekleyenler: onayBekleyenTopicler,
+                        userRole: userRole,
+                        roles: req.user.role
+                    })
+                }
             })
         })
-
     })
-    
 });
 
 router.post('/follow/:topicId', function (req, res) {
