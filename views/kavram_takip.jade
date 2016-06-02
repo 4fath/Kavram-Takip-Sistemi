@@ -16,18 +16,26 @@ block content
                             if screenKeyword
                                 a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
                         .row
-                            h1
-                                a.col-md-8(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
+                            h1.col-md-6
+                                a(href='/topic/getTopic/#{screenTopic._id}') #{screenTopic.name}
+                            .col-md-3
+                            h1.col-md-3
                                 if user
                                     if screenTopic
                                         if screenTopic.allowStatus.status
                                             if !followerControl
-                                                .col-md-4
-                                                    form(method='POST', action='/user/follow/#{screenTopic._id}')
+                                                form(method='POST', action='/user/follow/#{screenTopic._id}')
+                                                    .form-group
+                                                        button.btn.btn-success(type='Submit', value='Submit')
+                                                            span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                            | Takip Et
+                                            else
+                                                .col-md-2
+                                                    form(method='POST', action='/user/unfollow/#{screenTopic._id}')
                                                         .form-group
-                                                            button.btn.btn-success(type='Submit', value='Submit')
-                                                                span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
-                                                                | Takip Et
+                                                            button.btn.btn-danger(type='Submit', value='Submit')
+                                                                span.glyphicon.glyphicon-remove(aria-hidden='true')
+                                                                | Takibi Bırak
                         if user
                             h4
                                 i(style='color:#747474;')
@@ -39,8 +47,8 @@ block content
                                     .row
                                         .col-md-2
                                             a(href='/public_profile/getProfile/#{screenTopic.author}') #{topicUser.username}
-                                        .col-md-7
-                                        .col-md-3
+                                        .col-md-8
+                                        .col-md-2
                                             span #{moment(screenTopic.createdAt).format('DD/MM/YYYY')}
                         else
                             if screenTopic

@@ -19,18 +19,26 @@ block content
                             if screenKeyword
                                 a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
                         .row
-                            h1
-                                a.col-md-8(href='/topic/getTopic/#{topic._id}') #{topic.name}
-                            if user
-                                if topic
-                                    if topic.allowStatus.status
-                                        if !followerControl
-                                            .col-md-4
+                            h1.col-md-6
+                                a(href='/topic/getTopic/#{topic._id}') #{topic.name}
+                            .col-md-3
+                            h1.col-md-3
+                                if user
+                                    if topic
+                                        if topic.allowStatus.status
+                                            if !followerControl
                                                 form(method='POST', action='/user/follow/#{topic._id}')
                                                     .form-group
                                                         button.btn.btn-success(type='Submit', value='Submit')
                                                             span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
                                                             | Takip Et
+                                            else
+                                                .col-md-2
+                                                    form(method='POST', action='/user/unfollow/#{topic._id}')
+                                                        .form-group
+                                                            button.btn.btn-danger(type='Submit', value='Submit')
+                                                                span.glyphicon.glyphicon-remove(aria-hidden='true')
+                                                                | Takibi Bırak
 
                         h4
                             i(style='color:#747474;')
@@ -40,8 +48,8 @@ block content
                         .row
                             .col-md-2
                                 a(href='/public_profile/getProfile/#{topic.author}') #{userName}
-                            .col-md-7
-                            .col-md-3
+                            .col-md-8
+                            .col-md-2
                                 span #{moment(topic.createdAt).format('DD/MM/YYYY')}
                         each role in roles
                             if role == 'editor'

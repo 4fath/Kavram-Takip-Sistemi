@@ -1144,10 +1144,8 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
 });
 
 router.post('/follow/:topicId', function (req, res) {
-    console.log("hata burada");
     var currentUser = req.user;
     var clickedId = req.params.topicId;
-    console.log("hata burada1");
     var errors = req.validationErrors();
     if (!errors) {
 
@@ -1174,6 +1172,39 @@ router.post('/follow/:topicId', function (req, res) {
 
     }
 });
+
+router.post('/unfollow/:topicId', function (req, res) {
+    var currentUser = req.user;
+    var clickedId = req.params.topicId;
+    User.findById(currentUser._id, function (err, user) {
+        if (err) throw (err);
+        var takipListesi = [];
+        user.followingTopics.forEach(function (followe) {
+            if (followe.toString() != clickedId.toString())
+                takipListesi.push(followe);
+        });
+        user.followingTopics = takipListesi;
+        user.save(function (err) {
+            if (err) throw err;
+
+            Topic.findById(clickedId, function (err, topic) {
+                if (err) throw (err);
+                var takipciler = [];
+                topic.followers.forEach(function (follower) {
+                    if (follower.toString() != (currentUser._id).toString())
+                        takipciler.push(follower);
+                });
+                topic.followers = takipciler;
+                topic.save(function (err) {
+                    if (err) throw err;
+                    req.flash('success', "Takip Listenizden çıkarıldı.");
+                    res.redirect('/');
+                })
+            })
+        });
+
+    })
+})
 
 router.get('/following_list/:userId', function (req, res, next) {
     //var bos = req.user._id;

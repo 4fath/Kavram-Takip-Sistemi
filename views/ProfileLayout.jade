@@ -50,21 +50,21 @@ html
                                         .navbar-form.form-group
                                             if userRole == 'admin'
                                                 button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
-                                                    | Ayarlar
+                                                    | Seçenekler
                                             else
                                                 if userRole == 'chiefEditor'
                                                     button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/chiefEditorProfile';")
-                                                        | Ayarlar
+                                                        | Seçenekler
                                                 else
                                                     if userRole == 'editor'
                                                         a.btn.btn-info.btn-md(href='/user/editorProfile')
                                                             span.glyphicon.glyphicon-user
-                                                            |  Ayarlar
+                                                            |  Seçenekler
                                                     else
                                                         if userRole == 'author'
                                                             a.btn.btn-info.btn-md(href='/user/authorProfile')
                                                                 span.glyphicon.glyphicon-user
-                                                                |  Ayarlar
+                                                                |  Seçenekler
 
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
                                                 | Çıkış !

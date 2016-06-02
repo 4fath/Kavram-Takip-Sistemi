@@ -60,21 +60,21 @@ html
                                                 span.glyphicon.glyphicon-plus(aria-hidden='true')
                                                     |  Kavram Ekle
                                             if userRole == 'admin'
-                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';") Ayarlar
+                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';") Seçenekler
                                             else
                                                 if userRole == 'chiefEditor'
                                                     a.btn.btn-info.btn-md(href='/user/chiefEditorProfile')
                                                         span.glyphicon.glyphicon-user
-                                                        |  Ayarlar
+                                                        |  Seçenekler
                                                 else
                                                     if userRole == 'editor'
                                                         button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
-                                                            | Ayarlar
+                                                            | Seçenekler
                                                     else
                                                         if userRole == 'author'
                                                             a.btn.btn-info.btn-md(href='/user/authorProfile')
                                                                 span.glyphicon.glyphicon-user
-                                                                |  Ayarlar
+                                                                |  Seçenekler
 
 
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
