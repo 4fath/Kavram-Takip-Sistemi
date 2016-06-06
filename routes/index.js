@@ -523,32 +523,6 @@ router.get('/', function (req, res, next) {
                 })
             });
 
-            // } else {
-            //     MainTopicsId = {};
-            //     SubTopicId = {};
-            //     KeywordId = {};
-            //
-            //     MainTopic.find(MainTopicsId, function (err, mainTopic) {
-            //         if (err) throw err;
-            //         SubTopic.find(SubTopicId, function (err, subTopic) {
-            //             if (err) throw err;
-            //             Keyword.find(KeywordId, function (err, keyword) {
-            //                 if (err) throw err;
-            //                 res.render('kavram_takip', {
-            //                     title: 'Kavram Takip Sistemi',
-            //                     mainTopics: myMainTopics,
-            //                     subTopics: mySubTopics,
-            //                     topics: myTopics,
-            //
-            //                     screenMainTopic: mainTopic,
-            //                     screenSubTopic: subTopic,
-            //                     screenKeyword: keyword,
-            //                     screenTopic: randomTopic
-            //                 });
-            //             });
-            //         })
-            //     });
-            // }
         });
     }
 });

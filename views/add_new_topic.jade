@@ -2,6 +2,8 @@ extends MainLayout
 
 block content
     form(method='POST', action='/topic/add')
+        input(type="hidden", name="_csrf", value="#{csrftoken}")
+
         .form-group
 
             .panel.panel-success.col-md-5

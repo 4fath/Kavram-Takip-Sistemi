@@ -142,6 +142,7 @@ block content
         #myTabContent.tab-content
             #home.tab-pane.active.in
                 form.form-horizontal(role='form',method='post', action='/user/chiefEditorProfile')
+                    input(type="hidden", name="_csrf", value="#{csrftoken}")
                     .row
                         .form-group
                         .form-group
@@ -187,6 +188,7 @@ block content
                         .col-md-2
             #profile.tab-pane.fade
                 form#tab2.form-horizontal(role='form',method='post', action='/user/changePassword')
+                    input(type="hidden", name="_csrf", value="#{csrftoken}")
                     .row
                         .form-group
                         .form-group

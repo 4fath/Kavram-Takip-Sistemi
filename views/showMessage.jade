@@ -26,6 +26,7 @@ block content
                                             span #{moment(mesaj.createdAt).format('DD/MM/YYYY')}
             .row
                 form(method='post', action='/public_profile/reply')
+                    input(type="hidden", name="_csrf", value="#{csrftoken}")
                     .col-md-11
                         .panel-body
                             textarea.form-control(name='messageContent',value='messageContent', placeholder='Göndermek İstediğiniz Mesajı Giriniz', autofocus='')
@@ -72,15 +73,6 @@ block solMenu
                             td
                                 span.glyphicon.glyphicon-envelope
                                 a(href='/public_profile/inbox') Gelen Kutusu
-                        //tr
-                        //    td
-                        //        span.glyphicon.glyphicon-file.text-info
-                        //        a(href='http://www.jquery2dotnet.com') Newsletters
-                        //tr
-                        //    td
-                        //        span.glyphicon.glyphicon-comment.text-success
-                        //        a(href='http://www.jquery2dotnet.com') Comments
-                        //        span.badge 42
         each role in roles
             if role == 'admin'
                 .panel.panel-default

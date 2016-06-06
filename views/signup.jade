@@ -7,6 +7,7 @@ block content
             each error, i in errors
                 li.alert.alert-danger #{error.msg}
     form#productForm.form-horizontal(role='form', action='/user/register', method='post')
+        input(type="hidden", name="_csrf", value="#{csrftoken}")
         .row
             .col-md-2
             .col-md-8

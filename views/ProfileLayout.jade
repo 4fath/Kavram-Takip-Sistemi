@@ -38,6 +38,7 @@ html
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
                                 form.navbar-form.navbar-left(role='form', method='post', action='/topic/findTopic')
+                                    input(type="hidden", name="_csrf", value="#{csrftoken}")
                                     .form-group
                                         input#search_input.search_input.form-control.awesomplete(type='text', name='kavramAdi')
                                         //input.form-control(type='text', placeholder='Kavram adı giriniz')
@@ -86,6 +87,4 @@ html
                         .col-md-2
                             block sagMenu
 
-
-    // script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )
 

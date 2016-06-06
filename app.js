@@ -13,6 +13,8 @@ var flash = require('connect-flash');
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var nodemailer = require('nodemailer');
+var csrf = require('csurf');
+var helmet = require('helmet');
 
 // routes
 var index = require('./routes/index');
@@ -46,6 +48,16 @@ app.use(session({
   saveUninitialized: true,
   resave : true
 }));
+
+
+app.use(helmet());
+
+app.use(csrf());
+
+app.use(function (req, res, next) {
+  res.locals.csrftoken = req.csrfToken();
+  next();
+});
 
 //passport
 app.use(passport.initialize());

@@ -54,15 +54,6 @@ block solMenu
                             td
                                 span.glyphicon.glyphicon-envelope
                                 a(href='http://www.jquery2dotnet.com') Gelen Kutusu
-                        //tr
-                        //    td
-                        //        span.glyphicon.glyphicon-file.text-info
-                        //        a(href='http://www.jquery2dotnet.com') Newsletters
-                        //tr
-                        //    td
-                        //        span.glyphicon.glyphicon-comment.text-success
-                        //        a(href='http://www.jquery2dotnet.com') Comments
-                        //        span.badge 42
         each role in roles
             if role == 'admin'
                 .panel.panel-default
@@ -143,46 +134,6 @@ block solMenu
                             td
                                 a(href='/topic/myRejectedTopics')
                                     | Reddedilen Kavramlarım
-
-
-
-    //ul.nav.nav-pills.nav-stacked
-    //    li.active
-    //        a(href='/user/following_list/#{user._id}')
-    //            |  Takip Ettiklerim
-    //    if user.role == 'admin'
-    //        li
-    //            a(href='/admin/addMainTopic')
-    //                | Temel Alan Ekle
-    //        li
-    //            a(href='/admin/addChiefEditor')
-    //                | Baş Editör Ekle
-    //        li
-    //            a(href='/admin/addSubTopic')
-    //                | Bilim Alanı Ekle
-    //    if user.role == 'chiefEditor'
-    //        li
-    //            a(href='/chiefEditor/addKeyword')
-    //                |  Anahtar Kelime Ekle
-    //        li
-    //            a(href='/chiefEditor/addEditor')
-    //                | Editör Ekle
-    //    if user.role == 'editor'
-    //        li
-    //            a(href='/user/editor/getOnay')
-    //                |  Onay Havuzu
-    //    li
-    //        a(href='/topic/myRejectedTopics')
-    //            |  Reddedilen Kavramlarım
-    //    li
-    //        a(href='/topic/onApprove')
-    //            |  Onay Bekleyen Kavramlarım
-    //    li
-    //        a(href='/topic/myTopics')
-    //            | Onaylanan Kavramlarım
-    //    li
-    //        a(href='/topic/myDrafts')
-                | Taslaklarım
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')

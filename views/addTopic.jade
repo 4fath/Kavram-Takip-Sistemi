@@ -1,6 +1,10 @@
 extends forEditorLayout
 
 block content
+    ul.errors
+        if errors
+            each error, i in errors
+                li.alert.alert-danger #{error.msg}
     form(method='post', action='/topic/addTopic')
         .form-group
             .col-md-1
@@ -28,21 +32,31 @@ block content
                     .panel.panel-success.col-md-9
                         .panel-heading  Kavram Adı
                         .panel-body
-                            input.form-control(type='text', name='topicName', placeholder='Kavram Adını Giriniz', autofocus='')
+                            if topicName
+                                input.form-control(type='text', name='topicName', value='#{topicName}', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                            else
+                                input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
                     .panel.panel-success.col-md-9
                         .panel-heading Kavram Özeti
                         .panel-body
-                            textarea.form-control(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Kavram Özetini Giriniz', autofocus='')
-                    //.panel.panel-success.col-md-8
-                    //    .panel-heading  İlgili Görsel
-                    //    .panel-body
-                    //        input.form-control(type='file', name='topic_image', placeholder='Görsel içerik')
+                            if topicAbstract
+                                textarea.form-control(name='topicAbstract', value='#{topicAbstract}',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                            else
+                                textarea.form-control(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+
                     .panel.panel-success.col-md-12
                         .panel-heading Kavram Tanımı
-                        br
-                        textarea#textarea(name='topicDefinition')
-                        script.
-                            CKEDITOR.replace('textarea');
+                        if topicDefinition
+                            br
+                            textarea#textarea(name='topicDefinition', value= '#{topicDefinition}')
+                            script.
+                                CKEDITOR.replace('textarea');
+                        else
+                            br
+                            textarea#textarea(name='topicDefinition')
+                            script.
+                                CKEDITOR.replace('textarea');
+
                     .col-md-5
                         button.btn.btn-success.btn-block(type='submit', value='Submit') Kaydet
                     .col-md-5

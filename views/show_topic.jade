@@ -57,6 +57,7 @@ block content
                                     if !topic.allowStatus.status
                                         .row
                                             form(method='POST', action='/topic/approveByEditor/#{topic._id}')
+                                                input(type="hidden", name="_csrf", value="#{csrftoken}")
                                                 .form-group
                                                     .col-md-12
                                                         .col-md-4
@@ -77,6 +78,8 @@ block content
                                             if topic.allowStatus.status
                                                 if isAuthor
                                                     form(method='GET', action='/topic/editTopic/#{topic._id}')
+                                                        input(type="hidden", name="_csrf", value="#{csrftoken}")
+
                                                         .form-group
                                                             button.btn.btn-success(type='Submit', value='Submit')
                                                                 span.glyphicon.glyphicon-arrow-right(aria-hidden='true')

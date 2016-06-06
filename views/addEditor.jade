@@ -134,6 +134,8 @@ block solMenu
 
 block content
     form(method='post', action='/chiefEditor/addEditor')
+        input(type="hidden", name="_csrf", value="#{csrftoken}")
+
         .form-group
             .col-md-1
             .col-md-11

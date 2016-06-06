@@ -163,6 +163,7 @@ block content
         #myTabContent.tab-content
             #home.tab-pane.active.in
                 form.form-horizontal(role='form',method='post', action='/user/adminProfile')
+                    input(type="hidden", name="_csrf", value="#{csrftoken}")
                     .row
                         .form-group
                         .form-group

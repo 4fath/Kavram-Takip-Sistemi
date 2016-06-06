@@ -1,6 +1,6 @@
 var express = require('express');
 var async = require('async');
-var multer = require('multer')
+var multer = require('multer');
 var upload = multer({dest: 'uploads/'});
 var nodemailer = require('nodemailer');
 
@@ -92,9 +92,6 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
         })
     });
 
-
-
-
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
         mainTopics.forEach(function (mainTopic) {
@@ -138,41 +135,10 @@ router.get('/addTopic', ensureAuthentication, function (req, res, next) {
         })
     });
 
-    // async.parallel([
-    //     function (callback) {
-    //         MainTopic.find({}, function (err, mainTopics) {
-    //             if (err) return callback(err);
-    //             console.log(mainTopics);
-    //             myMainTopics = mainTopics;
-    //             // mainTopics.forEach(function (mainTopic) {
-    //             //     myMainTopics.push(mainTopic);
-    //             // });
-    //         });
-    //         callback();
-    //     },
-    //     function (callback) {
-    //         SubTopic.find({}, function (err, subTopics) {
-    //             if (err) return callback(err);
-    //             console.log(subTopics);
-    //             mySubTopics = subTopics;
-    //             // subTopics.forEach(function (subTopic) {
-    //             //     mySubTopics.push(subTopic);
-    //             // });
-    //         });
-    //         callback();
-    //     }
-    // ], function (err) {
-    //     if (err) return (err);
-    //     console.log("MainTopics :" + myMainTopics);
-    //     console.log("SubTopics :" + mySubTopics);
-    //     res.render('addTopic', {
-    //         mainTopics: myMainTopics,
-    //         subTopics: mySubTopics
-    //     });
-    // });
-
 });
 
+
+// Add Topic olayı için..
 router.get('/getValueArray', ensureAuthentication, function (req, res, next) {
 
     MainTopic.find(function (err, mainTopics) {
@@ -231,27 +197,7 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
     var topicDefinition = req.body.topicDefinition;
     var currentUser = req.user;
 
-    // if (req.files.topic_image){
-    //     console.log(true);
-    // }else {
-    //     console.log(false);
-    // }
-    // var fileName;
-    // var fileError = false;
-    // if (req.file && isImage(req.file.mimetype) > -1 && checkSize(req.file.size)) {
-    //     fileName = req.file.filename;
-    //     var fileOriginalName = req.file.originalname;
-    //     var fileMinType = req.file.mimetype;
-    //     var fileEncoding = req.file.encoding;
-    //     var fileTest = req.file.size;
-    // } else {
-    //     fileError = true;
-    //     fileName = "no_image";
-    //     console.log("there is no such a file");
-    // }
-
-
-    req.checkBody('topicName', 'Keyword alanı boş olamaz.').notEmpty();
+    req.checkBody('topicName', 'Kavram adı boş olamaz.').notEmpty();
     req.checkBody('topicAbstract', 'Özet alanı boş olamaz.').notEmpty();
     req.checkBody('topicDefinition', 'Tanım alanı boş olamaz').notEmpty();
 
@@ -273,13 +219,8 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
 
         newTopic.save(function (err) {
             if (err) throw err;
-
             Keyword.findById(selectedKeywordId, function (err, keyword) {
-
-                console.log(keyword);
-
                 keyword.relevantTopics.push(newTopic._id);
-
                 keyword.save(function (err) {
                     if (err) throw err;
                     req.flash('success', "Eklediğiniz Kavram sistemimize eklenmiştir, onaylandıktan sonra sistemde görünecektir !");
@@ -309,9 +250,8 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
                     keywords.forEach(function (keyword) {
                         myKeywords.push(keyword);
                     });
-                    errors.push("Resim uygun formatta değil");
                     res.render('addTopic', {
-                        user: currentUser,
+                        user: req.user,
                         errors: errors,
                         mainTopics: myMainTopics,
                         subTopics: mySubTopics,

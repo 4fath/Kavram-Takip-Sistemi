@@ -142,6 +142,8 @@ block content
         .col-md-1
         .col-md-11
             form(method='post', action='/admin/addMainTopic', role='form')
+                input(type="hidden", name="_csrf", value="#{csrftoken}")
+
                 .panel.panel-success.col-md-5
                     .panel-heading Temel Alan Adı
                     .panel-body
