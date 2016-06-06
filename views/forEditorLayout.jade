@@ -80,10 +80,15 @@ html
                                                             a.btn.btn-info.btn-md(href='/user/authorProfile')
                                                                 span.glyphicon.glyphicon-user
                                                                 | Seçenekler
+                                                        else
+                                                            if userRole == 'admin'
+                                                                a.btn.btn-info.btn-md(href='/user/adminProfile')
+                                                                    span.glyphicon.glyphicon-user
+                                                                    | Seçenekler
 
 
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")
-                                                | Çıkış !
+                                                | Çıkış
                     .row
                         .col-md-2
                             .list-group

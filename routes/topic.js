@@ -311,6 +311,7 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
                     });
                     errors.push("Resim uygun formatta değil");
                     res.render('addTopic', {
+                        user: currentUser,
                         errors: errors,
                         mainTopics: myMainTopics,
                         subTopics: mySubTopics,
@@ -693,132 +694,134 @@ router.post('/approveByEditor/:topicId', ensureAuthentication, function (req, re
     });
 });
 
-router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next) {
+router.get('/getTopic/:topicId', function (req, res, next) {
     var topicId = req.params.topicId;
-    var currentUser = req.user;
-    var followControl = false;
-    var userRole = userRoleControl(req.user);
+    if (req.user) {
+        var currentUser = req.user;
+        var followControl = false;
+        var userRole = userRoleControl(req.user);
 
-    var n;
-    var m;
-    var matrix;
-    var yer;
-    var onereceklerimiz = [];
-    User.find({}, function (err, users) {
-        if (err) throw (err);
-        n = users.length;
-        Topic.find({}, function (err, topics) {
+        var n;
+        var m;
+        var matrix;
+        var yer;
+        var onereceklerimiz = [];
+        User.find({}, function (err, users) {
             if (err) throw (err);
-            m = topics.length;
-            var newMatrix = new Array(users.length);
-            for (var i = 0; i < users.length; i++) {
-                newMatrix[i] = new Array(topics.length);
-            }
-            for (var i = 0; i < users.length; i++) {
-                var followingTopics = users[i].followingTopics;
-                if ((currentUser._id).toString() === (users[i]._id).toString())
-                    yer = i;
-                for (var j = 0; j < topics.length; j++) {
-                    var control = false;
-                    followingTopics.forEach(function (topic) {
-                        if (topic.toString() === (topics[j]._id).toString())
-                            control = true;
-                    });
-                    if (control == true)
-                        newMatrix[i][j] = 1;
-                    else
-                        newMatrix[i][j] = 0;
-                    console.log(newMatrix[i][j]);
+            n = users.length;
+            Topic.find({}, function (err, topics) {
+                if (err) throw (err);
+                m = topics.length;
+                var newMatrix = new Array(users.length);
+                for (var i = 0; i < users.length; i++) {
+                    newMatrix[i] = new Array(topics.length);
                 }
-            }
-            console.log(newMatrix);
-            var dizi = new Array(users.length);
-            for (var i = 0; i < users.length; i++) {
-                dizi[i] = new Array(2);
-            }
-            for (var i = 0; i < users.length; i++) {
-                var toplam = 0;
-                var d1 = 0;
-                var d2 = 0;
-                for (var j = 0; j < topics.length; j++) {
-                    toplam = toplam + (newMatrix[i][j] * newMatrix[yer][j]);
-                    d1 = d1 + newMatrix[i][j] * newMatrix[i][j];
-                    d2 = d2 + newMatrix[yer][j] * newMatrix[yer][j];
-                }
-                var bolu = (Math.sqrt(d1)) * (Math.sqrt(d2));
-                if (bolu == 0)
-                    dizi[i][0] = 0;
-                else
-                    dizi[i][0] = toplam / bolu;
-                dizi[i][1] = i;
-            }
-            dizi.sort(function (a, b) {
-                return b[0] - a[0]
-            });
-            console.log(dizi);
-            for (var k = 1; k < 5; k++) {
-                for (var c = 0; c < topics.length; c++) {
-                    var varMi = false;
-                    if (newMatrix[dizi[k][1]][c] == 1 && newMatrix[dizi[0][1]][c] == 0) {
-                        onereceklerimiz.forEach(function (onerilen) {
-                            if ((onerilen._id).toString() === (topics[c]._id).toString())
-                                varMi = true;
+                for (var i = 0; i < users.length; i++) {
+                    var followingTopics = users[i].followingTopics;
+                    if ((currentUser._id).toString() === (users[i]._id).toString())
+                        yer = i;
+                    for (var j = 0; j < topics.length; j++) {
+                        var control = false;
+                        followingTopics.forEach(function (topic) {
+                            if (topic.toString() === (topics[j]._id).toString())
+                                control = true;
                         });
-                        if (varMi == false)
-                            onereceklerimiz.push(topics[c]);
+                        if (control == true)
+                            newMatrix[i][j] = 1;
+                        else
+                            newMatrix[i][j] = 0;
+                        console.log(newMatrix[i][j]);
                     }
                 }
-            }
-        })
-    });
-
-    Topic.findById(topicId, function (err, topic) {
-        if (err) throw err;
-        topic.followers.forEach(function (follower) {
-            if (follower.toString() == (currentUser._id).toString()){
-                followControl = true;
-            }
+                console.log(newMatrix);
+                var dizi = new Array(users.length);
+                for (var i = 0; i < users.length; i++) {
+                    dizi[i] = new Array(2);
+                }
+                for (var i = 0; i < users.length; i++) {
+                    var toplam = 0;
+                    var d1 = 0;
+                    var d2 = 0;
+                    for (var j = 0; j < topics.length; j++) {
+                        toplam = toplam + (newMatrix[i][j] * newMatrix[yer][j]);
+                        d1 = d1 + newMatrix[i][j] * newMatrix[i][j];
+                        d2 = d2 + newMatrix[yer][j] * newMatrix[yer][j];
+                    }
+                    var bolu = (Math.sqrt(d1)) * (Math.sqrt(d2));
+                    if (bolu == 0)
+                        dizi[i][0] = 0;
+                    else
+                        dizi[i][0] = toplam / bolu;
+                    dizi[i][1] = i;
+                }
+                dizi.sort(function (a, b) {
+                    return b[0] - a[0]
+                });
+                console.log(dizi);
+                for (var k = 1; k < 4; k++) {
+                    for (var c = 0; c < topics.length; c++) {
+                        var varMi = false;
+                        if (newMatrix[dizi[k][1]][c] == 1 && newMatrix[dizi[0][1]][c] == 0) {
+                            onereceklerimiz.forEach(function (onerilen) {
+                                if ((onerilen._id).toString() === (topics[c]._id).toString())
+                                    varMi = true;
+                            });
+                            if (varMi == false)
+                                onereceklerimiz.push(topics[c]);
+                        }
+                    }
+                }
+            })
         });
-        topic.viewCount++;
-        topic.save(function (err) {
-            if (err) throw err;
-        });
 
-        var newPopTopics = [];
-        var isAuthor = false;
-        MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
+        Topic.findById(topicId, function (err, topic) {
             if (err) throw err;
-            SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
+            topic.followers.forEach(function (follower) {
+                if (follower.toString() == (currentUser._id).toString()) {
+                    followControl = true;
+                }
+            });
+            topic.viewCount++;
+            topic.save(function (err) {
                 if (err) throw err;
-                Keyword.findById(topic.relevantKeywords[0], function (err, keyword) {
+            });
+
+            var newPopTopics = [];
+            var isAuthor = false;
+            MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
+                if (err) throw err;
+                SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
                     if (err) throw err;
-                    User.findById(topic.author, function (err, user) {
+                    Keyword.findById(topic.relevantKeywords[0], function (err, keyword) {
                         if (err) throw err;
-                        if ((user._id).toString() === (currentUser._id).toString())
-                            isAuthor = true;
-                        var userName = user.username;
-                        MainTopic.find({}, function (err, mainTopics) {
+                        User.findById(topic.author, function (err, user) {
                             if (err) throw err;
-                            Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
-                                for (var i = 0; i < 5; i++) {
-                                    newPopTopics.push(toppics[i]);
-                                }
-                                Topic.find({}, function (err, topics) {
-                                    if (err) throw (err);
-                                    res.render('show_topic', {
-                                        topic: topic,
-                                        userName: userName,
-                                        userRole: userRole,
-                                        mainTopics: mainTopics,
-                                        populerTopics: newPopTopics,
-                                        screenMainTopic: mainTopic,
-                                        screenSubTopic: subTopic,
-                                        screenKeyword: keyword,
-                                        followerControl: followControl,
-                                        roles: currentUser.role,
-                                        topics: topics,
-                                        onerilenTopicler: onereceklerimiz,
-                                        isAuthor: isAuthor
+                            if ((user._id).toString() === (currentUser._id).toString())
+                                isAuthor = true;
+                            var userName = user.username;
+                            MainTopic.find({}, function (err, mainTopics) {
+                                if (err) throw err;
+                                Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
+                                    for (var i = 0; i < 5; i++) {
+                                        newPopTopics.push(toppics[i]);
+                                    }
+                                    Topic.find({}, function (err, topics) {
+                                        if (err) throw (err);
+                                        res.render('show_topic', {
+                                            topic: topic,
+                                            userName: userName,
+                                            userRole: userRole,
+                                            mainTopics: mainTopics,
+                                            populerTopics: newPopTopics,
+                                            screenMainTopic: mainTopic,
+                                            screenSubTopic: subTopic,
+                                            screenKeyword: keyword,
+                                            followerControl: followControl,
+                                            roles: currentUser.role,
+                                            topics: topics,
+                                            onerilenTopicler: onereceklerimiz,
+                                            isAuthor: isAuthor
+                                        });
                                     });
                                 });
                             });
@@ -827,7 +830,25 @@ router.get('/getTopic/:topicId', ensureAuthentication, function (req, res, next)
                 });
             });
         });
-    });
+    }
+    else {
+        Topic.findById(topicId, function (err, topic) {
+            if (err) throw err;
+            topic.viewCount++;
+            topic.save(function (err) {
+                if (err) throw err;
+            });
+            MainTopic.find({}, function (err, mainTopics) {
+                if (err) throw err;
+                res.render('show_topic', {
+                    topic: topic,
+                    mainTopics: mainTopics
+                });
+            });
+        });
+    }
+    
+    
 });
 
 router.get('/onApprove', ensureAuthentication, function (req, res, next) {
@@ -1115,8 +1136,24 @@ router.post('/findTopic', function (req, res, next) {
         });
     }
     else {
-        console.log("kullanıcı yok");
-        res.redirect('/');
+        var kavramAdi = req.body.kavramAdi;
+        var query = {name: kavramAdi};
+
+        Topic.find(query, function (err, topics) {
+            if (err) throw err;
+            var topic = topics[0];
+            topic.viewCount++;
+            topic.save(function (err) {
+                if (err) throw err;
+            });
+            MainTopic.find({}, function (err, mainTopics) {
+                if (err) throw err;
+                res.render('show_topic', {
+                    topic: topic,
+                    mainTopics: mainTopics
+                });
+            });
+        });
     }
 });
 

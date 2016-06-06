@@ -5,85 +5,98 @@
 extends MainLayout
 
 block content
-    .row
-        .col-md-1
-        .col-md-10
-            ul.list-group
-                li.list-group-item.modal-header
-                    h3
-                        .breadcrumb
-                            if screenMainTopic
+    if user
+        .row
+            .col-md-1
+            .col-md-10
+                ul.list-group
+                    li.list-group-item.modal-header
+                        h3
+                            .breadcrumb
+                                if screenMainTopic
                                     a(href='/mainTopic/#{screenMainTopic._id}') #{screenMainTopic.name}
-                            if screenSubTopic
-                                a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
-                            if screenKeyword
-                                a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
-                        .row
-                            h1.col-md-6
-                                a(href='/topic/getTopic/#{topic._id}') #{topic.name}
-                            .col-md-3
-                            h1.col-md-3
-                                if user
-                                    if topic
-                                        if topic.allowStatus.status
-                                            if !followerControl
-                                                form(method='POST', action='/user/follow/#{topic._id}')
-                                                    .form-group
-                                                        button.btn.btn-success(type='Submit', value='Submit')
-                                                            span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
-                                                            | Takip Et
-                                            else
-                                                .col-md-2
-                                                    form(method='POST', action='/user/unfollow/#{topic._id}')
+                                if screenSubTopic
+                                    a(href='/subTopic/#{screenSubTopic._id}') #{screenSubTopic.name}
+                                if screenKeyword
+                                    a(href='/keyword/#{screenKeyword._id}') #{screenKeyword.name}
+                            .row
+                                h1.col-md-6
+                                    a(href='/topic/getTopic/#{topic._id}') #{topic.name}
+                                .col-md-3
+                                h1.col-md-3
+                                    if user
+                                        if topic
+                                            if topic.allowStatus.status
+                                                if !followerControl
+                                                    form(method='POST', action='/user/follow/#{topic._id}')
                                                         .form-group
-                                                            button.btn.btn-danger(type='Submit', value='Submit')
-                                                                span.glyphicon.glyphicon-remove(aria-hidden='true')
-                                                                | Takibi Bırak
+                                                            button.btn.btn-success(type='Submit', value='Submit')
+                                                                span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                                | Takip Et
+                                                else
+                                                    .col-md-2
+                                                        form(method='POST', action='/user/unfollow/#{topic._id}')
+                                                            .form-group
+                                                                button.btn.btn-danger(type='Submit', value='Submit')
+                                                                    span.glyphicon.glyphicon-remove(aria-hidden='true')
+                                                                    | Takibi Bırak
 
-                        h4
-                            i(style='color:#747474;')
-                                | #{topic.abstract}
+                            h4
+                                i(style='color:#747474;')
+                                    | #{topic.abstract}
 
-                        | !{topic.definition}
-                        .row
-                            .col-md-2
-                                a(href='/public_profile/getProfile/#{topic.author}') #{userName}
-                            .col-md-8
-                            .col-md-2
-                                span #{moment(topic.createdAt).format('DD/MM/YYYY')}
-                        each role in roles
-                            if role == 'editor'
-                                if !topic.allowStatus.status
-                                    .row
-                                        form(method='POST', action='/topic/approveByEditor/#{topic._id}')
-                                            .form-group
-                                                .col-md-12
-                                                    .col-md-4
-                                                    .col-md-4
-                                                        button.btn.btn-success(type='Submit', value='Submit') Onayla
-                                                    .col-md-4
-                                                        button.btn.btn-warning(type='Submit', value='Submit', formaction='/topic/rejectTopic/#{topic._id}') Reddet
-                                                br
-                                                br
-                                                .col-md-12
-                                                    .form-group
-                                                        textarea(name='rejectReason', value='rejectReason',  rows='4', cols='50',placeholder='Red sebebini giriniz', autofocus='')
-                        .row
-                            .col-md-8
-                            .col-md-4
-                                if user
-                                    if topic
-                                        if topic.allowStatus.status
-                                            if isAuthor
-                                                form(method='GET', action='/topic/editTopic/#{topic._id}')
-                                                    .form-group
-                                                        button.btn.btn-success(type='Submit', value='Submit')
-                                                            span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
-                                                            | Düzenle
-        .col-md-1
-
-
-
+                            | !{topic.definition}
+                            .row
+                                .col-md-2
+                                    a(href='/public_profile/getProfile/#{topic.author}') #{userName}
+                                .col-md-8
+                                .col-md-2
+                                    span #{moment(topic.createdAt).format('DD/MM/YYYY')}
+                            each role in roles
+                                if role == 'editor'
+                                    if !topic.allowStatus.status
+                                        .row
+                                            form(method='POST', action='/topic/approveByEditor/#{topic._id}')
+                                                .form-group
+                                                    .col-md-12
+                                                        .col-md-4
+                                                        .col-md-4
+                                                            button.btn.btn-success(type='Submit', value='Submit') Onayla
+                                                        .col-md-4
+                                                            button.btn.btn-warning(type='Submit', value='Submit', formaction='/topic/rejectTopic/#{topic._id}') Reddet
+                                                    br
+                                                    br
+                                                    .col-md-12
+                                                        .form-group
+                                                            textarea(name='rejectReason', value='rejectReason',  rows='4', cols='50',placeholder='Red sebebini giriniz', autofocus='')
+                            .row
+                                .col-md-8
+                                .col-md-4
+                                    if user
+                                        if topic
+                                            if topic.allowStatus.status
+                                                if isAuthor
+                                                    form(method='GET', action='/topic/editTopic/#{topic._id}')
+                                                        .form-group
+                                                            button.btn.btn-success(type='Submit', value='Submit')
+                                                                span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                                | Düzenle
+            .col-md-1
+    else
+        .row
+            .col-md-1
+            .col-md-10
+                ul.list-group
+                    li.list-group-item.modal-header
+                        h3
+                            .row
+                                h1.col-md-6
+                                    a(href='/topic/getTopic/#{topic._id}') #{topic.name}
+                                .col-md-3
+                                h1.col-md-3
+                            h4
+                                i(style='color:#747474;')
+                                    | #{topic.abstract}
 
 
 script(src='../js/jquery.min.js')

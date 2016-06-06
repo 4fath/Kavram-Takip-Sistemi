@@ -78,7 +78,7 @@ router.get('/:subTopicId', function (req, res, next) {
                     return b[0] - a[0]
                 });
                 console.log(dizi);
-                for (var k = 1; k < 5; k++) {
+                for (var k = 1; k < 4; k++) {
                     for (var c = 0; c < topics.length; c++) {
                         var varMi = false;
                         if (newMatrix[dizi[k][1]][c] == 1 && newMatrix[dizi[0][1]][c] == 0) {
