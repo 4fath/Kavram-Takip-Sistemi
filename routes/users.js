@@ -107,6 +107,7 @@ router.post('/register', function (req, res) {
     req.checkBody('username', 'Kullanıcı adı boş olamaz.').notEmpty();
     req.checkBody('password', 'Şifre gereklidir.').notEmpty();
     req.checkBody('passwordConfirm', 'İki şifre de uyuşmalıdır.').equals(req.body.password);
+    req.checkBody('password', 'Şifre 6 ile 10 karakter arasıdan olmalıdır').len(6, 10);
     req.checkBody('alanlar', 'En az bir tane ilgi alani seçilmelidir ').notEmpty();
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;
@@ -141,10 +142,7 @@ router.post('/register', function (req, res) {
                             if (err) throw err;
                             i++;
                             interests.push(keyword._id);
-                            // if((keyword.name).toLowerCase() == String(asd).trim().toLowerCase()){
-                            //     console.log("girdiiiii");
-                            //     interests.push(keyword._id);
-                            // }
+
                             if (i == alanlar.length) {
                                 var newUser = new User({
                                     firstName: firstName,
@@ -192,8 +190,6 @@ router.post('/register', function (req, res) {
                                                 console.log("Message sent: " + response.message);
                                             }
 
-                                            // if you don't want to use this transport object anymore, uncomment following line
-                                            //smtpTransport.close(); // shut down the connection pool, no more messages
                                         });
 
                                         req.flash('success', "Başarılı bir şekilde kayıt oldunuz !");
@@ -238,7 +234,7 @@ router.get('/emailVerification/:newUserId', function (req, res) {
             res.redirect('/');
         });
     })
-})
+});
 
 // === LOGİN ==== //
 router.get('/login', function (req, res) {
@@ -271,7 +267,22 @@ router.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-router.post('/login', passport.authenticate('local', {
+function myCheck(req, res) {
+    var username = req.body.username;
+    var query = {username: username};
+    User.find(query, function (err, users) {
+        if (err) throw err;
+        var myUser = users[0];
+        if (myUser.emailVerification) {
+            next();
+        } else {
+            req.flash('error', 'Email aktivasyonu yapılmamıştır. Lütfen emailinize gelen linke tıklayarak hesabınızı aktifleştirin. ');
+            res.redirect('/user/login');
+        }
+    });
+}
+
+router.post('/login', myCheck, passport.authenticate('local', {
         failureRedirect: '/user/login',
         failureFlash: 'Kullanıcı adı ve şifrenizi kotrol edip tekrar deneyiniz'
     }),
