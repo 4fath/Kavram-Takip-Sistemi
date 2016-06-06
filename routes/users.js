@@ -100,13 +100,13 @@ router.post('/register', function (req, res) {
     console.log(alanlar);
 
     // form validation
-    req.checkBody('firstName', 'isim bos olamaz').notEmpty();
-    req.checkBody('lastName', 'soyisim bos olamaz').notEmpty();
-    req.checkBody('email', 'email uygun formatta değil').isEmail();
-    req.checkBody('email', 'email boş olamaz').notEmpty();
-    req.checkBody('username', 'kullanıcı adi bos olamaz').notEmpty();
-    req.checkBody('password', 'şifre gerekli').notEmpty();
-    req.checkBody('passwordConfirm', 'iki şifre de uyuşmalıdır').equals(req.body.password);
+    req.checkBody('firstName', 'İsim alanı boş olamaz.').notEmpty();
+    req.checkBody('lastName', 'Soyisim boş olamaz.').notEmpty();
+    req.checkBody('email', 'E-mail uygun formatta olmalı.').isEmail();
+    req.checkBody('email', 'E-mail boş olamaz.').notEmpty();
+    req.checkBody('username', 'Kullanıcı adı boş olamaz.').notEmpty();
+    req.checkBody('password', 'Şifre gereklidir.').notEmpty();
+    req.checkBody('passwordConfirm', 'İki şifre de uyuşmalıdır.').equals(req.body.password);
     req.checkBody('alanlar', 'En az bir tane ilgi alani seçilmelidir ').notEmpty();
     MainTopic.find({}, function (err, mainTopics) {
         if (err) throw err;

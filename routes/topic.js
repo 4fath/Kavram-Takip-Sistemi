@@ -201,7 +201,8 @@ router.get('/getValueArray', ensureAuthentication, function (req, res, next) {
 router.get('/getJustTopic', function (req, res, next) {
     var reqqqq = req.query.q;
 
-    Topic.find({'name': new RegExp(reqqqq, 'i')}, function (err, topics) {
+    var query = {'name': new RegExp(reqqqq, 'i'), allowStatus: {stage: 1, status: true}};
+    Topic.find(query, function (err, topics) {
         if (err) throw err;
         var array = [];
         topics.forEach(function (topic) {
@@ -949,7 +950,7 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
                     var kavramlar = [];
                     Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
                         for (var i = 0; i < 5; i++) {
-                            newPopTopics.push(toppics[i]);
+                            newPopTopicsPopTopics.push(toppics[i]);
                         }
                         Topic.find({}, function (err, kavramar) {
                             if (err) throw (err);

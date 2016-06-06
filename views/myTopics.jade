@@ -14,7 +14,7 @@ block content
         each item in myTopics
             li.list-group-item.text-right
                 a.pull-left(href='/topic/getTopic/#{item._id}') #{item.name}
-                button.btn-success(ng-click='addChiefEditor($index)') Düzenle
+                button.btn-success(onclick="location.href='/topic/editTopic/#{item._id}';") Düzenle
 
 block solMenu
     #accordion.panel-group

@@ -2,14 +2,20 @@ doctype html
 html
     head
         title= title
+        link(href='http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css', rel='Stylesheet')
         link(rel='stylesheet', href='/css/bootstrap.css')
         link(rel='stylesheet', href='/css/bootstrap.min.css')
         link(rel='stylesheet', href='/css/style.css')
+
         script(src='/js/jquery-2.2.2.js')
         script(src='/js/bootstrap.min.js')
         script(src='/js/scripts.js')
+        link(href='/css/awesomplete.css', rel='stylesheet')
         script(src='/ckeditor/ckeditor.js')
         script(type='text/javascript', src='http://latex.codecogs.com/integration/ckeditor/ckeditor.js')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js')
+        script(src='http://code.jquery.com/ui/1.10.2/jquery-ui.js')
+        script(src='/js/search.js', type='text/javascript')
     body
         != messages()
         .container-fluid
@@ -31,9 +37,10 @@ html
                             // Collect the nav links, forms, and other content for toggling
                             #bs-example-navbar-collapse-1.collapse.navbar-collapse
                                 .col-md-3
-                                form.navbar-form.navbar-left(role='search')
+                                form.navbar-form.navbar-left(role='form', method='post', action='/topic/findTopic')
                                     .form-group
-                                        input.form-control(type='text', placeholder='Kavram adı giriniz')
+                                        input#search_input.search_input.form-control.awesomplete(type='text', name='kavramAdi')
+                                        //input.form-control(type='text', placeholder='Kavram adı giriniz')
                                         button.btn.btn-default(type='submit') Ara
 
                                         // Guest access
@@ -48,6 +55,9 @@ html
                                 if user
                                     ul.nav.navbar-nav.navbar-right
                                         .navbar-form.form-group
+                                            button.btn.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/addTopic';")
+                                                span.glyphicon.glyphicon-plus(aria-hidden='true')
+                                                    |  Kavram Ekle
                                             if userRole == 'admin'
                                                 button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';")
                                                     | Seçenekler
@@ -76,6 +86,6 @@ html
                         .col-md-2
                             block sagMenu
 
-    script(src='//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js' )
+
     // script(src='//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js' )
 

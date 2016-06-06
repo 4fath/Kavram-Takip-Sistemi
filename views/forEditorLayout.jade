@@ -70,16 +70,16 @@ html
                                                 if userRole == 'chiefEditor'
                                                     a.btn.btn-info.btn-md(href='/user/chiefEditorProfile')
                                                         span.glyphicon.glyphicon-user
-                                                        |  Ayarlar
+                                                        |  Seçenekler
                                                 else
                                                     if userRole == 'editor'
                                                         button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/editorProfile';")
-                                                            | Ayarlar
+                                                            | Seçenekler
                                                     else
                                                         if userRole == 'author'
                                                             a.btn.btn-info.btn-md(href='/user/authorProfile')
                                                                 span.glyphicon.glyphicon-user
-                                                                |  Ayarlar
+                                                                | Seçenekler
 
 
                                             button.btn.btn-warning(type='submit', name = 'Submit' onclick="location.href='/user/logout';")

@@ -89,7 +89,7 @@ router.get('/:keywordId', function (req, res, next) {
                         }
                     }
                 }
-
+                var userRole = userRoleControl(currentUser);
                 var query = {allowStatus: {stage: 1, status: true}};
                 Topic.find(query, function (err, topics) {
                     if (err) throw err;
@@ -116,7 +116,8 @@ router.get('/:keywordId', function (req, res, next) {
                                 title: 'Kavramlar',
                                 mainTopics: mainTopics,
                                 onerilenTopicler: onereceklerimiz,
-                                populerTopics: newPopTopics
+                                populerTopics: newPopTopics,
+                                userRole: userRole
                             });
                         });
                     });
@@ -150,5 +151,25 @@ router.get('/:keywordId', function (req, res, next) {
     }
 });
 
-
+function userRoleControl(user) {
+    var isAdmin = false;
+    var isChief = false;
+    var isEditor = false;
+    user.role.forEach(function (userRole) {
+        if (userRole == 'admin')
+            isAdmin = true;
+        if (userRole == 'chiefEditor')
+            isChief = true;
+        if (userRole == 'editor')
+            isEditor = true;
+    });
+    var userRole = "author";
+    if (isAdmin)
+        userRole = "admin";
+    else if (isChief)
+        userRole = "chiefEditor";
+    else if (isEditor)
+        userRole = "editor";
+    return userRole;
+}
 module.exports = router;

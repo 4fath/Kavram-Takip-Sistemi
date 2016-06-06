@@ -93,7 +93,8 @@ router.get('/:mainTopicId', function (req, res, next) {
             })
         });
     }
-
+    if (currentUser)
+        var userRole = userRoleControl(currentUser);
     SubTopic.find(query, function (err, subTopics) {
         if (err) throw err;
         console.log("Bağlantılı olduğu alt başlıklar  : ");
@@ -107,10 +108,33 @@ router.get('/:mainTopicId', function (req, res, next) {
                     subTopics: subTopics,
                     mainTopics: mainTopics,
                     onerilenTopicler: onereceklerimiz,
-                    populerTopics: newPopTopics
+                    populerTopics: newPopTopics,
+                    userRole: userRole
                 });
             });
         });
     });
 });
+
+function userRoleControl(user) {
+    var isAdmin = false;
+    var isChief = false;
+    var isEditor = false;
+    user.role.forEach(function (userRole) {
+        if (userRole == 'admin')
+            isAdmin = true;
+        if (userRole == 'chiefEditor')
+            isChief = true;
+        if (userRole == 'editor')
+            isEditor = true;
+    });
+    var userRole = "author";
+    if (isAdmin)
+        userRole = "admin";
+    else if (isChief)
+        userRole = "chiefEditor";
+    else if (isEditor)
+        userRole = "editor";
+    return userRole;
+}
 module.exports = router;

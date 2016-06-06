@@ -93,6 +93,7 @@ router.get('/getProfile/:userId', function (req, res, next) {
                     }
                 }
             }
+            var userRole = userRoleControl(currentUser);
             User.findById(viewUserId, function (err, user) {
                 if (err) throw err;
                 var query = {author: viewUserId};
@@ -111,7 +112,8 @@ router.get('/getProfile/:userId', function (req, res, next) {
                                 topics: topics,
                                 onerilenTopicler: onereceklerimiz,
                                 mainTopics: mainTopics,
-                                populerTopics: newPopTopics
+                                populerTopics: newPopTopics,
+                                userRole: userRole
                             })
                         });
                     });
