@@ -23,6 +23,7 @@ block content
                                 p
                                     | Bu kişi kavram yazmamıştır.
             form(method='post', action='/public_profile/sendMessage')
+                input(type="hidden", name="_csrf", value="#{csrftoken}")
                 .form-group
                     .panel.panel-info.col-md-11
                         .panel-heading  Mesaj
