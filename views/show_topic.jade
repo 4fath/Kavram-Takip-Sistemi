@@ -29,6 +29,7 @@ block content
                                             if topic.allowStatus.status
                                                 if !followerControl
                                                     form(method='POST', action='/user/follow/#{topic._id}')
+                                                        input(type="hidden", name="_csrf", value="#{csrftoken}")
                                                         .form-group
                                                             button.btn.btn-success(type='Submit', value='Submit')
                                                                 span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
@@ -36,6 +37,7 @@ block content
                                                 else
                                                     .col-md-2
                                                         form(method='POST', action='/user/unfollow/#{topic._id}')
+                                                            input(type="hidden", name="_csrf", value="#{csrftoken}")
                                                             .form-group
                                                                 button.btn.btn-danger(type='Submit', value='Submit')
                                                                     span.glyphicon.glyphicon-remove(aria-hidden='true')
@@ -82,7 +84,7 @@ block content
 
                                                         .form-group
                                                             button.btn.btn-success(type='Submit', value='Submit')
-                                                                span.glyphicon.glyphicon-arrow-right(aria-hidden='true')
+                                                                span.glyphicon.glyphicon-pencil(aria-hidden='true')
                                                                 | Düzenle
             .col-md-1
     else

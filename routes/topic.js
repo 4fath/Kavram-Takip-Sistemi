@@ -878,7 +878,7 @@ router.get('/getTopic/:topicId', function (req, res, next) {
     
 });
 
-router.get('/onApprove', ensureAuthentication, auth.checkEditor, function (req, res, next) {
+router.get('/onApprove', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
     var onApprovedTopics = [];
     var userRole = userRoleControl(req.user);
@@ -1056,7 +1056,7 @@ router.post('/findTopic', function (req, res, next) {
         var query = {name: kavramAdi};
         var followControl = false;
         var userRole = userRoleControl(req.user);
-
+        var isAuthor = false;
         var n;
         var m;
         var matrix;
@@ -1085,6 +1085,8 @@ router.post('/findTopic', function (req, res, next) {
                         if (err) throw err;
                         User.findById(topic.author, function (err, user) {
                             if (err) throw err;
+                            if ((user._id).toString() === (currentUser._id).toString())
+                                isAuthor = true;
                             var userName = user.username;
                             MainTopic.find({}, function (err, mainTopics) {
                                 if (err) throw err;
@@ -1175,7 +1177,8 @@ router.post('/findTopic', function (req, res, next) {
                                                     topics: topics,
                                                     user: currentUser,
                                                     roles: currentUser.role,
-                                                    onerilenTopicler: onereceklerimiz
+                                                    onerilenTopicler: onereceklerimiz,
+                                                    isAuthor: isAuthor
                                                 });
                                             })
                                         });

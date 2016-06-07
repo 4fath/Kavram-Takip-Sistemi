@@ -93,6 +93,8 @@ block solMenu
                                 tr
                                     td
                                         a(href='/user/editor/getOnay') Onay Havuzu
+                                        if onayBekleyenTopicler.length > 0
+                                            span.badge #{onayBekleyenTopicler.length}
                                 tr
                                     td
                                         a(href='/topic/editorsApproved') Onayladıklarım
@@ -172,6 +174,7 @@ block content
                         .col-md-2
             #profile.tab-pane.fade
                 form#tab2.form-horizontal(role='form',method='post', action='/user/changePassword')
+                    input(type="hidden", name="_csrf", value="#{csrftoken}")
                     .row
                         .form-group
                         .form-group

@@ -921,25 +921,48 @@ router.get('/editorProfile', ensureAuthentication, auth.checkEditor, function (r
 
 
         // editor profilinde , kendi üzerine atanmış subTopiclerin altına ayzılan onaylanmamış topicler gelecek
-        var queryForKeyword = {editor: userId};
-        Keyword.find(queryForKeyword, function (err, keywords) {
-            if (err) throw (err);
-            editorKeywords = keywords;
-            res.render('editor_profile', {
-                myTopics: myTopics,
-                myTopicsAsDraft: myTopicAsDraft,
-                mySubTopics: mySubTopics,
-                myWaitingAllowRequests: myWaitingAllowTopics,
-                userRole: userRole,
-                userFirstName: currentUser.firstName,
-                userLastName: currentUser.lastName,
-                useremail: currentUser.email,
-                roles: req.user.role,
-                username: currentUser.username,
-                topics: displayTopics,
-                editorKeywords: editorKeywords
-            });
-        });
+        var user = req.user;
+        var userID = user._id;
+        var userRole = userRoleControl(req.user);
+        var query = {editor: userID};
+        var onayBekleyenTopicler = [];
+        Keyword.find(query, function (err, keywords) {
+            if (err) throw err;
+            var query = {allowStatus: {stage: 0, status: false}};
+            Topic.find(query, function (err, topics) {
+                if (err) throw err;
+                console.log("bulunan keywords " + keywords);
+                var i = 0;
+                keywords.forEach(function (keyword) {
+                    i++;
+                    var currentKeyword = keyword;
+                    var keywordID = currentKeyword._id;
+                    topics.forEach(function (topic) {
+                        if (keywordID.toString() === String(topic.relevantKeywords[0])) {
+                            console.log("uygun bulundu");
+                            onayBekleyenTopicler.push(topic);
+                        }
+                    });
+                    if (i == keywords.length) {
+                        res.render('editor_profile', {
+                            myTopics: myTopics,
+                            myTopicsAsDraft: myTopicAsDraft,
+                            mySubTopics: mySubTopics,
+                            myWaitingAllowRequests: myWaitingAllowTopics,
+                            userRole: userRole,
+                            userFirstName: currentUser.firstName,
+                            userLastName: currentUser.lastName,
+                            useremail: currentUser.email,
+                            roles: req.user.role,
+                            username: currentUser.username,
+                            topics: displayTopics,
+                            editorKeywords: editorKeywords,
+                            onayBekleyenTopicler: onayBekleyenTopicler
+                        });
+                    }
+                })
+            })
+        })
     });
 });
 

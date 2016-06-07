@@ -66,7 +66,7 @@ html
                                                 span.glyphicon.glyphicon-plus(aria-hidden='true')
                                                     |  Kavram Ekle
                                             if userRole == 'admin'
-                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';") Ayarlar
+                                                button.btn.btn-info(type='submit', name = 'Submit' onclick="location.href='/user/adminProfile';") Seçenekler
                                             else
                                                 if userRole == 'chiefEditor'
                                                     a.btn.btn-info.btn-md(href='/user/chiefEditorProfile')

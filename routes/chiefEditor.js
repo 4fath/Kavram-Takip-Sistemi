@@ -85,29 +85,27 @@ router.get('/addEditor', checkControl.checkChiefEditor, function (req, res, next
     var myKeywords = [];
     var userRole = userRoleControl(req.user);
     var queryForSubTopic = {chiefEditor: currentUser._id};
-    SubTopic.find(queryForSubTopic, function (err, subTopic) {
+    SubTopic.find(queryForSubTopic, function (err, subTopics) {
         if (err) throw err;
-        console.log(subTopic[0].name);
-        console.log("----------------------");
         User.find({}, function (err, users) {
             if (err) throw err;
-
-            /* NOTE :
-             *  Eğer hoca birden fazla kişiyi bir keyword e atmak 
-             *  isterse buraya da bakılacak.
-             * */
-            
-            var queryForKeyword = {hasEditor: false, subTopic: subTopic[0]};
+            var queryForKeyword = {hasEditor: false};
             Keyword.find(queryForKeyword, function (err, keywords) {
-                console.log(" " + keywords.length);
-                console.log(myKeywords.name);
                 if (err) throw err;
-                res.render('addEditor', {
-                    myUser: users,
-                    myKeywords: keywords,
-                    userRole: userRole,
-                    roles: req.user.role
-                });
+                for (var i = 0; i < subTopics.length; i++) {
+                    keywords.forEach(function (keyword) {
+                        if ((keyword.subTopic).toString() === (subTopics[i]._id).toString())
+                            myKeywords.push(keyword);
+                    });
+                    if (i == subTopics.length - 1) {
+                        res.render('addEditor', {
+                            myUser: users,
+                            myKeywords: myKeywords,
+                            userRole: userRole,
+                            roles: req.user.role
+                        });
+                    }
+                }
             });
         });
     });

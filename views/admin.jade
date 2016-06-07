@@ -156,6 +156,7 @@ block content
                         .col-md-2
             #profile.tab-pane.fade
                 form#tab2.form-horizontal(role='form',method='post', action='/user/changePassword')
+                    input(type="hidden", name="_csrf", value="#{csrftoken}")
                     .row
                         .form-group
                         .form-group

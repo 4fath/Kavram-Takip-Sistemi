@@ -6,6 +6,7 @@ block content
             each error, i in errors
                 li.alert.alert-danger #{error.msg}
     form(method='post', action='/topic/addTopic')
+        input(type="hidden", name="_csrf", value="#{csrftoken}")
         .form-group
             .col-md-1
             .col-md-11
@@ -33,16 +34,16 @@ block content
                         .panel-heading  Kavram Adı
                         .panel-body
                             if topicName
-                                input.form-control(type='text', name='topicName', value='#{topicName}', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                                input.form-control(type='text', name='topicName', value='#{topicName}', placeholder='Kavram Adını Giriniz', autofocus='')
                             else
-                                input.form-control(type='text', name='topicName', placeholder='Temel Alan Adını Giriniz', autofocus='')
+                                input.form-control(type='text', name='topicName', placeholder='Kavram Adını Giriniz', autofocus='')
                     .panel.panel-success.col-md-9
                         .panel-heading Kavram Özeti
                         .panel-body
                             if topicAbstract
-                                textarea.form-control(name='topicAbstract', value='#{topicAbstract}',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                                textarea.form-control(name='topicAbstract', value='#{topicAbstract}',  rows='4', cols='50',placeholder='Kavram Özetini Giriniz', autofocus='')
                             else
-                                textarea.form-control(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Temel Alan Açıklamasını Giriniz', autofocus='')
+                                textarea.form-control(name='topicAbstract', value='topicAbstract',  rows='4', cols='50',placeholder='Kavram Özetini Giriniz', autofocus='')
 
                     .panel.panel-success.col-md-12
                         .panel-heading Kavram Tanımı
