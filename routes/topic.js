@@ -1097,7 +1097,6 @@ router.post('/findTopic', function (req, res, next) {
     }
 });
 
-
 router.post('/search/:topicId', function (req, res, next) {
     Topic.findById(req.params.topicId, function (err, topic) {
         if (err) throw err;

@@ -1,3 +1,5 @@
+// NOTE : useless for now
+
 var express = require('express');
 
 var Comment = require('../models/Comment');

@@ -11,36 +11,6 @@ var User = require('../models/User');
 
 var router = express.Router();
 
-var globalTopics = [];
-
-function getTopicObj(id) {
-    var lenOfTopics = globalTopics.length;
-    console.log(lenOfTopics);
-    console.log("buraya girdi ==========");
-    if (lenOfTopics > 0) {
-        var tmp = 0;
-        // var currentTopic = globalTopics[tmp];
-        var returnedObj = {};
-        globalTopics.forEach(function (globalTopic) {
-            console.log(id.toString());
-            console.log((globalTopic._id).toString());
-            console.log("=======");
-            if ((globalTopic._id).toString() === id.toString()) {
-                returnedObj = globalTopic;
-            }
-        });
-        // while(tmp < lenOfTopics && id.toString() !== (currentTopic._id).toString() ){
-        //     tmp++;
-        //     currentTopic = globalTopics[tmp];
-        // }
-        // console.log(tmp);
-        console.log(returnedObj);
-        return returnedObj;
-    } else {
-        return {};
-    }
-}
-
 /* GET home page. */
 router.get('/', function (req, res, next) {
 

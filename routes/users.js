@@ -267,7 +267,7 @@ router.get('/logout', function (req, res) {
     res.redirect('/');
 });
 
-function myCheck(req, res) {
+function myCheck(req, res, next) {
     var username = req.body.username;
     var query = {username: username};
     User.find(query, function (err, users) {
@@ -403,8 +403,8 @@ router.post('/giveNewPassword/:userId', function (req, res, next) {
     var newPassword = req.body.password;
     var cNewPassword = req.body.npassword;
     var usserId = req.params.userId;
-    req.checkBody('password', 'Yeni şifreyi giriniz').notEmpty();
-    req.checkBody('npassword', 'Girdiğiniz şifreler uyuşmuyor.').equals(newPassword);
+    req.checkBody('newPassword', 'Yeni şifreyi giriniz').notEmpty();
+    req.checkBody('cNewPassword', 'Girdiğiniz şifreler uyuşmuyor.').equals(newPassword);
 
     var errors = req.validationErrors();
     if (!errors) {
@@ -460,8 +460,7 @@ passport.deserializeUser(function (id, done) {
     });
 });
 
-passport.use(new LocalStrategy(
-    function (username, password, done) {
+passport.use(new LocalStrategy(function (username, password, done) {
         User.getUserByUsername(username, function (err, user) {
             if (err) throw err;
             if (!user) {
@@ -621,7 +620,7 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
     }
 });
 
-router.post('/adminProfile', function (req, res) {
+router.post('/adminProfile', ensureAuthentication, function (req, res) {
     var currentUser = req.user;
     var userFirstName = req.body.userFirstName;
     var userLastName = req.body.userLastName;
