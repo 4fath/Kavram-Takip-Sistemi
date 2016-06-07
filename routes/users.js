@@ -5,6 +5,8 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var nodemailer = require('nodemailer');
 
+var auth = require('./auth_check');
+
 var User = require('../models/User');
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
@@ -480,7 +482,7 @@ passport.use(new LocalStrategy(function (username, password, done) {
     }
 ));
 
-router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
+router.get('/adminProfile', ensureAuthentication, auth.checkAdmin, function (req, res, next) {
     var currentUser = req.user;
     console.log("buraya girdi");
     console.log(req.user.role);
@@ -620,7 +622,7 @@ router.get('/adminProfile', ensureAuthentication, function (req, res, next) {
     }
 });
 
-router.post('/adminProfile', ensureAuthentication, function (req, res) {
+router.post('/adminProfile', ensureAuthentication, auth.checkAdmin, function (req, res) {
     var currentUser = req.user;
     var userFirstName = req.body.userFirstName;
     var userLastName = req.body.userLastName;
@@ -663,7 +665,7 @@ router.post('/adminProfile', ensureAuthentication, function (req, res) {
     }
 });
 
-router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next) {
+router.get('/chiefEditorProfile', ensureAuthentication, auth.checkChiefEditor, function (req, res, next) {
     var currentUser = req.user;
     var userId = req.user._id;
     var myMainTopics = [];
@@ -787,7 +789,7 @@ router.get('/chiefEditorProfile', ensureAuthentication, function (req, res, next
     
 });
 
-router.post('/chiefEditorProfile', function (req, res) {
+router.post('/chiefEditorProfile', ensureAuthentication, auth.checkChiefEditor, function (req, res) {
     var currentUser = req.user;
     var userFirstName = req.body.userFirstName;
     var userLastName = req.body.userLastName;
@@ -831,7 +833,7 @@ router.post('/chiefEditorProfile', function (req, res) {
     }
 });
 
-router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
+router.get('/editorProfile', ensureAuthentication, auth.checkEditor, function (req, res, next) {
     var userId = req.user._id;
     var currentEditorUser = {};
     var mySubTopics = [];
@@ -941,7 +943,7 @@ router.get('/editorProfile', ensureAuthentication, function (req, res, next) {
     });
 });
 
-router.post('/editorProfile', function (req, res) {
+router.post('/editorProfile', ensureAuthentication, auth.checkEditor, function (req, res) {
     var currentUser = req.user;
     var userFirstName = req.body.userFirstName;
     var userLastName = req.body.userLastName;
@@ -985,7 +987,7 @@ router.post('/editorProfile', function (req, res) {
     }
 });
 
-router.get('/authorProfile', function (req, res, next) {
+router.get('/authorProfile', ensureAuthentication, function (req, res, next) {
     console.log('authorProfile girdi');
     var userId = req.user._id;
     var displayUser = {};
@@ -1027,7 +1029,7 @@ router.get('/authorProfile', function (req, res, next) {
     });
 });
 
-router.post('/authorProfile', function (req, res) {
+router.post('/authorProfile', ensureAuthentication, function (req, res) {
     var currentUser = req.user;
     var userFirstName = req.body.userFirstName;
     var userLastName = req.body.userLastName;
@@ -1071,7 +1073,7 @@ router.post('/authorProfile', function (req, res) {
     }
 });
 
-router.post('/changePassword', function (req, res) {
+router.post('/changePassword', ensureAuthentication, function (req, res) {
     var currentUser = req.user;
     var oldPassword = req.body.oldPassword;
     var newPassword = req.body.newPassword;
@@ -1114,7 +1116,7 @@ router.post('/changePassword', function (req, res) {
 
 });
 
-router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
+router.get('/editor/getOnay', ensureAuthentication, auth.checkEditor, function (req, res, next) {
 
     var user = req.user;
     var userID = user._id;
@@ -1150,7 +1152,7 @@ router.get('/editor/getOnay', ensureAuthentication, function (req, res, next) {
     })
 });
 
-router.post('/follow/:topicId', function (req, res) {
+router.post('/follow/:topicId', ensureAuthentication, function (req, res) {
     var currentUser = req.user;
     var clickedId = req.params.topicId;
     var errors = req.validationErrors();
@@ -1180,7 +1182,7 @@ router.post('/follow/:topicId', function (req, res) {
     }
 });
 
-router.post('/unfollow/:topicId', function (req, res) {
+router.post('/unfollow/:topicId', ensureAuthentication, function (req, res) {
     var currentUser = req.user;
     var clickedId = req.params.topicId;
     User.findById(currentUser._id, function (err, user) {
@@ -1211,9 +1213,9 @@ router.post('/unfollow/:topicId', function (req, res) {
         });
 
     })
-})
+});
 
-router.get('/following_list/:userId', function (req, res, next) {
+router.get('/following_list/:userId', ensureAuthentication, function (req, res, next) {
     //var bos = req.user._id;
     var topicList = [];
     var takipEdilenler = [];
@@ -1267,11 +1269,6 @@ function ensureAuthentication(req, res, next) {
         return next();
     }
     res.redirect('/');
-}
-
-function isAdmin(req, res, next) {
-    if (req.user.role == 'admin') {
-    }
 }
 
 function userRoleControl(user) {

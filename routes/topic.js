@@ -4,6 +4,8 @@ var multer = require('multer');
 var upload = multer({dest: 'uploads/'});
 var nodemailer = require('nodemailer');
 
+var auth = require('./auth_check');
+
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
 var Topic = require('../models/Topic');
@@ -266,28 +268,29 @@ router.post('/addTopic', ensureAuthentication, function (req, res, next) {
     }
 });
 
-var mimTypesArray = ["image/bmp", "image/fif", "image/florian", "image/ief", "image/jpeg", "image/pjpeg",
-    "image/pict", "image/png", "image/x-rgb", "image/tiff", "image/x-xbitmap"];
+// var mimTypesArray = ["image/bmp", "image/fif", "image/florian", "image/ief", "image/jpeg", "image/pjpeg",
+//     "image/pict", "image/png", "image/x-rgb", "image/tiff", "image/x-xbitmap"];
+//
+// function isImage(mimType) {
+//     for (var j = 0; j < mimTypesArray.length; j++) {
+//         if (mimTypesArray[j].match(mimType)) return j;
+//     }
+//     return -1;
+// }
+//
+// // TODO : check out this
+// function checkSize(imageSize) {
+//     // assuming max image size 5Mb
+//     var maxSize = 5000000;
+//     var minSize = 25000;
+//
+//     if (imageSize < maxSize && imageSize > minSize) {
+//         return 1;
+//     } else {
+//         return 0;
+//     }
+// }
 
-function isImage(mimType) {
-    for (var j = 0; j < mimTypesArray.length; j++) {
-        if (mimTypesArray[j].match(mimType)) return j;
-    }
-    return -1;
-}
-
-// TODO : check out this 
-function checkSize(imageSize) {
-    // assuming max image size 5Mb
-    var maxSize = 5000000;
-    var minSize = 25000;
-
-    if (imageSize < maxSize && imageSize > minSize) {
-        return 1;
-    } else {
-        return 0;
-    }
-}
 
 router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, next) {
     var currentUser = req.user;
@@ -570,7 +573,7 @@ router.post('/editTopic/:topicId', ensureAuthentication, function (req, res, nex
 
 });
 
-router.post('/approveByEditor/:topicId', ensureAuthentication, function (req, res, next) {
+router.post('/approveByEditor/:topicId', ensureAuthentication, auth.checkEditor, function (req, res, next) {
     var topicId = req.params.topicId;
     console.log("Topic ID" + topicId);
     Topic.findById(topicId, function (err, topic) {
@@ -791,7 +794,7 @@ router.get('/getTopic/:topicId', function (req, res, next) {
     
 });
 
-router.get('/onApprove', ensureAuthentication, function (req, res, next) {
+router.get('/onApprove', ensureAuthentication, auth.checkEditor, function (req, res, next) {
     var currentUser = req.user;
     var onApprovedTopics = [];
     var userRole = userRoleControl(req.user);
