@@ -6,6 +6,8 @@
 var express = require('express');
 var async = require('async');
 
+var checkControl = require('./auth_check');
+
 var MainTopic = require('../models/MainTopic');
 var SubTopic = require('../models/SubTopic');
 var Keyword = require('../models/Keyword');
@@ -16,7 +18,7 @@ var Comment = require('../models/Comment');
 
 var router = express.Router();
 
-router.get('/addKeyword', function (req, res) {
+router.get('/addKeyword', checkControl.checkChiefEditor, function (req, res) {
     var mySubTopics = [];
     var currentUser = req.user;
     var userRole = userRoleControl(req.user);
@@ -34,7 +36,7 @@ router.get('/addKeyword', function (req, res) {
     });
 });
 
-router.post('/addKeyword', function (req, res, next) {
+router.post('/addKeyword', checkControl.checkChiefEditor, function (req, res, next) {
 
     var subTopicId = req.body.subTopicId;
     var keywordName = req.body.keywordName;
@@ -78,8 +80,7 @@ router.post('/addKeyword', function (req, res, next) {
     }
 });
 
-
-router.get('/addEditor', function (req, res, next) {
+router.get('/addEditor', checkControl.checkChiefEditor, function (req, res, next) {
     var currentUser = req.user;
     var myKeywords = [];
     var userRole = userRoleControl(req.user);
@@ -112,7 +113,7 @@ router.get('/addEditor', function (req, res, next) {
     });
 });
 
-router.post('/addEditor', function (req, res, next) {
+router.post('/addEditor', checkControl.checkChiefEditor, function (req, res, next) {
     var currentUser = req.body.editorID;
     var currentKeyword = req.body.keywordID;
 
@@ -184,6 +185,5 @@ function userRoleControl(user) {
         userRole = "editor";
     return userRole;
 }
-
 
 module.exports = router;

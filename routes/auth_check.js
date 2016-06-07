@@ -5,10 +5,11 @@
 exports.checkAdmin = function (req, res, next) {
     var controlFlag = false;
     var currenUser = req.user;
-    currenUser.roles.forEach(function (role) {
+    currenUser.role.forEach(function (role) {
         if (role == 'admin')
             controlFlag = true;
     });
+
     if (controlFlag) {
         next();
     } else {
@@ -19,7 +20,7 @@ exports.checkAdmin = function (req, res, next) {
 exports.checkChiefEditor = function (req, res, next) {
     var controlFlag = false;
     var currenUser = req.user;
-    currenUser.roles.forEach(function (role) {
+    currenUser.role.forEach(function (role) {
         if (role == 'chiefEditor')
             controlFlag = true;
     });
@@ -33,7 +34,7 @@ exports.checkChiefEditor = function (req, res, next) {
 exports.checkEditor = function (req, res, next) {
     var controlFlag = false;
     var currenUser = req.user;
-    currenUser.roles.forEach(function (role) {
+    currenUser.role.forEach(function (role) {
         if (role == 'editor')
             controlFlag = true;
     });

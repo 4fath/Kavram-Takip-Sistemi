@@ -269,7 +269,9 @@ router.get('/showMessage/:messageId', function (req, res, next) {
 
     Message.findById(messageId, function (err, message) {
         if (err) throw err;
-        var query = {subject: message.subject}
+        message.isRead = true;
+        message.save();
+        var query = {subject: message.subject};
         Message.find(query, function (err, messages) {
             if (err) throw err;
             res.render('showMessage', {

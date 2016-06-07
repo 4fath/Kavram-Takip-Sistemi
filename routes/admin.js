@@ -13,6 +13,8 @@ var user = require('./users');
 
 var User = require('../models/User');
 
+var checkControl = require('./auth_check');
+
 var router = express.Router();
 
 router.get('/', function (req, res, next) {
@@ -85,9 +87,9 @@ router.get('/', function (req, res, next) {
     }
 });
 
-
 // DONE
-router.get('/addMainTopic', function (req, res) {
+
+router.get('/addMainTopic', checkControl.checkAdmin, function (req, res) {
     var userRole = userRoleControl(req.user);
     res.render('addMainTopic',
         {
@@ -97,7 +99,7 @@ router.get('/addMainTopic', function (req, res) {
 });
 
 // DONE
-router.post('/addMainTopic', function (req, res) {
+router.post('/addMainTopic', checkControl.checkAdmin, function (req, res) {
     console.log("Admin Veni mainTopic ekliyor");
 
     var name = req.body.mainTopicName;
@@ -137,7 +139,7 @@ router.post('/addMainTopic', function (req, res) {
     }
 });
 
-router.get('/addSubTopic', function (req, res) {
+router.get('/addSubTopic', checkControl.checkAdmin, function (req, res) {
     var userRole = userRoleControl(req.user);
     var myMainTopics = [];
     MainTopic.find({}, function (err, mainTopics) {
@@ -153,7 +155,7 @@ router.get('/addSubTopic', function (req, res) {
     });
 });
 
-router.post('/addSubTopic', function (req, res, next) {
+router.post('/addSubTopic', checkControl.checkAdmin, function (req, res, next) {
     var currentUserId = req.user._id;
     var mainTopicId = req.body.mainTopicId;
     var userRole = userRoleControl(req.user);
@@ -197,7 +199,7 @@ router.post('/addSubTopic', function (req, res, next) {
     }
 });
 
-router.get('/addChiefEditor', function (req, res, next) {
+router.get('/addChiefEditor', checkControl.checkAdmin, function (req, res, next) {
     var mySubTopics = [];
     var myUsers = [];
     var currentUser = req.user;
@@ -235,7 +237,7 @@ router.get('/addChiefEditor', function (req, res, next) {
     });
 });
 
-router.post('/addChiefEditor', function (req, res, next) {
+router.post('/addChiefEditor', checkControl.checkAdmin, function (req, res, next) {
 
     var userId = req.body.userID;
     var subTopicId = req.body.subTopicID;
