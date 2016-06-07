@@ -41,20 +41,7 @@ block solMenu
                         tr
                             td
                                 span.glyphicon.glyphicon-envelope
-                                a(href='/public_profile/inbox') Gelen Kutusu
-                        tr
-                            td
-                                span.glyphicon.glyphicon-arrow-up
-                                a(href='/public_profile/outbox') Giden Kutusu
-                        //tr
-                        //    td
-                        //        span.glyphicon.glyphicon-file.text-info
-                        //        a(href='http://www.jquery2dotnet.com') Newsletters
-                        //tr
-                        //    td
-                        //        span.glyphicon.glyphicon-comment.text-success
-                        //        a(href='http://www.jquery2dotnet.com') Comments
-                        //        span.badge 42
+                                a(href='/public_profile/inbox') Mesajlar
         each role in roles
             if role == 'admin'
                 .panel.panel-default
@@ -108,7 +95,7 @@ block solMenu
                                         a(href='/user/editor/getOnay') Onay Havuzu
                                 tr
                                     td
-                                        a(href='/chiefEditor/addEditor') Onayladıklarım
+                                        a(href='/topic/editorsApproved') Onayladıklarım
         .panel.panel-default
             .panel-heading
                 h4.panel-title

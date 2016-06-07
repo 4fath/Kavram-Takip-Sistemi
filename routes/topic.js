@@ -315,6 +315,78 @@ router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, n
         });
 
     } else {
+        var n;
+        var m;
+        var matrix;
+        var yer;
+        var onereceklerimiz = [];
+        User.find({}, function (err, users) {
+            if (err) throw (err);
+            n = users.length;
+            Topic.find({}, function (err, topics) {
+                if (err) throw (err);
+                m = topics.length;
+                var newMatrix = new Array(users.length);
+                for (var i = 0; i < users.length; i++) {
+                    newMatrix[i] = new Array(topics.length);
+                }
+                for (var i = 0; i < users.length; i++) {
+                    var followingTopics = users[i].followingTopics;
+                    if ((currentUser._id).toString() === (users[i]._id).toString())
+                        yer = i;
+                    for (var j = 0; j < topics.length; j++) {
+                        var control = false;
+                        followingTopics.forEach(function (topic) {
+                            if (topic.toString() === (topics[j]._id).toString())
+                                control = true;
+                        });
+                        if (control == true)
+                            newMatrix[i][j] = 1;
+                        else
+                            newMatrix[i][j] = 0;
+                        console.log(newMatrix[i][j]);
+                    }
+                }
+                console.log(newMatrix);
+                var dizi = new Array(users.length);
+                for (var i = 0; i < users.length; i++) {
+                    dizi[i] = new Array(2);
+                }
+                for (var i = 0; i < users.length; i++) {
+                    var toplam = 0;
+                    var d1 = 0;
+                    var d2 = 0;
+                    for (var j = 0; j < topics.length; j++) {
+                        toplam = toplam + (newMatrix[i][j] * newMatrix[yer][j]);
+                        d1 = d1 + newMatrix[i][j] * newMatrix[i][j];
+                        d2 = d2 + newMatrix[yer][j] * newMatrix[yer][j];
+                    }
+                    var bolu = (Math.sqrt(d1)) * (Math.sqrt(d2));
+                    if (bolu == 0)
+                        dizi[i][0] = 0;
+                    else
+                        dizi[i][0] = toplam / bolu;
+                    dizi[i][1] = i;
+                }
+                dizi.sort(function (a, b) {
+                    return b[0] - a[0]
+                });
+                console.log(dizi);
+                for (var k = 1; k < 4; k++) {
+                    for (var c = 0; c < topics.length; c++) {
+                        var varMi = false;
+                        if (newMatrix[dizi[k][1]][c] == 1 && newMatrix[dizi[0][1]][c] == 0) {
+                            onereceklerimiz.forEach(function (onerilen) {
+                                if ((onerilen._id).toString() === (topics[c]._id).toString())
+                                    varMi = true;
+                            });
+                            if (varMi == false)
+                                onereceklerimiz.push(topics[c]);
+                        }
+                    }
+                }
+            })
+        });
         Topic.findById(topicId, function (err, topic) {
             if (err) throw err;
             topic.followers.forEach(function (follower) {
@@ -326,9 +398,10 @@ router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, n
             topic.save(function (err) {
                 if (err) throw err;
             });
-
+            var newPopTopics = [];
+            var userRole = userRoleControl(req.user);
             // TODO : do it async parallel i am sory for this merdiven
-            MainTospic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
+            MainTopic.findById(topic.relevantMainTopics[0], function (err, mainTopic) {
                 if (err) throw err;
                 SubTopic.findById(topic.relevantSubTopics[0], function (err, subTopic) {
                     if (err) throw err;
@@ -339,15 +412,26 @@ router.post('/rejectTopic/:topicId', ensureAuthentication, function (req, res, n
                             var userName = user.username;
                             MainTopic.find({}, function (err, mainTopics) {
                                 if (err) throw err;
-                                console.log(followControl);
-                                res.render('show_topic', {
-                                    topic: topic,
-                                    userName: userName,
-                                    mainTopics: mainTopics,
-                                    screenMainTopic: mainTopic,
-                                    screenSubTopic: subTopic,
-                                    screenKeyword: keyword,
-                                    followerControl: followControl
+                                Topic.find({}, null, {sort: {viewCount: -1}}, function (err, toppics) {
+                                    if (err) throw err;
+                                    for (var i = 0; i < 5; i++) {
+                                        newPopTopics.push(toppics[i]);
+                                    }
+                                    req.flash('error', "Reddetmek istiyorsanız sebep girmelisiniz.");
+                                    res.render('show_topic', {
+                                        topic: topic,
+                                        userName: userName,
+                                        populerTopics: newPopTopics,
+                                        mainTopics: mainTopics,
+                                        screenMainTopic: mainTopic,
+                                        screenSubTopic: subTopic,
+                                        screenKeyword: keyword,
+                                        followerControl: followControl,
+                                        userRole: userRole,
+                                        roles: currentUser.role,
+                                        user: currentUser,
+                                        onerilenTopicler: onereceklerimiz
+                                    });
                                 });
                             });
                         });
@@ -937,6 +1021,32 @@ router.post('/sendApprove/:topicId', ensureAuthentication, function (req, res, n
         });
     }
 });
+
+router.get('/editorsApproved', ensureAuthentication, function (req, res, next) {
+    var currentUser = req.user;
+    var query = {editor: currentUser._id};
+    var editorsTopics = [];
+    var userRole = userRoleControl(currentUser);
+    var queryForUser = {allowStatus: {stage: 1, status: true}};
+    Topic.find(queryForUser, function (err, topics) {
+        if (err) throw err;
+        Keyword.find(query, function (err, keywords) {
+            for (var i = 0; i < keywords.length; i++) {
+                topics.forEach(function (topic) {
+                    if ((topic.relevantKeywords[0]).toString() === (keywords[i]._id).toString())
+                        editorsTopics.push(topic);
+                });
+            }
+            ;
+            res.render('editorsApproved', {
+                topics: editorsTopics,
+                userRole: userRole,
+                roles: currentUser.role
+            });
+        });
+    });
+
+})
 
 router.post('/findTopic', function (req, res, next) {
     if (req.user) {

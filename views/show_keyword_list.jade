@@ -8,9 +8,15 @@ block content
     table.table.table-responsive
         tbody
             tr
-            each keyword in keywords
-                td.col-md-4(style='display: block; float:left')
-                    a(style='color:#5cb85c;', href='/keyword/#{keyword._id}') #{keyword.name}
+            if keywords.length > 0
+                each keyword in keywords
+                    td.col-md-4(style='display: block; float:left')
+                        a(style='color:#5cb85c;', href='/keyword/#{keyword._id}') #{keyword.name}
+            else
+                br
+                i
+                    p
+                        | Bu bilim alanı içerinde anahtar kelime tanımlanmamıştır.
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')

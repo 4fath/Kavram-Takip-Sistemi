@@ -1,3 +1,6 @@
+//
+   Created by Asus on 07.06.2016.
+
 extends ProfileLayout
 
 block solMenu
@@ -38,7 +41,6 @@ block solMenu
                             td
                                 span.glyphicon.glyphicon-envelope
                                 a(href='/public_profile/inbox') Mesajlar
-
         each role in roles
             if role == 'admin'
                 .panel.panel-default
@@ -99,11 +101,11 @@ block solMenu
                     a(data-toggle='collapse', data-parent='#accordion', href='#collapseFive')
                         span.glyphicon.glyphicon-folder-close
                         | Kulanıcı İşlemleri
-            #collapseFive.panel-collapse.collapse.in
+            #collapseFive.panel-collapse.collapse
                 .panel-body
                     table.table
                         tr
-                            td.active
+                            td
                                 a(href='/user/following_list/#{user._id}') Takip Ettiklerim
                         tr
                             td
@@ -119,19 +121,12 @@ block solMenu
                             td
                                 a(href='/topic/myRejectedTopics')
                                     | Reddedilen Kavramlarım
-
+        // /.sidebar
 block content
     ul.list-group
-        li.list-group-item.text-muted Taslaklarım
-        each item in myDraftTopics
+        li.list-group-item.text-muted Onayladığım Kavramlar
+        each item in topics
             li.list-group-item.text-right
-                a.pull-left(href='/topic/editTopic/#{item._id}') #{item.name}
-                button.btn-success(type='submit', name = 'Submit' onclick="location.href='/topic/editTopic/#{item._id}';") Düzenle
-
-
-
-script(src='../js/jquery.min.js')
-script(src='../js/bootstrap.min.js')
-script(src='../js/scripts.js')
-script(type='text/javascript', src='https://code.jquery.com/jquery-2.1.1.min.js')
-script(type='text/javascript', src='../js/materialize.js')
+                a.pull-left(href='/topic/getTopic/#{item._id}') #{item.name}
+                //button.btn-success(ng-click='addChiefEditor($index)') Aç
+                a.btn.btn-success(href='/topic/getTopic/#{item._id}') Aç

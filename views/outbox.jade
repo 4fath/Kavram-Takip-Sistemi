@@ -52,11 +52,7 @@ block solMenu
                         tr
                             td
                                 span.glyphicon.glyphicon-envelope
-                                a(href='/public_profile/inbox') Gelen Kutusu
-                        tr
-                            td
-                                span.glyphicon.glyphicon-arrow-up
-                                a(href='/public_profile/outbox') Giden Kutusu
+                                a(href='/public_profile/inbox') Mesajlar
         each role in roles
             if role == 'admin'
                 .panel.panel-default

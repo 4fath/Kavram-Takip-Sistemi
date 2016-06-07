@@ -5,9 +5,15 @@ block content
     table.table.table-responsive
         tbody
             tr
-            each subTopic in subTopics
-                td.col-md-4(style='display: block; float:left')
-                    a(style='color:#5cb85c;', href='/subTopic/#{subTopic._id}') #{subTopic.name}
+            if subTopics.length > 0
+                each subTopic in subTopics
+                    td.col-md-4(style='display: block; float:left')
+                        a(style='color:#5cb85c;', href='/subTopic/#{subTopic._id}') #{subTopic.name}
+            else
+                br
+                i
+                    p
+                        | Bu bilim alanı içerinde anahtar kelime tanımlanmamıştır.
 
 script(src='../js/jquery.min.js')
 script(src='../js/bootstrap.min.js')
