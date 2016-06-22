@@ -405,8 +405,8 @@ router.post('/giveNewPassword/:userId', function (req, res, next) {
     var newPassword = req.body.password;
     var cNewPassword = req.body.npassword;
     var usserId = req.params.userId;
-    req.checkBody('newPassword', 'Yeni şifreyi giriniz').notEmpty();
-    req.checkBody('cNewPassword', 'Girdiğiniz şifreler uyuşmuyor.').equals(newPassword);
+    req.checkBody('password', 'Yeni şifreyi giriniz').notEmpty();
+    req.checkBody('npassword', 'Girdiğiniz şifreler uyuşmuyor.').equals(newPassword);
 
     var errors = req.validationErrors();
     if (!errors) {
